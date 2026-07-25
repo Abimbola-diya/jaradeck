@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import BackgroundGrid from './components/BackgroundGrid';
 import StadiumIllustration from './components/StadiumIllustration';
+import TodoAnimation from './components/TodoAnimation';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -326,6 +327,7 @@ export default function App() {
           <h2 className="wavy-heading" data-text="What needs doing ?">
             What needs doing ?
           </h2>
+          <TodoAnimation />
         </div>
       </section>
     </div>
