@@ -229,9 +229,9 @@ export default function App() {
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open Navigation Menu"
           >
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5H17M1 7H17M1 12.5H17" stroke="#0048B3" strokeWidth="2.2" strokeLinecap="round"/>
-            </svg>
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
         </div>
       </header>

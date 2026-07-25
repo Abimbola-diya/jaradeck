@@ -1,48 +1,22 @@
-/* ===== PP Neue Montreal Font Definitions ===== */
-@font-face {
-    font-family: 'PP Neue Montreal';
-    font-style: normal;
-    font-weight: 400;
-    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-book.woff') format('woff');
-    font-display: swap;
-}
-@font-face {
-    font-family: 'PP Neue Montreal';
-    font-style: italic;
-    font-weight: 400;
-    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-italic.woff') format('woff');
-    font-display: swap;
-}
-@font-face {
-    font-family: 'PP Neue Montreal';
-    font-style: normal;
-    font-weight: 500;
-    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-medium.woff') format('woff');
-    font-display: swap;
-}
-@font-face {
-    font-family: 'PP Neue Montreal';
-    font-style: normal;
-    font-weight: 700;
-    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-bold.woff') format('woff');
-    font-display: swap;
-}
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
 
 :root {
   --blue-bg: #0048B3;
   --blue-dark: #003299;
-  --blue-accent: #3D6FE0;
+  --blue-accent: #1A62D6;
   --white: #FFFFFF;
   --white-muted: rgba(255, 255, 255, 0.85);
   --white-dim: rgba(255, 255, 255, 0.5);
   --nav-bg: rgba(255, 255, 255, 0.12);
   --nav-border: rgba(255, 255, 255, 0.28);
   --yellow-roasted: #FEB943;
-  --font-family: 'PP Neue Montreal', sans-serif;
+  --font-family: 'PP Neue Montreal', 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-*, *::before, *::after, html, body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, div {
-  font-family: 'PP Neue Montreal', sans-serif !important;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -50,6 +24,7 @@ html,
 body {
   background-color: var(--blue-bg);
   color: var(--white);
+  font-family: var(--font-family);
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
@@ -80,19 +55,16 @@ body {
 
 /* ===== Vector Background Grid ===== */
 .bg-grid-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
 }
 
-/* Primary brand blue base (#0048B3) - 100% uniform across entire page */
+/* Solid blue base - uniform shade across top and stadium */
 .bg-grid-base {
   position: absolute;
   inset: 0;
@@ -107,14 +79,19 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
   pointer-events: none;
   will-change: transform;
 }
 
-/* Disabled radial glow to prevent blue color variations */
+/* Soft subtle radial glow */
 .bg-grid-glow {
-  display: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 80% at 50% 30%,
+    rgba(40, 120, 255, 0.25) 0%,
+    transparent 80%
+  );
 }
 
 /* ===== Top Header Container ===== */
@@ -124,7 +101,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1.25rem 1.25rem 0 1.25rem;
+  padding: 1.75rem 1.5rem 0 1.5rem;
 }
 
 /* Header Wrapper holding Left Bare Logo, Center Main Pill, and Right More Pill / Mobile Hamburger */
@@ -144,8 +121,8 @@ body {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  height: 38px;
-  padding: 0;
+  height: 60px;
+  padding: 0 0.5rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -320,13 +297,15 @@ body {
   color: #FFFFFF;
 }
 
-/* Mobile Hamburger Menu - Solid white circle with 3 equal-length blue horizontal vector dashes */
+/* Mobile Hamburger Menu - Solid white circle with 3 100% EQUAL-LENGTH blue horizontal dashes */
 .nav-hamburger {
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  gap: 3px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #FFFFFF;
   border: none;
@@ -334,7 +313,6 @@ body {
   padding: 0;
   position: relative;
   z-index: 4;
-  flex-shrink: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -349,10 +327,14 @@ body {
   }
 }
 
-.nav-hamburger svg {
-  display: block;
-  width: 18px;
-  height: 14px;
+.nav-hamburger span {
+  width: 17px !important;
+  height: 2.5px !important;
+  background: #0048B3 !important;
+  border-radius: 2px !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s ease;
 }
 
 /* Mobile Menu Overlay */
@@ -435,11 +417,11 @@ body {
 }
 
 .hero-headline-wrapper {
-  min-height: 10rem;
+  min-height: 5.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
   width: 100%;
 }
 
@@ -463,17 +445,24 @@ body {
 @keyframes headlineAppear {
   0% {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(20px) scale(0.95);
+    filter: blur(6px);
   }
+
+  60% {
+    filter: blur(0px);
+  }
+
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
 .hero-headline-animated {
-  animation: headlineAppear 0.45s ease-out forwards;
-  will-change: transform, opacity;
+  animation: headlineAppear 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
 }
 
 .hero-subtitle {
@@ -527,13 +516,11 @@ body {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1442px;
+  max-width: 1350px;
   margin-top: -9.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 0.5rem;
-  overflow: visible;
 }
 
 .card-svg {
@@ -549,23 +536,22 @@ body {
   filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
 }
 
+
 /* ===== Stadium Illustration Wrapper ===== */
 .stadium-wrapper {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1442px;
+  max-width: 1350px;
   margin-top: 0;
   line-height: 0;
-  overflow: visible;
 }
 
 .stadium-svg {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: contain;
-  overflow: visible;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
 }
 
 @media (max-width: 1024px) {
@@ -576,15 +562,10 @@ body {
 
 @media (max-width: 768px) {
   .hero-main {
-    padding-top: 1.5rem;
-  }
-
-  .hero-headline-wrapper {
-    min-height: 7.5rem;
+    padding-top: 2rem;
   }
 
   .stadium-section {
-    margin-top: -2.5rem;
-    padding: 0;
+    margin-top: -3.5rem;
   }
 }
