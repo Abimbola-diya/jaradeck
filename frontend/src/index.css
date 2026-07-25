@@ -401,11 +401,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding-top: 1.5rem;
+  justify-content: flex-start;
+  padding-top: 2rem;
   padding-bottom: 0;
   text-align: center;
-  min-height: calc(100dvh - 80px);
 }
 
 .hero-content {
@@ -417,7 +416,7 @@ body {
   text-align: center;
   position: relative;
   z-index: 20;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .hero-headline-wrapper {
@@ -498,7 +497,7 @@ body {
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   z-index: 25;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .hero-cta-btn:hover {
@@ -518,18 +517,17 @@ body {
   transform: translate(3px, -3px);
 }
 
-/* ===== Stadium Architecture Section - Anchored Flush at Bottom ===== */
+/* ===== Stadium Architecture Section ===== */
 .stadium-section {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1400px;
-  margin-top: 0;
+  margin-top: -3.5rem;
   margin-bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-self: flex-end;
 }
 
 .stadium-wrapper {
@@ -554,37 +552,37 @@ body {
 @media (max-width: 768px) {
   .hero-main {
     padding-top: 0.75rem;
-    min-height: calc(100dvh - 70px);
   }
 
   .hero-content {
-    margin-bottom: 0.5rem;
-    padding: 0 1rem;
+    margin-bottom: 0;
+    padding: 0 1.25rem;
   }
 
   .hero-headline-wrapper {
-    min-height: 4.5rem;
+    min-height: 4.2rem;
     margin-bottom: 0.5rem;
   }
 
   .hero-headline {
-    font-size: clamp(1.7rem, 6.5vw, 2.3rem);
+    font-size: clamp(1.75rem, 6.8vw, 2.4rem);
   }
 
   .hero-subtitle {
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-    max-width: 94%;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 1.15rem;
+    max-width: 95%;
   }
 
   .hero-cta-btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.85rem;
-    margin-bottom: 0.5rem;
+    padding: 0.75rem 1.6rem;
+    font-size: 0.88rem;
+    margin-bottom: 0;
   }
 
   .stadium-section {
-    margin-top: 0;
+    margin-top: -2.75rem;
     margin-bottom: 0;
     width: 100%;
   }
@@ -593,6 +591,8 @@ body {
     margin-top: 0;
     margin-bottom: 0;
     width: 100%;
+    transform: scale(1.04);
+    transform-origin: bottom center;
   }
 
   .stadium-svg {
