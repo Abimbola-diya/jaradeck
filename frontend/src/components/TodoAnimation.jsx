@@ -3,18 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 const TODO_ITEMS = [
   {
     id: 1,
-    title: "I'm excited to share..",
+    title: "I'm excited to share that...",
     subtitle: "3 LinkedIn posts to make this week, haven't done any",
   },
   {
     id: 2,
-    title: "Just need to reply to those emails..",
-    subtitle: "12 client follow-ups sitting in drafts since Monday",
+    title: "Just need to clear support messages...",
+    subtitle: "50 customer complaints to reply to before 9pm",
   },
   {
     id: 3,
-    title: "I'll sort the invoices later..",
-    subtitle: "4 invoices unpaid, overdue by 2 weeks",
+    title: "Two YouTube videos to edit...",
+    subtitle: "but Premiere Pro keeps crashing",
   },
 ];
 
@@ -50,7 +50,7 @@ function ScribbleStrike({ width }) {
       <path
         d={pathD}
         stroke="#0048B3"
-        strokeWidth="2.4"
+        strokeWidth="1.85"
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"

@@ -680,10 +680,12 @@ body {
 /* ===== Todo Animation Component ===== */
 .todo-animation-wrapper {
   margin-top: 2.8rem;
-  width: 100%;
+  width: min(520px, 92vw);
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.85rem;
   min-height: 90px;
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -718,15 +720,15 @@ body {
 
 /* Smaller Checkbox base */
 .todo-checkbox {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
   border-radius: 50%;
-  border: 2px solid #111111;
+  border: 1.8px solid #111111;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 4px;
+  margin-top: 6px;
   flex-shrink: 0;
   transition: background-color 0.4s ease, border-color 0.4s ease;
   background-color: transparent;
@@ -739,8 +741,8 @@ body {
 }
 
 .todo-cross {
-  width: 11px;
-  height: 11px;
+  width: 9px;
+  height: 9px;
   animation: crossPop 0.25s ease-out forwards;
 }
 
@@ -767,9 +769,9 @@ body {
 }
 
 .todo-title {
-  font-family: var(--font-family);
+  font-family: 'PP Neue Montreal', var(--font-family);
   font-size: clamp(1.35rem, 3.2vw, 1.8rem);
-  font-weight: 700;
+  font-weight: 600;
   color: #0048B3;
   letter-spacing: -0.025em;
   display: inline-block;
@@ -795,7 +797,7 @@ body {
 }
 
 .todo-subtitle {
-  font-family: var(--font-family);
+  font-family: 'PP Neue Montreal', var(--font-family);
   font-size: clamp(0.92rem, 1.8vw, 1.08rem);
   font-style: italic;
   font-weight: 400;
@@ -811,15 +813,15 @@ body {
   }
 
   .todo-checkbox {
-    width: 17px;
-    height: 17px;
-    min-width: 17px;
-    margin-top: 3px;
+    width: 13px;
+    height: 13px;
+    min-width: 13px;
+    margin-top: 5px;
   }
 
   .todo-cross {
-    width: 9px;
-    height: 9px;
+    width: 7px;
+    height: 7px;
   }
 
   .todo-title {
