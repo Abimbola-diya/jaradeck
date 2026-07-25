@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const TODO_ITEMS = [
   {
@@ -19,7 +19,7 @@ const TODO_ITEMS = [
 ];
 
 // Wobbly scribble SVG strikethrough
-function ScribbleStrike({ width, animate }) {
+function ScribbleStrike({ width }) {
   const h = 16;
   const mid = h / 2;
   const pathD = `M 0 ${mid + 1}
@@ -49,38 +49,24 @@ function ScribbleStrike({ width, animate }) {
         fill="none"
         style={{
           strokeDasharray: pathLen,
-          strokeDashoffset: animate ? 0 : pathLen,
-          transition: animate ? 'stroke-dashoffset 0.55s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+          strokeDashoffset: pathLen,
+          animation: `scribbleDraw 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
         }}
       />
     </svg>
   );
 }
 
-/*
- * Scroll progress mapping (0.0 → 1.0):
- *
- * 0.00 → 0.12  Item 1 fades in (empty)
- * 0.12 → 0.22  Item 1 checks + scribble strikes
- * 0.22 → 0.30  Connector line 1→2 grows
- * 0.30 → 0.38  Item 2 fades in (empty)
- * 0.38 → 0.48  Item 2 checks + scribble strikes
- * 0.48 → 0.54  Connector line 2→3 grows
- * 0.54 → 0.62  Item 3 fades in (empty)
- * 0.62 → 0.72  Item 3 checks + scribble strikes
- * 0.72 → 0.80  All items slide to the right
- * 0.80 → 1.00  "Dump tasks to Jaradeck" CTA appears
- */
-
-export default function TodoAnimation({ onCtaClick }) {
-  const [progress, setProgress] = useState(0);
-  const sectionRef = useRef(null);
+export default function TodoAnimation() {
+  const [step, setStep] = useState(0);
+  const containerRef = useRef(null);
   const ref0 = useRef(null);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
   const [titleWidths, setTitleWidths] = useState([0, 0, 0]);
+  const userScrolledRef = useRef(false);
 
-  // Measure title widths for scribble overlay
+  // Measure title widths
   useEffect(() => {
     const updateWidths = () => {
       const refs = [ref0, ref1, ref2];
@@ -90,71 +76,104 @@ export default function TodoAnimation({ onCtaClick }) {
     updateWidths();
     window.addEventListener('resize', updateWidths);
     return () => window.removeEventListener('resize', updateWidths);
-  }, []);
+  }, [step]);
 
-  // Scroll progress listener — reads position of .canopy-section
-  const handleScroll = useCallback(() => {
-    const section = sectionRef.current?.closest('.canopy-section');
-    if (!section) return;
-
-    const rect = section.getBoundingClientRect();
-    const scrollableDistance = rect.height - window.innerHeight;
-    if (scrollableDistance <= 0) return;
-
-    // progress: 0 when top of section hits top of viewport,
-    //           1 when bottom of section hits bottom of viewport
-    const raw = -rect.top / scrollableDistance;
-    const clamped = Math.min(Math.max(raw, 0), 1);
-    setProgress(clamped);
-  }, []);
-
+  // Scroll handler: advances connecting timeline steps (0-7) as user scrolls down into section
   useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      userScrolledRef.current = true;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Fallback: if user reaches bottom of document, show all 3 items fully connected
+      const isBottom = (windowHeight + window.scrollY) >= (document.documentElement.scrollHeight - 70);
+      if (isBottom) {
+        setStep(7);
+        return;
+      }
+
+      // Distance scrolled into view from when top reaches 90% of screen height
+      const startPoint = windowHeight * 0.90;
+      const scrolledPx = startPoint - rect.top;
+      const totalDistance = 180;
+      const ratio = Math.min(Math.max(scrolledPx / totalDistance, 0), 1);
+
+      if (ratio >= 0.88) setStep(7);
+      else if (ratio >= 0.75) setStep(6);
+      else if (ratio >= 0.62) setStep(5);
+      else if (ratio >= 0.49) setStep(4);
+      else if (ratio >= 0.36) setStep(3);
+      else if (ratio >= 0.23) setStep(2);
+      else if (ratio >= 0.10) setStep(1);
+      else setStep(0);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  }, []);
 
-  // Derive animation states from progress
-  const item0Visible = progress >= 0.02;
-  const item0Checked = progress >= 0.12;
-  const line0Active  = progress >= 0.22;
-  const item1Visible = progress >= 0.30;
-  const item1Checked = progress >= 0.38;
-  const line1Active  = progress >= 0.48;
-  const item2Visible = progress >= 0.54;
-  const item2Checked = progress >= 0.62;
-  const slideOut     = progress >= 0.74;
-  const showCta      = progress >= 0.82;
+  // Timer loop fallback if user has not scrolled yet
+  useEffect(() => {
+    let timers = [];
+    const scheduleStep = (targetStep, delay) => {
+      timers.push(setTimeout(() => {
+        if (!userScrolledRef.current) {
+          setStep(targetStep);
+        }
+      }, delay));
+    };
 
-  const isItemVisible = [item0Visible, item1Visible, item2Visible];
-  const isChecked     = [item0Checked, item1Checked, item2Checked];
-  const isLineActive  = [line0Active, line1Active, false];
+    if (!userScrolledRef.current) {
+      scheduleStep(1, 1000);
+      scheduleStep(2, 2200);
+      scheduleStep(3, 2800);
+      scheduleStep(4, 3800);
+      scheduleStep(5, 5000);
+      scheduleStep(6, 5600);
+      scheduleStep(7, 6600);
+    }
+
+    return () => {
+      timers.forEach(t => clearTimeout(t));
+    };
+  }, []);
 
   const titleRefs = [ref0, ref1, ref2];
 
   return (
-    <div className="todo-animation-root" ref={sectionRef}>
-      <div className={`todo-vertical-container ${slideOut ? 'todo-container--slide-out' : ''}`}>
-        {TODO_ITEMS.map((item, index) => (
+    <div className="todo-vertical-container" ref={containerRef}>
+      {TODO_ITEMS.map((item, index) => {
+        // Item visibility
+        const isItemVisible = (index === 0 && step >= 0) || (index === 1 && step >= 3) || (index === 2 && step >= 6);
+        // Checked state
+        const isChecked = (index === 0 && step >= 1) || (index === 1 && step >= 4) || (index === 2 && step >= 7);
+        // Wiggle state
+        const isWiggle = (index === 0 && step === 1) || (index === 1 && step === 4) || (index === 2 && step === 7);
+        // Line connector active
+        const isLineActive = (index === 0 && step >= 2) || (index === 1 && step >= 5);
+
+        return (
           <div
             key={item.id}
-            className={`todo-vertical-row ${isItemVisible[index] ? 'todo-row--visible' : ''} ${slideOut ? 'todo-row--slide-out' : ''}`}
-            style={slideOut ? { transitionDelay: `${index * 0.08}s` } : undefined}
+            className={`todo-vertical-row ${isItemVisible ? 'todo-row--visible' : ''}`}
           >
             {/* Left column: Checkbox + Vertical Connector Line */}
             <div className="todo-left-col">
-              <div className={`todo-checkbox ${isChecked[index] ? 'todo-checkbox--checked' : ''} ${isChecked[index] && !slideOut ? 'todo-checkbox--wiggle' : ''}`}>
-                {isChecked[index] && (
+              <div className={`todo-checkbox ${isChecked ? 'todo-checkbox--checked' : ''} ${isWiggle ? 'todo-checkbox--wiggle' : ''}`}>
+                {isChecked && (
                   <svg className="todo-cross" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <line x1="4" y1="4" x2="12" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-                    <line x1="12" y1="4" x2="4" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+                    <line x1="4" y1="12" x2="12" y2="4" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
                   </svg>
                 )}
               </div>
 
               {/* Connecting line to the next checkbox */}
               {index < TODO_ITEMS.length - 1 && (
-                <div className={`todo-connector-line ${isLineActive[index] ? 'todo-connector-line--active' : ''}`} />
+                <div className={`todo-connector-line ${isLineActive ? 'todo-connector-line--active' : ''}`} />
               )}
             </div>
 
@@ -164,27 +183,17 @@ export default function TodoAnimation({ onCtaClick }) {
                 <span className="todo-title" ref={titleRefs[index]}>
                   {item.title}
                 </span>
-                {isChecked[index] && titleWidths[index] > 0 && (
+                {isChecked && titleWidths[index] > 0 && (
                   <span className="todo-scribble-overlay" style={{ width: titleWidths[index] }}>
-                    <ScribbleStrike width={titleWidths[index]} animate={isChecked[index]} />
+                    <ScribbleStrike width={titleWidths[index]} />
                   </span>
                 )}
               </div>
               <span className="todo-subtitle">{item.subtitle}</span>
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* CTA Button — appears after items slide out */}
-      <div className={`dump-tasks-cta-container ${showCta ? 'dump-tasks-cta-container--visible' : ''}`}>
-        <button className="dump-tasks-btn" onClick={onCtaClick}>
-          Dump tasks to Jaradeck
-          <svg width="18" height="18" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
+        );
+      })}
     </div>
   );
 }
