@@ -400,25 +400,25 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding-top: 0.5rem;
+  justify-content: flex-end;
+  padding-top: 2rem;
   padding-bottom: 0;
   text-align: center;
   min-height: calc(100dvh - 80px);
 }
 
 .hero-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 0 1.5rem;
   max-width: 840px;
   text-align: center;
   position: relative;
   z-index: 20;
-  margin: auto 0;
+  margin-top: auto;
+  margin-bottom: clamp(-6.5rem, -8vw, -3.5rem);
 }
 
 .hero-headline-wrapper {
@@ -426,12 +426,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   width: 100%;
 }
 
 .hero-headline {
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-size: clamp(2.52rem, 6.3vw, 4.41rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.035em;
@@ -442,8 +442,8 @@ body {
 }
 
 .action-word {
-  color: var(--yellow-roasted);
-  text-shadow: 0 0 30px rgba(254, 185, 67, 0.35);
+  color: inherit;
+  text-shadow: inherit;
   display: inline;
 }
 
@@ -471,12 +471,12 @@ body {
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  font-size: clamp(1.05rem, 2.31vw, 1.21rem);
   font-weight: 400;
   line-height: 1.55;
   color: var(--white-muted);
   max-width: 620px;
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.25rem;
   letter-spacing: -0.01em;
 }
 
@@ -499,7 +499,7 @@ body {
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   z-index: 25;
-  margin-bottom: 2rem;
+  margin-bottom: 0.25rem;
 }
 
 .hero-cta-btn:hover {
@@ -554,37 +554,39 @@ body {
 
 @media (max-width: 768px) {
   .hero-main {
-    padding-top: 0.25rem;
+    padding-top: 1rem;
     min-height: calc(100dvh - 75px);
+    justify-content: flex-end;
   }
 
   .hero-content {
-    padding: 1rem 1.25rem;
+    padding: 0 1.25rem;
     justify-content: center;
-    flex: 1;
+    margin-top: auto;
+    margin-bottom: -1rem;
   }
 
   .hero-headline-wrapper {
     min-height: 5.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .hero-headline {
-    font-size: clamp(2.15rem, 8vw, 2.9rem);
+    font-size: clamp(2.26rem, 8.4vw, 3.05rem);
     line-height: 1.1;
   }
 
   .hero-subtitle {
-    font-size: clamp(0.98rem, 3.5vw, 1.1rem);
+    font-size: clamp(1.03rem, 3.68vw, 1.16rem);
     line-height: 1.5;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     max-width: 95%;
   }
 
   .hero-cta-btn {
     padding: 0.9rem 2.1rem;
     font-size: 0.98rem;
-    margin-bottom: 2.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .stadium-section {
