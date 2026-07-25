@@ -50,7 +50,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* ===== Vector Background Grid ===== */
@@ -554,10 +554,11 @@ body {
 
 .stadium-canopy-container {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: clamp(35px, 4.5vw, 75px);
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: clamp(40px, 5.5vw, 95px);
   overflow: hidden;
   pointer-events: none;
   z-index: 10;
@@ -565,7 +566,8 @@ body {
 }
 
 .stadium-canopy-img {
-  width: 100%;
+  width: 100vw;
+  min-width: 100vw;
   height: auto;
   display: block;
   object-fit: cover;
@@ -624,5 +626,60 @@ body {
 
   .stadium-svg {
     margin-bottom: 0;
+  }
+}
+
+/* ===== White Canopy Section & Wavy Text Styling ===== */
+.canopy-section {
+  position: relative;
+  z-index: 15;
+  width: 100%;
+  background-color: #FAFAFA;
+  padding: 4.5rem 1.5rem 6.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.canopy-content-wrapper {
+  max-width: 1050px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wavy-heading {
+  font-family: var(--font-family);
+  font-size: clamp(2.4rem, 5.2vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  text-align: center;
+  color: #003399;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.wavy-heading::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: url('/wavy-lines.svg') center/cover repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .wavy-heading {
+    font-size: clamp(1.75rem, 7.5vw, 2.5rem);
+    letter-spacing: -0.035em;
   }
 }

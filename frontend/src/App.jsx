@@ -319,6 +319,15 @@ export default function App() {
           <StadiumIllustration />
         </div>
       </main>
+
+      {/* White Canopy Section */}
+      <section className="canopy-section">
+        <div className="canopy-content-wrapper">
+          <h2 className="wavy-heading" data-text="What needs doing ?">
+            What needs doing ?
+          </h2>
+        </div>
+      </section>
     </div>
   );
 }
