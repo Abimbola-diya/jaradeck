@@ -64,11 +64,11 @@ body {
   overflow: hidden;
 }
 
-/* Solid blue gradient base */
+/* Solid blue base - uniform shade across top and stadium */
 .bg-grid-base {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #0048CC 0%, #003DB8 50%, #002D8B 100%);
+  background: #0048CC;
 }
 
 /* Wavy lines SVG covering full area */
@@ -83,13 +83,15 @@ body {
   will-change: transform;
 }
 
-/* Soft radial glow in upper centre */
+/* Soft subtle radial glow */
 .bg-grid-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 50% at 50% 10%,
-      rgba(30, 107, 255, 0.35) 0%,
-      transparent 70%);
+  background: radial-gradient(
+    ellipse 100% 80% at 50% 30%,
+    rgba(40, 120, 255, 0.25) 0%,
+    transparent 80%
+  );
 }
 
 /* ===== Top Header Container ===== */
