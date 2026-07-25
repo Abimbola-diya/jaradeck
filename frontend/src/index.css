@@ -64,11 +64,11 @@ body {
   overflow: hidden;
 }
 
-/* Solid blue base - uniform shade across top and stadium */
+/* Primary brand blue base (#0048B3) - 100% uniform across entire page */
 .bg-grid-base {
   position: absolute;
   inset: 0;
-  background: #0048CC;
+  background: #0048B3;
 }
 
 /* Wavy lines SVG covering full area */
@@ -83,15 +83,9 @@ body {
   will-change: transform;
 }
 
-/* Soft subtle radial glow */
+/* Disabled radial glow to prevent blue color variations */
 .bg-grid-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 100% 80% at 50% 30%,
-    rgba(40, 120, 255, 0.25) 0%,
-    transparent 80%
-  );
+  display: none;
 }
 
 /* ===== Top Header Container ===== */
@@ -551,7 +545,6 @@ body {
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
 }
 
 @media (max-width: 1024px) {
