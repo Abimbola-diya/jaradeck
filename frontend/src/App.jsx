@@ -30,8 +30,8 @@ const HEADLINES = [
     { text: "sweating.", action: true }
   ],
   [
-    { text: "Just ", action: false },
-    { text: "get it done.", action: true }
+    { text: "You can't do ", action: false },
+    { text: "everything yourself.", action: true }
   ],
   [
     { text: "Keep", action: true },
