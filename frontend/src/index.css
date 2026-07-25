@@ -80,10 +80,13 @@ body {
 
 /* ===== Vector Background Grid ===== */
 .bg-grid-container {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
@@ -104,6 +107,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   pointer-events: none;
   will-change: transform;
 }
@@ -120,7 +124,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1.75rem 1.5rem 0 1.5rem;
+  padding: 1.25rem 1.25rem 0 1.25rem;
 }
 
 /* Header Wrapper holding Left Bare Logo, Center Main Pill, and Right More Pill / Mobile Hamburger */
@@ -140,8 +144,8 @@ body {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  height: 60px;
-  padding: 0 0.5rem;
+  height: 38px;
+  padding: 0;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -316,15 +320,13 @@ body {
   color: #FFFFFF;
 }
 
-/* Mobile Hamburger Menu - Solid white circle with 3 100% EQUAL-LENGTH blue horizontal dashes */
+/* Mobile Hamburger Menu - Solid white circle with 3 equal-length blue horizontal vector dashes */
 .nav-hamburger {
   display: none;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: #FFFFFF;
   border: none;
@@ -332,6 +334,7 @@ body {
   padding: 0;
   position: relative;
   z-index: 4;
+  flex-shrink: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -346,14 +349,10 @@ body {
   }
 }
 
-.nav-hamburger span {
-  width: 17px !important;
-  height: 2.5px !important;
-  background: #0048B3 !important;
-  border-radius: 2px !important;
-  display: block !important;
-  flex-shrink: 0 !important;
-  transition: all 0.2s ease;
+.nav-hamburger svg {
+  display: block;
+  width: 18px;
+  height: 14px;
 }
 
 /* Mobile Menu Overlay */
@@ -528,11 +527,13 @@ body {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1350px;
+  max-width: 1442px;
   margin-top: -9.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 0.5rem;
+  overflow: visible;
 }
 
 .card-svg {
@@ -548,21 +549,23 @@ body {
   filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
 }
 
-
 /* ===== Stadium Illustration Wrapper ===== */
 .stadium-wrapper {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1350px;
+  max-width: 1442px;
   margin-top: 0;
   line-height: 0;
+  overflow: visible;
 }
 
 .stadium-svg {
   width: 100%;
   height: auto;
   display: block;
+  object-fit: contain;
+  overflow: visible;
 }
 
 @media (max-width: 1024px) {
@@ -573,7 +576,7 @@ body {
 
 @media (max-width: 768px) {
   .hero-main {
-    padding-top: 2rem;
+    padding-top: 1.5rem;
   }
 
   .hero-headline-wrapper {
@@ -581,6 +584,7 @@ body {
   }
 
   .stadium-section {
-    margin-top: -3.5rem;
+    margin-top: -2.5rem;
+    padding: 0;
   }
 }
