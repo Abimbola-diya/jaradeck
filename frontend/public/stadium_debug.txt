@@ -1,0 +1,5 @@
+Total content length: 49311
+SVG start index: 219
+Has </svg>: False
+SVG partial length: 49092
+Content ends at char: 'need.'

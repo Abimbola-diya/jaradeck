@@ -1,0 +1,2 @@
+Line 438, type=USER_INPUT, len=49311, has_close=False
+Line 439, type=PLANNER_RESPONSE, len=419, has_close=False

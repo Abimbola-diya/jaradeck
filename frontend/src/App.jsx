@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import BackgroundGrid from './components/BackgroundGrid';
 import StadiumIllustration from './components/StadiumIllustration';
 
-// JaraDeck 3D stacked-blocks logo SVG
-function JaradeckLogo({ width = 42 }) {
+// Jaradeck 3D stacked-blocks logo SVG
+function JaradeckLogo({ width = 41 }) {
   return (
     <svg width={width} height={width * (310 / 434)} viewBox="0 0 434 310" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M41.2752 225.44H433.87V309.91H41.2752V225.44Z" fill="white" />
@@ -19,124 +19,291 @@ function JaradeckLogo({ width = 42 }) {
   );
 }
 
+const HEADLINES = [
+  [
+    { text: "Your to-do list isn't ", action: false },
+    { text: "getting shorter.", action: true }
+  ],
+  [
+    { text: "Outsource", action: true },
+    { text: " the grind, let us do the ", action: false },
+    { text: "sweating.", action: true }
+  ],
+  [
+    { text: "Just ", action: false },
+    { text: "get it done.", action: true }
+  ],
+  [
+    { text: "Keep", action: true },
+    { text: " your sanity, ", action: false },
+    { text: "give", action: true },
+    { text: " us the grunt work.", action: false }
+  ]
+];
+
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('join'); // Default active tab is 'join'
+  const [activeTab, setActiveTab] = useState('join');
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [headlineIndex, setHeadlineIndex] = useState(0);
 
-  const navItems = [
-    { id: 'hire', label: 'Hire Talent' },
-    { id: 'how', label: 'How It Works' },
-    { id: 'why', label: 'Why Jaradeck' },
-    { id: 'join', label: 'Join Jaradeck' }
-  ];
-
-  const tabRefs = useRef({});
-  const containerRef = useRef(null);
-  const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, height: 0, opacity: 0 });
-
-  // Update sliding white pill dimensions & position on activeTab change or resize
+  // Rotate headline every 5 seconds
   useEffect(() => {
-    const updatePill = () => {
-      const activeEl = tabRefs.current[activeTab];
-      const containerEl = containerRef.current;
-      if (activeEl && containerEl) {
-        const activeRect = activeEl.getBoundingClientRect();
-        const containerRect = containerEl.getBoundingClientRect();
+    const timer = setInterval(() => {
+      setHeadlineIndex((prevIndex) => (prevIndex + 1) % HEADLINES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
-        setPillStyle({
-          left: activeRect.left - containerRect.left,
-          top: activeRect.top - containerRect.top,
-          width: activeRect.width,
-          height: activeRect.height,
-          opacity: 1
-        });
+  // Refs for navigation containers and buttons
+  const mainPillRef = useRef(null);
+  const hireRef = useRef(null);
+  const howRef = useRef(null);
+  const whyRef = useRef(null);
+  const joinRef = useRef(null);
+  const morePillRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Absolute indicator pill position state inside mainPillRef
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    left: 0,
+    width: 0,
+    height: 0,
+    opacity: 0,
+  });
+
+  // Update position of sliding indicator relative to mainPillRef
+  useEffect(() => {
+    const updateIndicator = () => {
+      const activeRef = {
+        hire: hireRef.current,
+        how: howRef.current,
+        why: whyRef.current,
+        join: joinRef.current,
+      }[activeTab];
+
+      if (activeRef && mainPillRef.current) {
+        const pillRect = mainPillRef.current.getBoundingClientRect();
+        const activeRect = activeRef.getBoundingClientRect();
+
+        if (activeRect.width > 0) {
+          setIndicatorStyle({
+            left: activeRect.left - pillRect.left,
+            width: activeRect.width,
+            height: activeRect.height,
+            opacity: 1,
+          });
+        } else {
+          setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
+        }
+      } else {
+        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
       }
     };
 
-    updatePill();
-    window.addEventListener('resize', updatePill);
-    return () => window.removeEventListener('resize', updatePill);
+    updateIndicator();
+    document.fonts.ready.then(updateIndicator);
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
   }, [activeTab]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current && 
+        !dropdownRef.current.contains(e.target) && 
+        morePillRef.current && 
+        !morePillRef.current.contains(e.target)
+      ) {
+        setIsMoreOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div className="hero-page">
-      {/* Background Vector Grid & Glow Overlay */}
+      {/* Background Vector Hatch Grid & Glow Overlay */}
       <BackgroundGrid />
 
       {/* Floating Glassmorphic Navigation Bar Container */}
       <header className="nav-header">
-        <nav className="floating-nav">
-          {/* Logo on Left */}
-          <div className="nav-logo" title="Jaradeck">
-            <JaradeckLogo width={40} />
+        <div className="nav-header-wrapper">
+          
+          {/* 1. Far Left Logo: Bare SVG Logo (No circle/pill background) */}
+          <div className="nav-logo" title="Jaradeck" onClick={() => setActiveTab('join')}>
+            <JaradeckLogo width={41} />
           </div>
 
-          {/* Desktop Nav Items Wrapper with Sliding White Pill Indicator */}
-          <div className="nav-items-wrapper" ref={containerRef}>
-            {/* Sliding White Active Pill Background */}
-            <div 
-              className="sliding-pill-indicator"
-              style={{
-                transform: `translate3d(${pillStyle.left}px, ${pillStyle.top}px, 0)`,
-                width: `${pillStyle.width}px`,
-                height: `${pillStyle.height}px`,
-                opacity: pillStyle.opacity
-              }}
-            />
+          {/* 2. Center Standalone Main Navigation Glassmorphic Pill */}
+          <nav className="nav-main-pill" ref={mainPillRef}>
+            {/* Sliding active white pill background indicator */}
+            <div className="nav-active-indicator" style={indicatorStyle}></div>
 
-            {/* Navigation Tab Buttons */}
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                ref={(el) => (tabRefs.current[item.id] = el)}
-                className={`nav-tab-btn ${item.id === 'join' ? 'is-join-btn' : ''} ${activeTab === item.id ? 'is-active' : ''}`}
-                onClick={() => setActiveTab(item.id)}
+            <button 
+              ref={hireRef}
+              className={`nav-link-btn ${activeTab === 'hire' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('hire'); setIsMoreOpen(false); }}
+            >
+              Hire Talent
+            </button>
+            
+            <button 
+              ref={howRef}
+              className={`nav-link-btn ${activeTab === 'how' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('how'); setIsMoreOpen(false); }}
+            >
+              How It Works
+            </button>
+            
+            <button 
+              ref={whyRef}
+              className={`nav-link-btn ${activeTab === 'why' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('why'); setIsMoreOpen(false); }}
+            >
+              Why Jaradeck
+            </button>
+
+            <button 
+              ref={joinRef}
+              className={`nav-link-btn ${activeTab === 'join' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); }}
+            >
+              Join Jaradeck
+            </button>
+          </nav>
+
+          {/* 3. Far Right Standalone "More ⌃" Glassmorphic Pill */}
+          <div className="nav-more-wrapper">
+            <button 
+              ref={morePillRef}
+              className={`nav-more-pill ${isMoreOpen ? 'open' : ''}`}
+              onClick={() => setIsMoreOpen(!isMoreOpen)}
+            >
+              <span>More</span>
+              <svg 
+                className={`chevron-icon ${isMoreOpen ? 'open' : ''}`} 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
               >
-                {item.label}
-              </button>
-            ))}
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+
+            {/* Glassmorphic Dropdown Menu popping under More Pill */}
+            {isMoreOpen && (
+              <div className="nav-dropdown-menu" ref={dropdownRef}>
+                <button 
+                  className="dropdown-item-btn"
+                  onClick={() => { setIsMoreOpen(false); }}
+                >
+                  Contact Us
+                </button>
+                <button 
+                  className="dropdown-item-btn"
+                  onClick={() => { setIsMoreOpen(false); }}
+                >
+                  FAQs
+                </button>
+                <button 
+                  className="dropdown-item-btn"
+                  onClick={() => { setIsMoreOpen(false); }}
+                >
+                  Blog
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Mobile Hamburger Menu Icon */}
+          {/* Mobile Hamburger Menu */}
           <button 
             className="nav-hamburger" 
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open Navigation Menu"
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5H17M1 7H17M1 12.5H17" stroke="#0048B3" strokeWidth="2.2" strokeLinecap="round"/>
+            </svg>
           </button>
-        </nav>
+        </div>
       </header>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
           <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
             ✕
           </button>
-          {navItems.map((item) => (
-            <button 
-              key={item.id}
-              className={`mobile-nav-link ${activeTab === item.id ? 'is-active' : ''}`} 
-              onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }}
-            >
-              {item.label}
-            </button>
-          ))}
+          <button 
+            className={`mobile-nav-link ${activeTab === 'hire' ? 'active' : ''}`} 
+            onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); }}
+          >
+            Hire Talent
+          </button>
+          <button 
+            className={`mobile-nav-link ${activeTab === 'how' ? 'active' : ''}`} 
+            onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); }}
+          >
+            How It Works
+          </button>
+          <button 
+            className={`mobile-nav-link ${activeTab === 'why' ? 'active' : ''}`} 
+            onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); }}
+          >
+            Why Jaradeck
+          </button>
+          <button 
+            className={`mobile-nav-link ${activeTab === 'join' ? 'active' : ''}`} 
+            onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); }}
+          >
+            Join Jaradeck
+          </button>
+          <button 
+            className="mobile-nav-link" 
+            onClick={() => { setIsMobileMenuOpen(false); }}
+          >
+            Contact Us
+          </button>
+          <button 
+            className="mobile-nav-link" 
+            onClick={() => { setIsMobileMenuOpen(false); }}
+          >
+            FAQs
+          </button>
+          <button 
+            className="mobile-nav-link" 
+            onClick={() => { setIsMobileMenuOpen(false); }}
+          >
+            Blog
+          </button>
         </div>
       )}
 
       {/* Main Hero Content Area */}
       <main className="hero-main">
         <div className="hero-content">
-          <h1 className="hero-headline">
-            Hiring shouldn't feel like another full-time job.
-          </h1>
+          <div className="hero-headline-wrapper">
+            <h1 key={headlineIndex} className="hero-headline hero-headline-animated">
+              {HEADLINES[headlineIndex].map((part, index) =>
+                part.action ? (
+                  <span key={index} className="action-word">{part.text}</span>
+                ) : (
+                  <React.Fragment key={index}>{part.text}</React.Fragment>
+                )
+              )}
+            </h1>
+          </div>
 
           <p className="hero-subtitle">
-            Jaradeck is the work completion platform that handles the vetting, matching, and management so you can just get the work done
+            Jaradeck is the easiest way to get work done without sifting through endless profiles and fake reviews. Give us the grunt work.
           </p>
 
           <button className="hero-cta-btn" onClick={() => setActiveTab('join')}>
@@ -147,27 +314,10 @@ export default function App() {
           </button>
         </div>
 
-        {/* Floating Objection Badges */}
-        <div className="badges-wrapper">
-          <div className="objection-badge badge-yellow">
-            <span>"0L..."</span>
-          </div>
-          <div className="objection-badge badge-pink">
-            <span>"Palava"</span>
-          </div>
-          <div className="objection-badge badge-red">
-            <span>"They always ghost"</span>
-          </div>
-          <div className="objection-badge badge-orange">
-            <span>"No talents"</span>
-          </div>
-          <div className="objection-badge badge-green">
-            <span>"Nigeria lacks talents*"</span>
-          </div>
+        {/* Stadium Architecture & Hero Graphics */}
+        <div className="stadium-section">
+          <StadiumIllustration />
         </div>
-
-        {/* Stadium Architecture Graphic */}
-        <StadiumIllustration />
       </main>
     </div>
   );
