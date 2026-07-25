@@ -44,7 +44,6 @@ body {
 .hero-page {
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh;
   width: 100%;
   background-color: var(--blue-bg);
   display: flex;
@@ -401,11 +400,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding-top: 1.5rem;
-  padding-bottom: 0;
+  justify-content: flex-start;
+  padding-top: 2.5rem;
   text-align: center;
-  min-height: calc(100dvh - 80px);
 }
 
 .hero-content {
@@ -415,9 +412,6 @@ body {
   padding: 0 1.5rem;
   max-width: 840px;
   text-align: center;
-  position: relative;
-  z-index: 20;
-  margin-bottom: 1.5rem;
 }
 
 .hero-headline-wrapper {
@@ -425,14 +419,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   width: 100%;
 }
 
 .hero-headline {
-  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  font-size: clamp(2.3rem, 5.5vw, 4.1rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: -0.035em;
   color: var(--white);
   margin-bottom: 0;
@@ -470,12 +464,12 @@ body {
 }
 
 .hero-subtitle {
-  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-size: clamp(0.92rem, 2vw, 1.1rem);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--white-muted);
   max-width: 580px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   letter-spacing: -0.01em;
 }
 
@@ -496,9 +490,6 @@ body {
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(0, 15, 60, 0.25);
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  z-index: 25;
-  margin-bottom: 1rem;
 }
 
 .hero-cta-btn:hover {
@@ -518,29 +509,40 @@ body {
   transform: translate(3px, -3px);
 }
 
-/* ===== Stadium Architecture Section - Anchored Flush at Bottom ===== */
+/* ===== Stadium Architecture & Card SVG Section ===== */
 .stadium-section {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1400px;
-  margin-top: 0;
-  margin-bottom: 0;
+  max-width: 1350px;
+  margin-top: -9.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-self: flex-end;
 }
 
+.card-svg {
+  position: absolute;
+  top: -3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  width: 95%;
+  max-width: 1250px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
+}
+
+
+/* ===== Stadium Illustration Wrapper ===== */
 .stadium-wrapper {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1350px;
   margin-top: 0;
-  margin-bottom: 0;
   line-height: 0;
-  display: block;
 }
 
 .stadium-svg {
@@ -548,35 +550,20 @@ body {
   height: auto;
   display: block;
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-  margin-bottom: 0;
+}
+
+@media (max-width: 1024px) {
+  .stadium-section {
+    margin-top: -6rem;
+  }
 }
 
 @media (max-width: 768px) {
   .hero-main {
-    padding-top: 1rem;
-  }
-
-  .hero-content {
-    margin-bottom: 0.75rem;
-    padding: 0 1rem;
-  }
-
-  .hero-headline {
-    font-size: clamp(1.75rem, 6.5vw, 2.5rem);
-  }
-
-  .hero-subtitle {
-    font-size: 0.88rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-cta-btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.88rem;
-    margin-bottom: 0.75rem;
+    padding-top: 2rem;
   }
 
   .stadium-section {
-    margin-top: 0;
+    margin-top: -3.5rem;
   }
 }
