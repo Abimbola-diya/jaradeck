@@ -44,7 +44,6 @@ body {
 .hero-page {
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh;
   width: 100%;
   background-color: var(--blue-bg);
   display: flex;
@@ -401,22 +400,24 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 2rem;
+  justify-content: space-between;
+  padding-top: 1rem;
   padding-bottom: 0;
   text-align: center;
+  min-height: calc(100dvh - 80px);
 }
 
 .hero-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1.5rem;
+  justify-content: center;
+  padding: 1.5rem 1.5rem;
   max-width: 840px;
   text-align: center;
   position: relative;
   z-index: 20;
-  margin-bottom: 0;
 }
 
 .hero-headline-wrapper {
@@ -424,14 +425,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   width: 100%;
 }
 
 .hero-headline {
-  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  font-size: clamp(2.3rem, 5.5vw, 4.1rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: -0.035em;
   color: var(--white);
   margin-bottom: 0;
@@ -469,12 +470,12 @@ body {
 }
 
 .hero-subtitle {
-  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-size: clamp(0.95rem, 2vw, 1.12rem);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--white-muted);
-  max-width: 580px;
-  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-bottom: 1.85rem;
   letter-spacing: -0.01em;
 }
 
@@ -487,9 +488,9 @@ body {
   color: var(--blue-bg);
   border: none;
   border-radius: 9999px;
-  padding: 0.85rem 1.85rem;
+  padding: 0.9rem 2rem;
   font-family: var(--font-family);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   cursor: pointer;
@@ -497,7 +498,6 @@ body {
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   z-index: 25;
-  margin-bottom: 0;
 }
 
 .hero-cta-btn:hover {
@@ -517,17 +517,18 @@ body {
   transform: translate(3px, -3px);
 }
 
-/* ===== Stadium Architecture Section ===== */
+/* ===== Stadium Architecture Section - Anchored Flush at Bottom ===== */
 .stadium-section {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1400px;
-  margin-top: -3.5rem;
+  margin-top: 0;
   margin-bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: flex-end;
 }
 
 .stadium-wrapper {
@@ -551,48 +552,49 @@ body {
 
 @media (max-width: 768px) {
   .hero-main {
-    padding-top: 0.75rem;
+    padding-top: 0.5rem;
+    min-height: calc(100dvh - 75px);
   }
 
   .hero-content {
-    margin-bottom: 0;
-    padding: 0 1.25rem;
+    padding: 1rem 1.25rem;
+    justify-content: center;
+    flex: 1;
   }
 
   .hero-headline-wrapper {
-    min-height: 4.2rem;
-    margin-bottom: 0.5rem;
+    min-height: 5rem;
+    margin-bottom: 0.85rem;
   }
 
   .hero-headline {
-    font-size: clamp(1.75rem, 6.8vw, 2.4rem);
+    font-size: clamp(2rem, 7.5vw, 2.7rem);
+    line-height: 1.12;
   }
 
   .hero-subtitle {
-    font-size: 0.88rem;
-    line-height: 1.45;
-    margin-bottom: 1.15rem;
-    max-width: 95%;
+    font-size: clamp(0.95rem, 3.2vw, 1.08rem);
+    line-height: 1.5;
+    margin-bottom: 1.6rem;
+    max-width: 92%;
   }
 
   .hero-cta-btn {
-    padding: 0.75rem 1.6rem;
-    font-size: 0.88rem;
-    margin-bottom: 0;
+    padding: 0.85rem 1.85rem;
+    font-size: 0.95rem;
   }
 
   .stadium-section {
-    margin-top: -2.75rem;
+    margin-top: 0;
     margin-bottom: 0;
     width: 100%;
+    align-self: flex-end;
   }
 
   .stadium-wrapper {
     margin-top: 0;
     margin-bottom: 0;
     width: 100%;
-    transform: scale(1.04);
-    transform-origin: bottom center;
   }
 
   .stadium-svg {
