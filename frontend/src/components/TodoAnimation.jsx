@@ -66,7 +66,7 @@ export default function TodoAnimation() {
   const [titleWidths, setTitleWidths] = useState([0, 0, 0]);
   const userScrolledRef = useRef(false);
 
-  // Measure title widths
+  // Measure title widths on mount and window resize
   useEffect(() => {
     const updateWidths = () => {
       const refs = [ref0, ref1, ref2];
@@ -76,7 +76,7 @@ export default function TodoAnimation() {
     updateWidths();
     window.addEventListener('resize', updateWidths);
     return () => window.removeEventListener('resize', updateWidths);
-  }, [step]);
+  }, []);
 
   // Scroll handler: advances connecting timeline steps (0-7) as user scrolls down into section
   useEffect(() => {
