@@ -298,8 +298,10 @@ body {
 /* Mobile Hamburger Menu - Solid white circle with 3 100% EQUAL-LENGTH blue horizontal dashes */
 .nav-hamburger {
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 3px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -323,10 +325,14 @@ body {
   }
 }
 
-.nav-hamburger svg {
-  display: block;
-  width: 18px;
-  height: 14px;
+.nav-hamburger span {
+  width: 17px !important;
+  height: 2.5px !important;
+  background: #0048B3 !important;
+  border-radius: 2px !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s ease;
 }
 
 /* Mobile Menu Overlay */

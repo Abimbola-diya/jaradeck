@@ -111,9 +111,9 @@ export default function App() {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
-        dropdownRef.current && 
-        !dropdownRef.current.contains(e.target) && 
-        morePillRef.current && 
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target) &&
+        morePillRef.current &&
         !morePillRef.current.contains(e.target)
       ) {
         setIsMoreOpen(false);
@@ -131,7 +131,7 @@ export default function App() {
       {/* Floating Glassmorphic Navigation Bar Container */}
       <header className="nav-header">
         <div className="nav-header-wrapper">
-          
+
           {/* 1. Far Left Logo: Bare SVG Logo (No circle/pill background) */}
           <div className="nav-logo" title="Jaradeck" onClick={() => setActiveTab('join')}>
             <JaradeckLogo width={41} />
@@ -142,23 +142,23 @@ export default function App() {
             {/* Sliding active white pill background indicator */}
             <div className="nav-active-indicator" style={indicatorStyle}></div>
 
-            <button 
+            <button
               ref={hireRef}
               className={`nav-link-btn ${activeTab === 'hire' ? 'active' : ''}`}
               onClick={() => { setActiveTab('hire'); setIsMoreOpen(false); }}
             >
               Hire Talent
             </button>
-            
-            <button 
+
+            <button
               ref={howRef}
               className={`nav-link-btn ${activeTab === 'how' ? 'active' : ''}`}
               onClick={() => { setActiveTab('how'); setIsMoreOpen(false); }}
             >
               How It Works
             </button>
-            
-            <button 
+
+            <button
               ref={whyRef}
               className={`nav-link-btn ${activeTab === 'why' ? 'active' : ''}`}
               onClick={() => { setActiveTab('why'); setIsMoreOpen(false); }}
@@ -166,7 +166,7 @@ export default function App() {
               Why Jaradeck
             </button>
 
-            <button 
+            <button
               ref={joinRef}
               className={`nav-link-btn ${activeTab === 'join' ? 'active' : ''}`}
               onClick={() => { setActiveTab('join'); setIsMoreOpen(false); }}
@@ -177,21 +177,21 @@ export default function App() {
 
           {/* 3. Far Right Standalone "More ⌃" Glassmorphic Pill */}
           <div className="nav-more-wrapper">
-            <button 
+            <button
               ref={morePillRef}
               className={`nav-more-pill ${isMoreOpen ? 'open' : ''}`}
               onClick={() => setIsMoreOpen(!isMoreOpen)}
             >
               <span>More</span>
-              <svg 
-                className={`chevron-icon ${isMoreOpen ? 'open' : ''}`} 
-                width="14" 
-                height="14" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
+              <svg
+                className={`chevron-icon ${isMoreOpen ? 'open' : ''}`}
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
                 strokeLinejoin="round"
               >
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -201,19 +201,19 @@ export default function App() {
             {/* Glassmorphic Dropdown Menu popping under More Pill */}
             {isMoreOpen && (
               <div className="nav-dropdown-menu" ref={dropdownRef}>
-                <button 
+                <button
                   className="dropdown-item-btn"
                   onClick={() => { setIsMoreOpen(false); }}
                 >
                   Contact Us
                 </button>
-                <button 
+                <button
                   className="dropdown-item-btn"
                   onClick={() => { setIsMoreOpen(false); }}
                 >
                   FAQs
                 </button>
-                <button 
+                <button
                   className="dropdown-item-btn"
                   onClick={() => { setIsMoreOpen(false); }}
                 >
@@ -224,14 +224,14 @@ export default function App() {
           </div>
 
           {/* Mobile Hamburger Menu */}
-          <button 
-            className="nav-hamburger" 
+          <button
+            className="nav-hamburger"
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open Navigation Menu"
           >
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5H17M1 7H17M1 12.5H17" stroke="#0048B3" strokeWidth="2.2" strokeLinecap="round"/>
-            </svg>
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
         </div>
       </header>
@@ -242,44 +242,44 @@ export default function App() {
           <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
             ✕
           </button>
-          <button 
-            className={`mobile-nav-link ${activeTab === 'hire' ? 'active' : ''}`} 
+          <button
+            className={`mobile-nav-link ${activeTab === 'hire' ? 'active' : ''}`}
             onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); }}
           >
             Hire Talent
           </button>
-          <button 
-            className={`mobile-nav-link ${activeTab === 'how' ? 'active' : ''}`} 
+          <button
+            className={`mobile-nav-link ${activeTab === 'how' ? 'active' : ''}`}
             onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); }}
           >
             How It Works
           </button>
-          <button 
-            className={`mobile-nav-link ${activeTab === 'why' ? 'active' : ''}`} 
+          <button
+            className={`mobile-nav-link ${activeTab === 'why' ? 'active' : ''}`}
             onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); }}
           >
             Why Jaradeck
           </button>
-          <button 
-            className={`mobile-nav-link ${activeTab === 'join' ? 'active' : ''}`} 
+          <button
+            className={`mobile-nav-link ${activeTab === 'join' ? 'active' : ''}`}
             onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); }}
           >
             Join Jaradeck
           </button>
-          <button 
-            className="mobile-nav-link" 
+          <button
+            className="mobile-nav-link"
             onClick={() => { setIsMobileMenuOpen(false); }}
           >
             Contact Us
           </button>
-          <button 
-            className="mobile-nav-link" 
+          <button
+            className="mobile-nav-link"
             onClick={() => { setIsMobileMenuOpen(false); }}
           >
             FAQs
           </button>
-          <button 
-            className="mobile-nav-link" 
+          <button
+            className="mobile-nav-link"
             onClick={() => { setIsMobileMenuOpen(false); }}
           >
             Blog
@@ -309,7 +309,7 @@ export default function App() {
           <button className="hero-cta-btn" onClick={() => setActiveTab('join')}>
             <span>Join Jaradeck</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
-              <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
