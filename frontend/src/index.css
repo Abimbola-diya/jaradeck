@@ -552,6 +552,26 @@ body {
   margin-bottom: 0;
 }
 
+.stadium-canopy-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(35px, 4.5vw, 75px);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+  line-height: 0;
+}
+
+.stadium-canopy-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: top;
+}
+
 @media (max-width: 768px) {
   .hero-main {
     padding-top: 1rem;
