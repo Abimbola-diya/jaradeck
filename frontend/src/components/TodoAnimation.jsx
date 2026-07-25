@@ -64,7 +64,6 @@ export default function TodoAnimation() {
   const ref1 = useRef(null);
   const ref2 = useRef(null);
   const [titleWidths, setTitleWidths] = useState([0, 0, 0]);
-  const userScrolledRef = useRef(false);
 
   // Measure title widths on mount and window resize
   useEffect(() => {
@@ -78,61 +77,34 @@ export default function TodoAnimation() {
     return () => window.removeEventListener('resize', updateWidths);
   }, []);
 
-  // Scroll handler: advances connecting timeline steps (0-7) cleanly based on viewport position
+  // Pure scroll handler: reveals items 1, 2, 3 and connecting lines as user scrolls down into section
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
-      userScrolledRef.current = true;
 
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Start revealing when container top reaches 88% of viewport height
-      const start = windowHeight * 0.88;
-      // Fully revealed when container top reaches 35% of viewport height
-      const end = windowHeight * 0.35;
+      // Starts revealing when top of container reaches 90% of screen height
+      const start = windowHeight * 0.90;
+      // All 3 items fully revealed & connected when container reaches 68% of screen height
+      const end = windowHeight * 0.68;
 
       const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
-      if (ratio >= 0.88) setStep(7);
-      else if (ratio >= 0.75) setStep(6);
-      else if (ratio >= 0.62) setStep(5);
-      else if (ratio >= 0.49) setStep(4);
-      else if (ratio >= 0.36) setStep(3);
-      else if (ratio >= 0.23) setStep(2);
-      else if (ratio >= 0.10) setStep(1);
+      if (ratio >= 0.85) setStep(7);
+      else if (ratio >= 0.72) setStep(6);
+      else if (ratio >= 0.58) setStep(5);
+      else if (ratio >= 0.44) setStep(4);
+      else if (ratio >= 0.30) setStep(3);
+      else if (ratio >= 0.18) setStep(2);
+      else if (ratio >= 0.08) setStep(1);
       else setStep(0);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Timer loop fallback if user has not scrolled yet
-  useEffect(() => {
-    let timers = [];
-    const scheduleStep = (targetStep, delay) => {
-      timers.push(setTimeout(() => {
-        if (!userScrolledRef.current) {
-          setStep(targetStep);
-        }
-      }, delay));
-    };
-
-    if (!userScrolledRef.current) {
-      scheduleStep(1, 1000);
-      scheduleStep(2, 2200);
-      scheduleStep(3, 2800);
-      scheduleStep(4, 3800);
-      scheduleStep(5, 5000);
-      scheduleStep(6, 5600);
-      scheduleStep(7, 6600);
-    }
-
-    return () => {
-      timers.forEach(t => clearTimeout(t));
-    };
   }, []);
 
   const titleRefs = [ref0, ref1, ref2];
