@@ -321,13 +321,15 @@ export default function App() {
         </div>
       </main>
 
-      {/* White Canopy Section */}
+      {/* White Canopy Section — tall scroll track with sticky inner */}
       <section className="canopy-section">
-        <div className="canopy-content-wrapper">
-          <h2 className="wavy-heading" data-text="What needs doing ?">
-            What needs doing ?
-          </h2>
-          <TodoAnimation />
+        <div className="canopy-sticky-wrapper">
+          <div className="canopy-content-wrapper">
+            <h2 className="wavy-heading" data-text="What needs doing ?">
+              What needs doing ?
+            </h2>
+            <TodoAnimation onCtaClick={() => setActiveTab('join')} />
+          </div>
         </div>
       </section>
     </div>
