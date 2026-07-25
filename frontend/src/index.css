@@ -1,4 +1,32 @@
-@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+/* ===== PP Neue Montreal Font Definitions ===== */
+@font-face {
+    font-family: 'PP Neue Montreal';
+    font-style: normal;
+    font-weight: 400;
+    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-book.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'PP Neue Montreal';
+    font-style: italic;
+    font-weight: 400;
+    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-italic.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'PP Neue Montreal';
+    font-style: normal;
+    font-weight: 500;
+    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-medium.woff') format('woff');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'PP Neue Montreal';
+    font-style: normal;
+    font-weight: 700;
+    src: local('PP Neue Montreal'), url('https://fonts.cdnfonts.com/s/100431/ppneuemontreal-bold.woff') format('woff');
+    font-display: swap;
+}
 
 :root {
   --blue-bg: #0048B3;
@@ -13,10 +41,7 @@
   --font-family: 'PP Neue Montreal', sans-serif;
 }
 
-*, button, input, select, textarea {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*, *::before, *::after, html, body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, div {
   font-family: 'PP Neue Montreal', sans-serif !important;
   -webkit-tap-highlight-color: transparent;
 }
@@ -25,7 +50,6 @@ html,
 body {
   background-color: var(--blue-bg);
   color: var(--white);
-  font-family: 'PP Neue Montreal', sans-serif !important;
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
