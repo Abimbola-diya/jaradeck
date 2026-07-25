@@ -18,14 +18,7 @@ const TODO_ITEMS = [
   },
 ];
 
-// Phase durations (ms)
-const PHASE_EMPTY  = 1600;  // empty checkbox shown
-const PHASE_FILL   = 600;   // checkbox fills + cross pops + scribble draws
-const PHASE_WIGGLE = 1200;  // checkbox wiggles
-const PHASE_EXIT   = 700;   // item fades out/up
-const CYCLE = PHASE_EMPTY + PHASE_FILL + PHASE_WIGGLE + PHASE_EXIT;
-
-// Wobbly scribble SVG strikethrough — drawn over exact text width
+// Wobbly scribble SVG strikethrough
 function ScribbleStrike({ width }) {
   const h = 16;
   const mid = h / 2;
@@ -65,75 +58,106 @@ function ScribbleStrike({ width }) {
 }
 
 export default function TodoAnimation() {
-  const [itemIndex, setItemIndex] = useState(0);
-  const [phase, setPhase] = useState('empty');
-  const titleRef = useRef(null);
-  const [titleWidth, setTitleWidth] = useState(0);
+  // Step in timeline animation sequence (0 through 8)
+  const [step, setStep] = useState(0);
+  const ref0 = useRef(null);
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const [titleWidths, setTitleWidths] = useState([0, 0, 0]);
 
-  // Measure title element width
+  // Measure title widths
   useEffect(() => {
-    if (titleRef.current) {
-      const rect = titleRef.current.getBoundingClientRect();
-      setTitleWidth(rect.width);
-    }
-  }, [itemIndex]);
+    const updateWidths = () => {
+      const refs = [ref0, ref1, ref2];
+      const newWidths = refs.map(r => r.current ? r.current.getBoundingClientRect().width : 0);
+      setTitleWidths(newWidths);
+    };
+    updateWidths();
+    window.addEventListener('resize', updateWidths);
+    return () => window.removeEventListener('resize', updateWidths);
+  }, [step]);
 
+  // Timeline loop sequence
   useEffect(() => {
-    let t1, t2, t3, t4;
-
-    const runCycle = () => {
-      setPhase('empty');
-      t1 = setTimeout(() => setPhase('filled'), PHASE_EMPTY);
-      t2 = setTimeout(() => setPhase('wiggle'), PHASE_EMPTY + PHASE_FILL);
-      t3 = setTimeout(() => setPhase('exit'),   PHASE_EMPTY + PHASE_FILL + PHASE_WIGGLE);
-      t4 = setTimeout(() => {
-        setItemIndex(prev => (prev + 1) % TODO_ITEMS.length);
-      }, CYCLE);
+    let timers = [];
+    const scheduleStep = (targetStep, delay) => {
+      timers.push(setTimeout(() => setStep(targetStep), delay));
     };
 
-    runCycle();
-    const interval = setInterval(runCycle, CYCLE + 100);
+    const runTimeline = () => {
+      setStep(0);            // Step 0: Item 0 appears empty
+      scheduleStep(1, 1000); // Step 1: Item 0 checks + strikes
+      scheduleStep(2, 2200); // Step 2: Line 0->1 grows down
+      scheduleStep(3, 2800); // Step 3: Item 1 appears empty
+      scheduleStep(4, 3800); // Step 4: Item 1 checks + strikes
+      scheduleStep(5, 5000); // Step 5: Line 1->2 grows down
+      scheduleStep(6, 5600); // Step 6: Item 2 appears empty
+      scheduleStep(7, 6600); // Step 7: Item 2 checks + strikes
+      scheduleStep(8, 7800); // Step 8: Hold full vertical checklist view
+    };
+
+    runTimeline();
+    const interval = setInterval(runTimeline, 12000);
+
     return () => {
-      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4);
+      timers.forEach(t => clearTimeout(t));
       clearInterval(interval);
     };
   }, []);
 
-  const item = TODO_ITEMS[itemIndex];
-  const isChecked = phase !== 'empty';
+  const titleRefs = [ref0, ref1, ref2];
 
   return (
-    <div className={`todo-animation-wrapper todo-phase-${phase}`}>
+    <div className="todo-vertical-container">
+      {TODO_ITEMS.map((item, index) => {
+        // Item visibility
+        const isItemVisible = (index === 0 && step >= 0) || (index === 1 && step >= 3) || (index === 2 && step >= 6);
+        // Checked state
+        const isChecked = (index === 0 && step >= 1) || (index === 1 && step >= 4) || (index === 2 && step >= 7);
+        // Wiggle state
+        const isWiggle = (index === 0 && step === 1) || (index === 1 && step === 4) || (index === 2 && step === 7);
+        // Line connector active
+        const isLineActive = (index === 0 && step >= 2) || (index === 1 && step >= 5);
 
-      {/* Small circular checkbox */}
-      <div className={`todo-checkbox ${isChecked ? 'todo-checkbox--checked' : ''}`}>
-        {isChecked && (
-          <svg className="todo-cross" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="4" y1="4" x2="12" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
-            <line x1="12" y1="4" x2="4" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
-          </svg>
-        )}
-      </div>
+        return (
+          <div
+            key={item.id}
+            className={`todo-vertical-row ${isItemVisible ? 'todo-row--visible' : ''}`}
+          >
+            {/* Left column: Checkbox + Vertical Connector Line */}
+            <div className="todo-left-col">
+              <div className={`todo-checkbox ${isChecked ? 'todo-checkbox--checked' : ''} ${isWiggle ? 'todo-checkbox--wiggle' : ''}`}>
+                {isChecked && (
+                  <svg className="todo-cross" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="4" y1="4" x2="12" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+                    <line x1="12" y1="4" x2="4" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+                  </svg>
+                )}
+              </div>
 
-      {/* Text content starting to the right of the checkbox */}
-      <div className="todo-text">
+              {/* Connecting line to the next checkbox */}
+              {index < TODO_ITEMS.length - 1 && (
+                <div className={`todo-connector-line ${isLineActive ? 'todo-connector-line--active' : ''}`} />
+              )}
+            </div>
 
-        {/* Bigger title with wobbly scribble overlay */}
-        <div className="todo-title-wrap">
-          <span className="todo-title" ref={titleRef}>
-            {item.title}
-          </span>
-          {isChecked && titleWidth > 0 && (
-            <span className="todo-scribble-overlay" style={{ width: titleWidth }}>
-              <ScribbleStrike width={titleWidth} />
-            </span>
-          )}
-        </div>
-
-        {/* Subtitle in italics below title */}
-        <span className="todo-subtitle">{item.subtitle}</span>
-
-      </div>
+            {/* Right column: Text Title & Subtitle */}
+            <div className="todo-text">
+              <div className="todo-title-wrap">
+                <span className="todo-title" ref={titleRefs[index]}>
+                  {item.title}
+                </span>
+                {isChecked && titleWidths[index] > 0 && (
+                  <span className="todo-scribble-overlay" style={{ width: titleWidths[index] }}>
+                    <ScribbleStrike width={titleWidths[index]} />
+                  </span>
+                )}
+              </div>
+              <span className="todo-subtitle">{item.subtitle}</span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
