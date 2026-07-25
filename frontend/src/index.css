@@ -417,7 +417,7 @@ body {
 }
 
 .hero-headline-wrapper {
-  min-height: 5.5rem;
+  min-height: 9.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -558,6 +558,10 @@ body {
   .stadium-section {
     margin-top: -6rem;
   }
+
+  .hero-headline-wrapper {
+    min-height: 8.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -567,5 +571,9 @@ body {
 
   .stadium-section {
     margin-top: -3.5rem;
+  }
+
+  .hero-headline-wrapper {
+    min-height: 7.5rem;
   }
 }
