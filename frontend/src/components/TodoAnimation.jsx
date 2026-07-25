@@ -78,7 +78,7 @@ export default function TodoAnimation() {
     return () => window.removeEventListener('resize', updateWidths);
   }, []);
 
-  // Scroll handler: advances connecting timeline steps (0-7) as user scrolls down into section
+  // Scroll handler: advances connecting timeline steps (0-7) cleanly based on viewport position
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
@@ -87,18 +87,12 @@ export default function TodoAnimation() {
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Fallback: if user reaches bottom of document, show all 3 items fully connected
-      const isBottom = (windowHeight + window.scrollY) >= (document.documentElement.scrollHeight - 70);
-      if (isBottom) {
-        setStep(7);
-        return;
-      }
+      // Start revealing when container top reaches 88% of viewport height
+      const start = windowHeight * 0.88;
+      // Fully revealed when container top reaches 35% of viewport height
+      const end = windowHeight * 0.35;
 
-      // Distance scrolled into view from when top reaches 90% of screen height
-      const startPoint = windowHeight * 0.90;
-      const scrolledPx = startPoint - rect.top;
-      const totalDistance = 180;
-      const ratio = Math.min(Math.max(scrolledPx / totalDistance, 0), 1);
+      const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
       if (ratio >= 0.88) setStep(7);
       else if (ratio >= 0.75) setStep(6);
