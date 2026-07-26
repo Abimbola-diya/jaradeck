@@ -715,14 +715,12 @@ body {
 }
 
 .dump-tasks-btn {
-  position: relative;
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  padding: 0.95rem 2rem;
-  background-color: #0048B3;
+  padding: 0.95rem 2.2rem;
+  background: #0048B3;
   color: #FFFFFF;
   font-family: 'PP Neue Montreal', var(--font-family);
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
@@ -730,36 +728,13 @@ body {
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 72, 179, 0.28);
-  transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* Fill blue button with vector wavy lines pattern */
-.dump-tasks-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url('/wavy-lines.svg') center/cover repeat;
-  opacity: 0.45;
-  pointer-events: none;
-  border-radius: 9999px;
-  transition: opacity 0.25s ease;
-}
-
-.dump-tasks-btn > span,
-.dump-tasks-btn > svg {
-  position: relative;
-  z-index: 2;
+  box-shadow: none;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 .dump-tasks-btn:hover {
   transform: scale(1.04);
-  background-color: #003688;
-  box-shadow: 0 14px 36px rgba(0, 72, 179, 0.4);
-}
-
-.dump-tasks-btn:hover::before {
-  opacity: 0.6;
+  background: #003688;
 }
 
 .dump-tasks-btn:active {
@@ -770,8 +745,6 @@ body {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  position: relative;
-  z-index: 2;
 }
 
 /* Left column: Checkbox + Vertical Connector Line */
@@ -847,8 +820,8 @@ body {
 }
 
 .todo-cross {
-  width: 9px;
-  height: 9px;
+  width: 11.5px;
+  height: 11.5px;
   opacity: 0;
   transform: scale(0.5);
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -964,8 +937,8 @@ body {
   }
 
   .todo-cross {
-    width: 7px;
-    height: 7px;
+    width: 9px;
+    height: 9px;
   }
 
   .todo-connector-line {
@@ -982,5 +955,198 @@ body {
 
   .todo-subtitle {
     font-size: clamp(0.85rem, 3.6vw, 0.95rem);
+  }
+}
+
+/* ===== Comparison Cards Section (White background with wavy pattern) ===== */
+.comparison-section {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  background-color: #FAFAFA;
+  padding: 6.5rem 1.5rem 9rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.comparison-content-wrapper {
+  max-width: 1150px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.comparison-header {
+  max-width: 860px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.comparison-title {
+  font-family: var(--font-family);
+  font-size: clamp(2.4rem, 5.2vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  color: #0048B3;
+  text-align: center;
+}
+
+.comparison-subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(0, 72, 179, 0.75);
+  text-align: center;
+  max-width: 700px;
+}
+
+/* Overlapping Dual Card Deck Stage */
+.comparison-cards-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Shared Card Dimensions & Base Styling */
+.comparison-card {
+  width: min(544px, 48vw);
+  height: 564px;
+  padding: 60px 32px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* Card 1: White Card (Traditional Freelance Platforms) */
+.card-white {
+  background: #FFFFFF;
+  color: #0048B3;
+  left: calc(50% - 470px);
+  top: 18px;
+  transform: rotate(-6deg);
+  z-index: 1;
+  box-shadow: 0 16px 45px rgba(0, 72, 179, 0.12);
+  border: 1px solid rgba(0, 72, 179, 0.1);
+}
+
+.card-white .card-heading {
+  color: #0048B3;
+}
+
+.card-white .card-bullet-list li {
+  color: rgba(0, 72, 179, 0.85);
+}
+
+.card-white .bullet-dot {
+  color: #0048B3;
+}
+
+/* Card 2: Blue Card (The Jaradeck Way - Figma specs: background #0048B3, rotate 10deg) */
+.card-blue {
+  background: #0048B3;
+  color: #FFFFFF;
+  left: calc(50% - 50px);
+  top: 0px;
+  z-index: 2;
+  box-shadow: -15px 25px 65px rgba(0, 15, 60, 0.32);
+}
+
+.card-blue .card-heading {
+  color: #FFFFFF;
+}
+
+.card-blue .card-bullet-list li {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.card-blue .bullet-dot {
+  color: #FFFFFF;
+}
+
+.card-heading {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1.85rem, 3.4vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 2.2rem;
+}
+
+.card-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.card-bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(0.98rem, 1.8vw, 1.12rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.bullet-dot {
+  font-size: 1.3rem;
+  line-height: 1;
+  opacity: 0.9;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .comparison-cards-stage {
+    height: auto;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .comparison-card {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 40px 24px;
+    border-radius: 20px;
+  }
+
+  .card-white {
+    transform: rotate(-3deg);
+    margin-bottom: -30px;
+  }
+
+  .card-blue {
+    transform: rotate(4deg) !important;
+    opacity: 1 !important;
+    z-index: 2;
   }
 }

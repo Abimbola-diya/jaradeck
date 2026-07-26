@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import BackgroundGrid from './components/BackgroundGrid';
 import StadiumIllustration from './components/StadiumIllustration';
 import TodoAnimation from './components/TodoAnimation';
+import ComparisonCards from './components/ComparisonCards';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -330,6 +331,9 @@ export default function App() {
           <TodoAnimation onCtaClick={() => setActiveTab('join')} />
         </div>
       </section>
+
+      {/* Comparison Cards Section */}
+      <ComparisonCards />
     </div>
   );
 }

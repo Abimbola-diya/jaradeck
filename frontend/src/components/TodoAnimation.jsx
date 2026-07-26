@@ -129,8 +129,8 @@ export default function TodoAnimation({ onCtaClick }) {
             <div className="todo-left-col">
               <div className={`todo-checkbox ${isChecked ? 'todo-checkbox--checked' : ''} ${isWiggle ? 'todo-checkbox--wiggle' : ''}`}>
                 <svg className={`todo-cross ${isChecked ? 'todo-cross--visible' : ''}`} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="4" y1="4" x2="12" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-                  <line x1="4" y1="12" x2="12" y2="4" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+                  <line x1="3.2" y1="3.2" x2="12.8" y2="12.8" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+                  <line x1="3.2" y1="12.8" x2="12.8" y2="3.2" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
                 </svg>
               </div>
 
