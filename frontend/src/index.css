@@ -71,17 +71,15 @@ body {
   background: #0048CC;
 }
 
-/* Wavy lines SVG covering full area - scaled 20% tighter knitted */
+/* Neatly stacked un-zoomed repeating wavy pattern */
 .bg-grid-waves {
   position: absolute;
-  top: -8%;
-  left: 50%;
-  transform: translateX(-50%) scale(0.62);
-  transform-origin: top center;
-  width: 160%;
-  height: 160%;
-  object-fit: cover;
-  opacity: 0.95;
+  inset: 0;
+  background-image: url('/wavy-lines.svg');
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: 480px auto;
+  opacity: 0.88;
   pointer-events: none;
 }
 
