@@ -79,29 +79,39 @@ export default function TodoAnimation({ onCtaClick }) {
     return () => window.removeEventListener('resize', updateWidths);
   }, []);
 
-  // Pure scroll handler: advances steps cleanly without mounting/unmounting DOM nodes
+  // Optimized scroll handler: throttled to 60FPS via requestAnimationFrame with state deduplication
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (!containerRef.current) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
 
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+            // Start revealing when container top reaches 90% of screen height
+            const start = windowHeight * 0.90;
+            // All 3 items fully revealed when container reaches 65% of screen height
+            const end = windowHeight * 0.65;
 
-      // Start revealing when container top reaches 90% of screen height
-      const start = windowHeight * 0.90;
-      // All 3 items fully revealed when container reaches 65% of screen height
-      const end = windowHeight * 0.65;
+            const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
-      const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+            let nextStep = 0;
+            if (ratio >= 0.85) nextStep = 7;
+            else if (ratio >= 0.72) nextStep = 6;
+            else if (ratio >= 0.58) nextStep = 5;
+            else if (ratio >= 0.44) nextStep = 4;
+            else if (ratio >= 0.30) nextStep = 3;
+            else if (ratio >= 0.18) nextStep = 2;
+            else if (ratio >= 0.08) nextStep = 1;
 
-      if (ratio >= 0.85) setStep(7);
-      else if (ratio >= 0.72) setStep(6);
-      else if (ratio >= 0.58) setStep(5);
-      else if (ratio >= 0.44) setStep(4);
-      else if (ratio >= 0.30) setStep(3);
-      else if (ratio >= 0.18) setStep(2);
-      else if (ratio >= 0.08) setStep(1);
-      else setStep(0);
+            setStep(prev => (prev !== nextStep ? nextStep : prev));
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
