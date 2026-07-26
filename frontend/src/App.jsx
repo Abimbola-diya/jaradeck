@@ -327,7 +327,7 @@ export default function App() {
           <h2 className="wavy-heading" data-text="What needs doing ?">
             What needs doing ?
           </h2>
-          <TodoAnimation />
+          <TodoAnimation onCtaClick={() => setActiveTab('join')} />
         </div>
       </section>
     </div>

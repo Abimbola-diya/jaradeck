@@ -696,6 +696,84 @@ body {
   opacity: 1;
 }
 
+/* Dump tasks to Jaradeck CTA Button */
+.todo-cta-wrapper {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.todo-cta-wrapper--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dump-tasks-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2rem;
+  background-color: #0048B3;
+  color: #FFFFFF;
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-weight: 600;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 72, 179, 0.28);
+  transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Fill blue button with vector wavy lines pattern */
+.dump-tasks-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/wavy-lines.svg') center/cover repeat;
+  opacity: 0.45;
+  pointer-events: none;
+  border-radius: 9999px;
+  transition: opacity 0.25s ease;
+}
+
+.dump-tasks-btn > span,
+.dump-tasks-btn > svg {
+  position: relative;
+  z-index: 2;
+}
+
+.dump-tasks-btn:hover {
+  transform: scale(1.04);
+  background-color: #003688;
+  box-shadow: 0 14px 36px rgba(0, 72, 179, 0.4);
+}
+
+.dump-tasks-btn:hover::before {
+  opacity: 0.6;
+}
+
+.dump-tasks-btn:active {
+  transform: scale(0.98);
+}
+
+.sparkle-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
 /* Left column: Checkbox + Vertical Connector Line */
 .todo-left-col {
   display: flex;

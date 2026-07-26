@@ -57,7 +57,7 @@ function ScribbleStrike({ width, active }) {
   );
 }
 
-export default function TodoAnimation() {
+export default function TodoAnimation({ onCtaClick }) {
   const [step, setStep] = useState(0);
   const containerRef = useRef(null);
   const ref0 = useRef(null);
@@ -155,6 +155,16 @@ export default function TodoAnimation() {
           </div>
         );
       })}
+
+      {/* Dump tasks to Jaradeck CTA Button */}
+      <div className={`todo-cta-wrapper ${step >= 7 ? 'todo-cta-wrapper--visible' : ''}`}>
+        <button className="dump-tasks-btn" onClick={onCtaClick}>
+          <span>Dump tasks to Jaradeck</span>
+          <svg className="sparkle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" fill="white"/>
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }
