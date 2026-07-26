@@ -71,16 +71,18 @@ body {
   background: #0048CC;
 }
 
-/* Wavy lines SVG covering full area */
+/* Wavy lines SVG covering full area - scaled 20% tighter knitted */
 .bg-grid-waves {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -8%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.62);
+  transform-origin: top center;
+  width: 160%;
+  height: 160%;
   object-fit: cover;
+  opacity: 0.95;
   pointer-events: none;
-  will-change: transform;
 }
 
 /* Soft subtle radial glow */
@@ -668,7 +670,7 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 /* ===== Todo Animation Component ===== */
