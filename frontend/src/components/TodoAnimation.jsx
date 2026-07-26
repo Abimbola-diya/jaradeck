@@ -18,8 +18,8 @@ const TODO_ITEMS = [
   },
 ];
 
-// Wobbly scribble SVG strikethrough
-function ScribbleStrike({ width }) {
+// Wobbly scribble SVG strikethrough — always rendered, stroke offset animated via CSS
+function ScribbleStrike({ width, active }) {
   const h = 16;
   const mid = h / 2;
   const pathD = `M 0 ${mid + 1}
@@ -49,8 +49,8 @@ function ScribbleStrike({ width }) {
         fill="none"
         style={{
           strokeDasharray: pathLen,
-          strokeDashoffset: pathLen,
-          animation: `scribbleDraw 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
+          strokeDashoffset: active ? 0 : pathLen,
+          transition: 'stroke-dashoffset 0.45s ease',
         }}
       />
     </svg>
@@ -63,21 +63,23 @@ export default function TodoAnimation() {
   const ref0 = useRef(null);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
-  const [titleWidths, setTitleWidths] = useState([0, 0, 0]);
+  const [titleWidths, setTitleWidths] = useState([180, 220, 190]);
 
-  // Measure title widths on mount and window resize
+  // Measure title widths on mount and window resize ONLY
   useEffect(() => {
     const updateWidths = () => {
       const refs = [ref0, ref1, ref2];
       const newWidths = refs.map(r => r.current ? r.current.getBoundingClientRect().width : 0);
-      setTitleWidths(newWidths);
+      if (newWidths.some(w => w > 0)) {
+        setTitleWidths(newWidths);
+      }
     };
     updateWidths();
     window.addEventListener('resize', updateWidths);
     return () => window.removeEventListener('resize', updateWidths);
   }, []);
 
-  // Pure scroll handler: reveals items 1, 2, 3 and connecting lines as user scrolls down into section
+  // Pure scroll handler: advances steps cleanly without mounting/unmounting DOM nodes
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
@@ -85,10 +87,10 @@ export default function TodoAnimation() {
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Starts revealing when top of container reaches 90% of screen height
+      // Start revealing when container top reaches 90% of screen height
       const start = windowHeight * 0.90;
-      // All 3 items fully revealed & connected when container reaches 68% of screen height
-      const end = windowHeight * 0.68;
+      // All 3 items fully revealed when container reaches 65% of screen height
+      const end = windowHeight * 0.65;
 
       const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
@@ -112,14 +114,11 @@ export default function TodoAnimation() {
   return (
     <div className="todo-vertical-container" ref={containerRef}>
       {TODO_ITEMS.map((item, index) => {
-        // Item visibility
         const isItemVisible = (index === 0 && step >= 0) || (index === 1 && step >= 3) || (index === 2 && step >= 6);
-        // Checked state
         const isChecked = (index === 0 && step >= 1) || (index === 1 && step >= 4) || (index === 2 && step >= 7);
-        // Wiggle state
         const isWiggle = (index === 0 && step === 1) || (index === 1 && step === 4) || (index === 2 && step === 7);
-        // Line connector active
         const isLineActive = (index === 0 && step >= 2) || (index === 1 && step >= 5);
+        const w = titleWidths[index] || 180;
 
         return (
           <div
@@ -129,12 +128,10 @@ export default function TodoAnimation() {
             {/* Left column: Checkbox + Vertical Connector Line */}
             <div className="todo-left-col">
               <div className={`todo-checkbox ${isChecked ? 'todo-checkbox--checked' : ''} ${isWiggle ? 'todo-checkbox--wiggle' : ''}`}>
-                {isChecked && (
-                  <svg className="todo-cross" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="4" y1="4" x2="12" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-                    <line x1="4" y1="12" x2="12" y2="4" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-                  </svg>
-                )}
+                <svg className={`todo-cross ${isChecked ? 'todo-cross--visible' : ''}`} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="4" y1="4" x2="12" y2="12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+                  <line x1="4" y1="12" x2="12" y2="4" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+                </svg>
               </div>
 
               {/* Connecting line to the next checkbox */}
@@ -149,11 +146,9 @@ export default function TodoAnimation() {
                 <span className="todo-title" ref={titleRefs[index]}>
                   {item.title}
                 </span>
-                {isChecked && titleWidths[index] > 0 && (
-                  <span className="todo-scribble-overlay" style={{ width: titleWidths[index] }}>
-                    <ScribbleStrike width={titleWidths[index]} />
-                  </span>
-                )}
+                <span className={`todo-scribble-overlay ${isChecked ? 'todo-scribble-overlay--active' : ''}`} style={{ width: w }}>
+                  <ScribbleStrike width={w} active={isChecked} />
+                </span>
               </div>
               <span className="todo-subtitle">{item.subtitle}</span>
             </div>
