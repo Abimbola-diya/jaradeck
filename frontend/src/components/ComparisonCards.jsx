@@ -70,15 +70,15 @@ export default function ComparisonCards() {
             <ul className="card-bullet-list">
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Sifting through 50+ proposals and endless identical 4.9-star reviews.</span>
+                <span>Scrolling through 70+ profiles and 40+ proposals, still no idea who's actually good.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Acting like an HR manager: interviewing strangers and hoping they deliver.</span>
+                <span>Turning into an HR manager, interviewing strangers and hoping they deliver.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Starting from zero and re-explaining your brand guidelines on every new project.</span>
+                <span>Starting from zero on every project, re-explaining your taste, style, and preferences each time.</span>
               </li>
             </ul>
           </div>
@@ -95,15 +95,15 @@ export default function ComparisonCards() {
             <ul className="card-bullet-list">
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Describe your task once in plain English—no job descriptions or recruitment required.</span>
+                <span>Describe the work once in plain English. Get your top 3 matches in seconds.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Get your Top 3 verified matches, filtered strictly by budget, availability, and past output.</span>
+                <span>No interviews, no guesswork. Just verified people, picked by budget, availability, and past output.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Memory moat automatically inherits your brand colors, fonts, and preferences.</span>
+                <span>Jaradeck remembers your preferences, style, and taste. Every project starts where the last one ended.</span>
               </li>
             </ul>
           </div>

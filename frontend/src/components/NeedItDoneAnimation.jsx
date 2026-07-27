@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 const BULLETS = [
   {
@@ -15,144 +15,132 @@ const BULLETS = [
   },
   {
     id: 4,
-    text: "The work gets done while you focus on other things that matters",
+    text: "The work gets done while you focus on other things that matters.",
   },
 ];
 
-// Typing animation that only types forward, never resets once completed
-function TypedText({ text, active }) {
-  const [displayedLength, setDisplayedLength] = useState(0);
-  const completedRef = useRef(false);
-  const intervalRef = useRef(null);
-
-  useEffect(() => {
-    // Once fully typed, never reset
-    if (completedRef.current) return;
-
-    if (!active) return;
-
-    // Start typing from wherever we left off
-    let current = displayedLength;
-    intervalRef.current = setInterval(() => {
-      current++;
-      setDisplayedLength(current);
-      if (current >= text.length) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-        completedRef.current = true;
-      }
-    }, 22);
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-  }, [active, text.length]); // intentionally omit displayedLength to avoid re-triggering
-
-  return (
-    <span className="typed-text-wrapper" style={{ position: 'relative', display: 'block', width: '100%' }}>
-      {/* Invisible full text to reserve exact height and line wraps from page load */}
-      <span style={{ visibility: 'hidden', pointerEvents: 'none', display: 'block', width: '100%', userSelect: 'none' }} aria-hidden="true">
-        {text}
-      </span>
-      {/* Visible typed slice overlayed exactly on top */}
-      <span style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-        {(active || displayedLength > 0) ? text.slice(0, displayedLength) : ''}
-        {active && displayedLength < text.length && (
-          <span className="typing-cursor">|</span>
-        )}
-      </span>
-    </span>
-  );
-}
-
 export default function NeedItDoneAnimation() {
-  const stepRef = useRef(0);
-  const [step, setStep] = useState(0);
   const containerRef = useRef(null);
+  const rowRefs = useRef([]);
+  const circleRefs = useRef([]);
+  const checkRefs = useRef([]);
+  const lineRefs = useRef([]);
   const rafRef = useRef(null);
 
-  const updateStep = useCallback(() => {
+  const updateAnimation = useCallback(() => {
     if (!containerRef.current) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    const start = windowHeight * 0.88;
-    const end = windowHeight * 0.20;
+    BULLETS.forEach((_, index) => {
+      const rowEl = rowRefs.current[index];
+      if (!rowEl) return;
 
-    const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+      const rect = rowEl.getBoundingClientRect();
 
-    let newStep;
-    if (ratio >= 0.88) newStep = 7;
-    else if (ratio >= 0.74) newStep = 6;
-    else if (ratio >= 0.60) newStep = 5;
-    else if (ratio >= 0.46) newStep = 4;
-    else if (ratio >= 0.32) newStep = 3;
-    else if (ratio >= 0.18) newStep = 2;
-    else if (ratio >= 0.08) newStep = 1;
-    else newStep = 0;
+      // Row reveals smoothly as its top edge glides from 88% down to 58% of viewport height
+      const start = windowHeight * 0.88;
+      const end = windowHeight * 0.58;
 
-    // Only trigger a React re-render when step actually changes
-    if (newStep !== stepRef.current) {
-      stepRef.current = newStep;
-      setStep(newStep);
-    }
+      const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+
+      // Direct DOM style updates for 0 lag and maximum scroll fluidity
+      rowEl.style.opacity = 0.18 + progress * 0.82;
+      rowEl.style.transform = `translate3d(0, ${(1 - progress) * 20}px, 0)`;
+
+      const circleEl = circleRefs.current[index];
+      const checkEl = checkRefs.current[index];
+      if (circleEl && checkEl) {
+        if (progress >= 0.5) {
+          circleEl.style.backgroundColor = '#FFFFFF';
+          circleEl.style.borderColor = '#FFFFFF';
+          circleEl.style.transform = 'scale(1.08)';
+          checkEl.style.opacity = '1';
+          checkEl.style.transform = 'scale(1)';
+        } else {
+          circleEl.style.backgroundColor = 'transparent';
+          circleEl.style.borderColor = 'rgba(255, 255, 255, 0.45)';
+          circleEl.style.transform = 'scale(0.8)';
+          checkEl.style.opacity = '0';
+          checkEl.style.transform = 'scale(0.6)';
+        }
+      }
+
+      // Connecting line draws downward smoothly once this row reaches 60% progress
+      const lineEl = lineRefs.current[index];
+      if (lineEl) {
+        const lineProgress = Math.min(Math.max((progress - 0.6) / 0.4, 0), 1);
+        lineEl.style.transform = `scaleY(${lineProgress})`;
+        lineEl.style.backgroundColor = lineProgress > 0.8 ? '#FFFFFF' : 'rgba(255, 255, 255, 0.25)';
+      }
+    });
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (rafRef.current) return; // Already scheduled, skip
+      if (rafRef.current) return;
       rafRef.current = requestAnimationFrame(() => {
-        updateStep();
+        updateAnimation();
         rafRef.current = null;
       });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    updateStep(); // Initial check
+    updateAnimation(); // Initial position check
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [updateStep]);
+  }, [updateAnimation]);
 
   return (
     <div className="need-it-done-container" ref={containerRef}>
       <h2 className="need-it-done-heading">Need it done?</h2>
 
       <div className="need-it-done-checklist">
-        {BULLETS.map((bullet, index) => {
-          const isItemActive = step >= index * 2 + 1;
-          const isLineActive = step >= index * 2 + 2;
-
-          return (
-            <div
-              key={bullet.id}
-              className={`need-row ${isItemActive ? 'need-row--active' : ''}`}
-            >
-              <div className="need-left-col">
-                <div className={`need-circle ${isItemActive ? 'need-circle--active' : ''}`}>
-                  <svg className={`need-check ${isItemActive ? 'need-check--visible' : ''}`} viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.5 5L4.5 8L10.5 1.5" stroke="#0048B3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-
-                {index < BULLETS.length - 1 && (
-                  <div className={`need-line ${isLineActive ? 'need-line--active' : ''}`} />
-                )}
+        {BULLETS.map((bullet, index) => (
+          <div
+            key={bullet.id}
+            className="need-row"
+            ref={(el) => (rowRefs.current[index] = el)}
+          >
+            <div className="need-left-col">
+              <div
+                className="need-circle"
+                ref={(el) => (circleRefs.current[index] = el)}
+              >
+                <svg
+                  className="need-check"
+                  ref={(el) => (checkRefs.current[index] = el)}
+                  viewBox="0 0 12 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 5L4.5 8L10.5 1.5"
+                    stroke="#0048B3"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
 
-              <div className="need-text-col">
-                <p className="need-text-para">
-                  <TypedText text={bullet.text} active={isItemActive} />
-                </p>
-              </div>
+              {index < BULLETS.length - 1 && (
+                <div
+                  className="need-line"
+                  ref={(el) => (lineRefs.current[index] = el)}
+                />
+              )}
             </div>
-          );
-        })}
+
+            <div className="need-text-col">
+              <p className="need-text-para">
+                {bullet.text}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
