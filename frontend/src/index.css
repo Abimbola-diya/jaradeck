@@ -1120,8 +1120,22 @@ body {
   overflow: clip;
 }
 
+/* Neatly stacked un-zoomed repeating wavy pattern for white background */
+.comparison-bg-waves {
+  position: absolute;
+  inset: 0;
+  background-image: url('/wavy-lines.svg');
+  background-repeat: repeat;
+  background-position: top center;
+  background-size: 480px auto;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .comparison-content-wrapper {
   position: sticky;
+  z-index: 1;
   top: 0;
   max-width: 1150px;
   width: 100%;
@@ -1211,6 +1225,11 @@ body {
   color: rgba(0, 72, 179, 0.85);
 }
 
+.card-white .card-bullet-list li strong {
+  color: #0048B3;
+  font-weight: 600;
+}
+
 .card-white .bullet-dot {
   color: #0048B3;
 }
@@ -1229,6 +1248,11 @@ body {
 
 .card-blue .card-bullet-list li {
   color: rgba(255, 255, 255, 0.92);
+}
+
+.card-blue .card-bullet-list li strong {
+  color: #FFFFFF;
+  font-weight: 600;
 }
 
 .card-blue .bullet-dot {

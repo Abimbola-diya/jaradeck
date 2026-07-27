@@ -49,6 +49,8 @@ export default function ComparisonCards() {
 
   return (
     <section className="comparison-section" ref={sectionRef}>
+      {/* Repeating wavy lines background pattern */}
+      <div className="comparison-bg-waves" aria-hidden="true" />
       <div className="comparison-content-wrapper">
         {/* Section Header */}
         <div className="comparison-header">
@@ -70,15 +72,15 @@ export default function ComparisonCards() {
             <ul className="card-bullet-list">
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Scrolling through 70+ profiles and 40+ proposals, still no idea who's actually good.</span>
+                <span>Scrolling through <strong>70+</strong> profiles and <strong>40+</strong> proposals, still no idea who's actually good.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Turning into an HR manager, interviewing strangers and hoping they deliver.</span>
+                <span>Turning into an <strong>HR manager</strong>, interviewing strangers and hoping they deliver.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Starting from zero on every project, re-explaining your taste, style, and preferences each time.</span>
+                <span>Starting from <strong>zero</strong> on every project, re-explaining your taste, style, and preferences each time.</span>
               </li>
             </ul>
           </div>
@@ -95,15 +97,15 @@ export default function ComparisonCards() {
             <ul className="card-bullet-list">
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Tell us what you need done and what you want to spend. We cut through the noise and find 3 best matches, tailored to your budget and needs, in seconds.</span>
+                <span>Tell us what you need done and what you want to spend. We cut through the noise and find <strong>3 best matches</strong>, tailored to your budget and needs, <strong>in seconds</strong>.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>No interviews, no guesswork. Just verified people, picked by budget, availability, and past output.</span>
+                <span><strong>No interviews</strong>, no guesswork. Just <strong>verified people</strong>, picked by budget, availability, and past output.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Jaradeck remembers your preferences, style, and taste. Every project starts where the last one ended.</span>
+                <span>Jaradeck <strong>remembers your preferences</strong>, style, and taste. Every project starts <strong>where the last one ended</strong>.</span>
               </li>
             </ul>
           </div>
