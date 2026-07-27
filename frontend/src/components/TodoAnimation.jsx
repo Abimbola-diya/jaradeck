@@ -42,8 +42,8 @@ function ScribbleStrike({ width, active }) {
     >
       <path
         d={pathD}
-        stroke="#0048B3"
-        strokeWidth="1.85"
+        stroke="#FFFFFF"
+        strokeWidth="2.1"
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
@@ -79,39 +79,29 @@ export default function TodoAnimation({ onCtaClick }) {
     return () => window.removeEventListener('resize', updateWidths);
   }, []);
 
-  // Optimized scroll handler: throttled to 60FPS via requestAnimationFrame with state deduplication
+  // Pure scroll handler: advances steps cleanly without mounting/unmounting DOM nodes
   useEffect(() => {
-    let ticking = false;
-
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (containerRef.current) {
-            const rect = containerRef.current.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
+      if (!containerRef.current) return;
 
-            // Start revealing when container top reaches 90% of screen height
-            const start = windowHeight * 0.90;
-            // All 3 items fully revealed when container reaches 65% of screen height
-            const end = windowHeight * 0.65;
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-            const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+      // Start revealing when container top reaches 90% of screen height
+      const start = windowHeight * 0.90;
+      // All 3 items fully revealed when container reaches 65% of screen height
+      const end = windowHeight * 0.65;
 
-            let nextStep = 0;
-            if (ratio >= 0.85) nextStep = 7;
-            else if (ratio >= 0.72) nextStep = 6;
-            else if (ratio >= 0.58) nextStep = 5;
-            else if (ratio >= 0.44) nextStep = 4;
-            else if (ratio >= 0.30) nextStep = 3;
-            else if (ratio >= 0.18) nextStep = 2;
-            else if (ratio >= 0.08) nextStep = 1;
+      const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
-            setStep(prev => (prev !== nextStep ? nextStep : prev));
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
+      if (ratio >= 0.85) setStep(7);
+      else if (ratio >= 0.72) setStep(6);
+      else if (ratio >= 0.58) setStep(5);
+      else if (ratio >= 0.44) setStep(4);
+      else if (ratio >= 0.30) setStep(3);
+      else if (ratio >= 0.18) setStep(2);
+      else if (ratio >= 0.08) setStep(1);
+      else setStep(0);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -139,8 +129,8 @@ export default function TodoAnimation({ onCtaClick }) {
             <div className="todo-left-col">
               <div className={`todo-checkbox ${isChecked ? 'todo-checkbox--checked' : ''} ${isWiggle ? 'todo-checkbox--wiggle' : ''}`}>
                 <svg className={`todo-cross ${isChecked ? 'todo-cross--visible' : ''}`} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="3.2" y1="3.2" x2="12.8" y2="12.8" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
-                  <line x1="3.2" y1="12.8" x2="12.8" y2="3.2" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+                  <line x1="3.2" y1="3.2" x2="12.8" y2="12.8" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                  <line x1="3.2" y1="12.8" x2="12.8" y2="3.2" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
                 </svg>
               </div>
 
@@ -171,7 +161,7 @@ export default function TodoAnimation({ onCtaClick }) {
         <button className="dump-tasks-btn" onClick={onCtaClick}>
           <span>Dump tasks to Jaradeck</span>
           <svg className="sparkle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" fill="white"/>
+            <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" fill="currentColor"/>
           </svg>
         </button>
       </div>

@@ -5,30 +5,18 @@ export default function ComparisonCards() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    let ticking = false;
-
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (sectionRef.current) {
-            const rect = sectionRef.current.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-            // Start animation when section enters bottom 80% of screen
-            const start = windowHeight * 0.80;
-            // Complete animation when section reaches upper 35% of screen
-            const end = windowHeight * 0.35;
+      // Start animation when section enters bottom 80% of screen
+      const start = windowHeight * 0.80;
+      // Complete animation when section reaches upper 35% of screen
+      const end = windowHeight * 0.35;
 
-            const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
-            // Round to 2 decimals to prevent micro re-renders
-            const roundedProgress = Math.round(progress * 100) / 100;
-
-            setScrollProgress(prev => (prev !== roundedProgress ? roundedProgress : prev));
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
+      const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+      setScrollProgress(progress);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });

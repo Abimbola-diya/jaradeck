@@ -5,14 +5,8 @@ export default function BackgroundGrid() {
     <div className="bg-grid-container" aria-hidden="true">
       {/* Blue gradient base */}
       <div className="bg-grid-base" />
-      {/* Wavy lines SVG covering full area */}
-      <img
-        src="/wavy-lines.svg"
-        alt=""
-        className="bg-grid-waves"
-        loading="eager"
-        decoding="async"
-      />
+      {/* Neatly stacked repeating wavy pattern */}
+      <div className="bg-grid-waves" />
       {/* Radial glow overlay */}
       <div className="bg-grid-glow" />
     </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import BackgroundGrid from './components/BackgroundGrid';
 import StadiumIllustration from './components/StadiumIllustration';
 import TodoAnimation from './components/TodoAnimation';
+import NeedItDoneAnimation from './components/NeedItDoneAnimation';
 import ComparisonCards from './components/ComparisonCards';
 
 // Jaradeck 3D stacked-blocks logo SVG
@@ -322,13 +323,10 @@ export default function App() {
         </div>
       </main>
 
-      {/* White Canopy Section */}
+      {/* Blue Canopy Section */}
       <section className="canopy-section">
         <div className="canopy-content-wrapper">
-          <h2 className="wavy-heading" data-text="What needs doing ?">
-            What needs doing ?
-          </h2>
-          <TodoAnimation onCtaClick={() => setActiveTab('join')} />
+          <NeedItDoneAnimation />
         </div>
       </section>
 
