@@ -809,8 +809,13 @@ textarea {
 }
 
 @keyframes cursorBlink {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 .wavy-heading {
@@ -1423,6 +1428,7 @@ textarea {
 .feature-card {
   position: relative;
   width: min(480px, 92vw);
+  min-height: clamp(620px, 80vh, 780px) !important;
   border-radius: 24px;
   display: flex;
   flex-direction: column;
@@ -1436,9 +1442,9 @@ textarea {
   box-shadow: 0 20px 45px rgba(0, 15, 60, 0.3);
 }
 
-/* Card with Light Orange Background (#FFCEAD) with Solid Black Lining */
+/* Card with White Background (#FFFFFF) with Solid Black Lining */
 .feature-card-cream {
-  background-color: #FFCEAD;
+  background-color: #FFFFFF !important;
   border: 2.5px solid #000000;
   box-shadow: 0 16px 40px rgba(0, 15, 60, 0.22);
   padding: 0;
@@ -1451,10 +1457,11 @@ textarea {
 }
 
 .feature-badge-img {
-  width: auto;
-  height: clamp(48px, 6vw, 60px);
-  object-fit: contain;
-  display: block;
+  width: auto !important;
+  height: clamp(48px, 6vw, 60px) !important;
+  max-width: 90px !important;
+  object-fit: contain !important;
+  display: block !important;
 }
 
 .feature-card-text {
@@ -1512,7 +1519,7 @@ textarea {
   .feature-cards-section {
     padding: 3.5rem 1rem 4.5rem 1rem;
   }
-  
+
   .feature-card-cream {
     padding: 0;
   }

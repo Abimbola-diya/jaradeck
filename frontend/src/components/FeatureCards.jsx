@@ -35,9 +35,10 @@ export default function FeatureCards() {
             {/* Top category icon */}
             <div className="feature-card-icon">
               <img 
-                src="/first_card_icon.svg" 
+                src="/join_hands.svg" 
                 alt="Feature category icon" 
-                className="feature-badge-img" 
+                className="feature-badge-img"
+                style={{ height: '56px', width: 'auto', maxWidth: '85px', objectFit: 'contain', display: 'block' }} 
               />
             </div>
 
