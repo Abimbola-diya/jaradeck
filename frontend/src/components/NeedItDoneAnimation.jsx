@@ -51,14 +51,19 @@ function TypedText({ text, active }) {
     };
   }, [active, text.length]); // intentionally omit displayedLength to avoid re-triggering
 
-  if (!active && displayedLength === 0) return null;
-
   return (
-    <span className="typed-text-content">
-      {text.slice(0, displayedLength)}
-      {active && displayedLength < text.length && (
-        <span className="typing-cursor">|</span>
-      )}
+    <span className="typed-text-wrapper" style={{ position: 'relative', display: 'block', width: '100%' }}>
+      {/* Invisible full text to reserve exact height and line wraps from page load */}
+      <span style={{ visibility: 'hidden', pointerEvents: 'none', display: 'block', width: '100%', userSelect: 'none' }} aria-hidden="true">
+        {text}
+      </span>
+      {/* Visible typed slice overlayed exactly on top */}
+      <span style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+        {(active || displayedLength > 0) ? text.slice(0, displayedLength) : ''}
+        {active && displayedLength < text.length && (
+          <span className="typing-cursor">|</span>
+        )}
+      </span>
     </span>
   );
 }
