@@ -422,7 +422,7 @@ body {
 }
 
 .hero-headline-wrapper {
-  min-height: 6rem;
+  min-height: clamp(6.5rem, 14vw, 10.5rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -635,8 +635,6 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
 }
 
 .canopy-content-wrapper {
@@ -1110,8 +1108,6 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
 }
 
 .comparison-content-wrapper {
