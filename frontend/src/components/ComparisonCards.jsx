@@ -49,9 +49,9 @@ export default function ComparisonCards() {
 
   return (
     <section className="comparison-section" ref={sectionRef}>
-      {/* Repeating wavy lines background pattern */}
-      <div className="comparison-bg-waves" aria-hidden="true" />
       <div className="comparison-content-wrapper">
+        {/* Repeating wavy lines background pattern */}
+        <div className="comparison-bg-waves" aria-hidden="true" />
         {/* Section Header */}
         <div className="comparison-header">
           <h2 className="comparison-title">
