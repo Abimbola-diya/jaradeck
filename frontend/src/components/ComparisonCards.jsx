@@ -95,7 +95,7 @@ export default function ComparisonCards() {
             <ul className="card-bullet-list">
               <li>
                 <span className="bullet-dot">•</span>
-                <span>Describe the work once in plain English. Get your top 3 matches in seconds.</span>
+                <span>Tell us what you need done and what you want to spend. We cut through the noise and find 3 best matches, tailored to your budget and needs, in seconds.</span>
               </li>
               <li>
                 <span className="bullet-dot">•</span>
