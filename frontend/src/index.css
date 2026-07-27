@@ -632,7 +632,7 @@ body {
   z-index: 15;
   width: 100%;
   background-color: #0048B3;
-  padding: 2rem 1.5rem 6.5rem 1.5rem;
+  padding: 2rem 1.5rem 2.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -758,6 +758,10 @@ body {
   align-items: flex-start;
   text-align: left;
   padding-bottom: 2.2rem;
+}
+
+.need-row:last-child .need-text-col {
+  padding-bottom: 0;
 }
 
 .need-text-para {
@@ -1169,7 +1173,7 @@ body {
 
 /* Shared Card Dimensions & Base Styling */
 .comparison-card {
-  width: min(620px, 55vw);
+  width: min(520px, 44vw);
   height: auto;
   padding: clamp(24px, 3vh, 32px) clamp(24px, 3.5vw, 36px);
   border-radius: 20px;
