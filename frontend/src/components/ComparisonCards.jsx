@@ -11,8 +11,8 @@ export default function ComparisonCards() {
     const rect = sectionRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    const start = windowHeight * 0.80;
-    const end = windowHeight * 0.35;
+    const start = windowHeight * 0.10;
+    const end = -windowHeight * 0.35;
 
     const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
