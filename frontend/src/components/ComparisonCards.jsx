@@ -2,19 +2,21 @@ import React, { useEffect, useRef, useCallback } from 'react';
 
 export default function ComparisonCards() {
   const sectionRef = useRef(null);
+  const stageRef = useRef(null);
   const cardRef = useRef(null);
   const rafRef = useRef(null);
 
   const updateCard = useCallback(() => {
-    if (!sectionRef.current || !cardRef.current) return;
+    if (!stageRef.current || !cardRef.current) return;
 
-    const rect = sectionRef.current.getBoundingClientRect();
+    const stageRect = stageRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    const start = windowHeight * 0.10;
-    const end = -windowHeight * 0.35;
+    // Start slide-in ONLY when the bottom of the card stage is fully inside the viewport (95% height threshold)
+    const start = windowHeight * 0.95;
+    const end = start - 250;
 
-    const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+    const progress = Math.min(Math.max((start - stageRect.bottom) / (start - end), 0), 1);
 
     // Write directly to the DOM — zero React re-renders
     const isMobile = window.innerWidth <= 900;
@@ -58,7 +60,7 @@ export default function ComparisonCards() {
         </div>
 
         {/* Overlapping Card Stack Container */}
-        <div className="comparison-cards-stage">
+        <div className="comparison-cards-stage" ref={stageRef}>
           {/* Card 1: Traditional Freelance Platforms (White Card) */}
           <div className="comparison-card card-white">
             <h3 className="card-heading">
