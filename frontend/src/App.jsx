@@ -4,6 +4,7 @@ import StadiumIllustration from './components/StadiumIllustration';
 import TodoAnimation from './components/TodoAnimation';
 import NeedItDoneAnimation from './components/NeedItDoneAnimation';
 import ComparisonCards from './components/ComparisonCards';
+import FeatureCards from './components/FeatureCards';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -332,6 +333,9 @@ export default function App() {
 
       {/* Comparison Cards Section */}
       <ComparisonCards />
+
+      {/* Feature Cards Section (60 Seconds Office Card) */}
+      <FeatureCards />
     </div>
   );
 }
