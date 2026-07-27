@@ -1,19 +1,5 @@
 import React from 'react';
 
-// Mini top category icon (Office / Workspace badge icon)
-function OfficeIcon() {
-  return (
-    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="34" height="34" rx="8" fill="#FFC499" stroke="#000000" strokeWidth="1.5" />
-      <path d="M10 24V12C10 11.4477 10.4477 11 11 11H23C23.5523 11 24 11.4477 24 12V24" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-      <path d="M8 24H26" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-      <path d="M14 15H16" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-      <path d="M18 15H20" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-      <path d="M14 19H16" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-      <path d="M18 19H20" stroke="#000000" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 export default function FeatureCards() {
   return (
@@ -48,7 +34,11 @@ export default function FeatureCards() {
           <div className="feature-card feature-card-cream">
             {/* Top category icon */}
             <div className="feature-card-icon">
-              <OfficeIcon />
+              <img 
+                src="/first_card_icon.svg" 
+                alt="Feature category icon" 
+                className="feature-badge-img" 
+              />
             </div>
 
             {/* Title & Copy */}

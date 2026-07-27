@@ -704,7 +704,8 @@ textarea {
   width: 100%;
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+  transition: none;
+  will-change: transform, opacity;
 }
 
 .need-row--active {
@@ -733,7 +734,8 @@ textarea {
   margin-top: 4px;
   background-color: transparent;
   z-index: 2;
-  transition: background-color 0.18s ease-out, border-color 0.18s ease-out, transform 0.18s ease-out;
+  transition: none;
+  will-change: transform, background-color, border-color;
 }
 
 .need-circle--active {
@@ -747,7 +749,8 @@ textarea {
   height: 10px;
   opacity: 0;
   transform: scale(0.6);
-  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+  transition: none;
+  will-change: transform, opacity;
 }
 
 .need-check--visible {
@@ -764,7 +767,8 @@ textarea {
   margin-bottom: 6px;
   transform-origin: top;
   transform: scaleY(0);
-  transition: transform 0.18s ease-out, background-color 0.18s ease-out;
+  transition: none;
+  will-change: transform, background-color;
 }
 
 .need-line--active {
@@ -1432,25 +1436,32 @@ textarea {
   box-shadow: 0 20px 45px rgba(0, 15, 60, 0.3);
 }
 
-/* Card with Light Orange Background (Light shade of #FF7B23) with Solid Black Lining */
+/* Card with Light Orange Background (#FFCEAD) with Solid Black Lining */
 .feature-card-cream {
-  background-color: #FFE5D0;
+  background-color: #FFCEAD;
   border: 2.5px solid #000000;
   box-shadow: 0 16px 40px rgba(0, 15, 60, 0.22);
-  padding: clamp(2rem, 4vw, 2.5rem) clamp(1.75rem, 3.5vw, 2.25rem) 0 clamp(1.75rem, 3.5vw, 2.25rem);
+  padding: 0;
 }
 
 .feature-card-icon {
-  margin-bottom: 1.25rem;
+  margin: clamp(2rem, 4vw, 2.5rem) clamp(1.75rem, 3.5vw, 2.25rem) 1.25rem clamp(1.75rem, 3.5vw, 2.25rem);
   display: flex;
   align-items: center;
+}
+
+.feature-badge-img {
+  width: auto;
+  height: clamp(48px, 6vw, 60px);
+  object-fit: contain;
+  display: block;
 }
 
 .feature-card-text {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  margin-bottom: 1.75rem;
+  margin: 0 clamp(1.75rem, 3.5vw, 2.25rem) 1.75rem clamp(1.75rem, 3.5vw, 2.25rem);
 }
 
 .feature-card-title {
@@ -1468,7 +1479,7 @@ textarea {
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.01em;
-  color: rgba(0, 0, 0, 0.78);
+  color: #000000;
 }
 
 /* Fitted Illustration Container */
@@ -1478,19 +1489,22 @@ textarea {
   justify-content: center;
   align-items: flex-end;
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0;
   overflow: hidden;
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
 }
 
 .feature-card-svg {
   width: 100%;
-  max-width: 440px;
+  max-width: none;
   height: auto;
-  max-height: 280px;
-  object-fit: contain;
+  max-height: 350px;
+  object-fit: cover;
+  object-position: bottom center;
   display: block;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
   transform: translateY(2px);
 }
 
@@ -1500,7 +1514,15 @@ textarea {
   }
   
   .feature-card-cream {
-    padding: 1.75rem 1.35rem 0 1.35rem;
+    padding: 0;
+  }
+
+  .feature-card-icon {
+    margin: 1.75rem 1.35rem 1rem 1.35rem;
+  }
+
+  .feature-card-text {
+    margin: 0 1.35rem 1.5rem 1.35rem;
   }
 
   .feature-section-header {
