@@ -1120,15 +1120,15 @@ body {
   overflow: clip;
 }
 
-/* Neatly stacked un-zoomed repeating wavy pattern for white background */
+/* Soft subtle repeating wavy pattern for white section background */
 .comparison-bg-waves {
   position: absolute;
   inset: 0;
   background-image: url('/wavy-lines.svg');
   background-repeat: repeat;
   background-position: top center;
-  background-size: 480px auto;
-  opacity: 0.85;
+  background-size: max(1440px, 100vw) auto;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
 }
