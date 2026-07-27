@@ -1178,6 +1178,8 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   position: absolute;
+  left: 50%;
+  top: 50%;
   transition: opacity 0.3s ease;
 }
 
@@ -1185,9 +1187,7 @@ body {
 .card-white {
   background: #FFFFFF;
   color: #0048B3;
-  left: calc(50% - 470px);
-  top: 18px;
-  transform: rotate(-6deg);
+  transform: translate(-50%, -50%) rotate(-5deg);
   z-index: 1;
   box-shadow: 0 16px 45px rgba(0, 72, 179, 0.12);
   border: 1px solid rgba(0, 72, 179, 0.1);
@@ -1209,8 +1209,6 @@ body {
 .card-blue {
   background: #0048B3;
   color: #FFFFFF;
-  left: calc(50% - 50px);
-  top: 0px;
   z-index: 2;
   box-shadow: -15px 25px 65px rgba(0, 15, 60, 0.32);
 }
@@ -1266,31 +1264,28 @@ body {
 
 @media (max-width: 900px) {
   .comparison-cards-stage {
-    height: auto;
-    flex-direction: column;
-    gap: 2rem;
+    height: 560px;
+    width: 100%;
+    position: relative;
+    display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .comparison-card {
-    position: relative;
-    left: auto !important;
-    top: auto !important;
-    width: 100%;
-    max-width: 100%;
+    width: min(92%, 460px);
     height: auto;
-    padding: 40px 24px;
+    min-height: 460px;
+    padding: 36px 24px;
     border-radius: 20px;
   }
 
   .card-white {
-    transform: rotate(-3deg);
-    margin-bottom: -30px;
+    transform: translate(-50%, -50%) rotate(-4deg);
+    margin-bottom: 0;
   }
 
   .card-blue {
-    transform: rotate(4deg) !important;
-    opacity: 1 !important;
     z-index: 2;
   }
 }

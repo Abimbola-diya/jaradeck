@@ -17,11 +17,13 @@ export default function ComparisonCards() {
     const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
     // Write directly to the DOM — zero React re-renders
-    const slideX = (1 - progress) * 280;
-    const rotateDeg = 24 - progress * 14;
-    const opacity = Math.min(progress * 2, 1);
+    const isMobile = window.innerWidth <= 900;
+    const maxSlide = isMobile ? 360 : 500;
+    const slideOffset = (1 - progress) * maxSlide;
+    const rotateDeg = 18 - progress * 14; // goes from 18deg down to 4deg
+    const opacity = Math.min(progress * 1.8, 1);
 
-    cardRef.current.style.transform = `translate3d(${slideX}px, 0, 0) rotate(${rotateDeg}deg)`;
+    cardRef.current.style.transform = `translate3d(calc(-50% + ${slideOffset}px), -50%, 0) rotate(${rotateDeg}deg)`;
     cardRef.current.style.opacity = opacity;
   }, []);
 
