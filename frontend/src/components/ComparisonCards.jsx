@@ -65,7 +65,7 @@ export default function ComparisonCards() {
           {/* Card 1: Traditional Freelance Platforms (White Card) */}
           <div className="comparison-card card-white">
             <h3 className="card-heading">
-              Traditional Freelance<br />Platforms
+              Traditional Freelance Platforms
             </h3>
             <ul className="card-bullet-list">
               <li>
