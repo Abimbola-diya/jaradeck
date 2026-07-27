@@ -623,7 +623,7 @@ body {
   }
 }
 
-/* ===== White Canopy Section & Wavy Text Styling ===== */
+/* ===== Blue Canopy Section & Checklist ===== */
 .canopy-section {
   position: relative;
   z-index: 15;
@@ -635,6 +635,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 .canopy-content-wrapper {
@@ -1108,6 +1110,8 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 .comparison-content-wrapper {

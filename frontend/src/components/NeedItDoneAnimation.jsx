@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 const BULLETS = [
   {
@@ -19,26 +19,39 @@ const BULLETS = [
   },
 ];
 
+// Typing animation that only types forward, never resets once completed
 function TypedText({ text, active }) {
   const [displayedLength, setDisplayedLength] = useState(0);
+  const completedRef = useRef(false);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (!active) {
-      setDisplayedLength(0);
-      return;
-    }
+    // Once fully typed, never reset
+    if (completedRef.current) return;
 
-    let current = 0;
-    const interval = setInterval(() => {
+    if (!active) return;
+
+    // Start typing from wherever we left off
+    let current = displayedLength;
+    intervalRef.current = setInterval(() => {
       current++;
       setDisplayedLength(current);
       if (current >= text.length) {
-        clearInterval(interval);
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+        completedRef.current = true;
       }
-    }, 20);
+    }, 22);
 
-    return () => clearInterval(interval);
-  }, [active, text]);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [active, text.length]); // intentionally omit displayedLength to avoid re-triggering
+
+  if (!active && displayedLength === 0) return null;
 
   return (
     <span className="typed-text-content">
@@ -51,36 +64,55 @@ function TypedText({ text, active }) {
 }
 
 export default function NeedItDoneAnimation() {
+  const stepRef = useRef(0);
   const [step, setStep] = useState(0);
   const containerRef = useRef(null);
+  const rafRef = useRef(null);
+
+  const updateStep = useCallback(() => {
+    if (!containerRef.current) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    const start = windowHeight * 0.88;
+    const end = windowHeight * 0.20;
+
+    const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+
+    let newStep;
+    if (ratio >= 0.88) newStep = 7;
+    else if (ratio >= 0.74) newStep = 6;
+    else if (ratio >= 0.60) newStep = 5;
+    else if (ratio >= 0.46) newStep = 4;
+    else if (ratio >= 0.32) newStep = 3;
+    else if (ratio >= 0.18) newStep = 2;
+    else if (ratio >= 0.08) newStep = 1;
+    else newStep = 0;
+
+    // Only trigger a React re-render when step actually changes
+    if (newStep !== stepRef.current) {
+      stepRef.current = newStep;
+      setStep(newStep);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!containerRef.current) return;
-
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Calculate ratio as container scrolls into view
-      const start = windowHeight * 0.88;
-      const end = windowHeight * 0.35;
-
-      const ratio = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
-
-      if (ratio >= 0.88) setStep(7);
-      else if (ratio >= 0.74) setStep(6);
-      else if (ratio >= 0.60) setStep(5);
-      else if (ratio >= 0.46) setStep(4);
-      else if (ratio >= 0.32) setStep(3);
-      else if (ratio >= 0.18) setStep(2);
-      else if (ratio >= 0.08) setStep(1);
-      else setStep(0);
+      if (rafRef.current) return; // Already scheduled, skip
+      rafRef.current = requestAnimationFrame(() => {
+        updateStep();
+        rafRef.current = null;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    updateStep(); // Initial check
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [updateStep]);
 
   return (
     <div className="need-it-done-container" ref={containerRef}>
@@ -88,11 +120,6 @@ export default function NeedItDoneAnimation() {
 
       <div className="need-it-done-checklist">
         {BULLETS.map((bullet, index) => {
-          // Calculate step states for 4 bullets:
-          // Item 0: active at step >= 1, line active at step >= 2
-          // Item 1: active at step >= 3, line active at step >= 4
-          // Item 2: active at step >= 5, line active at step >= 6
-          // Item 3: active at step >= 7
           const isItemActive = step >= index * 2 + 1;
           const isLineActive = step >= index * 2 + 2;
 
@@ -101,7 +128,6 @@ export default function NeedItDoneAnimation() {
               key={bullet.id}
               className={`need-row ${isItemActive ? 'need-row--active' : ''}`}
             >
-              {/* Left column: Circular Checkbox + Vertical Connector Line */}
               <div className="need-left-col">
                 <div className={`need-circle ${isItemActive ? 'need-circle--active' : ''}`}>
                   <svg className={`need-check ${isItemActive ? 'need-check--visible' : ''}`} viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +140,6 @@ export default function NeedItDoneAnimation() {
                 )}
               </div>
 
-              {/* Right column: Bullet text with Typing Animation */}
               <div className="need-text-col">
                 <p className="need-text-para">
                   <TypedText text={bullet.text} active={isItemActive} />

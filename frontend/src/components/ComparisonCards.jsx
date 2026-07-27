@@ -1,33 +1,46 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 export default function ComparisonCards() {
   const sectionRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const cardRef = useRef(null);
+  const rafRef = useRef(null);
+
+  const updateCard = useCallback(() => {
+    if (!sectionRef.current || !cardRef.current) return;
+
+    const rect = sectionRef.current.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    const start = windowHeight * 0.80;
+    const end = windowHeight * 0.35;
+
+    const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
+
+    // Write directly to the DOM — zero React re-renders
+    const slideX = (1 - progress) * 280;
+    const rotateDeg = 24 - progress * 14;
+    const opacity = Math.min(progress * 2, 1);
+
+    cardRef.current.style.transform = `translate3d(${slideX}px, 0, 0) rotate(${rotateDeg}deg)`;
+    cardRef.current.style.opacity = opacity;
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Start animation when section enters bottom 80% of screen
-      const start = windowHeight * 0.80;
-      // Complete animation when section reaches upper 35% of screen
-      const end = windowHeight * 0.35;
-
-      const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
-      setScrollProgress(progress);
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(() => {
+        updateCard();
+        rafRef.current = null;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Slide Card 2 (Blue card) in from right (280px -> 0px) landing ON TOP of Card 1 at 10deg rotation
-  const slideX = (1 - scrollProgress) * 280; // px
-  const rotateDeg = 24 - scrollProgress * 14; // 24deg down to 10deg
-  const opacity = Math.min(scrollProgress * 2, 1);
+    updateCard(); // Initial position
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [updateCard]);
 
   return (
     <section className="comparison-section" ref={sectionRef}>
@@ -65,14 +78,11 @@ export default function ComparisonCards() {
             </ul>
           </div>
 
-          {/* Card 2: The Jaradeck Way (Blue Card #0048B3) — Animated Slide-In On Top */}
+          {/* Card 2: The Jaradeck Way (Blue Card) — Animated via direct DOM ref */}
           <div
             className="comparison-card card-blue"
-            style={{
-              transform: `translate3d(${slideX}px, 0, 0) rotate(${rotateDeg}deg)`,
-              opacity: opacity,
-              willChange: 'transform, opacity',
-            }}
+            ref={cardRef}
+            style={{ willChange: 'transform, opacity' }}
           >
             <h3 className="card-heading">
               The Jaradeck Way
