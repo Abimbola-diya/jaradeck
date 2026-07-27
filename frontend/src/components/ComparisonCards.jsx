@@ -7,16 +7,17 @@ export default function ComparisonCards() {
   const rafRef = useRef(null);
 
   const updateCard = useCallback(() => {
-    if (!stageRef.current || !cardRef.current) return;
+    if (!sectionRef.current || !cardRef.current) return;
 
-    const stageRect = stageRef.current.getBoundingClientRect();
+    const sectionRect = sectionRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // Start slide-in ONLY when the bottom of the card stage is fully inside the viewport (95% height threshold)
-    const start = windowHeight * 0.95;
-    const end = start - 250;
+    // The section locks/pins in view when sectionRect.top reaches 0.
+    // While pinned, we translate 0.85 viewport heights of vertical scrolling into Card 2's slide-in stacking animation.
+    const start = 0;
+    const end = -windowHeight * 0.85;
 
-    const progress = Math.min(Math.max((start - stageRect.bottom) / (start - end), 0), 1);
+    const progress = Math.min(Math.max((start - sectionRect.top) / (start - end), 0), 1);
 
     // Write directly to the DOM — zero React re-renders
     const isMobile = window.innerWidth <= 900;
