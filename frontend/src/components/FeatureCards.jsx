@@ -33,12 +33,12 @@ export default function FeatureCards() {
           {/* Card 1: Find the right person in 60 seconds (Office SVG Card) */}
           <div className="feature-card feature-card-cream">
             {/* Top category icon */}
-            <div className="feature-card-icon">
+            <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
               <img 
                 src="/join_hands.svg" 
                 alt="Feature category icon" 
                 className="feature-badge-img"
-                style={{ height: '56px', width: 'auto', maxWidth: '85px', objectFit: 'contain', display: 'block' }} 
+                style={{ height: '68px', width: 'auto', maxWidth: '120px', objectFit: 'contain', display: 'block' }} 
               />
             </div>
 
