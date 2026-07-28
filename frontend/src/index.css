@@ -1417,7 +1417,7 @@ textarea {
 
 .feature-cards-container {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1560px;
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -1428,7 +1428,9 @@ textarea {
 /* Individual Feature Card */
 .feature-card {
   position: relative;
-  width: min(480px, 92vw);
+  flex: 1 1 380px;
+  max-width: 480px;
+  width: 100%;
   min-height: clamp(620px, 80vh, 780px) !important;
   border-radius: 24px;
   display: flex;
@@ -1472,8 +1474,8 @@ textarea {
 
 .feature-badge-img {
   width: auto !important;
-  height: clamp(58px, 7vw, 72px) !important;
-  max-width: 120px !important;
+  height: clamp(80px, 9vw, 100px) !important;
+  max-width: 240px !important;
   object-fit: contain !important;
   display: block !important;
 }
@@ -1529,8 +1531,18 @@ textarea {
   transform: translateY(2px);
 }
 
+.feature-card-svg-office {
+  max-height: 400px !important;
+  transform: scale(1.15) translate(12px, -15px) !important;
+}
+
 .feature-card-svg-collab {
   transform: scale(1.22) translateY(24px) !important;
+}
+
+.feature-card-svg-3rd {
+  max-height: 380px !important;
+  transform: scale(1.15) translateY(12px) !important;
 }
 
 @media (max-width: 768px) {

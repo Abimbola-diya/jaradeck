@@ -31,14 +31,14 @@ export default function FeatureCards() {
         {/* Feature Cards Grid */}
         <div className="feature-cards-container">
           {/* Card 1: Find the right person in 60 seconds (Office SVG Card) */}
-          <div className="feature-card feature-card-cream">
+          <div className="feature-card feature-card-cream feature-card-blue-text">
             {/* Top category icon */}
             <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
               <img
                 src="/join_hands.svg"
                 alt="Feature category icon"
                 className="feature-badge-img"
-                style={{ height: '68px', width: 'auto', maxWidth: '120px', objectFit: 'contain', display: 'block' }}
+                style={{ height: '96px', width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
               />
             </div>
 
@@ -57,7 +57,7 @@ export default function FeatureCards() {
               <img
                 src="/office.svg"
                 alt="Office workspace illustration"
-                className="feature-card-svg"
+                className="feature-card-svg feature-card-svg-office"
               />
             </div>
           </div>
@@ -67,10 +67,10 @@ export default function FeatureCards() {
             {/* Top category icon */}
             <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
               <img
-                src="/join_hands_icon.svg"
+                src="/join_hands_icon.svg?v=2"
                 alt="Collaboration feature badge icon"
                 className="feature-badge-img"
-                style={{ height: '68px', width: 'auto', maxWidth: '120px', objectFit: 'contain', display: 'block' }}
+                style={{ height: '96px', width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
               />
             </div>
 
@@ -90,6 +90,38 @@ export default function FeatureCards() {
                 src="/collaboration.svg?v=4"
                 alt="Collaboration team illustration"
                 className="feature-card-svg feature-card-svg-collab"
+              />
+            </div>
+          </div>
+
+          {/* Card 3: Never Explain Yourself Twice (Brand Memory SVG Card) */}
+          <div className="feature-card feature-card-blue-text">
+            {/* Top category icon */}
+            <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
+              <img
+                src="/3rd_card_icon.svg"
+                alt="Brand memory feature badge icon"
+                className="feature-badge-img"
+                style={{ height: '96px', width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
+              />
+            </div>
+
+            {/* Title & Copy */}
+            <div className="feature-card-text">
+              <h3 className="feature-card-title">
+                Never Explain Yourself Twice.
+              </h3>
+              <p className="feature-card-copy">
+                Jaradeck remembers your brand, your style and the way you like things done, so every new project picks up where the last one ended.
+              </p>
+            </div>
+
+            {/* Fitted Illustration Container */}
+            <div className="feature-card-illustration">
+              <img
+                src="/3rd_card.svg"
+                alt="Brand memory illustration"
+                className="feature-card-svg feature-card-svg-3rd"
               />
             </div>
           </div>
