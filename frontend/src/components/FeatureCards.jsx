@@ -34,11 +34,11 @@ export default function FeatureCards() {
           <div className="feature-card feature-card-cream">
             {/* Top category icon */}
             <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
-              <img 
-                src="/join_hands.svg" 
-                alt="Feature category icon" 
+              <img
+                src="/join_hands.svg"
+                alt="Feature category icon"
                 className="feature-badge-img"
-                style={{ height: '68px', width: 'auto', maxWidth: '120px', objectFit: 'contain', display: 'block' }} 
+                style={{ height: '68px', width: 'auto', maxWidth: '120px', objectFit: 'contain', display: 'block' }}
               />
             </div>
 
@@ -54,9 +54,9 @@ export default function FeatureCards() {
 
             {/* Fitted Illustration Container */}
             <div className="feature-card-illustration">
-              <img 
-                src="/office.svg" 
-                alt="Office workspace illustration" 
+              <img
+                src="/office.svg"
+                alt="Office workspace illustration"
                 className="feature-card-svg"
               />
             </div>
@@ -64,23 +64,33 @@ export default function FeatureCards() {
 
           {/* Card 2: Business isn't a one-man job (Collaboration SVG Card) */}
           <div className="feature-card feature-card-blue-text">
-            {/* Top Illustration Container */}
-            <div className="feature-card-illustration-top">
-              <img 
-                src="/collaboration.svg" 
-                alt="Collaboration team illustration" 
-                className="feature-card-svg-top" 
+            {/* Top category icon */}
+            <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
+              <img
+                src="/join_hands_icon.svg"
+                alt="Collaboration feature badge icon"
+                className="feature-badge-img"
+                style={{ height: '68px', width: 'auto', maxWidth: '120px', objectFit: 'contain', display: 'block' }}
               />
             </div>
 
-            {/* Title & Copy at the bottom */}
-            <div className="feature-card-text-bottom">
+            {/* Title & Copy */}
+            <div className="feature-card-text">
               <h3 className="feature-card-title">
                 {"Business isn't a one-man job."}
               </h3>
               <p className="feature-card-copy">
                 {"Stop chasing designers, writers, editors and developers one by one. Tell Jaradeck what you're building. We'll put together the right team to take it from idea to finished."}
               </p>
+            </div>
+
+            {/* Fitted Illustration Container */}
+            <div className="feature-card-illustration">
+              <img
+                src="/collaboration.svg"
+                alt="Collaboration team illustration"
+                className="feature-card-svg"
+              />
             </div>
           </div>
         </div>
