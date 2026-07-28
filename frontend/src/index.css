@@ -1421,6 +1421,7 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: stretch;
+  flex-wrap: wrap;
   gap: 2rem;
 }
 
@@ -1442,12 +1443,25 @@ textarea {
   box-shadow: 0 20px 45px rgba(0, 15, 60, 0.3);
 }
 
-/* Card with White Background (#FFFFFF) with Solid Black Lining */
+/* Card 1: White Background (#FFFFFF) with Solid Black Lining */
 .feature-card-cream {
   background-color: #FFFFFF !important;
   border: 2.5px solid #000000;
   box-shadow: 0 16px 40px rgba(0, 15, 60, 0.22);
   padding: 0;
+}
+
+/* Card 2: White Background (#FFFFFF) with Royal Blue Text and Solid Black Lining */
+.feature-card-blue-text {
+  background-color: #FFFFFF !important;
+  border: 2.5px solid #000000;
+  box-shadow: 0 16px 40px rgba(0, 15, 60, 0.22);
+  padding: 0;
+}
+
+.feature-card-blue-text .feature-card-title,
+.feature-card-blue-text .feature-card-copy {
+  color: #0048B3 !important;
 }
 
 .feature-card-icon {
@@ -1520,7 +1534,8 @@ textarea {
     padding: 3.5rem 1rem 4.5rem 1rem;
   }
 
-  .feature-card-cream {
+  .feature-card-cream,
+  .feature-card-blue-text {
     padding: 0;
   }
 
