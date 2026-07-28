@@ -87,9 +87,9 @@ export default function FeatureCards() {
             {/* Fitted Illustration Container */}
             <div className="feature-card-illustration">
               <img
-                src="/collaboration.svg"
+                src="/collaboration.svg?v=4"
                 alt="Collaboration team illustration"
-                className="feature-card-svg"
+                className="feature-card-svg feature-card-svg-collab"
               />
             </div>
           </div>
