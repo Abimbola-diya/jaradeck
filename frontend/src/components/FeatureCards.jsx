@@ -26,23 +26,25 @@ export default function FeatureCards() {
           <h2 className="feature-section-title">
             How we remove work<br />from your day.
           </h2>
+          <p className="feature-section-subtitle">
+            How Jaradeck removes work from your day
+          </p>
         </div>
 
         {/* Feature Cards Grid */}
         <div className="feature-cards-container">
-          {/* Card 1: Find the right person in 60 seconds (Office SVG Card) */}
-          <div className="feature-card feature-card-cream feature-card-blue-text">
-            {/* Top category icon */}
-            <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
+          {/* Card 1: Find the right person in 60 seconds */}
+          <div className="feature-card">
+            {/* Top Illustration Container (Frame 93) */}
+            <div className="feature-card-illustration">
               <img
-                src="/join_hands.svg"
-                alt="Feature category icon"
-                className="feature-badge-img"
-                style={{ height: '96px', width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
+                src="/first_card_icon.svg"
+                alt="Find the right person illustration"
+                className="feature-card-svg feature-card-svg-1"
               />
             </div>
 
-            {/* Title & Copy */}
+            {/* Title & Copy (Frame 92) */}
             <div className="feature-card-text">
               <h3 className="feature-card-title">
                 Find the right person in 60 seconds
@@ -51,30 +53,20 @@ export default function FeatureCards() {
                 Describe the work once. JaraDeck finds you the best three options based on your budget, goals, and the outcome you want.
               </p>
             </div>
-
-            {/* Fitted Illustration Container */}
-            <div className="feature-card-illustration">
-              <img
-                src="/office.svg"
-                alt="Office workspace illustration"
-                className="feature-card-svg feature-card-svg-office"
-              />
-            </div>
           </div>
 
-          {/* Card 2: Business isn't a one-man job (Collaboration SVG Card) */}
-          <div className="feature-card feature-card-blue-text">
-            {/* Top category icon */}
-            <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
+          {/* Card 2: Business isn't a one-man job. */}
+          <div className="feature-card">
+            {/* Top Illustration Container (Frame 93) */}
+            <div className="feature-card-illustration">
               <img
-                src="/join_hands_icon.svg?v=2"
-                alt="Collaboration feature badge icon"
-                className="feature-badge-img"
-                style={{ height: '96px', width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
+                src="/join_hands.svg"
+                alt="Collaboration team illustration"
+                className="feature-card-svg feature-card-svg-collab"
               />
             </div>
 
-            {/* Title & Copy */}
+            {/* Title & Copy (Frame 92) */}
             <div className="feature-card-text">
               <h3 className="feature-card-title">
                 {"Business isn't a one-man job."}
@@ -83,30 +75,20 @@ export default function FeatureCards() {
                 {"Stop chasing designers, writers, editors and developers one by one. Tell Jaradeck what you're building. We'll put together the right team to take it from idea to finished."}
               </p>
             </div>
-
-            {/* Fitted Illustration Container */}
-            <div className="feature-card-illustration">
-              <img
-                src="/collaboration.svg?v=4"
-                alt="Collaboration team illustration"
-                className="feature-card-svg feature-card-svg-collab"
-              />
-            </div>
           </div>
 
-          {/* Card 3: Never Explain Yourself Twice (Brand Memory SVG Card) */}
-          <div className="feature-card feature-card-blue-text">
-            {/* Top category icon */}
-            <div className="feature-card-icon" style={{ marginBottom: '2.5rem' }}>
+          {/* Card 3: Never Explain Yourself Twice. */}
+          <div className="feature-card">
+            {/* Top Illustration Container (Frame 93) */}
+            <div className="feature-card-illustration">
               <img
-                src="/3rd_card_icon.svg"
-                alt="Brand memory feature badge icon"
-                className="feature-badge-img"
-                style={{ height: '96px', width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
+                src="/3rd_card.svg"
+                alt="Brand memory illustration"
+                className="feature-card-svg feature-card-svg-3rd"
               />
             </div>
 
-            {/* Title & Copy */}
+            {/* Title & Copy (Frame 92) */}
             <div className="feature-card-text">
               <h3 className="feature-card-title">
                 Never Explain Yourself Twice.
@@ -115,14 +97,49 @@ export default function FeatureCards() {
                 Jaradeck remembers your brand, your style and the way you like things done, so every new project picks up where the last one ended.
               </p>
             </div>
+          </div>
 
-            {/* Fitted Illustration Container */}
+          {/* Card 4: You Should Never Pay For Disappointment. */}
+          <div className="feature-card">
+            {/* Top Illustration Container (Frame 93) */}
             <div className="feature-card-illustration">
               <img
-                src="/3rd_card.svg"
-                alt="Brand memory illustration"
-                className="feature-card-svg feature-card-svg-3rd"
+                src="/card_4.svg"
+                alt="Payment protection safe vault illustration"
+                className="feature-card-svg feature-card-svg-4"
               />
+            </div>
+
+            {/* Title & Copy (Frame 92) */}
+            <div className="feature-card-text">
+              <h3 className="feature-card-title">
+                You Should Never Pay For Disappointment.
+              </h3>
+              <p className="feature-card-copy">
+                Your money stays protected until the work meets your expectations. If we can't deliver what was promised, you get every naira back.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 5: We Say No, So You Don't Have To. */}
+          <div className="feature-card">
+            {/* Top Illustration Container (Frame 93) */}
+            <div className="feature-card-illustration">
+              <img
+                src="/card_5.svg"
+                alt="Vetted quality illustration"
+                className="feature-card-svg feature-card-svg-5"
+              />
+            </div>
+
+            {/* Title & Copy (Frame 92) */}
+            <div className="feature-card-text">
+              <h3 className="feature-card-title">
+                {"We Say No, So You Don't Have To."}
+              </h3>
+              <p className="feature-card-copy">
+                Every person recommended by Jaradeck has already been personally vetted for quality, and consistency, so you can hire with confidence from day one.
+              </p>
             </div>
           </div>
         </div>

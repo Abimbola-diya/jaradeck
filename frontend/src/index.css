@@ -1415,134 +1415,139 @@ textarea {
   text-align: center;
 }
 
-.feature-cards-container {
-  width: 100%;
-  max-width: 1560px;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  flex-wrap: wrap;
-  gap: 2rem;
+.feature-section-subtitle {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 0.75rem;
+  text-align: center;
 }
 
-/* Individual Feature Card */
-.feature-card {
-  position: relative;
-  flex: 1 1 380px;
-  max-width: 480px;
+.feature-cards-container {
   width: 100%;
-  min-height: clamp(620px, 80vh, 780px) !important;
-  border-radius: 24px;
+  max-width: 544px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  gap: clamp(2.5rem, 5vh, 4rem);
+}
+
+/* Individual Feature Card (Frame 83) */
+.feature-card {
+  position: relative;
+  width: 100%;
+  max-width: 544px;
+  min-height: 648px;
+  background-color: #FFFFFF !important;
+  border-radius: 30px;
+  box-shadow: 0 16px 40px rgba(0, 15, 60, 0.15);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 48px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   overflow: hidden;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 45px rgba(0, 15, 60, 0.3);
+  box-shadow: 0 20px 45px rgba(0, 15, 60, 0.25);
 }
 
-/* Card 1: White Background (#FFFFFF) with Solid Black Lining */
-.feature-card-cream {
-  background-color: #FFFFFF !important;
-  border: 2.5px solid #000000;
-  box-shadow: 0 16px 40px rgba(0, 15, 60, 0.22);
-  padding: 0;
-}
-
-/* Card 2: White Background (#FFFFFF) with Royal Blue Text and Solid Black Lining */
-.feature-card-blue-text {
-  background-color: #FFFFFF !important;
-  border: 2.5px solid #000000;
-  box-shadow: 0 16px 40px rgba(0, 15, 60, 0.22);
-  padding: 0;
-}
-
-.feature-card-blue-text .feature-card-title,
-.feature-card-blue-text .feature-card-copy {
-  color: #0048B3 !important;
-}
-
-.feature-card-icon {
-  margin: clamp(2rem, 4vw, 2.5rem) clamp(1.75rem, 3.5vw, 2.25rem) clamp(2.25rem, 4.5vw, 2.75rem) clamp(1.75rem, 3.5vw, 2.25rem) !important;
-  display: flex;
-  align-items: center;
-}
-
-.feature-badge-img {
-  width: auto !important;
-  height: clamp(80px, 9vw, 100px) !important;
-  max-width: 240px !important;
-  object-fit: contain !important;
-  display: block !important;
-}
-
-.feature-card-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  margin: 0 clamp(1.75rem, 3.5vw, 2.25rem) 1.75rem clamp(1.75rem, 3.5vw, 2.25rem);
-}
-
-.feature-card-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-  color: #000000;
-}
-
-.feature-card-copy {
-  font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(1rem, 1.8vw, 1.12rem);
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: #000000;
-}
-
-/* Fitted Illustration Container */
+/* Top Illustration Box (Frame 93) */
 .feature-card-illustration {
   width: 100%;
+  height: 349px;
+  background-color: #FDFDFD;
+  border-radius: 40px;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  margin-top: auto;
-  padding-top: 0;
+  align-items: center;
   overflow: hidden;
-  border-bottom-left-radius: 21px;
-  border-bottom-right-radius: 21px;
+  position: relative;
+  flex-shrink: 0;
+  padding: 1.5rem;
 }
 
 .feature-card-svg {
   width: 100%;
-  max-width: none;
-  height: auto;
-  max-height: 350px;
-  object-fit: cover;
-  object-position: bottom center;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
   display: block;
-  border-bottom-left-radius: 21px;
-  border-bottom-right-radius: 21px;
-  transform: translateY(2px);
+  border-radius: 0;
+  transform: none;
 }
 
-.feature-card-svg-office {
-  max-height: 400px !important;
-  transform: scale(1.15) translate(12px, -15px) !important;
+.feature-card-svg-1 {
+  object-fit: contain !important;
+  transform: scale(1.05) !important;
 }
 
 .feature-card-svg-collab {
-  transform: scale(1.22) translateY(24px) !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 28px !important;
+  transform: none !important;
 }
 
 .feature-card-svg-3rd {
-  max-height: 380px !important;
-  transform: scale(1.15) translateY(12px) !important;
+  object-fit: contain !important;
+  transform: scale(1.05) !important;
+}
+
+.feature-card-svg-4 {
+  object-fit: contain !important;
+  transform: scale(1.05) !important;
+}
+
+.feature-card-svg-5 {
+  object-fit: contain !important;
+  transform: scale(1.05) !important;
+}
+
+/* Text Container (Frame 92) */
+.feature-card-text {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 16px;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+
+/* Heading (Frame 84) */
+.feature-card-title {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(1.65rem, 2.5vw, 35px);
+  line-height: 135%;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.03em;
+  color: #0048B3 !important;
+  margin: 0;
+}
+
+/* Paragraph (Frame 85) */
+.feature-card-copy {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.4vw, 20px);
+  line-height: 135%;
+  display: flex;
+  align-items: center;
+  color: #0048B3 !important;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
@@ -1550,17 +1555,22 @@ textarea {
     padding: 3.5rem 1rem 4.5rem 1rem;
   }
 
-  .feature-card-cream,
-  .feature-card-blue-text {
-    padding: 0;
+  .feature-card {
+    padding: 20px;
+    gap: 28px;
+    min-height: auto;
+    border-radius: 24px;
   }
 
-  .feature-card-icon {
-    margin: 1.75rem 1.35rem 1rem 1.35rem;
+  .feature-card-illustration {
+    height: clamp(220px, 50vw, 300px);
+    border-radius: 24px;
+    padding: 1rem;
   }
 
   .feature-card-text {
-    margin: 0 1.35rem 1.5rem 1.35rem;
+    margin: 0;
+    gap: 12px;
   }
 
   .feature-section-header {
