@@ -1584,7 +1584,7 @@ textarea {
   z-index: 20;
   width: 100%;
   background-color: #FFFFFF;
-  padding: clamp(2.5rem, 4vh, 4rem) 1.5rem clamp(4rem, 7vh, 6rem) 1.5rem;
+  padding: clamp(3.95rem, 6.3vh, 5.8rem) 1.5rem clamp(4rem, 7vh, 6rem) 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -1776,7 +1776,7 @@ textarea {
 @media (max-width: 768px) {
   .real-impact-section {
     min-height: 100dvh;
-    padding: 1.5rem 1.25rem 2.5rem 1.25rem;
+    padding: 3.15rem 1.25rem 2.5rem 1.25rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
