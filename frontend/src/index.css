@@ -1781,7 +1781,6 @@ textarea {
   flex-direction: column;
   justify-content: flex-start;
   gap: clamp(1rem, 2vw, 1.35rem);
-  transform: none !important;
 }
 
 .impact-quote-card {
@@ -1860,6 +1859,10 @@ textarea {
 @media (min-width: 769px) {
   .impact-arrow-btn {
     display: none !important;
+  }
+  .impact-quote-card,
+  .impact-pink-card {
+    transform: none;
   }
 }
 
