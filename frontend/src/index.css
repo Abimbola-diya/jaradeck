@@ -1900,6 +1900,18 @@ textarea {
     background: rgba(255, 255, 255, 0.45);
   }
 
+  .impact-quote-arrow-left {
+    position: absolute;
+    bottom: 1.4rem;
+    left: 1.4rem;
+  }
+
+  .impact-quote-arrow-right {
+    position: absolute;
+    bottom: 1.4rem;
+    right: 1.4rem;
+  }
+
   .impact-quote-card,
   .impact-pink-card {
     position: absolute;
