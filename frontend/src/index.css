@@ -1689,9 +1689,22 @@ textarea {
   z-index: 2;
   padding: clamp(1.75rem, 3.5vw, 2.5rem);
   color: #FFFFFF;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.impact-photo-text {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.impact-arrow-btn {
+  display: none;
 }
 
 .impact-name {
@@ -1754,18 +1767,78 @@ textarea {
 
 @media (max-width: 768px) {
   .impact-story-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .impact-photo-card,
-  .impact-quote-card {
-    max-width: 100%;
-    min-height: auto;
-    border-radius: 24px;
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 520px;
+    border-radius: 28px;
+    overflow: hidden;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+    padding: 0;
   }
 
   .impact-photo-card {
-    height: 420px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    border-radius: 28px;
+    z-index: 1;
+  }
+
+  .impact-photo-info {
+    padding: 1.5rem;
+  }
+
+  .impact-arrow-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.28);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: #FFFFFF;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .impact-arrow-btn:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  .impact-quote-card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    border-radius: 28px;
+    z-index: 10;
+    transform: translate3d(105%, 0, 0);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 2rem 1.6rem;
+    justify-content: center;
+    gap: 1.25rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .impact-quote-title {
+    font-size: 1.6rem;
+  }
+
+  .impact-quote-body {
+    font-size: 0.95rem;
+    line-height: 1.48;
   }
 }
