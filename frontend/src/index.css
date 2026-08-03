@@ -1735,29 +1735,28 @@ textarea {
   min-height: clamp(380px, 42vh, 420px);
   background-color: #FF5500;
   border-radius: 30px;
-  padding: clamp(1.85rem, 3.5vw, 2.75rem);
+  padding: clamp(2rem, 3.8vw, 3rem);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+  justify-content: space-between;
   box-shadow: 0 16px 40px rgba(255, 85, 0, 0.22);
 }
 
 .impact-quote-title {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(1.65rem, 2.8vw, 2.3rem);
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 1.22;
   letter-spacing: -0.03em;
   color: #FFFFFF;
-  margin: 0;
+  margin: 0 0 1.25rem 0;
 }
 
 .impact-quote-body {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  font-size: clamp(0.92rem, 1.25vw, 1.05rem);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.48;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
 }
@@ -1871,18 +1870,20 @@ textarea {
     transform: translate3d(105%, 0, 0);
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     padding: 1.6rem 1.4rem;
-    justify-content: center;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
   }
 
   .impact-quote-title {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     line-height: 1.25;
+    margin-bottom: 0.85rem;
   }
 
   .impact-quote-body {
-    font-size: 0.9rem;
-    line-height: 1.45;
+    font-size: 0.86rem;
+    line-height: 1.42;
   }
 }

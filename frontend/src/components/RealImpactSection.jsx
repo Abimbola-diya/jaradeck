@@ -109,14 +109,18 @@ export default function RealImpactSection() {
           <div className="impact-photo-card">
             <img
               src="/impact_image_1.png"
-              alt="Grace - Operations Lead & Creator, Lagos"
+              alt="Grace - Supply Chain Professional, Amo Group of Companies, Lagos"
               className="impact-photo-img"
             />
             <div className="impact-photo-overlay" />
             <div className="impact-photo-info">
               <div className="impact-photo-text">
                 <h3 className="impact-name">Grace</h3>
-                <p className="impact-role">Operations Lead &amp; Creator • Lagos</p>
+                <p className="impact-role">
+                  Supply Chain Professional
+                  <br />
+                  Amo Group of Companies • Lagos
+                </p>
               </div>
               <button
                 className="impact-arrow-btn"
@@ -138,10 +142,10 @@ export default function RealImpactSection() {
             style={{ willChange: 'transform' }}
           >
             <h3 className="impact-quote-title">
-              I wanted a personal brand, not a second job in HR.
+              I wanted a personal brand. I just didn't have another 20 hours a week.
             </h3>
             <p className="impact-quote-body">
-              Between my 9-to-5 and Lagos traffic, I had zero energy to review <strong>50 proposals</strong> or interview strangers online. I described what I needed once on Jaradeck. Now I have an auto-assembled team editing my videos, writing scripts, and running my personal brand. I focus on my career; Jaradeck handles everything growing around it.
+              It's been my goal this year to build my personal brand and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to write posts, edit videos, design graphics or stay consistent. A friend introduced me to Jaradeck. I described what I needed once, and they built a team around me. Now I have an auto-assembled team writing my scripts, editing my videos and running my personal brand, while I focus on my career. Jaradeck handles everything growing around it.
             </p>
           </div>
         </div>
