@@ -1584,10 +1584,10 @@ textarea {
   z-index: 20;
   width: 100%;
   background-color: #FFFFFF;
-  padding: clamp(4.5rem, 8vh, 7rem) 1.5rem clamp(5rem, 9vh, 7.5rem) 1.5rem;
+  padding: clamp(2.5rem, 4vh, 4rem) 1.5rem clamp(4rem, 7vh, 6rem) 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -1775,14 +1775,17 @@ textarea {
 
 @media (max-width: 768px) {
   .real-impact-section {
-    min-height: 200vh; /* Dedicated scroll track for stationary pinned header & card replacement */
-    padding-top: 1.5rem;
-    padding-bottom: 5rem;
+    min-height: 100dvh;
+    padding: 1.5rem 1.25rem 2.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
   }
 
   .real-impact-wrapper {
-    position: sticky;
-    top: 1.5rem;
     width: 100%;
     display: flex;
     flex-direction: column;

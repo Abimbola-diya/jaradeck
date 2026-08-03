@@ -1,79 +1,88 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function RealImpactSection() {
   const sectionRef = useRef(null);
   const quoteCardRef = useRef(null);
-  const rafRef = useRef(null);
+  const progressRef = useRef(0);
+  const touchStartYRef = useRef(null);
   const [isMobileRevealed, setIsMobileRevealed] = useState(false);
 
-  const updateMobileSlide = useCallback(() => {
-    if (!sectionRef.current || !quoteCardRef.current) return;
-    const isMobile = window.innerWidth <= 768;
-
-    if (!isMobile) {
-      quoteCardRef.current.style.transform = 'none';
-      return;
-    }
-
-    const sectionRect = sectionRef.current.getBoundingClientRect();
-    
-    // Header & Card pin at top ~24px (1.5rem).
-    // As user scrolls down through the section, sectionRect.top decreases.
-    const pinnedTop = 24;
-    const scrolledDistance = pinnedTop - sectionRect.top;
-
-    // 250px scroll pause while Header & Photo Card remain 100% stationary
-    const pauseDistance = 250;
-    // 400px scroll distance to complete the horizontal side-swipe replacement
-    const swipeDistance = 400;
-
-    if (scrolledDistance <= pauseDistance) {
-      // Pause phase: Header & Photo Card are 100% stationary and visible
-      quoteCardRef.current.style.transform = 'translate3d(105%, 0, 0)';
-      return;
-    }
-
-    if (scrolledDistance >= pauseDistance + swipeDistance) {
-      // Swipe complete phase: Orange card fully covers photo
-      quoteCardRef.current.style.transform = 'translate3d(0%, 0, 0)';
-      return;
-    }
-
-    // Swiping phase: progress 0 to 1
-    const progress = (scrolledDistance - pauseDistance) / swipeDistance;
-    const slideOffset = (1 - progress) * 105;
-
+  const updateCardTransform = (progress) => {
+    if (!quoteCardRef.current) return;
+    const clampedProgress = Math.min(Math.max(progress, 0), 1);
+    progressRef.current = clampedProgress;
+    const slideOffset = (1 - clampedProgress) * 105;
     quoteCardRef.current.style.transform = `translate3d(${slideOffset}%, 0, 0)`;
-  }, []);
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(() => {
-        updateMobileSlide();
-        rafRef.current = null;
-      });
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
+
+    const handleWheel = (e) => {
+      if (window.innerWidth > 768) return;
+      const rect = sectionEl.getBoundingClientRect();
+      const inView = rect.top <= 80 && rect.bottom >= window.innerHeight - 80;
+      if (!inView) return;
+
+      const delta = e.deltaY;
+      const current = progressRef.current;
+
+      if ((delta > 0 && current < 1) || (delta < 0 && current > 0)) {
+        if (e.cancelable) e.preventDefault();
+        const nextProgress = current + delta / 350;
+        updateCardTransform(nextProgress);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', updateMobileSlide);
-    updateMobileSlide();
+    const handleTouchStart = (e) => {
+      if (window.innerWidth > 768) return;
+      if (e.touches.length === 1) {
+        touchStartYRef.current = e.touches[0].clientY;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      if (window.innerWidth > 768 || touchStartYRef.current === null) return;
+      const rect = sectionEl.getBoundingClientRect();
+      const inView = rect.top <= 120 && rect.bottom >= window.innerHeight - 120;
+      if (!inView) return;
+
+      const currentY = e.touches[0].clientY;
+      const deltaY = touchStartYRef.current - currentY; // Positive = scrolling down
+      const current = progressRef.current;
+
+      if ((deltaY > 0 && current < 1) || (deltaY < 0 && current > 0)) {
+        if (e.cancelable) e.preventDefault();
+        const nextProgress = current + deltaY / 250;
+        updateCardTransform(nextProgress);
+        touchStartYRef.current = currentY;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      touchStartYRef.current = null;
+    };
+
+    sectionEl.addEventListener('wheel', handleWheel, { passive: false });
+    sectionEl.addEventListener('touchstart', handleTouchStart, { passive: true });
+    sectionEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+    sectionEl.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateMobileSlide);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      sectionEl.removeEventListener('wheel', handleWheel);
+      sectionEl.removeEventListener('touchstart', handleTouchStart);
+      sectionEl.removeEventListener('touchmove', handleTouchMove);
+      sectionEl.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [updateMobileSlide]);
+  }, []);
 
   const handleToggleMobileCard = (e) => {
     e.stopPropagation();
-    if (window.innerWidth > 768 || !quoteCardRef.current) return;
-    setIsMobileRevealed((prev) => {
-      const nextState = !prev;
-      quoteCardRef.current.style.transform = nextState ? 'translate3d(0%, 0, 0)' : 'translate3d(105%, 0, 0)';
-      return nextState;
-    });
+    if (window.innerWidth > 768) return;
+    const nextState = !isMobileRevealed;
+    setIsMobileRevealed(nextState);
+    updateCardTransform(nextState ? 1 : 0);
   };
 
   return (
@@ -82,7 +91,7 @@ export default function RealImpactSection() {
       <div className="real-impact-bg-waves" aria-hidden="true" />
 
       <div className="real-impact-wrapper">
-        {/* Section Header (Stays pinned on mobile) */}
+        {/* Section Header */}
         <div className="real-impact-header">
           <h2 className="real-impact-title">
             Real Impact, Real Stories
