@@ -22,10 +22,10 @@ export default function RealImpactSection() {
     const pinnedTop = 100;
     const scrolledDistance = pinnedTop - trackRect.top;
 
-    // Generous 500px scroll pause while image is 100% visible
-    const pauseDistance = 500;
-    // 400px scroll distance to complete the side swipe
-    const swipeDistance = 400;
+    // 300px scroll pause while card is locked stationary in viewport
+    const pauseDistance = 300;
+    // 450px scroll distance to complete the horizontal side-swipe replacement
+    const swipeDistance = 450;
 
     if (scrolledDistance <= pauseDistance) {
       // Pause phase: Photo card is 100% fully visible
