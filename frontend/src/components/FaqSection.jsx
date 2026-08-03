@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 const faqData = [
   {
     id: 1,
-    question: "How is this different from Upwork or Fiverr?",
-    answer: "Unlike freelance marketplaces where you spend hours scrolling profiles, interviewing strangers, and managing freelancers yourself, Jaradeck automatically matches and assembles a dedicated, pre-verified team for your exact project needs and budget in 60 seconds."
+    question: "What is Jaradeck?",
+    answer: "Jaradeck is the easiest and most affordable way for small business owners, solopreneurs and busy professionals get digital work done without the stress of hiring, managing freelancers or paying agency prices. Whether you need content, video editing, design, customer support, product photography or a website, simply tell us what you need and we'll put the right team around it."
   },
   {
     id: 2,
-    question: "What is Jaradeck?",
-    answer: "Jaradeck is an AI-powered talent orchestration platform that builds, manages, and executes projects with specialized creative and technical teams tailored to your brand, without the hassle of traditional hiring or agency overhead."
+    question: "How is this different from Upwork or Fiverr?",
+    answer: "Unlike freelance marketplaces where you spend hours scrolling profiles, interviewing strangers, and managing freelancers yourself, Jaradeck automatically matches and assembles a dedicated, pre-verified team for your exact project needs and budget in 60 seconds."
   },
   {
     id: 3,
@@ -19,7 +19,7 @@ const faqData = [
   {
     id: 4,
     question: "What if I need a designer, writer, and developer?",
-    answer: "Jaradeck excels at multi-disciplinary teams! Simply describe what you need done once, and our platform auto-assembles the exact combination of designers, writers, developers, and video editors required to complete your project seamlessy."
+    answer: "Jaradeck excels at multi-disciplinary teams! Simply describe what you need done once, and our platform auto-assembles the exact combination of designers, writers, developers, and video editors required to complete your project seamlessly."
   }
 ];
 
