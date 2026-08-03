@@ -16,19 +16,31 @@ export default function RealImpactSection() {
     }
 
     const sectionRect = sectionRef.current.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+    
+    // The section container sticks at ~100px from the top.
+    // We want the user to scroll down a bit (pause) to see the image fully
+    // BEFORE the orange card starts sliding in.
+    const stickPosition = 100;
+    const scrollPause = 350; // User scrolls 350px while image is fully visible
+    const swipeDistance = 450; // The swipe takes 450px of scrolling to complete
 
-    // Image card stays 100% fully visible while scrolling into view (top > 60px).
-    // Orange card slides in ONLY after section reaches top of screen (top <= 60px).
-    const start = 60;
-    const end = -windowHeight * 0.45;
+    const startSwipeTop = stickPosition - scrollPause; 
+    const endSwipeTop = startSwipeTop - swipeDistance;
 
-    if (sectionRect.top > start) {
+    if (sectionRect.top > startSwipeTop) {
+      // Pause phase: image is fully visible
       quoteCardRef.current.style.transform = 'translate3d(105%, 0, 0)';
       return;
     }
 
-    const progress = Math.min(Math.max((start - sectionRect.top) / (start - end), 0), 1);
+    if (sectionRect.top < endSwipeTop) {
+      // Swipe complete phase: orange card fully covers
+      quoteCardRef.current.style.transform = 'translate3d(0%, 0, 0)';
+      return;
+    }
+
+    // Swiping phase: calculate progress between 0 and 1
+    const progress = (startSwipeTop - sectionRect.top) / swipeDistance;
     const slideOffset = (1 - progress) * 105;
 
     quoteCardRef.current.style.transform = `translate3d(${slideOffset}%, 0, 0)`;
@@ -87,7 +99,7 @@ export default function RealImpactSection() {
           {/* Left: Photo Card (Grace) */}
           <div className="impact-photo-card">
             <img
-              src="/Impact_image_1.webp"
+              src="/impact_image_1.png"
               alt="Grace - Operations Lead & Creator, Lagos"
               className="impact-photo-img"
             />

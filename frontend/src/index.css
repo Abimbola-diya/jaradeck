@@ -1656,6 +1656,7 @@ textarea {
 /* Left Photo Card (Grace) */
 .impact-photo-card {
   position: relative;
+  box-sizing: border-box;
   flex: 1 1 440px;
   max-width: 520px;
   width: 100%;
@@ -1687,6 +1688,7 @@ textarea {
 .impact-photo-info {
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
   padding: clamp(1.75rem, 3.5vw, 2.5rem);
   color: #FFFFFF;
   width: 100%;
@@ -1727,6 +1729,7 @@ textarea {
 
 /* Right Orange Quote Card */
 .impact-quote-card {
+  box-sizing: border-box;
   flex: 1 1 440px;
   max-width: 520px;
   width: 100%;
@@ -1767,7 +1770,7 @@ textarea {
 
 @media (max-width: 768px) {
   .real-impact-section {
-    min-height: 140vh;
+    min-height: 200vh; /* Giving enough room for the scroll pinning pause & swipe */
     padding-bottom: 5rem;
   }
 
@@ -1782,6 +1785,10 @@ textarea {
     margin: 0 auto;
     flex-wrap: nowrap;
     padding: 0;
+    
+    /* Crucial to force Safari to respect border-radius clipping with transforms */
+    transform: translateZ(0);
+    isolation: isolate;
   }
 
   .impact-photo-card {
