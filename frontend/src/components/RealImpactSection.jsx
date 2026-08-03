@@ -18,9 +18,15 @@ export default function RealImpactSection() {
     const sectionRect = sectionRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // Track scroll progress through the mobile section
-    const start = windowHeight * 0.55;
-    const end = -windowHeight * 0.25;
+    // Image card stays 100% fully visible while scrolling into view (top > 60px).
+    // Orange card slides in ONLY after section reaches top of screen (top <= 60px).
+    const start = 60;
+    const end = -windowHeight * 0.45;
+
+    if (sectionRect.top > start) {
+      quoteCardRef.current.style.transform = 'translate3d(105%, 0, 0)';
+      return;
+    }
 
     const progress = Math.min(Math.max((start - sectionRect.top) / (start - end), 0), 1);
     const slideOffset = (1 - progress) * 105;

@@ -1766,8 +1766,14 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  .real-impact-section {
+    min-height: 140vh;
+    padding-bottom: 5rem;
+  }
+
   .impact-story-container {
-    position: relative;
+    position: sticky;
+    top: clamp(80px, 12vh, 110px);
     width: 100%;
     max-width: 480px;
     height: 520px;
