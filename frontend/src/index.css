@@ -1753,7 +1753,7 @@ textarea {
 .impact-quote-title {
   font-family: 'PP Neue Montreal', var(--font-family);
   font-size: clamp(1.65rem, 2.8vw, 2.3rem);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.03em;
   color: #FFFFFF;
@@ -1762,9 +1762,9 @@ textarea {
 
 .impact-quote-body {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  font-size: clamp(1.02rem, 1.4vw, 1.18rem);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
 }
@@ -1925,12 +1925,13 @@ textarea {
   }
 
   .impact-quote-title {
-    font-size: 1.45rem;
-    line-height: 1.25;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.22;
   }
 
   .impact-quote-body {
-    font-size: 0.9rem;
-    line-height: 1.45;
+    font-size: 0.98rem;
+    line-height: 1.5;
   }
 }

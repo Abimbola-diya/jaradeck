@@ -133,7 +133,7 @@ export default function RealImpactSection() {
               I wanted a personal brand. I just didn't have another 20 hours a week.
             </h3>
             <p className="impact-quote-body">
-              It's been my goal this year to build my personal brand and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to write posts, edit videos, design graphics or stay consistent.
+              It's been my goal this year to <strong>build my personal brand</strong> and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to <strong>write posts</strong>, <strong>edit videos</strong>, design graphics or <strong>stay consistent</strong>.
             </p>
           </div>
 
@@ -147,7 +147,7 @@ export default function RealImpactSection() {
               I finally found a better way.
             </h3>
             <p className="impact-quote-body">
-              A friend introduced me to Jaradeck. I described what I wanted once, and they built a team around me. Now I have an auto-assembled team writing my scripts, editing my videos and running my personal brand, while I focus on my career. Jaradeck handles everything growing around it.
+              A friend introduced me to Jaradeck. I described what I wanted once, and they <strong>built a team</strong> around me. Now I have an auto-assembled team <strong>writing my scripts</strong>, <strong>editing my videos</strong> and <strong>running my personal brand</strong>, while I focus on my career. Jaradeck handles everything growing around it.
             </p>
           </div>
         </div>
