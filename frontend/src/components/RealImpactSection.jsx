@@ -2,95 +2,83 @@ import React, { useEffect, useRef, useState } from 'react';
 
 export default function RealImpactSection() {
   const sectionRef = useRef(null);
-  const quoteCardRef = useRef(null);
-  const progressRef = useRef(0);
-  const touchStartYRef = useRef(null);
-  const [isMobileRevealed, setIsMobileRevealed] = useState(false);
-
-  const updateCardTransform = (progress) => {
-    if (!quoteCardRef.current) return;
-    const clampedProgress = Math.min(Math.max(progress, 0), 1);
-    progressRef.current = clampedProgress;
-    const slideOffset = (1 - clampedProgress) * 105;
-    quoteCardRef.current.style.transform = `translate3d(${slideOffset}%, 0, 0)`;
-  };
+  const orangeCardRef = useRef(null);
+  const pinkCardRef = useRef(null);
 
   useEffect(() => {
-    const sectionEl = sectionRef.current;
-    if (!sectionEl) return;
-
-    const handleWheel = (e) => {
+    const handleScroll = () => {
       if (window.innerWidth > 768) return;
+      const sectionEl = sectionRef.current;
+      if (!sectionEl) return;
+
       const rect = sectionEl.getBoundingClientRect();
-      const inView = rect.top <= 80 && rect.bottom >= window.innerHeight - 80;
-      if (!inView) return;
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      let progress = 0;
+      if (sectionTop > 0) {
+        progress = 0;
+      } else if (sectionTop < -(sectionHeight - windowHeight)) {
+        progress = 1;
+      } else {
+        progress = -sectionTop / (sectionHeight - windowHeight);
+      }
 
-      const delta = e.deltaY;
-      const current = progressRef.current;
+      // 0.0 -> 0.2: Image visible
+      // 0.2 -> 0.45: Orange card slides in
+      // 0.45 -> 0.65: Orange card visible
+      // 0.65 -> 0.90: Pink card slides in
+      
+      let orangeProgress = 0;
+      if (progress > 0.2) {
+        orangeProgress = Math.min((progress - 0.2) / 0.25, 1);
+      }
+      
+      let pinkProgress = 0;
+      if (progress > 0.65) {
+        pinkProgress = Math.min((progress - 0.65) / 0.25, 1);
+      }
 
-      if ((delta > 0 && current < 1) || (delta < 0 && current > 0)) {
-        if (e.cancelable) e.preventDefault();
-        const nextProgress = current + delta / 350;
-        updateCardTransform(nextProgress);
+      if (orangeCardRef.current) {
+        const slideOffset = (1 - orangeProgress) * 105;
+        orangeCardRef.current.style.transform = `translate3d(${slideOffset}%, 0, 0)`;
+      }
+
+      if (pinkCardRef.current) {
+        const slideOffset = (1 - pinkProgress) * 105;
+        pinkCardRef.current.style.transform = `translate3d(${slideOffset}%, 0, 0)`;
       }
     };
 
-    const handleTouchStart = (e) => {
-      if (window.innerWidth > 768) return;
-      if (e.touches.length === 1) {
-        touchStartYRef.current = e.touches[0].clientY;
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      if (window.innerWidth > 768 || touchStartYRef.current === null) return;
-      const rect = sectionEl.getBoundingClientRect();
-      const inView = rect.top <= 120 && rect.bottom >= window.innerHeight - 120;
-      if (!inView) return;
-
-      const currentY = e.touches[0].clientY;
-      const deltaY = touchStartYRef.current - currentY; // Positive = scrolling down
-      const current = progressRef.current;
-
-      if ((deltaY > 0 && current < 1) || (deltaY < 0 && current > 0)) {
-        if (e.cancelable) e.preventDefault();
-        const nextProgress = current + deltaY / 250;
-        updateCardTransform(nextProgress);
-        touchStartYRef.current = currentY;
-      }
-    };
-
-    const handleTouchEnd = () => {
-      touchStartYRef.current = null;
-    };
-
-    sectionEl.addEventListener('wheel', handleWheel, { passive: false });
-    sectionEl.addEventListener('touchstart', handleTouchStart, { passive: true });
-    sectionEl.addEventListener('touchmove', handleTouchMove, { passive: false });
-    sectionEl.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-    return () => {
-      sectionEl.removeEventListener('wheel', handleWheel);
-      sectionEl.removeEventListener('touchstart', handleTouchStart);
-      sectionEl.removeEventListener('touchmove', handleTouchMove);
-      sectionEl.removeEventListener('touchend', handleTouchEnd);
-    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleToggleMobileCard = (e) => {
     e.stopPropagation();
-    if (window.innerWidth > 768) return;
-    const nextState = !isMobileRevealed;
-    setIsMobileRevealed(nextState);
-    updateCardTransform(nextState ? 1 : 0);
+    if (window.innerWidth > 768 || !sectionRef.current) return;
+    const currentScrollY = window.scrollY;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const sectionTop = rect.top + currentScrollY;
+    const sectionHeight = rect.height;
+    
+    // Scroll a bit down to reveal next card
+    window.scrollTo({
+      top: currentScrollY + window.innerHeight * 0.75,
+      behavior: 'smooth'
+    });
   };
 
   return (
     <section className="real-impact-section" ref={sectionRef}>
-      {/* Repeating wavy lines background pattern on white */}
-      <div className="real-impact-bg-waves" aria-hidden="true" />
-
-      <div className="real-impact-wrapper">
+      <div className="real-impact-sticky-wrapper">
+        {/* Repeating wavy lines background pattern on white */}
+        <div className="real-impact-bg-waves" aria-hidden="true" />
+        
+        <div className="real-impact-wrapper">
         {/* Section Header */}
         <div className="real-impact-header">
           <h2 className="real-impact-title">
@@ -138,16 +126,31 @@ export default function RealImpactSection() {
           {/* Right: Orange Quote Card (Slides in from side on mobile) */}
           <div
             className="impact-quote-card"
-            ref={quoteCardRef}
+            ref={orangeCardRef}
             style={{ willChange: 'transform' }}
           >
             <h3 className="impact-quote-title">
               I wanted a personal brand. I just didn't have another 20 hours a week.
             </h3>
             <p className="impact-quote-body">
-              It's been my goal this year to build my personal brand and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to write posts, edit videos, design graphics or stay consistent. A friend introduced me to Jaradeck. I described what I needed once, and they built a team around me. Now I have an auto-assembled team writing my scripts, editing my videos and running my personal brand, while I focus on my career. Jaradeck handles everything growing around it.
+              It's been my goal this year to build my personal brand and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to write posts, edit videos, design graphics or stay consistent.
             </p>
           </div>
+
+          {/* Third: Pink Quote Card (Slides in from side on mobile) */}
+          <div
+            className="impact-pink-card"
+            ref={pinkCardRef}
+            style={{ willChange: 'transform' }}
+          >
+            <h3 className="impact-quote-title">
+              I finally found a better way.
+            </h3>
+            <p className="impact-quote-body">
+              A friend introduced me to Jaradeck. I described what I wanted once, and they built a team around me. Now I have an auto-assembled team writing my scripts, editing my videos and running my personal brand, while I focus on my career. Jaradeck handles everything growing around it.
+            </p>
+          </div>
+        </div>
         </div>
       </div>
     </section>
