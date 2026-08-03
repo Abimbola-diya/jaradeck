@@ -6,6 +6,7 @@ import NeedItDoneAnimation from './components/NeedItDoneAnimation';
 import ComparisonCards from './components/ComparisonCards';
 import FeatureCards from './components/FeatureCards';
 import RealImpactSection from './components/RealImpactSection';
+import FaqSection from './components/FaqSection';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -340,6 +341,9 @@ export default function App() {
 
       {/* Real Impact, Real Stories Section (White Background with Wavy Pattern) */}
       <RealImpactSection />
+
+      {/* FAQ Section (Solid Blue Background with Accordions) */}
+      <FaqSection />
     </div>
   );
 }

@@ -1999,3 +1999,176 @@ textarea {
     line-height: 1.5;
   }
 }
+
+/* ===== FAQ Section (Solid Blue Background with Accordions) ===== */
+.faq-section {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  background-color: #0048B3;
+  padding: clamp(4.5rem, 8vh, 6.5rem) 1.5rem clamp(5rem, 9vh, 7.5rem) 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Top Scalloped Canopy Overlap */
+.faq-canopy-top {
+  position: absolute;
+  top: clamp(-68px, -5.2vw, -42px);
+  left: 0;
+  width: 100%;
+  height: clamp(48px, 5.5vw, 75px);
+  pointer-events: none;
+  z-index: 10;
+  line-height: 0;
+}
+
+.faq-canopy-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 -4px 12px rgba(0, 72, 179, 0.12));
+}
+
+.faq-container {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vh, 3.5rem);
+}
+
+.faq-title {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  color: #FFFFFF;
+  text-align: center;
+  margin: 0;
+}
+
+.faq-subtitle {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  margin-top: 0.6rem;
+}
+
+/* Accordion Cards List */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.faq-item {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  padding: clamp(1.2rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2.2rem);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0, 20, 70, 0.12);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(0, 20, 70, 0.18);
+}
+
+.faq-question-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.faq-question-text {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  font-weight: 600;
+  color: #0048B3;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.faq-toggle-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0048B3;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.faq-icon {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-icon-active {
+  transform: rotate(45deg);
+}
+
+/* Accordion Open Content */
+.faq-answer-content {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1.5px solid rgba(0, 72, 179, 0.12);
+  animation: faqFadeIn 0.3s ease-out forwards;
+}
+
+.faq-answer-text {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(0.98rem, 1.4vw, 1.15rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #003380;
+  margin: 0;
+}
+
+@keyframes faqFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-section {
+    padding: 3.5rem 1rem 5rem 1rem;
+  }
+
+  .faq-item {
+    padding: 1.1rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .faq-question-text {
+    font-size: 1.05rem;
+  }
+}
