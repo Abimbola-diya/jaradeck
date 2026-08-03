@@ -5,6 +5,7 @@ import TodoAnimation from './components/TodoAnimation';
 import NeedItDoneAnimation from './components/NeedItDoneAnimation';
 import ComparisonCards from './components/ComparisonCards';
 import FeatureCards from './components/FeatureCards';
+import RealImpactSection from './components/RealImpactSection';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -336,6 +337,9 @@ export default function App() {
 
       {/* Feature Cards Section (60 Seconds Office Card) */}
       <FeatureCards />
+
+      {/* Real Impact, Real Stories Section (White Background with Wavy Pattern) */}
+      <RealImpactSection />
     </div>
   );
 }
