@@ -13,9 +13,11 @@ export default function ComparisonCards() {
     const windowHeight = window.innerHeight;
 
     // The section locks/pins in view when sectionRect.top reaches 0.
-    // While pinned, we translate 0.85 viewport heights of vertical scrolling into Card 2's slide-in stacking animation.
+    // While pinned, we translate scrolling into Card 2's slide-in stacking animation.
+    // We cap the required scroll distance to 800px so it works correctly on exceptionally tall mobile-desktop screens.
     const start = 0;
-    const end = -windowHeight * 0.85;
+    const scrollDistance = Math.min(windowHeight * 0.85, 800);
+    const end = -scrollDistance;
 
     const progress = Math.min(Math.max((start - sectionRect.top) / (start - end), 0), 1);
 
@@ -30,6 +32,21 @@ export default function ComparisonCards() {
     cardRef.current.style.opacity = opacity;
   }, []);
 
+  const updateSectionHeight = useCallback(() => {
+    if (!sectionRef.current) return;
+    const wrapper = sectionRef.current.querySelector('.comparison-content-wrapper');
+    if (!wrapper) return;
+    
+    // The exact height of the section should be: wrapper height + required scroll distance.
+    // This perfectly aligns the next section (the canopy) to appear exactly as the animation completes,
+    // eliminating any dead white space beneath it!
+    const wrapperHeight = wrapper.getBoundingClientRect().height;
+    const windowHeight = window.innerHeight;
+    const scrollDistance = Math.min(windowHeight * 0.85, 800);
+    
+    sectionRef.current.style.height = `${wrapperHeight + scrollDistance}px`;
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       if (rafRef.current) return;
@@ -40,18 +57,23 @@ export default function ComparisonCards() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', updateSectionHeight);
+    
+    updateSectionHeight(); // Set perfect height on mount
     updateCard(); // Initial position
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateSectionHeight);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [updateCard]);
+  }, [updateCard, updateSectionHeight]);
 
   return (
     <section className="comparison-section" ref={sectionRef}>
+      {/* Repeating wavy lines background pattern */}
+      <div className="comparison-bg-waves" aria-hidden="true" />
       <div className="comparison-content-wrapper">
-        {/* Repeating wavy lines background pattern */}
-        <div className="comparison-bg-waves" aria-hidden="true" />
         {/* Section Header */}
         <div className="comparison-header">
           <h2 className="comparison-title">

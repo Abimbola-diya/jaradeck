@@ -1138,18 +1138,20 @@ textarea {
   z-index: 20;
   width: 100%;
   background-color: #FAFAFA;
-  height: clamp(1400px, 200vh, 2500px); /* Limit total scroll height */
+  min-height: 100vh; /* Fallback height; exact height is computed by JS */
   overflow: clip;
 }
 
 /* Soft subtle repeating wavy pattern for white section background */
 .comparison-bg-waves {
   position: absolute;
-  inset: 0;
-  background-image: url('/wavy-lines.webp');
+  inset: -10%; /* Oversize to ensure no edge lines */
+  width: 120%;
+  height: 120%;
+  background-image: url('/wavy-lines.svg'); /* Using SVG provided by user */
   background-repeat: repeat;
   background-position: center top;
-  background-size: cover;
+  background-size: max(1440px, 100vw) auto;
   opacity: 0.12;
   pointer-events: none;
   z-index: 0;
@@ -1160,11 +1162,10 @@ textarea {
 .comparison-content-wrapper {
   position: sticky;
   z-index: 1;
-  top: 0;
+  top: max(0px, calc(50vh - 450px)); /* Center vertically if wrapper hits max height */
   max-width: 1150px;
   width: 100%;
-  height: 100vh;
-  height: 100svh;
+  height: clamp(600px, 85vh, 900px); /* Prevent extreme stretching on 2000px tall screens */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1355,42 +1356,42 @@ textarea {
 }
 
 /* Optimize for very tall screens (like a phone rendering desktop mode) to utilize the massive vertical space */
-@media (min-width: 769px) and (min-height: 1000px) {
+@media (min-width: 769px) and (min-height: 800px) {
   .comparison-header {
-    margin-bottom: 4vh;
+    margin-bottom: 2vh;
     gap: 1.2rem;
   }
   
   .comparison-title {
-    font-size: clamp(3.2rem, 5vh, 4.5rem);
+    font-size: clamp(3.2rem, 6vw, 5rem);
   }
   
   .comparison-subtitle {
-    font-size: clamp(1.2rem, 2vh, 1.5rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   }
   
   .comparison-cards-stage {
-    height: min(600px, 40vh);
-    margin-top: 3vh;
+    height: min(750px, 45vh);
+    margin-top: 2vh;
   }
   
   .comparison-card {
-    width: min(640px, 75vw);
-    padding: clamp(32px, 3.5vh, 48px) clamp(32px, 3.5vw, 48px);
-    border-radius: 24px;
+    width: min(780px, 92vw);
+    padding: clamp(36px, 4vh, 60px) clamp(36px, 4vw, 60px);
+    border-radius: 28px;
   }
   
   .card-heading {
-    font-size: clamp(2.1rem, 3vh, 2.6rem);
+    font-size: clamp(2.4rem, 4.5vw, 3.2rem);
     margin-bottom: 1.8rem;
   }
   
   .card-bullet-list {
-    gap: 1.4rem;
+    gap: 1.6rem;
   }
   
   .card-bullet-list li {
-    font-size: clamp(1.1rem, 1.8vh, 1.25rem);
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
   }
 }
 
