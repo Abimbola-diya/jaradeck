@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 
 export default function RealImpactSection() {
-  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
   const quoteCardRef = useRef(null);
   const rafRef = useRef(null);
   const [isMobileRevealed, setIsMobileRevealed] = useState(false);
 
   const updateMobileSlide = useCallback(() => {
-    if (!sectionRef.current || !quoteCardRef.current) return;
+    if (!trackRef.current || !quoteCardRef.current) return;
     const isMobile = window.innerWidth <= 768;
 
     if (!isMobile) {
@@ -15,32 +15,32 @@ export default function RealImpactSection() {
       return;
     }
 
-    const sectionRect = sectionRef.current.getBoundingClientRect();
+    const trackRect = trackRef.current.getBoundingClientRect();
     
-    // The section container sticks at ~100px from the top.
-    // We want the user to scroll down a bit (pause) to see the image fully
-    // BEFORE the orange card starts sliding in.
-    const stickPosition = 100;
-    const scrollPause = 350; // User scrolls 350px while image is fully visible
-    const swipeDistance = 450; // The swipe takes 450px of scrolling to complete
+    // When pinned, container sits ~100px from top of viewport.
+    // As user scrolls down through track, trackRect.top decreases.
+    const pinnedTop = 100;
+    const scrolledDistance = pinnedTop - trackRect.top;
 
-    const startSwipeTop = stickPosition - scrollPause; 
-    const endSwipeTop = startSwipeTop - swipeDistance;
+    // Generous 500px scroll pause while image is 100% visible
+    const pauseDistance = 500;
+    // 400px scroll distance to complete the side swipe
+    const swipeDistance = 400;
 
-    if (sectionRect.top > startSwipeTop) {
-      // Pause phase: image is fully visible
+    if (scrolledDistance <= pauseDistance) {
+      // Pause phase: Photo card is 100% fully visible
       quoteCardRef.current.style.transform = 'translate3d(105%, 0, 0)';
       return;
     }
 
-    if (sectionRect.top < endSwipeTop) {
-      // Swipe complete phase: orange card fully covers
+    if (scrolledDistance >= pauseDistance + swipeDistance) {
+      // Swipe complete phase: Orange card fully covers photo
       quoteCardRef.current.style.transform = 'translate3d(0%, 0, 0)';
       return;
     }
 
-    // Swiping phase: calculate progress between 0 and 1
-    const progress = (startSwipeTop - sectionRect.top) / swipeDistance;
+    // Swiping phase: progress 0 to 1
+    const progress = (scrolledDistance - pauseDistance) / swipeDistance;
     const slideOffset = (1 - progress) * 105;
 
     quoteCardRef.current.style.transform = `translate3d(${slideOffset}%, 0, 0)`;
@@ -77,7 +77,7 @@ export default function RealImpactSection() {
   };
 
   return (
-    <section className="real-impact-section" ref={sectionRef}>
+    <section className="real-impact-section">
       {/* Repeating wavy lines background pattern on white */}
       <div className="real-impact-bg-waves" aria-hidden="true" />
 
@@ -94,46 +94,49 @@ export default function RealImpactSection() {
           </p>
         </div>
 
-        {/* Impact Story 1 Container */}
-        <div className="impact-story-container">
-          {/* Left: Photo Card (Grace) */}
-          <div className="impact-photo-card">
-            <img
-              src="/impact_image_1.png"
-              alt="Grace - Operations Lead & Creator, Lagos"
-              className="impact-photo-img"
-            />
-            <div className="impact-photo-overlay" />
-            <div className="impact-photo-info">
-              <div className="impact-photo-text">
-                <h3 className="impact-name">Grace</h3>
-                <p className="impact-role">Operations Lead &amp; Creator • Lagos</p>
+        {/* Dedicated Track for Mobile Sticky Scroll Animation */}
+        <div className="impact-story-track" ref={trackRef}>
+          {/* Impact Story 1 Container */}
+          <div className="impact-story-container">
+            {/* Left: Photo Card (Grace) */}
+            <div className="impact-photo-card">
+              <img
+                src="/impact_image_1.png"
+                alt="Grace - Operations Lead & Creator, Lagos"
+                className="impact-photo-img"
+              />
+              <div className="impact-photo-overlay" />
+              <div className="impact-photo-info">
+                <div className="impact-photo-text">
+                  <h3 className="impact-name">Grace</h3>
+                  <p className="impact-role">Operations Lead &amp; Creator • Lagos</p>
+                </div>
+                <button
+                  className="impact-arrow-btn"
+                  onClick={handleToggleMobileCard}
+                  aria-label="Toggle story card"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
               </div>
-              <button
-                className="impact-arrow-btn"
-                onClick={handleToggleMobileCard}
-                aria-label="Toggle story card"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
             </div>
-          </div>
 
-          {/* Right: Orange Quote Card (Slides in from side on mobile) */}
-          <div
-            className="impact-quote-card"
-            ref={quoteCardRef}
-            style={{ willChange: 'transform' }}
-          >
-            <h3 className="impact-quote-title">
-              I wanted a personal brand, not a second job in HR.
-            </h3>
-            <p className="impact-quote-body">
-              Between my 9-to-5 and Lagos traffic, I had zero energy to review <strong>50 proposals</strong> or interview strangers online. I described what I needed once on Jaradeck. Now I have an auto-assembled team editing my videos, writing scripts, and running my personal brand. I focus on my career; Jaradeck handles everything growing around it.
-            </p>
+            {/* Right: Orange Quote Card (Slides in from side on mobile) */}
+            <div
+              className="impact-quote-card"
+              ref={quoteCardRef}
+              style={{ willChange: 'transform' }}
+            >
+              <h3 className="impact-quote-title">
+                I wanted a personal brand, not a second job in HR.
+              </h3>
+              <p className="impact-quote-body">
+                Between my 9-to-5 and Lagos traffic, I had zero energy to review <strong>50 proposals</strong> or interview strangers online. I described what I needed once on Jaradeck. Now I have an auto-assembled team editing my videos, writing scripts, and running my personal brand. I focus on my career; Jaradeck handles everything growing around it.
+              </p>
+            </div>
           </div>
         </div>
       </div>

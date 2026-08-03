@@ -1768,10 +1768,21 @@ textarea {
   color: #FFFFFF;
 }
 
+.impact-story-track {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .real-impact-section {
-    min-height: 200vh; /* Giving enough room for the scroll pinning pause & swipe */
     padding-bottom: 5rem;
+  }
+
+  .impact-story-track {
+    position: relative;
+    width: 100%;
+    height: 250vh; /* Dedicated scroll track giving ample viewing pause + swipe distance */
   }
 
   .impact-story-container {
@@ -1785,7 +1796,7 @@ textarea {
     margin: 0 auto;
     flex-wrap: nowrap;
     padding: 0;
-    
+
     /* Crucial to force Safari to respect border-radius clipping with transforms */
     transform: translateZ(0);
     isolation: isolate;
