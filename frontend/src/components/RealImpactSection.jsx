@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function RealImpactSection() {
   const sectionRef = useRef(null);
@@ -7,7 +7,12 @@ export default function RealImpactSection() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerWidth > 768) return;
+      if (window.innerWidth > 768) {
+        if (orangeCardRef.current) orangeCardRef.current.style.transform = '';
+        if (pinkCardRef.current) pinkCardRef.current.style.transform = '';
+        return;
+      }
+
       const sectionEl = sectionRef.current;
       if (!sectionEl) return;
 
@@ -15,7 +20,7 @@ export default function RealImpactSection() {
       const sectionTop = rect.top;
       const sectionHeight = rect.height;
       const windowHeight = window.innerHeight;
-      
+
       let progress = 0;
       if (sectionTop > 0) {
         progress = 0;
@@ -25,6 +30,7 @@ export default function RealImpactSection() {
         progress = -sectionTop / (sectionHeight - windowHeight);
       }
 
+      // Mobile sequence:
       // 0.00 -> 0.15: Photo card (Grace) visible
       // 0.15 -> 0.35: Orange card slides in fully
       // 0.35 -> 0.55: Orange card visible
@@ -53,23 +59,30 @@ export default function RealImpactSection() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
     handleScroll();
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
-  const handleNextMobileCard = (e) => {
+  const handleNextCard = (e) => {
     e.stopPropagation();
-    if (window.innerWidth > 768 || !sectionRef.current) return;
+    if (!sectionRef.current) return;
     const sectionEl = sectionRef.current;
     const rect = sectionEl.getBoundingClientRect();
     const sectionTopInPage = rect.top + window.scrollY;
     const scrollableH = rect.height - window.innerHeight;
-    
-    const currentProgress = -rect.top / scrollableH;
-    let targetProgress = 0.45; // Go to Orange card
-    if (currentProgress >= 0.35) {
-      targetProgress = 0.85; // Go to Pink card
+    const isMobile = window.innerWidth <= 768;
+
+    let targetProgress = 0.75;
+    if (isMobile) {
+      const currentProgress = -rect.top / scrollableH;
+      targetProgress = currentProgress >= 0.35 ? 0.85 : 0.45;
+    } else {
+      targetProgress = 0.75;
     }
 
     window.scrollTo({
@@ -78,18 +91,21 @@ export default function RealImpactSection() {
     });
   };
 
-  const handlePrevMobileCard = (e) => {
+  const handlePrevCard = (e) => {
     e.stopPropagation();
-    if (window.innerWidth > 768 || !sectionRef.current) return;
+    if (!sectionRef.current) return;
     const sectionEl = sectionRef.current;
     const rect = sectionEl.getBoundingClientRect();
     const sectionTopInPage = rect.top + window.scrollY;
     const scrollableH = rect.height - window.innerHeight;
-    
-    const currentProgress = -rect.top / scrollableH;
-    let targetProgress = 0.05; // Go to Photo card
-    if (currentProgress >= 0.65) {
-      targetProgress = 0.45; // Go to Orange card
+    const isMobile = window.innerWidth <= 768;
+
+    let targetProgress = 0.05;
+    if (isMobile) {
+      const currentProgress = -rect.top / scrollableH;
+      targetProgress = currentProgress >= 0.65 ? 0.45 : 0.05;
+    } else {
+      targetProgress = 0.05;
     }
 
     window.scrollTo({
@@ -117,7 +133,7 @@ export default function RealImpactSection() {
           </p>
         </div>
 
-        {/* Impact Story 1 Container */}
+        {/* Impact Story Container */}
         <div className="impact-story-container">
           {/* Left: Photo Card (Grace) */}
           <div className="impact-photo-card">
@@ -137,8 +153,8 @@ export default function RealImpactSection() {
                 </p>
               </div>
               <button
-                className="impact-arrow-btn"
-                onClick={handleNextMobileCard}
+                className="impact-arrow-btn impact-mobile-only-btn"
+                onClick={handleNextCard}
                 aria-label="Next card"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -149,68 +165,71 @@ export default function RealImpactSection() {
             </div>
           </div>
 
-          {/* Right: Orange Quote Card (Slides in from side on mobile) */}
-          <div
-            className="impact-quote-card"
-            ref={orangeCardRef}
-            style={{ willChange: 'transform' }}
-          >
-            <h3 className="impact-quote-title">
-              I wanted a personal brand. I just didn't have another 20 hours a week.
-            </h3>
-            <p className="impact-quote-body">
-              It's been my goal this year to <strong>build my personal brand</strong> and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to <strong>write posts</strong>, <strong>edit videos</strong>, design graphics or <strong>stay consistent</strong>.
-            </p>
-
-            {/* Back button to Photo Card */}
-            <button
-              className="impact-arrow-btn impact-quote-arrow-left"
-              onClick={handlePrevMobileCard}
-              aria-label="Previous card"
+          {/* Right: Quotes Wrapper (holds Orange & Pink cards on top of each other) */}
+          <div className="impact-quotes-wrapper">
+            {/* Orange Quote Card */}
+            <div
+              className="impact-quote-card"
+              ref={orangeCardRef}
+              style={{ willChange: 'transform' }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-            </button>
+              <h3 className="impact-quote-title">
+                I wanted a personal brand. I just didn't have another 20 hours a week.
+              </h3>
+              <p className="impact-quote-body">
+                It's been my goal this year to <strong>build my personal brand</strong> and become more active in my career space. Between my 9–5 and Lagos traffic, I simply didn't have the time or energy to <strong>write posts</strong>, <strong>edit videos</strong>, design graphics or <strong>stay consistent</strong>.
+              </p>
 
-            {/* Next button to Pink Card */}
-            <button
-              className="impact-arrow-btn impact-quote-arrow-right"
-              onClick={handleNextMobileCard}
-              aria-label="Next card"
+              {/* Back button (Mobile only) */}
+              <button
+                className="impact-arrow-btn impact-quote-arrow-left impact-mobile-only-btn"
+                onClick={handlePrevCard}
+                aria-label="Previous card"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+
+              {/* Next button (Desktop & Mobile) */}
+              <button
+                className="impact-arrow-btn impact-quote-arrow-right"
+                onClick={handleNextCard}
+                aria-label="Next card"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            {/* Pink Quote Card */}
+            <div
+              className="impact-pink-card"
+              ref={pinkCardRef}
+              style={{ willChange: 'transform' }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </button>
-          </div>
+              <h3 className="impact-quote-title">
+                I finally found a better way.
+              </h3>
+              <p className="impact-quote-body">
+                A friend introduced me to Jaradeck. I described what I wanted once, and they <strong>built a team</strong> around me. Now I have an auto-assembled team <strong>writing my scripts</strong>, <strong>editing my videos</strong> and <strong>running my personal brand</strong>, while I focus on my career. Jaradeck handles everything growing around it.
+              </p>
 
-          {/* Third: Pink Quote Card (Slides in from side on mobile) */}
-          <div
-            className="impact-pink-card"
-            ref={pinkCardRef}
-            style={{ willChange: 'transform' }}
-          >
-            <h3 className="impact-quote-title">
-              I finally found a better way.
-            </h3>
-            <p className="impact-quote-body">
-              A friend introduced me to Jaradeck. I described what I wanted once, and they <strong>built a team</strong> around me. Now I have an auto-assembled team <strong>writing my scripts</strong>, <strong>editing my videos</strong> and <strong>running my personal brand</strong>, while I focus on my career. Jaradeck handles everything growing around it.
-            </p>
-
-            {/* Back button to Orange Card */}
-            <button
-              className="impact-arrow-btn impact-quote-arrow-left"
-              onClick={handlePrevMobileCard}
-              aria-label="Previous card"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-            </button>
+              {/* Back button (Desktop & Mobile) */}
+              <button
+                className="impact-arrow-btn impact-quote-arrow-left"
+                onClick={handlePrevCard}
+                aria-label="Previous card"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         </div>

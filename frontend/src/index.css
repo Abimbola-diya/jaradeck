@@ -1591,18 +1591,6 @@ textarea {
   align-items: center;
 }
 
-/* Repeating wavy lines pattern overlay on white background */
-.real-impact-bg-waves {
-  position: absolute;
-  inset: 0;
-  background-image: url('/wavy-lines.svg');
-  background-repeat: repeat;
-  background-position: top left;
-  background-size: 480px auto;
-  opacity: 0.25;
-  pointer-events: none;
-}
-
 .real-impact-sticky-wrapper {
   width: 100%;
   display: flex;
@@ -1655,8 +1643,7 @@ textarea {
   gap: 1.75rem;
   width: 100%;
   max-width: 1180px;
-  margin-top: clamp(2rem, 4vh, 3.5rem);
-  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 3vh, 2.5rem);
 }
 
 /* Left Photo Card (Grace) */
@@ -1664,9 +1651,9 @@ textarea {
   position: relative;
   box-sizing: border-box;
   flex: 1 1 460px;
-  max-width: 630px;
+  max-width: 560px;
   width: 100%;
-  min-height: clamp(300px, 35vh, 336px);
+  align-self: stretch;
   border-radius: 30px;
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(0, 15, 60, 0.12);
@@ -1711,10 +1698,6 @@ textarea {
   align-items: flex-start;
 }
 
-.impact-arrow-btn {
-  display: none;
-}
-
 .impact-name {
   font-family: 'PP Neue Montreal', var(--font-family);
   font-size: clamp(2rem, 3.5vw, 3rem);
@@ -1733,21 +1716,41 @@ textarea {
   margin-top: 0.35rem;
 }
 
-/* Right Orange Quote Card */
-.impact-quote-card {
+/* Right Quotes Wrapper (Desktop: Orange top, Pink bottom) */
+.impact-quotes-wrapper {
+  position: relative;
   box-sizing: border-box;
   flex: 1 1 460px;
-  max-width: 630px;
+  max-width: 600px;
   width: 100%;
-  min-height: clamp(300px, 35vh, 336px);
-  background-color: #FF5500;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.impact-quote-card,
+.impact-pink-card {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
   border-radius: 30px;
-  padding: clamp(1.85rem, 3.5vw, 2.75rem);
+  padding: clamp(1.85rem, 3.5vw, 2.5rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+  gap: clamp(1rem, 2vw, 1.35rem);
+  transform: none !important;
+}
+
+.impact-quote-card {
+  background-color: #FF5500;
   box-shadow: 0 16px 40px rgba(255, 85, 0, 0.22);
+}
+
+.impact-pink-card {
+  background-color: #FF69B4;
+  box-shadow: 0 16px 40px rgba(255, 105, 180, 0.22);
 }
 
 .impact-quote-title {
@@ -1774,32 +1777,49 @@ textarea {
   color: #FFFFFF;
 }
 
-.impact-story-track {
-  width: 100%;
+.impact-arrow-btn {
   display: flex;
+  align-items: center;
   justify-content: center;
-}
-
-/* Third Pink Quote Card */
-.impact-pink-card {
-  box-sizing: border-box;
-  flex: 1 1 460px;
-  max-width: 630px;
-  width: 100%;
-  min-height: clamp(300px, 35vh, 336px);
-  background-color: #FF69B4;
-  border-radius: 30px;
-  padding: clamp(1.85rem, 3.5vw, 2.75rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: clamp(1.25rem, 2.5vw, 1.75rem);
-  box-shadow: 0 16px 40px rgba(255, 105, 180, 0.22);
-}
-
-.impact-pink-card .impact-quote-title,
-.impact-pink-card .impact-quote-body {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
   color: #FFFFFF;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.impact-arrow-btn:hover {
+  background: rgba(255, 255, 255, 0.42);
+  transform: scale(1.05);
+}
+
+.impact-arrow-btn:active {
+  transform: scale(0.92);
+}
+
+.impact-quote-arrow-left {
+  position: absolute;
+  bottom: 1.85rem;
+  left: 1.85rem;
+}
+
+.impact-quote-arrow-right {
+  position: absolute;
+  bottom: 1.85rem;
+  right: 1.85rem;
+}
+
+@media (min-width: 769px) {
+  .impact-arrow-btn {
+    display: none !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1849,15 +1869,13 @@ textarea {
   .impact-story-container {
     position: relative;
     width: 100%;
-    max-width: 528px; /* 10% wider (480px -> 528px) */
-    height: 416px;    /* 20% less long (520px -> 416px) */
+    max-width: 528px;
+    height: 416px;
     border-radius: 28px;
     overflow: hidden;
     margin: 0 auto;
     flex-wrap: nowrap;
     padding: 0;
-
-    /* Crucial to force Safari to respect border-radius clipping with transforms */
     transform: translateZ(0);
     isolation: isolate;
   }
@@ -1877,27 +1895,16 @@ textarea {
     padding: 1.25rem 1.4rem;
   }
 
-  .impact-arrow-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.28);
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    color: #FFFFFF;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    cursor: pointer;
-    flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
-
-  .impact-arrow-btn:active {
-    transform: scale(0.92);
-    background: rgba(255, 255, 255, 0.45);
+  .impact-quotes-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    border-radius: 28px;
+    z-index: 10;
+    pointer-events: none;
   }
 
   .impact-quote-arrow-left {
@@ -1922,6 +1929,7 @@ textarea {
     min-height: 100%;
     border-radius: 28px;
     z-index: 10;
+    pointer-events: auto;
     transform: translate3d(105%, 0, 0);
     transition: transform 0.1s ease-out;
     padding: 2.2rem 1.6rem 1.6rem 1.6rem;
