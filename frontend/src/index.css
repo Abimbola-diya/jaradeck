@@ -1647,7 +1647,7 @@ textarea {
   align-items: stretch;
   gap: 1.75rem;
   width: 100%;
-  max-width: 1080px;
+  max-width: 1180px;
   margin-top: clamp(2rem, 4vh, 3.5rem);
   flex-wrap: wrap;
 }
@@ -1656,10 +1656,10 @@ textarea {
 .impact-photo-card {
   position: relative;
   box-sizing: border-box;
-  flex: 1 1 440px;
-  max-width: 520px;
+  flex: 1 1 460px;
+  max-width: 572px;
   width: 100%;
-  min-height: clamp(440px, 50vh, 520px);
+  min-height: clamp(380px, 42vh, 420px);
   border-radius: 30px;
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(0, 15, 60, 0.12);
@@ -1688,7 +1688,7 @@ textarea {
   position: relative;
   z-index: 2;
   box-sizing: border-box;
-  padding: clamp(1.75rem, 3.5vw, 2.5rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
   color: #FFFFFF;
   width: 100%;
   display: flex;
@@ -1710,7 +1710,7 @@ textarea {
 
 .impact-name {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-size: clamp(2rem, 3.5vw, 3rem);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -1720,7 +1720,7 @@ textarea {
 
 .impact-role {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-size: clamp(0.9rem, 1.3vw, 1.1rem);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.9);
   margin-top: 0.35rem;
@@ -1729,23 +1729,23 @@ textarea {
 /* Right Orange Quote Card */
 .impact-quote-card {
   box-sizing: border-box;
-  flex: 1 1 440px;
-  max-width: 520px;
+  flex: 1 1 460px;
+  max-width: 572px;
   width: 100%;
-  min-height: clamp(440px, 50vh, 520px);
+  min-height: clamp(380px, 42vh, 420px);
   background-color: #FF5500;
   border-radius: 30px;
-  padding: clamp(2.25rem, 4vw, 3.25rem);
+  padding: clamp(1.85rem, 3.5vw, 2.75rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: clamp(1.5rem, 3vw, 2.25rem);
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
   box-shadow: 0 16px 40px rgba(255, 85, 0, 0.22);
 }
 
 .impact-quote-title {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(1.75rem, 3vw, 2.45rem);
+  font-size: clamp(1.65rem, 2.8vw, 2.3rem);
   font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.03em;
@@ -1755,9 +1755,9 @@ textarea {
 
 .impact-quote-body {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
 }
@@ -1775,21 +1775,38 @@ textarea {
 
 @media (max-width: 768px) {
   .real-impact-section {
+    min-height: 200vh; /* Dedicated scroll track for stationary pinned header & card replacement */
+    padding-top: 1.5rem;
     padding-bottom: 5rem;
   }
 
-  .impact-story-track {
-    position: relative;
+  .real-impact-wrapper {
+    position: sticky;
+    top: 1.5rem;
     width: 100%;
-    height: 250vh; /* Dedicated scroll track giving ample viewing pause + swipe distance */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .real-impact-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .real-impact-title {
+    font-size: 1.85rem;
+  }
+
+  .real-impact-subtitle {
+    font-size: 0.92rem;
+    margin-top: 0.35rem;
   }
 
   .impact-story-container {
-    position: sticky;
-    top: clamp(80px, 12vh, 110px);
+    position: relative;
     width: 100%;
-    max-width: 480px;
-    height: 520px;
+    max-width: 528px; /* 10% wider (480px -> 528px) */
+    height: 416px;    /* 20% less long (520px -> 416px) */
     border-radius: 28px;
     overflow: hidden;
     margin: 0 auto;
@@ -1813,15 +1830,15 @@ textarea {
   }
 
   .impact-photo-info {
-    padding: 1.5rem;
+    padding: 1.25rem 1.4rem;
   }
 
   .impact-arrow-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.28);
     border: 1.5px solid rgba(255, 255, 255, 0.5);
@@ -1850,18 +1867,19 @@ textarea {
     z-index: 10;
     transform: translate3d(105%, 0, 0);
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    padding: 2rem 1.6rem;
+    padding: 1.6rem 1.4rem;
     justify-content: center;
-    gap: 1.25rem;
+    gap: 1rem;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
   }
 
   .impact-quote-title {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
+    line-height: 1.25;
   }
 
   .impact-quote-body {
-    font-size: 0.95rem;
-    line-height: 1.48;
+    font-size: 0.9rem;
+    line-height: 1.45;
   }
 }
