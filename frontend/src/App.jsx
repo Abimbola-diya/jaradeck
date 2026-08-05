@@ -8,6 +8,7 @@ import FeatureCards from './components/FeatureCards';
 import RealImpactSection from './components/RealImpactSection';
 import FaqSection from './components/FaqSection';
 import NewsletterSection from './components/NewsletterSection';
+import WaitlistPage from './components/WaitlistPage';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -53,6 +54,26 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('join');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [headlineIndex, setHeadlineIndex] = useState(0);
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
+
+  // Sync route on popstate (browser back/forward)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', path);
+      setCurrentPath(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   // Rotate headline every 5 seconds
   useEffect(() => {
@@ -139,8 +160,13 @@ export default function App() {
       <header className="nav-header">
         <div className="nav-header-wrapper">
 
-          {/* 1. Far Left Logo: Bare SVG Logo (No circle/pill background) */}
-          <div className="nav-logo" title="Jaradeck" onClick={() => setActiveTab('join')}>
+          {/* 1. Far Left Logo: Bare SVG Logo */}
+          <div
+            className="nav-logo"
+            title="Jaradeck"
+            onClick={() => navigateTo('/')}
+            style={{ cursor: 'pointer' }}
+          >
             <JaradeckLogo width={41} />
           </div>
 
@@ -151,34 +177,34 @@ export default function App() {
 
             <button
               ref={hireRef}
-              className={`nav-link-btn ${activeTab === 'hire' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('hire'); setIsMoreOpen(false); }}
+              className={`nav-link-btn ${activeTab === 'hire' && currentPath === '/' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('hire'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               Hire Talent
             </button>
 
             <button
               ref={howRef}
-              className={`nav-link-btn ${activeTab === 'how' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('how'); setIsMoreOpen(false); }}
+              className={`nav-link-btn ${activeTab === 'how' && currentPath === '/' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('how'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               How It Works
             </button>
 
             <button
               ref={whyRef}
-              className={`nav-link-btn ${activeTab === 'why' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('why'); setIsMoreOpen(false); }}
+              className={`nav-link-btn ${activeTab === 'why' && currentPath === '/' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('why'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               Why Jaradeck
             </button>
 
             <button
               ref={joinRef}
-              className={`nav-link-btn ${activeTab === 'join' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); }}
+              className={`nav-link-btn ${currentPath === '/waitlist' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); navigateTo('/waitlist'); }}
             >
-              Join Jaradeck
+              Use Jaradeck
             </button>
           </nav>
 
@@ -241,7 +267,9 @@ export default function App() {
             <span></span>
           </button>
         </div>
-      </header>      {/* Mobile Menu Overlay */}
+      </header>
+
+      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
           {/* Top Bar inside Overlay */}
@@ -250,7 +278,7 @@ export default function App() {
               <button
                 className="mobile-action-circle"
                 aria-label="Jaradeck Logo Action"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => { setIsMobileMenuOpen(false); navigateTo('/'); }}
               >
                 <svg width="22" height="16" viewBox="0 0 42 30" fill="none">
                   <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="#0048B3" />
@@ -278,29 +306,29 @@ export default function App() {
           {/* Sectioned Menu Items List */}
           <div className="mobile-menu-list">
             <button
-              className={`mobile-nav-row ${activeTab === 'hire' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); }}
+              className={`mobile-nav-row ${activeTab === 'hire' && currentPath === '/' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); navigateTo('/'); }}
             >
               <span className="mobile-row-text">Hire Talent</span>
             </button>
 
             <button
-              className={`mobile-nav-row ${activeTab === 'how' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); }}
+              className={`mobile-nav-row ${activeTab === 'how' && currentPath === '/' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); navigateTo('/'); }}
             >
               <span className="mobile-row-text">How It Works</span>
             </button>
 
             <button
-              className={`mobile-nav-row ${activeTab === 'why' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); }}
+              className={`mobile-nav-row ${activeTab === 'why' && currentPath === '/' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); navigateTo('/'); }}
             >
               <span className="mobile-row-text">Why Jaradeck</span>
             </button>
 
             <button
-              className={`mobile-nav-row ${activeTab === 'join' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); }}
+              className={`mobile-nav-row ${currentPath === '/waitlist' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); navigateTo('/waitlist'); }}
             >
               <span className="mobile-row-text">Use Jaradeck</span>
             </button>
@@ -329,60 +357,70 @@ export default function App() {
         </div>
       )}
 
-      {/* Main Hero Content Area */}
-      <main className="hero-main">
-        <div className="hero-content">
-          <div className="hero-headline-wrapper">
-            <h1 key={headlineIndex} className="hero-headline hero-headline-animated">
-              {HEADLINES[headlineIndex].map((part, index) =>
-                part.action ? (
-                  <span key={index} className="action-word">{part.text}</span>
-                ) : (
-                  <React.Fragment key={index}>{part.text}</React.Fragment>
-                )
-              )}
-            </h1>
-          </div>
+      {/* Conditionally Render Waitlist Page OR Full Landing Page */}
+      {currentPath === '/waitlist' ? (
+        <>
+          <WaitlistPage onNavigateHome={() => navigateTo('/')} />
+          <NewsletterSection />
+        </>
+      ) : (
+        <>
+          {/* Main Hero Content Area */}
+          <main className="hero-main">
+            <div className="hero-content">
+              <div className="hero-headline-wrapper">
+                <h1 key={headlineIndex} className="hero-headline hero-headline-animated">
+                  {HEADLINES[headlineIndex].map((part, index) =>
+                    part.action ? (
+                      <span key={index} className="action-word">{part.text}</span>
+                    ) : (
+                      <React.Fragment key={index}>{part.text}</React.Fragment>
+                    )
+                  )}
+                </h1>
+              </div>
 
-          <p className="hero-subtitle">
-            Jaradeck is the easiest way to get work done without sifting through endless profiles and fake reviews. Give us the grunt work.
-          </p>
+              <p className="hero-subtitle">
+                Jaradeck is the easiest way to get work done without sifting through endless profiles and fake reviews. Give us the grunt work.
+              </p>
 
-          <button className="hero-cta-btn" onClick={() => setActiveTab('join')}>
-            <span>Join Jaradeck</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
-              <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
+              <button className="hero-cta-btn" onClick={() => navigateTo('/waitlist')}>
+                <span>Use Jaradeck</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
+                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
 
-        {/* Stadium Architecture & Hero Graphics */}
-        <div className="stadium-section">
-          <StadiumIllustration />
-        </div>
-      </main>
+            {/* Stadium Architecture & Hero Graphics */}
+            <div className="stadium-section">
+              <StadiumIllustration />
+            </div>
+          </main>
 
-      {/* Blue Canopy Section */}
-      <section className="canopy-section">
-        <div className="canopy-content-wrapper">
-          <NeedItDoneAnimation />
-        </div>
-      </section>
+          {/* Blue Canopy Section */}
+          <section className="canopy-section">
+            <div className="canopy-content-wrapper">
+              <NeedItDoneAnimation />
+            </div>
+          </section>
 
-      {/* Comparison Cards Section */}
-      <ComparisonCards />
+          {/* Comparison Cards Section */}
+          <ComparisonCards />
 
-      {/* Feature Cards Section (60 Seconds Office Card) */}
-      <FeatureCards />
+          {/* Feature Cards Section (60 Seconds Office Card) */}
+          <FeatureCards />
 
-      {/* Real Impact, Real Stories Section (White Background with Wavy Pattern) */}
-      <RealImpactSection />
+          {/* Real Impact, Real Stories Section (White Background with Wavy Pattern) */}
+          <RealImpactSection />
 
-      {/* FAQ Section (Solid Blue Background with Accordions) */}
-      <FaqSection />
+          {/* FAQ Section (Solid Blue Background with Accordions) */}
+          <FaqSection />
 
-      {/* Newsletter Section */}
-      <NewsletterSection />
+          {/* Newsletter / Footer Grid Section */}
+          <NewsletterSection />
+        </>
+      )}
     </div>
   );
 }
