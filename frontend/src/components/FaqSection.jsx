@@ -20,6 +20,16 @@ const faqData = [
     id: 4,
     question: "How much does it cost?",
     answer: "Jaradeck is designed to be affordable. Every project is priced based on the work involved, and because we work with vetted student professionals, you get great work without paying agency prices. You can also negotiate a price that works for you."
+  },
+  {
+    id: 5,
+    question: "What if my project needs different skill-sets?",
+    answer: "Absolutely. You don't have to figure out who to hire or in what order. Simply describe what you're trying to achieve, and Jaradeck puts together the right team for the job. Whether you need a writer, designer, video editor or developer, everyone works together around one project, one timeline and one goal, while you focus on the bigger picture."
+  },
+  {
+    id: 6,
+    question: "What if I'm not happy with the work?",
+    answer: "You don't have to worry—we've got you. If the work isn't up to standard or doesn't meet your expectations, we'll step in, make it right, or assign it to someone better. If we still can't deliver what was promised, you'll get a full refund. Your money is only released when you're happy with the outcome."
   }
 ];
 
@@ -66,7 +76,19 @@ export default function FaqSection() {
                 onClick={() => toggleFaq(item.id)}
               >
                 <div className="faq-question-row">
-                  <h3 className="faq-question-text">{item.question}</h3>
+                  <div className="faq-question-text-wrapper">
+                    {isOpen && (
+                      <svg viewBox="0 0 200 10" preserveAspectRatio="none" className="faq-wobbly-line faq-wobbly-top" aria-hidden="true">
+                        <path d="M 1,7 L 6,2 L 12,8 L 19,1 L 25,7 L 31,3 L 38,9 L 45,2 L 52,8 L 59,1 L 65,7 L 72,2 L 78,8 L 86,1 L 93,7 L 99,3 L 107,8 L 114,2 L 121,7 L 127,1 L 135,8 L 142,3 L 149,7 L 157,2 L 164,8 L 171,1 L 178,7 L 186,2 L 193,8 L 199,3" stroke="#0048B3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    )}
+                    <h3 className="faq-question-text">{item.question}</h3>
+                    {isOpen && (
+                      <svg viewBox="0 0 200 10" preserveAspectRatio="none" className="faq-wobbly-line faq-wobbly-bottom" aria-hidden="true">
+                        <path d="M 1,3 L 7,8 L 14,2 L 21,9 L 28,3 L 34,7 L 41,1 L 49,8 L 56,2 L 63,9 L 70,3 L 77,8 L 83,2 L 91,8 L 98,2 L 105,9 L 112,3 L 119,7 L 126,2 L 134,9 L 141,3 L 148,8 L 155,2 L 163,8 L 170,3 L 177,9 L 185,2 L 192,8 L 199,4" stroke="#0048B3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                      </svg>
+                    )}
+                  </div>
                   <button
                     className="faq-toggle-btn"
                     aria-expanded={isOpen}
@@ -97,6 +119,27 @@ export default function FaqSection() {
             );
           })}
         </div>
+      </div>
+
+      {/* Bottom CTA Banner */}
+      <div className="cta-banner-card">
+        <h2 className="cta-banner-title">
+          {"You can't keep doing everything yourself."}
+        </h2>
+        <p className="cta-banner-subtext">
+          Let Jaradeck take it from here
+        </p>
+        <button
+          className="cta-banner-btn"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
+          <span>Join Jaradeck</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
+            <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
     </section>
   );

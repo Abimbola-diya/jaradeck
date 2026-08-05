@@ -7,6 +7,7 @@ import ComparisonCards from './components/ComparisonCards';
 import FeatureCards from './components/FeatureCards';
 import RealImpactSection from './components/RealImpactSection';
 import FaqSection from './components/FaqSection';
+import NewsletterSection from './components/NewsletterSection';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -344,6 +345,9 @@ export default function App() {
 
       {/* FAQ Section (Solid Blue Background with Accordions) */}
       <FaqSection />
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 }

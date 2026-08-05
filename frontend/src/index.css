@@ -2100,6 +2100,43 @@ textarea {
   width: 100%;
 }
 
+.faq-question-text-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
+  max-width: fit-content;
+}
+
+.faq-wobbly-line {
+  width: 100%;
+  height: 8px;
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+  animation: faqWobblyFade 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.faq-wobbly-top {
+  margin-bottom: 2px;
+}
+
+.faq-wobbly-bottom {
+  margin-top: 2px;
+}
+
+@keyframes faqWobblyFade {
+  from {
+    opacity: 0;
+    transform: scaleX(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
 .faq-question-text {
   font-family: 'PP Neue Montreal', var(--font-family);
   font-size: clamp(1.1rem, 1.8vw, 1.45rem);
@@ -2171,5 +2208,242 @@ textarea {
 
   .faq-question-text {
     font-size: 1.05rem;
+  }
+
+  .cta-banner-card {
+    border-radius: 32px;
+    padding: 40px 20px;
+    min-height: auto;
+    gap: 16px;
+  }
+}
+
+/* ===== Bottom CTA Banner Card (Figma Specs) ===== */
+.cta-banner-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(50px, 8vw, 80px) 24px;
+  gap: 24px;
+  max-width: 1362px;
+  width: 100%;
+  min-height: 428px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #0048B3;
+  border-radius: 60px;
+  margin-top: clamp(4rem, 8vh, 6rem);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.cta-banner-title {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: #FFFFFF;
+  margin: 0;
+  max-width: 900px;
+}
+
+.cta-banner-subtext {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.cta-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #FFFFFF;
+  color: #0048B3;
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+}
+
+.cta-banner-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  background-color: #F8FAFC;
+}
+
+.cta-banner-btn .arrow-icon {
+  transition: transform 0.2s ease;
+}
+
+.cta-banner-btn:hover .arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+/* ===== Newsletter Section (Figma / Jaradeck Theme) ===== */
+.newsletter-section {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  background-color: #0048B3;
+  padding: 0 1.5rem 5rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.newsletter-container {
+  max-width: 1362px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.newsletter-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+.newsletter-title-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-sparkle-icon {
+  color: #FFFFFF;
+  width: clamp(36px, 4vw, 48px);
+  height: clamp(36px, 4vw, 48px);
+  flex-shrink: 0;
+}
+
+.newsletter-title {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.04em;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.newsletter-subtitle {
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.72);
+  margin-left: 0.5rem;
+}
+
+.newsletter-graphic-wrapper {
+  position: absolute;
+  right: 0;
+  top: -38px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.newsletter-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.newsletter-input-cell {
+  padding: 1.75rem 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+}
+
+.newsletter-email-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'PP Neue Montreal', var(--font-family);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  color: #FFFFFF;
+  padding: 0;
+}
+
+.newsletter-email-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.newsletter-submit-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A78BFA;
+  transition: color 0.25s ease, transform 0.25s ease;
+  width: 100%;
+  height: 100%;
+}
+
+.newsletter-submit-btn:hover {
+  color: #C4B5FD;
+  transform: translateX(4px);
+}
+
+.newsletter-arrow-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.newsletter-success-check {
+  font-size: 1.4rem;
+  color: #4ADE80;
+}
+
+.newsletter-bottom-grid-lines {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 52px;
+}
+
+.newsletter-grid-cell {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.newsletter-grid-cell:last-child {
+  border-right: none;
+}
+
+@media (max-width: 768px) {
+  .newsletter-section {
+    padding: 0 1rem 3.5rem 1rem;
+  }
+
+  .newsletter-graphic-wrapper {
+    display: none;
+  }
+
+  .newsletter-form-grid {
+    grid-template-columns: 1fr 80px;
+  }
+
+  .newsletter-subtitle {
+    margin-left: 0;
+    width: 100%;
   }
 }
