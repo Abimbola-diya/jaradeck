@@ -19,20 +19,50 @@ export default function NewsletterSection() {
         {/* Top Header Row */}
         <div className="newsletter-header-row">
           <div className="newsletter-title-group">
-            {/* Sparkle Icon (Curved 4-point Sparkle) */}
+            {/* Jaradeck 3D Stacked Blocks Logo */}
             <svg
-              className="newsletter-sparkle-icon"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+              className="newsletter-logo-icon"
+              width="42"
+              height="30"
+              viewBox="0 0 42 30"
+              fill="none"
               aria-hidden="true"
             >
-              <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" />
+              <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="white" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 21.5234H3.90593L0 19.4655H37.0411L41.0577 21.5234Z" fill="#E2E2E2" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 21.5234V29.5169L0 27.1387V19.4655L3.90593 21.5234Z" fill="#EFEFEF" />
+              <path d="M3.90593 11.9195H41.0577V19.913H3.90593V11.9195Z" fill="white" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 11.9195H3.90593L0 9.86157H37.0411L41.0577 11.9195Z" fill="#E2E2E2" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 11.9195V19.913L0 17.5348V9.86157L3.90593 11.9195Z" fill="#EFEFEF" />
+              <path d="M3.90593 2.05795H41.0577V10.0515H3.90593V2.05795Z" fill="white" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 2.05795H3.90593L0 0H37.0411L41.0577 2.05795Z" fill="#E2E2E2" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 2.05795V10.0515L0 7.67324V0L3.90593 2.05795Z" fill="#EFEFEF" />
             </svg>
 
-            <h2 className="newsletter-title">Cool stuff only</h2>
-            <span className="newsletter-subtitle">Subscribe to our newsletter</span>
+            <div className="newsletter-text-stack">
+              <h2 className="newsletter-title">
+                <span className="jara-scribble-container">
+                  Jara
+                  <svg
+                    className="jara-scribble-svg"
+                    viewBox="0 0 100 24"
+                    fill="none"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M 2 4 C 20 2, 45 7, 70 3 C 85 1, 94 5, 97 4 C 100 6, 99 9, 95 10 C 75 12, 50 7, 25 11 C 12 13, 4 9, 2 11 C 0 13, 2 16, 6 17 C 28 19, 55 14, 78 18 C 88 19, 94 16, 97 17"
+                      stroke="#FFFFFF"
+                      strokeWidth="2.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>{" "}
+                Dey
+              </h2>
+              <span className="newsletter-subtitle">Subscribe to our newsletter</span>
+            </div>
           </div>
 
           {/* Top-Right Illustration Graphic */}
@@ -63,28 +93,90 @@ export default function NewsletterSection() {
               <span className="newsletter-success-check">✓</span>
             ) : (
               <svg
-                width="24"
-                height="24"
+                width="36"
+                height="36"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2.5"
+                strokeWidth="3.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="newsletter-arrow-icon"
               >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <polyline points="13 5 20 12 13 19" />
               </svg>
             )}
           </button>
         </form>
 
-        {/* Bottom Grid Line Subdivisions */}
-        <div className="newsletter-bottom-grid-lines">
-          <div className="newsletter-grid-cell" />
-          <div className="newsletter-grid-cell" />
-          <div className="newsletter-grid-cell" />
+        {/* Footer Grid Row */}
+        <div className="newsletter-footer-grid">
+          {/* Left Brand Cell */}
+          <div className="newsletter-brand-cell">
+            <div className="newsletter-brand-logo-group">
+              <svg
+                className="newsletter-footer-logo"
+                width="38"
+                height="27"
+                viewBox="0 0 42 30"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="white" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 21.5234H3.90593L0 19.4655H37.0411L41.0577 21.5234Z" fill="#E2E2E2" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 21.5234V29.5169L0 27.1387V19.4655L3.90593 21.5234Z" fill="#EFEFEF" />
+                <path d="M3.90593 11.9195H41.0577V19.913H3.90593V11.9195Z" fill="white" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 11.9195H3.90593L0 9.86157H37.0411L41.0577 11.9195Z" fill="#E2E2E2" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 11.9195V19.913L0 17.5348V9.86157L3.90593 11.9195Z" fill="#EFEFEF" />
+                <path d="M3.90593 2.05795H41.0577V10.0515H3.90593V2.05795Z" fill="white" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 2.05795H3.90593L0 0H37.0411L41.0577 2.05795Z" fill="#E2E2E2" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 2.05795V10.0515L0 7.67324V0L3.90593 2.05795Z" fill="#EFEFEF" />
+              </svg>
+              <span className="newsletter-brand-name">Jaradeck</span>
+            </div>
+          </div>
+
+          {/* Right Social Links 2x2 Grid */}
+          <div className="newsletter-social-grid">
+            {/* Twitter */}
+            <a href="#twitter" className="newsletter-social-cell" onClick={(e) => e.preventDefault()}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#93C5FD" aria-hidden="true">
+                <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" />
+              </svg>
+              <span>Twitter</span>
+            </a>
+
+            {/* Instagram */}
+            <a href="#instagram" className="newsletter-social-cell" onClick={(e) => e.preventDefault()}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#F472B6" aria-hidden="true">
+                <path d="M12 2L14.2 8.3L21 9L15.8 13.8L17.5 20.5L12 17L6.5 20.5L8.2 13.8L3 9L9.8 8.3L12 2Z" />
+              </svg>
+              <span>Instagram</span>
+            </a>
+
+            {/* Facebook */}
+            <a href="#facebook" className="newsletter-social-cell" onClick={(e) => e.preventDefault()}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#A78BFA" aria-hidden="true">
+                <path d="M12 3A9 9 0 0 0 3 12A9 9 0 0 0 12 21V3Z" />
+              </svg>
+              <span>Facebook</span>
+            </a>
+
+            {/* LinkedIn */}
+            <a href="#linkedin" className="newsletter-social-cell" onClick={(e) => e.preventDefault()}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#FB923C" aria-hidden="true">
+                <circle cx="12" cy="12" r="8.5" fill="none" stroke="#FB923C" strokeWidth="3" />
+                <circle cx="12" cy="12" r="3.5" fill="#FB923C" />
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom Copyright Text */}
+        <div className="newsletter-copyright">
+          © 2022–2026 Jaradeck Ltd. All rights reserved.
         </div>
       </div>
     </section>

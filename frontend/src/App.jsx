@@ -241,56 +241,91 @@ export default function App() {
             <span></span>
           </button>
         </div>
-      </header>
-
-      {/* Mobile Menu Overlay */}
+      </header>      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
-          <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
-            ✕
-          </button>
-          <button
-            className={`mobile-nav-link ${activeTab === 'hire' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); }}
-          >
-            Hire Talent
-          </button>
-          <button
-            className={`mobile-nav-link ${activeTab === 'how' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); }}
-          >
-            How It Works
-          </button>
-          <button
-            className={`mobile-nav-link ${activeTab === 'why' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); }}
-          >
-            Why Jaradeck
-          </button>
-          <button
-            className={`mobile-nav-link ${activeTab === 'join' ? 'active' : ''}`}
-            onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); }}
-          >
-            Join Jaradeck
-          </button>
-          <button
-            className="mobile-nav-link"
-            onClick={() => { setIsMobileMenuOpen(false); }}
-          >
-            Contact Us
-          </button>
-          <button
-            className="mobile-nav-link"
-            onClick={() => { setIsMobileMenuOpen(false); }}
-          >
-            FAQs
-          </button>
-          <button
-            className="mobile-nav-link"
-            onClick={() => { setIsMobileMenuOpen(false); }}
-          >
-            Blog
-          </button>
+          {/* Top Bar inside Overlay */}
+          <div className="mobile-menu-header">
+            <div className="mobile-menu-header-actions">
+              <button
+                className="mobile-action-circle"
+                aria-label="Jaradeck Logo Action"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <svg width="22" height="16" viewBox="0 0 42 30" fill="none">
+                  <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="#0048B3" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 21.5234H3.90593L0 19.4655H37.0411L41.0577 21.5234Z" fill="#00388D" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 21.5234V29.5169L0 27.1387V19.4655L3.90593 21.5234Z" fill="#0048B3" />
+                  <path d="M3.90593 11.9195H41.0577V19.913H3.90593V11.9195Z" fill="#0048B3" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 11.9195H3.90593L0 9.86157H37.0411L41.0577 11.9195Z" fill="#00388D" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 11.9195V19.913L0 17.5348V9.86157L3.90593 11.9195Z" fill="#0048B3" />
+                  <path d="M3.90593 2.05795H41.0577V10.0515H3.90593V2.05795Z" fill="#0048B3" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 2.05795H3.90593L0 0H37.0411L41.0577 2.05795Z" fill="#00388D" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 2.05795V10.0515L0 7.67324V0L3.90593 2.05795Z" fill="#0048B3" />
+                </svg>
+              </button>
+
+              <button
+                className="mobile-menu-close"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+
+          {/* Sectioned Menu Items List */}
+          <div className="mobile-menu-list">
+            <button
+              className={`mobile-nav-row ${activeTab === 'hire' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">Hire Talent</span>
+            </button>
+
+            <button
+              className={`mobile-nav-row ${activeTab === 'how' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">How It Works</span>
+            </button>
+
+            <button
+              className={`mobile-nav-row ${activeTab === 'why' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">Why Jaradeck</span>
+            </button>
+
+            <button
+              className={`mobile-nav-row ${activeTab === 'join' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">Use Jaradeck</span>
+            </button>
+
+            <button
+              className="mobile-nav-row"
+              onClick={() => { setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">Contact Us</span>
+            </button>
+
+            <button
+              className="mobile-nav-row"
+              onClick={() => { setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">FAQs</span>
+            </button>
+
+            <button
+              className="mobile-nav-row"
+              onClick={() => { setIsMobileMenuOpen(false); }}
+            >
+              <span className="mobile-row-text">Blog</span>
+            </button>
+          </div>
         </div>
       )}
 
