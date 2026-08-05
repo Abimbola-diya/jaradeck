@@ -2352,9 +2352,18 @@ textarea {
 .newsletter-graphic-wrapper {
   position: absolute;
   right: 0;
-  top: -38px;
+  top: -42px;
   pointer-events: none;
   z-index: 2;
+  display: flex;
+  align-items: flex-end;
+}
+
+.newsletter-lekki-img {
+  height: clamp(65px, 6vw, 90px);
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .newsletter-form-grid {
@@ -2376,14 +2385,16 @@ textarea {
   border: none;
   outline: none;
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-  font-weight: 400;
-  color: #FFFFFF;
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.75);
   padding: 0;
 }
 
 .newsletter-email-input::placeholder {
   color: rgba(255, 255, 255, 0.45);
+  font-weight: 700;
 }
 
 .newsletter-submit-btn {

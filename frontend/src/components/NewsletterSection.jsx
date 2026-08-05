@@ -37,38 +37,11 @@ export default function NewsletterSection() {
 
           {/* Top-Right Illustration Graphic */}
           <div className="newsletter-graphic-wrapper">
-            <svg
-              width="68"
-              height="72"
-              viewBox="0 0 80 85"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="newsletter-bag-svg"
-            >
-              <path
-                d="M15 25 L65 25 L75 80 C75 82 73 84 70 84 L10 84 C7 84 5 82 5 80 Z"
-                fill="#D98A48"
-                stroke="#1E140C"
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M15 25 L25 15 C27 13 30 13 32 15 L40 22 L48 15 C50 13 53 13 55 15 L65 25"
-                fill="#E69C5A"
-                stroke="#1E140C"
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-              />
-              <circle cx="40" cy="35" r="5" fill="#105C3E" stroke="#1E140C" strokeWidth="1.5" />
-              <line x1="15" y1="58" x2="65" y2="58" stroke="#1E140C" strokeWidth="2" strokeLinecap="round" />
-              <path
-                d="M65 25 L75 80 L80 75 L70 20 Z"
-                fill="#B36E33"
-                stroke="#1E140C"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <img
+              src="/lekki.svg"
+              alt="Lekki illustration"
+              className="newsletter-lekki-img"
+            />
           </div>
         </div>
 
