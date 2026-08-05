@@ -9,17 +9,17 @@ const faqData = [
   {
     id: 2,
     question: "How is this different from Upwork or Fiverr?",
-    answer: "Unlike freelance marketplaces where you spend hours scrolling profiles, interviewing strangers, and managing freelancers yourself, Jaradeck automatically matches and assembles a dedicated, pre-verified team for your exact project needs and budget in 60 seconds."
+    answer: "Upwork and Fiverr help you find freelancers. Jaradeck helps you get the work done. We vet every person ourselves, put together a team when your project needs one, and stay involved until the job is done right."
   },
   {
     id: 3,
-    question: "How and when do I get paid?",
-    answer: "Payments are handled securely through milestone-based escrow. Clients fund project milestones upfront, and funds are automatically released upon work approval, ensuring complete transparency and speed for both clients and creators."
+    question: "Who can use Jaradeck?",
+    answer: "If you've ever said, \"I know this needs to be done, I just don't have the time,\" Jaradeck is for you. Whether it's managing your social media, editing videos, designing graphics, building a website or launching a podcast, we help you get the work done without breaking the bank."
   },
   {
     id: 4,
-    question: "What if I need a designer, writer, and developer?",
-    answer: "Jaradeck excels at multi-disciplinary teams! Simply describe what you need done once, and our platform auto-assembles the exact combination of designers, writers, developers, and video editors required to complete your project seamlessly."
+    question: "How much does it cost?",
+    answer: "Jaradeck is designed to be affordable. Every project is priced based on the work involved, and because we work with vetted student professionals, you get great work without paying agency prices. You can also negotiate a price that works for you."
   }
 ];
 
