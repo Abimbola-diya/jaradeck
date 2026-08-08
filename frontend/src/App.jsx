@@ -8,7 +8,7 @@ import FeatureCards from './components/FeatureCards';
 import RealImpactSection from './components/RealImpactSection';
 import FaqSection from './components/FaqSection';
 import NewsletterSection from './components/NewsletterSection';
-import WaitlistPage from './components/WaitlistPage';
+import OnboardingPage from './components/OnboardingPage';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -157,7 +157,8 @@ export default function App() {
       <BackgroundGrid />
 
       {/* Floating Glassmorphic Navigation Bar Container */}
-      <header className="nav-header">
+      {currentPath !== '/onboarding' && (
+        <header className="nav-header">
         <div className="nav-header-wrapper">
 
           {/* 1. Far Left Logo: Bare SVG Logo */}
@@ -201,8 +202,8 @@ export default function App() {
 
             <button
               ref={joinRef}
-              className={`nav-link-btn ${currentPath === '/waitlist' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); navigateTo('/waitlist'); }}
+              className={`nav-link-btn ${currentPath === '/onboarding' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); navigateTo('/onboarding'); }}
             >
               Use Jaradeck
             </button>
@@ -268,6 +269,7 @@ export default function App() {
           </button>
         </div>
       </header>
+      )}
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
@@ -327,8 +329,8 @@ export default function App() {
             </button>
 
             <button
-              className={`mobile-nav-row ${currentPath === '/waitlist' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); navigateTo('/waitlist'); }}
+              className={`mobile-nav-row ${currentPath === '/onboarding' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); navigateTo('/onboarding'); }}
             >
               <span className="mobile-row-text">Use Jaradeck</span>
             </button>
@@ -357,12 +359,9 @@ export default function App() {
         </div>
       )}
 
-      {/* Conditionally Render Waitlist Page OR Full Landing Page */}
-      {currentPath === '/waitlist' ? (
-        <>
-          <WaitlistPage onNavigateHome={() => navigateTo('/')} />
-          <NewsletterSection />
-        </>
+      {/* Conditionally Render Onboarding Page OR Full Landing Page */}
+      {currentPath === '/onboarding' ? (
+        <OnboardingPage onNavigateHome={() => navigateTo('/')} />
       ) : (
         <>
           {/* Main Hero Content Area */}
@@ -384,7 +383,7 @@ export default function App() {
                 Jaradeck is the easiest way to get work done without sifting through endless profiles and fake reviews. Give us the grunt work.
               </p>
 
-              <button className="hero-cta-btn" onClick={() => navigateTo('/waitlist')}>
+              <button className="hero-cta-btn" onClick={() => navigateTo('/onboarding')}>
                 <span>Use Jaradeck</span>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
                   <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

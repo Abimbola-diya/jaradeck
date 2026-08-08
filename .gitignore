@@ -57,3 +57,6 @@ htmlcov/
 Thumbs.db
 desktop.ini
 .gemini/
+*.kilo/
+.kilo
+guide/
