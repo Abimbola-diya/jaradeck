@@ -130,7 +130,7 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
             className="ob2-role-card"
             onClick={() => onSelect('customer')}
           >
-            <span className="ob2-role-icon"><BriefcaseIcon /></span>
+            <div className="ob2-role-icon"><BriefcaseIcon /></div>
             <div className="ob2-role-text">
               <div className="ob2-role-label">I need work done.</div>
               <div className="ob2-role-desc">
@@ -144,7 +144,7 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
             className="ob2-role-card"
             onClick={() => onSelect('worker')}
           >
-            <span className="ob2-role-icon"><ToolsIcon /></span>
+            <div className="ob2-role-icon"><ToolsIcon /></div>
             <div className="ob2-role-text">
               <div className="ob2-role-label">I want to do work</div>
               <div className="ob2-role-desc">
