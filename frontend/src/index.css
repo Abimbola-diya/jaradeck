@@ -102,13 +102,15 @@ textarea {
 
 /* ===== Top Header Container ===== */
 .nav-header {
-  position: relative;
-  z-index: 30;
+  position: sticky;
+  top: 0;
+  z-index: 500;
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1.75rem 1.5rem 0 1.5rem;
+  padding: 1.25rem 1.5rem 0 1.5rem;
   background: transparent;
+  box-sizing: border-box;
 }
 
 /* Header Wrapper holding Left Bare Logo, Center Main Pill, and Right More Pill / Mobile Hamburger */
@@ -1533,18 +1535,20 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(2.5rem, 5vh, 4rem);
+  gap: clamp(12rem, 25vh, 22rem);
+  padding-bottom: clamp(6rem, 12vh, 12rem);
 }
 
-/* Individual Feature Card (Frame 83) */
+/* Individual Feature Card (Frame 83) - Sticky Card Stacking */
 .feature-card {
-  position: relative;
+  position: sticky;
+  top: clamp(60px, 9vh, 90px);
   width: 100%;
   max-width: 544px;
-  min-height: 648px;
+  min-height: 620px;
   background-color: #FFFFFF !important;
   border-radius: 30px;
-  box-shadow: 0 16px 40px rgba(0, 15, 60, 0.15);
+  box-shadow: 0 16px 40px rgba(0, 15, 60, 0.18);
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -1555,9 +1559,15 @@ textarea {
   overflow: hidden;
 }
 
+.feature-card:nth-child(1) { top: clamp(40px, 7vh, 70px); z-index: 1; }
+.feature-card:nth-child(2) { top: clamp(50px, 8.5vh, 80px); z-index: 2; }
+.feature-card:nth-child(3) { top: clamp(60px, 10vh, 90px); z-index: 3; }
+.feature-card:nth-child(4) { top: clamp(70px, 11.5vh, 100px); z-index: 4; }
+.feature-card:nth-child(5) { top: clamp(80px, 13vh, 110px); z-index: 5; }
+
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 45px rgba(0, 15, 60, 0.25);
+  box-shadow: 0 22px 50px rgba(0, 15, 60, 0.25);
 }
 
 /* Top Illustration Box (Frame 93) */
@@ -2376,7 +2386,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2.2rem 0;
+  padding: 2.2rem 0 2.2rem clamp(2rem, 4.5vw, 4.2rem);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   position: relative;
 }
@@ -2389,14 +2399,15 @@ textarea {
 
 .newsletter-text-stack {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.2rem;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 1.25rem;
+  flex-wrap: wrap;
 }
 
-.newsletter-logo-icon {
-  width: clamp(52px, 5.5vw, 68px);
-  height: auto;
+.newsletter-star-icon {
+  width: clamp(52px, 5.5vw, 70px);
+  height: clamp(52px, 5.5vw, 70px);
   flex-shrink: 0;
 }
 
@@ -2410,28 +2421,13 @@ textarea {
   line-height: 1.05;
 }
 
-.jara-scribble-container {
-  position: relative;
-  display: inline-block;
-}
-
-.jara-scribble-svg {
-  position: absolute;
-  left: 0;
-  bottom: -10px;
-  width: 100%;
-  height: 20px;
-  pointer-events: none;
-  overflow: visible;
-}
-
 .newsletter-subtitle {
   font-family: 'PP Neue Montreal', var(--font-family);
-  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
-  font-weight: 400;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 500;
   color: #FFE699;
   margin: 0;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .newsletter-graphic-wrapper {
@@ -2458,7 +2454,7 @@ textarea {
 }
 
 .newsletter-input-cell {
-  padding: 1.75rem 0;
+  padding: 1.75rem 0 1.75rem clamp(2rem, 4.5vw, 4.2rem);
   border-right: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
@@ -2490,20 +2486,20 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #A5B4FC;
+  color: #FFFFFF;
   transition: color 0.25s ease, transform 0.25s ease;
   width: 100%;
   height: 100%;
 }
 
 .newsletter-submit-btn:hover {
-  color: #C4B5FD;
+  color: #FFE699;
   transform: translateX(4px);
 }
 
 .newsletter-arrow-icon {
-  width: 38px;
-  height: 38px;
+  width: 48px;
+  height: 48px;
   stroke-width: 3.5px;
 }
 
@@ -2598,13 +2594,24 @@ textarea {
     display: none;
   }
 
-  .newsletter-form-grid {
-    grid-template-columns: 1fr 80px;
+  .newsletter-text-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+
+  .newsletter-star-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .newsletter-title {
+    font-size: 1.85rem;
   }
 
   .newsletter-subtitle {
     margin-left: 0;
-    width: 100%;
+    font-size: 0.95rem;
   }
 
   .newsletter-footer-grid {

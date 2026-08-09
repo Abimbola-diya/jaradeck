@@ -124,8 +124,11 @@ export default function FaqSection() {
       {/* Bottom CTA Banner */}
       <div className="cta-banner-card">
         <h2 className="cta-banner-title">
-          {"You can't keep doing everything yourself, let jaradeck take it from here."}
+          {"You can't keep doing everything yourself."}
         </h2>
+        <p className="cta-banner-subtext">
+          Let Jaradeck take it from here
+        </p>
         <button
           className="cta-banner-btn"
           onClick={() => {

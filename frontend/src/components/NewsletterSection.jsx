@@ -19,48 +19,20 @@ export default function NewsletterSection() {
         {/* Top Header Row */}
         <div className="newsletter-header-row">
           <div className="newsletter-title-group">
-            {/* Jaradeck 3D Stacked Blocks Logo */}
+            {/* 4-point White Star Icon */}
             <svg
-              className="newsletter-logo-icon"
-              width="42"
-              height="30"
-              viewBox="0 0 42 30"
-              fill="none"
+              className="newsletter-star-icon"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="#FFFFFF"
               aria-hidden="true"
             >
-              <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="white" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 21.5234H3.90593L0 19.4655H37.0411L41.0577 21.5234Z" fill="#E2E2E2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 21.5234V29.5169L0 27.1387V19.4655L3.90593 21.5234Z" fill="#EFEFEF" />
-              <path d="M3.90593 11.9195H41.0577V19.913H3.90593V11.9195Z" fill="white" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 11.9195H3.90593L0 9.86157H37.0411L41.0577 11.9195Z" fill="#E2E2E2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 11.9195V19.913L0 17.5348V9.86157L3.90593 11.9195Z" fill="#EFEFEF" />
-              <path d="M3.90593 2.05795H41.0577V10.0515H3.90593V2.05795Z" fill="white" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 2.05795H3.90593L0 0H37.0411L41.0577 2.05795Z" fill="#E2E2E2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 2.05795V10.0515L0 7.67324V0L3.90593 2.05795Z" fill="#EFEFEF" />
+              <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" />
             </svg>
 
             <div className="newsletter-text-stack">
-              <h2 className="newsletter-title">
-                <span className="jara-scribble-container">
-                  Jara
-                  <svg
-                    className="jara-scribble-svg"
-                    viewBox="0 0 100 24"
-                    fill="none"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M 2 4 C 20 2, 45 7, 70 3 C 85 1, 94 5, 97 4 C 100 6, 99 9, 95 10 C 75 12, 50 7, 25 11 C 12 13, 4 9, 2 11 C 0 13, 2 16, 6 17 C 28 19, 55 14, 78 18 C 88 19, 94 16, 97 17"
-                      stroke="#FFFFFF"
-                      strokeWidth="2.7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>{" "}
-                Dey
-              </h2>
+              <h2 className="newsletter-title">Jara Dey</h2>
               <span className="newsletter-subtitle">Subscribe to our newsletter</span>
             </div>
           </div>
@@ -93,8 +65,8 @@ export default function NewsletterSection() {
               <span className="newsletter-success-check">✓</span>
             ) : (
               <svg
-                width="36"
-                height="36"
+                width="48"
+                height="48"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
