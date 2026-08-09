@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import BackgroundGrid from './components/BackgroundGrid';
 import BrandLogo from './components/BrandLogo';
+import DashboardPage from './pages/DashboardPage';
 import HomePage from './pages/HomePage';
 import OnboardingPage from './pages/OnboardingPage';
 
@@ -11,6 +12,7 @@ export default function App() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const isProductRoute = ['/onboarding', '/dashboard'].includes(location.pathname);
 
   const navigateTo = (path) => {
     navigate(path);
@@ -86,12 +88,12 @@ export default function App() {
   }, []);
 
   return (
-    <div className="hero-page">
+    <div className={isProductRoute ? 'product-page' : 'hero-page'}>
       {/* Background Vector Hatch Grid & Glow Overlay */}
-      <BackgroundGrid />
+      {!isProductRoute && <BackgroundGrid />}
 
       {/* Floating Glassmorphic Navigation Bar Container */}
-      {location.pathname !== '/onboarding' && (
+      {!isProductRoute && (
         <header className="nav-header">
         <div className="nav-header-wrapper">
 
@@ -286,6 +288,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

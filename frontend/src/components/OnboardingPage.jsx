@@ -440,24 +440,21 @@ function OTPStep({ role, onNext, onSignIn, onBack }) {
 }
 
 // ─── STEP 5: Success ──────────────────────────────────────────────────────────
-function SuccessStep({ role, profileData, onNavigateHome }) {
+function SuccessStep({ onNavigateDashboard }) {
   return (
     <div className="ob2-page ob2-page-success">
-      <div className="ob2-logo-wrap">
-        <BrandLogo width={42} tone="blue" />
+      <div className="ob2-confetti" aria-hidden="true">
+        {Array.from({ length: 28 }, (_, index) => <span key={index} />)}
       </div>
-      <div className="ob2-content ob2-content-centered">
-        <div className="ob2-success-check">✓</div>
-        <h1 className="ob2-title" style={{ textAlign: 'center' }}>
-          You're all set{profileData?.fullName ? `, ${profileData.fullName.split(' ')[0]}` : ''}!
-        </h1>
-        <p className="ob2-subtitle" style={{ textAlign: 'center' }}>
-          {role === 'customer'
-            ? 'Your account is ready. Start your first project and get matched in seconds.'
-            : "Your worker profile is live. We'll start matching you with projects right away."}
+      <div className="ob2-success-content">
+        <div className="ob2-success-badge" aria-label="Onboarding complete">✓</div>
+        <h1 className="ob2-success-title">You&apos;re all set!</h1>
+        <p className="ob2-success-copy">
+          Keep an eye on your dashboard<br />
+          we&apos;ll match you as soon as work comes in.
         </p>
-        <button className="ob2-cta-btn" style={{ marginTop: '1.5rem' }} onClick={onNavigateHome}>
-          Back to Home <ArrowIcon />
+        <button className="ob2-cta-btn ob2-dashboard-cta" onClick={onNavigateDashboard}>
+          Continue to Dashboard <ArrowIcon size={16} />
         </button>
       </div>
     </div>
@@ -472,7 +469,7 @@ function SuccessStep({ role, profileData, onNavigateHome }) {
 // Worker Flow:
 //   role → auth (signup) ↔ auth (signin) → profile (+ phone) → otp (sms) → done
 //
-export default function OnboardingPage({ onNavigateHome }) {
+export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) {
   const [step, setStep] = useState('role');
   const [role, setRole] = useState(null);
   const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'signin'
@@ -538,7 +535,7 @@ export default function OnboardingPage({ onNavigateHome }) {
       )}
 
       {step === 'done' && (
-        <SuccessStep role={role} profileData={profileData} onNavigateHome={onNavigateHome} />
+        <SuccessStep onNavigateDashboard={onNavigateDashboard} />
       )}
     </>
   );
