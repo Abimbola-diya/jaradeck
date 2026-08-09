@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ArrowIcon from './ArrowIcon';
 
 const faqData = [
   {
@@ -35,6 +37,7 @@ const faqData = [
 
 export default function FaqSection() {
   const [openId, setOpenId] = useState(null);
+  const navigate = useNavigate();
 
   const toggleFaq = (id) => {
     setOpenId(openId === id ? null : id);
@@ -132,15 +135,12 @@ export default function FaqSection() {
         <button
           className="cta-banner-btn"
           onClick={() => {
-            window.history.pushState({}, '', '/waitlist');
-            window.dispatchEvent(new Event('popstate'));
+            navigate('/onboarding');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
           <span>Use Jaradeck</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
-            <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <ArrowIcon size={14} strokeWidth={2} className="arrow-icon" />
         </button>
       </div>
     </section>

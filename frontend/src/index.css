@@ -1,16 +1,19 @@
-@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+@import "tailwindcss";
 
 :root {
-  --blue-bg: #0048CC;
+  --blue-bg: #0048cc;
   --blue-dark: #003299;
-  --blue-accent: #3D6FE0;
-  --white: #FFFFFF;
+  --blue-accent: #3d6fe0;
+  --white: #ffffff;
   --white-muted: rgba(255, 255, 255, 0.85);
   --white-dim: rgba(255, 255, 255, 0.5);
   --nav-bg: rgba(255, 255, 255, 0.12);
   --nav-border: rgba(255, 255, 255, 0.28);
-  --yellow-roasted: #FEB943;
-  --font-family: 'PP Neue Montreal', 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --yellow-roasted: #feb943;
+  --font-family:
+    "PP Neue Montreal", "Neue Montreal", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
 }
 
 * {
@@ -76,14 +79,14 @@ textarea {
 .bg-grid-base {
   position: absolute;
   inset: 0;
-  background: #0048CC;
+  background: #0048cc;
 }
 
 /* Neatly stacked un-zoomed repeating wavy pattern */
 .bg-grid-waves {
   position: absolute;
   inset: 0;
-  background-image: url('/wavy-lines.svg');
+  background-image: url("/wavy-lines.svg");
   background-repeat: repeat;
   background-position: top left;
   background-size: 480px auto;
@@ -95,9 +98,11 @@ textarea {
 .bg-grid-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 100% 80% at 50% 30%,
-      rgba(40, 120, 255, 0.25) 0%,
-      transparent 80%);
+  background: radial-gradient(
+    ellipse 100% 80% at 50% 30%,
+    rgba(40, 120, 255, 0.25) 0%,
+    transparent 80%
+  );
 }
 
 /* ===== Top Header Container ===== */
@@ -132,7 +137,9 @@ textarea {
   flex-shrink: 0;
   height: 60px;
   padding: 0 0.5rem;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .nav-logo:hover {
@@ -154,7 +161,9 @@ textarea {
   align-items: center;
   gap: 0.25rem;
   position: relative;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 10px 30px rgba(0, 15, 60, 0.25);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    0 10px 30px rgba(0, 15, 60, 0.25);
 }
 
 @media (max-width: 820px) {
@@ -166,7 +175,7 @@ textarea {
 /* Sliding active white pill background inside center main pill */
 .nav-active-indicator {
   position: absolute;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 9999px;
   pointer-events: none;
   z-index: 1;
@@ -204,12 +213,12 @@ textarea {
 }
 
 .nav-link-btn:hover {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 /* Active Nav Button text turns brand blue */
 .nav-link-btn.active {
-  color: #0048B3;
+  color: #0048b3;
   font-weight: 700;
 }
 
@@ -238,11 +247,13 @@ textarea {
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: var(--font-family);
   font-size: 0.95rem;
   font-weight: 600;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 10px 30px rgba(0, 15, 60, 0.25);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    0 10px 30px rgba(0, 15, 60, 0.25);
   transition: all 0.2s ease;
 }
 
@@ -295,7 +306,7 @@ textarea {
 .dropdown-item-btn {
   background: transparent;
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: var(--font-family);
   font-size: 0.9rem;
   font-weight: 600;
@@ -308,7 +319,7 @@ textarea {
 
 .dropdown-item-btn:hover {
   background: rgba(255, 255, 255, 0.16);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 /* Mobile Hamburger Menu - Solid white circle with 3 100% EQUAL-LENGTH blue horizontal dashes */
@@ -321,14 +332,16 @@ textarea {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: #ffffff;
   border: none;
   cursor: pointer;
   padding: 0;
   position: relative;
   z-index: 4;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .nav-hamburger:hover {
@@ -344,7 +357,7 @@ textarea {
 .nav-hamburger span {
   width: 17px !important;
   height: 2.5px !important;
-  background: #0048B3 !important;
+  background: #0048b3 !important;
   border-radius: 2px !important;
   display: block !important;
   flex-shrink: 0 !important;
@@ -355,7 +368,7 @@ textarea {
 .mobile-menu-overlay {
   position: fixed;
   inset: 0;
-  background: #00388D;
+  background: #00388d;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -392,7 +405,7 @@ textarea {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: #ffffff;
   border: none;
   display: flex;
   align-items: center;
@@ -409,7 +422,7 @@ textarea {
 .mobile-menu-close {
   background: none;
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.75rem;
   cursor: pointer;
   padding: 0;
@@ -437,7 +450,9 @@ textarea {
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .mobile-nav-row:hover {
@@ -446,20 +461,20 @@ textarea {
 
 /* Active tab highlighted section block */
 .mobile-nav-row.active {
-  background: #0048B3;
-  border-left: 5px solid #FFE699;
+  background: #0048b3;
+  border-left: 5px solid #ffe699;
 }
 
 .mobile-row-text {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.3rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
 .mobile-nav-row.active .mobile-row-text {
-  color: #FFE699;
+  color: #ffe699;
   font-weight: 800;
 }
 
@@ -703,7 +718,7 @@ textarea {
   position: relative;
   z-index: 15;
   width: 100%;
-  background-color: #0048B3;
+  background-color: #0048b3;
   padding: 2rem 1.5rem 2.5rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -716,7 +731,14 @@ textarea {
 .canopy-section *,
 .comparison-section,
 .comparison-section * {
-  font-family: 'PP Neue Montreal', 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family:
+    "PP Neue Montreal",
+    "Neue Montreal",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif !important;
 }
 
 .canopy-content-wrapper {
@@ -739,10 +761,10 @@ textarea {
 }
 
 .need-it-done-heading {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.2rem, 4.8vw, 3.4rem);
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   margin-bottom: 3.2rem;
   letter-spacing: -0.025em;
@@ -798,8 +820,8 @@ textarea {
 }
 
 .need-circle--active {
-  background-color: #FFFFFF;
-  border-color: #FFFFFF;
+  background-color: #ffffff;
+  border-color: #ffffff;
   transform: scale(1.08);
 }
 
@@ -832,7 +854,7 @@ textarea {
 
 .need-line--active {
   transform: scaleY(1);
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 .need-text-col {
@@ -848,11 +870,11 @@ textarea {
 }
 
 .need-text-para {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.2rem, 2.5vw, 1.65rem);
   font-weight: 500;
   line-height: 1.45;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
   text-align: left;
   letter-spacing: -0.015em;
@@ -862,7 +884,7 @@ textarea {
 .typing-cursor {
   display: inline-block;
   font-weight: 300;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-left: 2px;
   animation: cursorBlink 0.7s infinite alternate;
 }
@@ -884,7 +906,7 @@ textarea {
   line-height: 1.1;
   letter-spacing: -0.045em;
   text-align: center;
-  color: #0048B3;
+  color: #0048b3;
   position: relative;
   display: inline-block;
   white-space: nowrap;
@@ -894,7 +916,7 @@ textarea {
   content: attr(data-text);
   position: absolute;
   inset: 0;
-  background: url('/wavy-lines.svg') center/cover repeat;
+  background: url("/wavy-lines.svg") center/cover repeat;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -936,7 +958,9 @@ textarea {
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .todo-cta-wrapper--visible {
@@ -951,21 +975,24 @@ textarea {
   justify-content: center;
   gap: 0.75rem;
   padding: 0.95rem 2.2rem;
-  background: #FFFFFF;
-  color: #0048B3;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  background: #ffffff;
+  color: #0048b3;
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   font-weight: 700;
   border: none;
   border-radius: 9999px;
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(0, 15, 60, 0.25);
-  transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .dump-tasks-btn:hover {
   transform: scale(1.04);
-  background: #EFEFEF;
+  background: #efefef;
   box-shadow: 0 14px 36px rgba(0, 15, 60, 0.35);
 }
 
@@ -995,22 +1022,24 @@ textarea {
   height: 16px;
   min-width: 16px;
   border-radius: 50%;
-  border: 1.8px solid #FFFFFF;
+  border: 1.8px solid #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 5px;
   flex-shrink: 0;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
   background-color: transparent;
   z-index: 2;
 }
 
 /* Filled state */
 .todo-checkbox--checked {
-  background-color: #FFFFFF;
-  border-color: #FFFFFF;
-  color: #0048B3;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #0048b3;
 }
 
 .todo-checkbox--wiggle {
@@ -1057,7 +1086,9 @@ textarea {
   height: 11.5px;
   opacity: 0;
   transform: scale(0.5);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .todo-cross--visible {
@@ -1075,12 +1106,14 @@ textarea {
   margin-bottom: 4px;
   transform-origin: top;
   transform: scaleY(0);
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+  transition:
+    transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.4s ease;
 }
 
 .todo-connector-line--active {
   transform: scaleY(1);
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 /* Scribble SVG draw animation */
@@ -1109,10 +1142,10 @@ textarea {
 }
 
 .todo-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.3rem, 3.2vw, 1.75rem);
   font-weight: 600;
-  color: #FFFFFF;
+  color: #ffffff;
   letter-spacing: -0.025em;
   display: inline-block;
   text-align: left;
@@ -1143,7 +1176,7 @@ textarea {
 }
 
 .todo-subtitle {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(0.92rem, 1.8vw, 1.08rem);
   font-style: italic;
   font-weight: 400;
@@ -1196,7 +1229,7 @@ textarea {
   position: relative;
   z-index: 20;
   width: 100%;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   min-height: 100vh;
   /* Fallback height; exact height is computed by JS */
   overflow: clip;
@@ -1209,7 +1242,7 @@ textarea {
   /* Oversize to ensure no edge lines */
   width: 120%;
   height: 120%;
-  background-image: url('/wavy-lines.svg');
+  background-image: url("/wavy-lines.svg");
   /* Using SVG provided by user */
   background-repeat: repeat;
   background-position: center top;
@@ -1255,7 +1288,7 @@ textarea {
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.045em;
-  color: #0048B3;
+  color: #0048b3;
   text-align: center;
 }
 
@@ -1298,8 +1331,8 @@ textarea {
 
 /* Card 1: White Card (Traditional Freelance Platforms) */
 .card-white {
-  background: #FFFFFF;
-  color: #0048B3;
+  background: #ffffff;
+  color: #0048b3;
   transform: translate(-50%, -50%) rotate(-5deg);
   z-index: 1;
   box-shadow: 0 16px 45px rgba(0, 72, 179, 0.12);
@@ -1307,7 +1340,7 @@ textarea {
 }
 
 .card-white .card-heading {
-  color: #0048B3;
+  color: #0048b3;
 }
 
 .card-white .card-bullet-list li {
@@ -1315,25 +1348,25 @@ textarea {
 }
 
 .card-white .card-bullet-list li strong {
-  color: #0048B3;
+  color: #0048b3;
   font-weight: 600;
 }
 
 .card-white .bullet-dot {
-  color: #0048B3;
+  color: #0048b3;
 }
 
 /* Card 2: Blue Card (The Jaradeck Way - Figma specs: background #0048B3, rotate 10deg) */
 .card-blue {
-  background: #0048B3;
-  color: #FFFFFF;
+  background: #0048b3;
+  color: #ffffff;
   z-index: 2;
   box-shadow: -15px 25px 65px rgba(0, 15, 60, 0.32);
   will-change: transform, opacity;
 }
 
 .card-blue .card-heading {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .card-blue .card-bullet-list li {
@@ -1341,16 +1374,16 @@ textarea {
 }
 
 .card-blue .card-bullet-list li strong {
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 600;
 }
 
 .card-blue .bullet-dot {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .card-heading {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.85rem, 3.4vw, 2.35rem);
   font-weight: 700;
   line-height: 1.15;
@@ -1372,7 +1405,7 @@ textarea {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(0.98rem, 1.8vw, 1.12rem);
   font-weight: 400;
   line-height: 1.5;
@@ -1464,7 +1497,7 @@ textarea {
   position: relative;
   z-index: 20;
   width: 100%;
-  background-color: #0048B3;
+  background-color: #0048b3;
   padding: clamp(4rem, 7vh, 6rem) 1.5rem clamp(5rem, 8vh, 7rem) 1.5rem;
   display: flex;
   flex-direction: column;
@@ -1511,17 +1544,17 @@ textarea {
 }
 
 .feature-section-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.4rem, 5.5vw, 4.2rem);
   font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.04em;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
 }
 
 .feature-section-subtitle {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.85);
@@ -1555,7 +1588,9 @@ textarea {
   align-items: flex-start;
   justify-content: flex-start;
   gap: 48px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   overflow: hidden;
 }
 
@@ -1574,7 +1609,7 @@ textarea {
 .feature-card-illustration {
   width: 100%;
   height: 349px;
-  background-color: #FDFDFD;
+  background-color: #fdfdfd;
   border-radius: 40px;
   display: flex;
   justify-content: center;
@@ -1638,7 +1673,7 @@ textarea {
 
 /* Heading (Frame 84) */
 .feature-card-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-style: normal;
   font-weight: 500;
   font-size: clamp(1.65rem, 2.5vw, 35px);
@@ -1646,20 +1681,20 @@ textarea {
   display: flex;
   align-items: center;
   letter-spacing: -0.03em;
-  color: #0048B3 !important;
+  color: #0048b3 !important;
   margin: 0;
 }
 
 /* Paragraph (Frame 85) */
 .feature-card-copy {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-style: normal;
   font-weight: 400;
   font-size: clamp(0.95rem, 1.4vw, 20px);
   line-height: 135%;
   display: flex;
   align-items: center;
-  color: #0048B3 !important;
+  color: #0048b3 !important;
   margin: 0;
 }
 
@@ -1696,7 +1731,7 @@ textarea {
   position: relative;
   z-index: 20;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: clamp(4.15rem, 6.6vh, 6.1rem) 1.5rem clamp(4rem, 7vh, 6rem) 1.5rem;
   display: flex;
   flex-direction: column;
@@ -1729,21 +1764,21 @@ textarea {
 }
 
 .real-impact-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.035em;
-  color: #0048B3;
+  color: #0048b3;
   text-align: center;
 }
 
 .real-impact-subtitle {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   font-weight: 400;
   line-height: 1.45;
-  color: #0048B3;
+  color: #0048b3;
   text-align: center;
   margin-top: 1rem;
 }
@@ -1787,7 +1822,12 @@ textarea {
 .impact-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.25) 35%, transparent 65%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.25) 35%,
+    transparent 65%
+  );
   pointer-events: none;
 }
 
@@ -1796,7 +1836,7 @@ textarea {
   z-index: 2;
   box-sizing: border-box;
   padding: clamp(1.5rem, 3vw, 2.25rem);
-  color: #FFFFFF;
+  color: #ffffff;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -1812,17 +1852,17 @@ textarea {
 }
 
 .impact-name {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2rem, 3.5vw, 3rem);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
 }
 
 .impact-role {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(0.9rem, 1.3vw, 1.1rem);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.9);
@@ -1856,27 +1896,27 @@ textarea {
 }
 
 .impact-quote-card {
-  background-color: #FF5500;
+  background-color: #ff5500;
   box-shadow: 0 16px 40px rgba(255, 85, 0, 0.22);
 }
 
 .impact-pink-card {
-  background-color: #FF69B4;
+  background-color: #ff69b4;
   box-shadow: 0 16px 40px rgba(255, 105, 180, 0.22);
 }
 
 .impact-quote-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.65rem, 2.8vw, 2.3rem);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.03em;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
 }
 
 .impact-quote-body {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.02rem, 1.4vw, 1.18rem);
   font-weight: 400;
   line-height: 1.55;
@@ -1886,7 +1926,7 @@ textarea {
 
 .impact-quote-body strong {
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .impact-arrow-btn {
@@ -1898,13 +1938,15 @@ textarea {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.28);
   border: 1.5px solid rgba(255, 255, 255, 0.5);
-  color: #FFFFFF;
+  color: #ffffff;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
   flex-shrink: 0;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .impact-arrow-btn:hover {
@@ -1945,7 +1987,7 @@ textarea {
     padding: 0;
     display: block;
     position: relative;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 
   .real-impact-sticky-wrapper {
@@ -2079,7 +2121,7 @@ textarea {
   position: relative;
   z-index: 20;
   width: 100%;
-  background-color: #0048B3;
+  background-color: #0048b3;
   padding: clamp(4.5rem, 8vh, 6.5rem) 1.5rem clamp(5rem, 9vh, 7.5rem) 1.5rem;
   display: flex;
   flex-direction: column;
@@ -2121,18 +2163,18 @@ textarea {
 }
 
 .faq-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.2rem, 4.5vw, 3.6rem);
   font-weight: 700;
   line-height: 1.18;
   letter-spacing: -0.035em;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   margin: 0;
 }
 
 .faq-subtitle {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-weight: 400;
   line-height: 1.45;
@@ -2150,11 +2192,13 @@ textarea {
 }
 
 .faq-item {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 20px;
   padding: clamp(1.2rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2.2rem);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   box-shadow: 0 10px 30px rgba(0, 20, 70, 0.12);
   width: 100%;
   box-sizing: border-box;
@@ -2212,10 +2256,10 @@ textarea {
 }
 
 .faq-question-text {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.1rem, 1.8vw, 1.45rem);
   font-weight: 600;
-  color: #0048B3;
+  color: #0048b3;
   line-height: 1.35;
   letter-spacing: -0.015em;
   margin: 0;
@@ -2229,7 +2273,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0048B3;
+  color: #0048b3;
   padding: 0;
   flex-shrink: 0;
 }
@@ -2251,7 +2295,7 @@ textarea {
 }
 
 .faq-answer-text {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(0.98rem, 1.4vw, 1.15rem);
   font-weight: 400;
   line-height: 1.6;
@@ -2306,7 +2350,8 @@ textarea {
   max-width: 1362px;
   width: 100%;
   min-height: 428px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #0048B3;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #0048b3;
   border-radius: 60px;
   margin-top: clamp(4rem, 8vh, 6rem);
   text-align: center;
@@ -2314,18 +2359,18 @@ textarea {
 }
 
 .cta-banner-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.2rem, 4.5vw, 3.8rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.035em;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
   max-width: 900px;
 }
 
 .cta-banner-subtext {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.1rem, 1.8vw, 1.35rem);
   font-weight: 400;
   line-height: 1.4;
@@ -2337,9 +2382,9 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: #FFFFFF;
-  color: #0048B3;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  background-color: #ffffff;
+  color: #0048b3;
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1rem;
   font-weight: 600;
   padding: 14px 28px;
@@ -2354,7 +2399,7 @@ textarea {
 .cta-banner-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-  background-color: #F8FAFC;
+  background-color: #f8fafc;
 }
 
 .cta-banner-btn .arrow-icon {
@@ -2370,7 +2415,7 @@ textarea {
   position: relative;
   z-index: 20;
   width: 100%;
-  background-color: #0048B3;
+  background-color: #0048b3;
   padding: 0 1.5rem 5rem 1.5rem;
   box-sizing: border-box;
 }
@@ -2412,10 +2457,10 @@ textarea {
 }
 
 .newsletter-title {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.4rem, 4.5vw, 3.8rem);
   font-weight: 800;
-  color: #FFFFFF;
+  color: #ffffff;
   letter-spacing: -0.04em;
   margin: 0;
   line-height: 1.05;
@@ -2465,7 +2510,7 @@ textarea {
   background: transparent;
   border: none;
   outline: none;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.2rem, 2.2vw, 1.65rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -2505,7 +2550,7 @@ textarea {
 
 .newsletter-success-check {
   font-size: 1.4rem;
-  color: #4ADE80;
+  color: #4ade80;
 }
 
 .newsletter-footer-grid {
@@ -2534,10 +2579,10 @@ textarea {
 }
 
 .newsletter-brand-name {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 2.1rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: #ffffff;
   letter-spacing: -0.03em;
 }
 
@@ -2556,10 +2601,10 @@ textarea {
   border-right: 1px solid rgba(255, 255, 255, 0.15);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   text-decoration: none;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.38rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: #ffffff;
   transition: background-color 0.25s ease;
 }
 
@@ -2579,7 +2624,7 @@ textarea {
 .newsletter-copyright {
   text-align: center;
   padding: 2.5rem 0 1rem 0;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 0.85rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.55);
@@ -2654,8 +2699,8 @@ textarea {
 .waitlist-back-btn {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #FFFFFF;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  color: #ffffff;
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 0.95rem;
   font-weight: 700;
   padding: 0.6rem 1.25rem;
@@ -2700,17 +2745,17 @@ textarea {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 0.95rem;
   font-weight: 700;
-  color: #FFE699;
+  color: #ffe699;
   backdrop-filter: blur(12px);
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .waitlist-counter-pill .sparkle-icon {
-  color: #FFE699;
+  color: #ffe699;
   font-size: 1.1rem;
 }
 
@@ -2722,17 +2767,17 @@ textarea {
 }
 
 .waitlist-headline {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(2.4rem, 4.8vw, 4rem);
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: #FFFFFF;
+  color: #ffffff;
   line-height: 1.05;
   margin: 0;
 }
 
 .waitlist-subtitle {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.85);
@@ -2768,12 +2813,14 @@ textarea {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 14px;
   padding: 1.1rem 1.25rem;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.1rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   outline: none;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
   box-sizing: border-box;
 }
 
@@ -2783,18 +2830,18 @@ textarea {
 }
 
 .waitlist-input:focus {
-  border-color: #FFE699;
+  border-color: #ffe699;
   background: rgba(255, 255, 255, 0.18);
 }
 
 .waitlist-submit-btn {
   width: 100%;
-  background: #FFFFFF;
-  color: #00388D;
+  background: #ffffff;
+  color: #00388d;
   border: none;
   border-radius: 14px;
   padding: 1.1rem 1.5rem;
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.15rem;
   font-weight: 800;
   cursor: pointer;
@@ -2802,12 +2849,14 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .waitlist-submit-btn:hover {
-  background: #FFE699;
+  background: #ffe699;
   transform: translateY(-2px);
 }
 
@@ -2815,7 +2864,7 @@ textarea {
   width: 100%;
   max-width: 580px;
   background: rgba(255, 255, 255, 0.12);
-  border: 1.5px solid #4ADE80;
+  border: 1.5px solid #4ade80;
   backdrop-filter: blur(20px);
   border-radius: 24px;
   padding: 2.2rem 2rem;
@@ -2831,8 +2880,8 @@ textarea {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #4ADE80;
-  color: #00388D;
+  background: #4ade80;
+  color: #00388d;
   font-size: 1.75rem;
   font-weight: 900;
   display: flex;
@@ -2842,22 +2891,22 @@ textarea {
 }
 
 .waitlist-success-card h3 {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.6rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
 }
 
 .waitlist-success-card p {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
 }
 
 .waitlist-success-card p span {
-  color: #FFE699;
+  color: #ffe699;
   font-weight: 700;
 }
 
@@ -2876,7 +2925,9 @@ textarea {
   padding: 1.5rem 1.25rem;
   text-align: left;
   backdrop-filter: blur(8px);
-  transition: transform 0.25s ease, background 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
 }
 
 .waitlist-perk-card:hover {
@@ -2891,15 +2942,15 @@ textarea {
 }
 
 .waitlist-perk-card h4 {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 1.15rem;
   font-weight: 800;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0 0 0.4rem 0;
 }
 
 .waitlist-perk-card p {
-  font-family: 'PP Neue Montreal', var(--font-family);
+  font-family: "PP Neue Montreal", var(--font-family);
   font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.75);
   margin: 0;
@@ -2909,5 +2960,1503 @@ textarea {
 @media (max-width: 768px) {
   .waitlist-perks-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   ONBOARDING PAGE  (ob- legacy classes kept below)
+   ============================================================ */
+
+/* ── ob2-* NEW design — matches uploaded mockups exactly ───────── */
+
+/* Full page: white, mobile-first, vertically padded */
+.ob2-page {
+  height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Logo at top */
+  padding: 2.5rem 1.5rem 3rem 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+  /* entrance animation */
+  animation: ob2-fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ob2-back-btn {
+  position: absolute;
+  top: 2.5rem;
+  left: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid #e8e8ee;
+  background: #ffffff;
+  color: #0048b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+}
+.ob2-back-btn:hover {
+  background: #0048b3;
+  border-color: #0048b3;
+  color: #ffffff;
+}
+
+.ob2-page > *:not(.ob2-back-btn) {
+  width: 100%;
+  max-width: 400px; /* Restrict width on desktop */
+}
+
+@keyframes ob2-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Centered logo at top */
+.ob2-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Main content area — left aligned, max width for readability */
+.ob2-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  flex: 1;
+}
+
+.ob2-content-centered {
+  align-items: center;
+  text-align: center;
+}
+
+/* Title — large, bold, matches design */
+.ob2-title {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: clamp(1.75rem, 7vw, 2.1rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 0.6rem 0;
+}
+
+/* Subtitle — small gray */
+.ob2-subtitle {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.55;
+  margin: 0 0 1.75rem 0;
+}
+
+/* Form stack */
+.ob2-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Field group: label + input */
+.ob2-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ob2-label {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Input — light gray fill, no shadow, subtle border */
+.ob2-input {
+  width: 100%;
+  padding: 0.82rem 1rem;
+  background: #f5f5f7;
+  border: 1.5px solid #f0f0f3;
+  border-radius: 12px;
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.93rem;
+  font-weight: 400;
+  color: #111827;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  box-sizing: border-box;
+}
+
+.ob2-input::placeholder {
+  color: #acacba;
+  font-weight: 400;
+}
+
+.ob2-input:focus {
+  border-color: #0048b3;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 72, 179, 0.09);
+}
+
+/* Input with right-side eye button */
+.ob2-input-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ob2-input-pw {
+  padding-right: 2.8rem;
+  width: 100%;
+}
+
+.ob2-eye-btn {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.ob2-eye-btn:hover {
+  color: #0048b3;
+}
+
+/* Error text */
+.ob2-error {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.82rem;
+  color: #dc2626;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── Primary CTA button — full width pill, deep blue ── */
+.ob2-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: #0048b3; /* primary brand blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px; /* full pill */
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition:
+    background 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 18px rgba(0, 72, 179, 0.28);
+  margin-top: 0.5rem;
+}
+
+.ob2-cta-btn:hover {
+  background: #00388d;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0, 72, 179, 0.36);
+}
+
+.ob2-cta-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Bottom bar — "Already on Jaradeck? Sign in" ── */
+.ob2-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.86rem;
+  color: #6b7280;
+}
+
+.ob2-link-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1a3bcc;
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.ob2-link-btn:hover {
+  color: #1432b5;
+  text-decoration: underline;
+}
+
+/* ── Role selection cards ── */
+.ob2-role-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.ob2-role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start ;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1.25rem 1rem;
+  border: 1.5px solid #e8e8ee;
+  border-radius: 14px;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ob2-role-card:hover {
+  border-color: #0048b3;
+  background: #0048b3;
+  box-shadow: 0 4px 18px rgba(0, 72, 179, 0.28);
+}
+.ob2-role-card:hover .ob2-role-label,
+.ob2-role-card:hover .ob2-role-desc,
+.ob2-role-card:hover .ob2-role-icon {
+  color: #ffffff;
+}
+
+.ob2-role-icon {
+  color: #374151;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ob2-role-text {
+  width: 100%;
+  text-align: left;
+}
+
+.ob2-role-label {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.ob2-role-desc {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
+.ob2-role-chevron {
+  font-size: 1.35rem;
+  color: #c0c0cc;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── OTP: 6 individual digit boxes ── */
+.ob2-otp-row {
+  display: flex;
+  gap: 0.55rem;
+  justify-content: center;
+  width: 100%;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.ob2-otp-box {
+  width: 46px;
+  height: 52px;
+  text-align: center;
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  background: #f5f5f7;
+  border: 1.5px solid #e8e8ee;
+  border-radius: 10px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  flex-shrink: 0;
+}
+
+.ob2-otp-box:focus {
+  border-color: #1a3bcc;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(26, 59, 204, 0.1);
+}
+
+/* "Didn't receive a code? Resend code" */
+.ob2-resend-text {
+  font-family:
+    "PP Neue Montreal",
+    var(--font-family),
+    -apple-system,
+    sans-serif;
+  font-size: 0.84rem;
+  color: #6b7280;
+  text-align: center;
+  margin: 0.25rem 0 0 0;
+}
+
+/* ── Success screen extras ── */
+.ob2-page-success .ob2-content {
+  align-items: center;
+}
+
+.ob2-success-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #1a3bcc;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+  box-shadow: 0 6px 20px rgba(26, 59, 204, 0.3);
+  animation: ob2-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ob2-pop {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Responsive tweaks ── */
+@media (max-width: 400px) {
+  .ob2-otp-box {
+    width: 40px;
+    height: 46px;
+    font-size: 1.2rem;
+  }
+  .ob2-page {
+    padding: 2rem 1.1rem 2.5rem 1.1rem;
+  }
+}
+
+/* ── Worker onboarding completion ── */
+.ob2-page-success {
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 0 1.25rem 3rem;
+}
+
+.ob2-confetti {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 19rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ob2-confetti span {
+  position: absolute;
+  width: 0.48rem;
+  height: 1.15rem;
+  background: linear-gradient(105deg, #5a3a00, #f7c918 48%, #fff1a3 50%, #ae7200);
+  border-radius: 0.08rem;
+  transform: rotate(28deg);
+  animation: ob2-confetti-fall 2.2s ease-out both;
+}
+
+.ob2-confetti span:nth-child(3n) { width: 1.1rem; height: 0.55rem; transform: rotate(42deg); }
+.ob2-confetti span:nth-child(4n) { background: linear-gradient(105deg, #1b1505, #d29808, #fff0a1, #6f5000); }
+.ob2-confetti span:nth-child(1) { left: 2%; top: 4%; }
+.ob2-confetti span:nth-child(2) { left: 11%; top: 18%; }
+.ob2-confetti span:nth-child(3) { left: 19%; top: 6%; }
+.ob2-confetti span:nth-child(4) { left: 28%; top: 13%; }
+.ob2-confetti span:nth-child(5) { left: 37%; top: 2%; }
+.ob2-confetti span:nth-child(6) { left: 47%; top: 22%; }
+.ob2-confetti span:nth-child(7) { left: 56%; top: 7%; }
+.ob2-confetti span:nth-child(8) { left: 64%; top: 17%; }
+.ob2-confetti span:nth-child(9) { left: 73%; top: 3%; }
+.ob2-confetti span:nth-child(10) { left: 83%; top: 11%; }
+.ob2-confetti span:nth-child(11) { left: 93%; top: 4%; }
+.ob2-confetti span:nth-child(12) { left: 5%; top: 33%; }
+.ob2-confetti span:nth-child(13) { left: 16%; top: 38%; }
+.ob2-confetti span:nth-child(14) { left: 25%; top: 27%; }
+.ob2-confetti span:nth-child(15) { left: 35%; top: 41%; }
+.ob2-confetti span:nth-child(16) { left: 44%; top: 31%; }
+.ob2-confetti span:nth-child(17) { left: 53%; top: 43%; }
+.ob2-confetti span:nth-child(18) { left: 62%; top: 29%; }
+.ob2-confetti span:nth-child(19) { left: 71%; top: 39%; }
+.ob2-confetti span:nth-child(20) { left: 81%; top: 27%; }
+.ob2-confetti span:nth-child(21) { left: 91%; top: 38%; }
+.ob2-confetti span:nth-child(22) { left: 10%; top: 54%; }
+.ob2-confetti span:nth-child(23) { left: 21%; top: 48%; }
+.ob2-confetti span:nth-child(24) { left: 33%; top: 57%; }
+.ob2-confetti span:nth-child(25) { left: 49%; top: 52%; }
+.ob2-confetti span:nth-child(26) { left: 61%; top: 58%; }
+.ob2-confetti span:nth-child(27) { left: 76%; top: 50%; }
+.ob2-confetti span:nth-child(28) { left: 89%; top: 55%; }
+
+@keyframes ob2-confetti-fall {
+  from { opacity: 0; translate: 0 -1.5rem; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+.ob2-success-content {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: min(37vh, 19.5rem);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.ob2-success-badge {
+  width: 4.65rem;
+  height: 4.65rem;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+  background: radial-gradient(circle at 35% 26%, #61a0ff, #0d56d5 57%, #003da9);
+  clip-path: polygon(50% 0%, 60% 11%, 74% 6%, 80% 20%, 95% 22%, 91% 37%, 100% 50%, 89% 61%, 93% 76%, 78% 80%, 73% 95%, 59% 89%, 50% 100%, 40% 89%, 26% 95%, 21% 80%, 6% 76%, 11% 61%, 0% 50%, 9% 38%, 5% 23%, 20% 20%, 26% 6%, 40% 11%);
+  filter: drop-shadow(0 0.45rem 0.35rem rgba(0, 72, 179, 0.2));
+  animation: ob2-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ob2-success-title {
+  margin: 2rem 0 1rem;
+  color: #080808;
+  font-family: "PP Neue Montreal", var(--font-family), sans-serif;
+  font-size: clamp(2rem, 9vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 1;
+}
+
+.ob2-success-copy {
+  margin: 0;
+  color: #848484;
+  font-family: "PP Neue Montreal", var(--font-family), sans-serif;
+  font-size: 0.91rem;
+  line-height: 1.38;
+}
+
+.ob2-dashboard-cta {
+  margin-top: 3.1rem;
+}
+
+/* ── Worker dashboard ── */
+.worker-dashboard {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 5.45rem 1.25rem 7rem;
+  box-sizing: border-box;
+  background: #fff;
+  color: #12131a;
+  font-family: "PP Neue Montreal", var(--font-family), -apple-system, sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 1.75rem 0.2rem;
+}
+
+.dashboard-header h1,
+.dashboard-card h2,
+.dashboard-section-title h2,
+.dashboard-person h3 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.dashboard-header h1 { font-size: 1.22rem; }
+.dashboard-header p { margin: 0.28rem 0 0; color: #a5a5aa; font-size: 0.8rem; }
+.dashboard-header-actions { display: flex; align-items: center; gap: 1rem; }
+.dashboard-icon-btn { width: 2rem; height: 2rem; padding: 0; border: 0; background: transparent; color: #141829; cursor: pointer; }
+.dashboard-icon-btn svg { width: 100%; height: 100%; }
+.dashboard-profile-avatar { width: 2.6rem; height: 2.6rem; border-radius: 50%; object-fit: cover; border: 2px solid #e6e6e6; }
+
+.dashboard-card { border-radius: 1rem; background: #fbfbfb; padding: 0.9rem 0.65rem 0.62rem; margin-bottom: 0.68rem; }
+.dashboard-card h2 { margin-left: 0; font-size: 1rem; }
+.dashboard-active-project .dashboard-person { margin: 1rem 0 0.9rem; }
+.dashboard-person { display: flex; align-items: center; gap: 0.9rem; padding: 0.2rem 0; }
+.dashboard-person-avatar { width: 3.65rem; height: 3.65rem; border-radius: 50%; object-fit: cover; }
+.dashboard-person h3 { font-size: 1rem; }
+.dashboard-person p { margin: 0.35rem 0 0; color: #a0a0a5; font-size: 0.82rem; }
+.dashboard-primary-btn, .dashboard-outline-btn { width: 100%; height: 2.65rem; border-radius: 999px; font: inherit; font-size: 0.76rem; cursor: pointer; }
+.dashboard-primary-btn { border: 0; background: #064db9; color: #fff; }
+.dashboard-activity-card { padding-bottom: 0.82rem; }
+.dashboard-activity-card p { color: #929297; font-size: 0.78rem; letter-spacing: -0.03em; margin: 0.6rem 0 0.85rem; }
+.dashboard-outline-btn { border: 1px solid #064db9; color: #064db9; background: #fff; }
+.dashboard-completed-section { margin-top: 2.2rem; }
+.dashboard-section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; }
+.dashboard-section-title h2 { font-size: 1rem; }
+.dashboard-section-title button { border: 0; background: none; padding: 0; color: #929297; font: inherit; font-size: 0.72rem; cursor: pointer; }
+.dashboard-completed-section .dashboard-person { margin: 0.55rem 0; }
+.dashboard-person-faded { opacity: 0.1; }
+.dashboard-bottom-nav { position: fixed; bottom: 2.3rem; left: 50%; z-index: 20; display: grid; grid-template-columns: repeat(4, 1fr); width: min(calc(100% - 2.5rem), 350px); height: 3.5rem; padding: 0.28rem; box-sizing: border-box; border-radius: 999px; background: #fafafa; transform: translateX(-50%); }
+.dashboard-nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.17rem; border: 0; border-radius: 999px; background: transparent; color: #61636a; font: inherit; font-size: 0.63rem; cursor: pointer; }
+.dashboard-nav-item svg { width: 1.2rem; height: 1.2rem; }
+.dashboard-nav-active { color: #161923; background: #ececef; }
+
+@media (min-width: 600px) {
+  .product-page { min-height: 100dvh; background: #f3f3f3; }
+  .worker-dashboard { box-shadow: 0 0 0 1px #ececec; }
+}
+
+/* ============================================================
+   ONBOARDING PAGE  (ob- legacy classes — preserved)
+   ============================================================ */
+
+.ob-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem 4rem 1rem;
+  background: #f5f7fa;
+  z-index: 10;
+}
+
+.ob-bg {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 72, 179, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ob-back-btn {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0048b3;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  align-self: flex-start;
+  max-width: 400px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.ob-back-btn:hover {
+  opacity: 1;
+}
+
+.ob-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  z-index: 2;
+  position: relative;
+}
+.ob-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 72, 179, 0.2);
+  transition:
+    background 0.3s,
+    transform 0.3s;
+}
+.ob-progress-dot.active {
+  background: #0048b3;
+  transform: scale(1.3);
+}
+.ob-progress-dot.done {
+  background: rgba(0, 72, 179, 0.5);
+}
+
+.ob-card-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  animation: ob-card-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ob-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ob-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 72, 179, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 2rem 1.75rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.ob-title {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: clamp(1.35rem, 4vw, 1.65rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 1rem 0 0 0;
+}
+
+.ob-subtitle {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0.45rem 0 1.25rem 0;
+}
+
+.ob-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.ob-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.ob-label {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.ob-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.93rem;
+  color: #111827;
+  background: #fafafa;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.ob-input:focus {
+  border-color: #0048b3;
+  box-shadow: 0 0 0 3px rgba(0, 72, 179, 0.1);
+  background: #fff;
+}
+.ob-input-readonly {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: default;
+}
+
+.ob-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+.ob-input-pw {
+  padding-right: 2.75rem;
+}
+.ob-pw-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.2s;
+}
+.ob-pw-toggle:hover {
+  color: #0048b3;
+}
+
+.ob-error {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.82rem;
+  color: #dc2626;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.ob-primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: #0048b3;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.97rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  letter-spacing: -0.01em;
+  transition:
+    background 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(0, 72, 179, 0.25);
+}
+.ob-primary-btn:hover {
+  background: #003a99;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 72, 179, 0.32);
+}
+.ob-primary-btn:active {
+  transform: translateY(0);
+}
+
+.ob-bottom-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 1.1rem;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.ob-link-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0048b3;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ob-link-btn:hover {
+  color: #003a99;
+}
+
+.ob-role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.ob-role-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.ob-role-card.hovered,
+.ob-role-card:hover {
+  border-color: #0048b3;
+  background: #eff4ff;
+  box-shadow: 0 2px 12px rgba(0, 72, 179, 0.12);
+}
+
+.ob-role-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ob-role-label {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.ob-role-desc {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.83rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
+.ob-otp-boxes {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.ob-otp-digit {
+  width: 46px;
+  height: 54px;
+  text-align: center;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0048b3;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.ob-otp-digit:focus {
+  border-color: #0048b3;
+  box-shadow: 0 0 0 3px rgba(0, 72, 179, 0.1);
+  background: #fff;
+}
+
+.ob-otp-single {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #0048b3;
+}
+
+.ob-resend-link {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.83rem;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+}
+
+.ob-card-success {
+  align-items: center;
+  text-align: center;
+}
+.ob-card-success .ob-title,
+.ob-card-success .ob-subtitle {
+  text-align: center;
+  width: 100%;
+}
+
+.ob-success-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #0048b3;
+  color: #fff;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 72, 179, 0.3);
+  animation: ob-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ob-pop {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .ob-page {
+    padding: 1.25rem 0.75rem 3rem 0.75rem;
+  }
+  .ob-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .ob-otp-digit {
+    width: 40px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+}
+
+.ob-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem 4rem 1rem;
+  background: #f5f7fa;
+  z-index: 10;
+}
+
+.ob-bg {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 72, 179, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Back button */
+.ob-back-btn {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0048b3;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  align-self: flex-start;
+  max-width: 400px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.ob-back-btn:hover {
+  opacity: 1;
+}
+
+/* Progress dots */
+.ob-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  z-index: 2;
+  position: relative;
+}
+.ob-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 72, 179, 0.2);
+  transition:
+    background 0.3s,
+    transform 0.3s;
+}
+.ob-progress-dot.active {
+  background: #0048b3;
+  transform: scale(1.3);
+}
+.ob-progress-dot.done {
+  background: rgba(0, 72, 179, 0.5);
+}
+
+/* Card wrapper for centering + entrance animation */
+.ob-card-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  animation: ob-card-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ob-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The white card itself */
+.ob-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 72, 179, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 2rem 1.75rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.ob-title {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: clamp(1.35rem, 4vw, 1.65rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 1rem 0 0 0;
+}
+
+.ob-subtitle {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0.45rem 0 1.25rem 0;
+}
+
+/* Form */
+.ob-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.ob-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.ob-label {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.ob-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.93rem;
+  color: #111827;
+  background: #fafafa;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.ob-input:focus {
+  border-color: #0048b3;
+  box-shadow: 0 0 0 3px rgba(0, 72, 179, 0.1);
+  background: #fff;
+}
+.ob-input-readonly {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: default;
+}
+
+/* Password wrapper */
+.ob-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+.ob-input-pw {
+  padding-right: 2.75rem;
+}
+.ob-pw-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.2s;
+}
+.ob-pw-toggle:hover {
+  color: #0048b3;
+}
+
+/* Error message */
+.ob-error {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.82rem;
+  color: #dc2626;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Primary CTA Button */
+.ob-primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: #0048b3;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.97rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  letter-spacing: -0.01em;
+  transition:
+    background 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(0, 72, 179, 0.25);
+}
+.ob-primary-btn:hover {
+  background: #003a99;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 72, 179, 0.32);
+}
+.ob-primary-btn:active {
+  transform: translateY(0);
+}
+
+/* Bottom links */
+.ob-bottom-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 1.1rem;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.ob-link-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0048b3;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ob-link-btn:hover {
+  color: #003a99;
+}
+
+/* ── Role Selection ────────────── */
+.ob-role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.ob-role-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.ob-role-card.hovered,
+.ob-role-card:hover {
+  border-color: #0048b3;
+  background: #eff4ff;
+  box-shadow: 0 2px 12px rgba(0, 72, 179, 0.12);
+}
+
+.ob-role-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ob-role-label {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.ob-role-desc {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.83rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
+/* ── OTP: digit boxes ─────────── */
+.ob-otp-boxes {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.ob-otp-digit {
+  width: 46px;
+  height: 54px;
+  text-align: center;
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0048b3;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.ob-otp-digit:focus {
+  border-color: #0048b3;
+  box-shadow: 0 0 0 3px rgba(0, 72, 179, 0.1);
+  background: #fff;
+}
+
+/* OTP single input (customer) */
+.ob-otp-single {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #0048b3;
+}
+
+.ob-resend-link {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.83rem;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Success ──────────────────── */
+.ob-card-success {
+  align-items: center;
+  text-align: center;
+}
+.ob-card-success .ob-title,
+.ob-card-success .ob-subtitle {
+  text-align: center;
+  width: 100%;
+}
+
+.ob-success-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #0048b3;
+  color: #fff;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 72, 179, 0.3);
+  animation: ob-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ob-pop {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Responsive ───────────────── */
+@media (max-width: 480px) {
+  .ob-page {
+    padding: 1.25rem 0.75rem 3rem 0.75rem;
+  }
+  .ob-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .ob-otp-digit {
+    width: 40px;
+    height: 48px;
+    font-size: 1.2rem;
   }
 }
