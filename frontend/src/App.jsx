@@ -1,14 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import BackgroundGrid from './components/BackgroundGrid';
-import StadiumIllustration from './components/StadiumIllustration';
-import TodoAnimation from './components/TodoAnimation';
-import NeedItDoneAnimation from './components/NeedItDoneAnimation';
-import ComparisonCards from './components/ComparisonCards';
-import FeatureCards from './components/FeatureCards';
-import RealImpactSection from './components/RealImpactSection';
-import FaqSection from './components/FaqSection';
-import NewsletterSection from './components/NewsletterSection';
-import OnboardingPage from './components/OnboardingPage';
+import HomePage from './pages/HomePage';
+import OnboardingPage from './pages/OnboardingPage';
 
 // Jaradeck 3D stacked-blocks logo SVG
 function JaradeckLogo({ width = 41 }) {
@@ -27,61 +21,17 @@ function JaradeckLogo({ width = 41 }) {
   );
 }
 
-const HEADLINES = [
-  [
-    { text: "Your to-do list isn't ", action: false },
-    { text: "getting shorter.", action: true }
-  ],
-  [
-    { text: "Outsource", action: true },
-    { text: " the grind, let us do the ", action: false },
-    { text: "sweating.", action: true }
-  ],
-  [
-    { text: "You can't do ", action: false },
-    { text: "everything yourself.", action: true }
-  ],
-  [
-    { text: "Keep", action: true },
-    { text: " your sanity, ", action: false },
-    { text: "give", action: true },
-    { text: " us the grunt work.", action: false }
-  ]
-];
-
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('join');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const [headlineIndex, setHeadlineIndex] = useState(0);
-  const [currentPath, setCurrentPath] = useState(
-    typeof window !== 'undefined' ? window.location.pathname : '/'
-  );
-
-  // Sync route on popstate (browser back/forward)
-  useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const navigateTo = (path) => {
-    if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', path);
-      setCurrentPath(path);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  // Rotate headline every 5 seconds
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setHeadlineIndex((prevIndex) => (prevIndex + 1) % HEADLINES.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Refs for navigation containers and buttons
   const mainPillRef = useRef(null);
@@ -157,7 +107,7 @@ export default function App() {
       <BackgroundGrid />
 
       {/* Floating Glassmorphic Navigation Bar Container */}
-      {currentPath !== '/onboarding' && (
+      {location.pathname !== '/onboarding' && (
         <header className="nav-header">
         <div className="nav-header-wrapper">
 
@@ -178,7 +128,7 @@ export default function App() {
 
             <button
               ref={hireRef}
-              className={`nav-link-btn ${activeTab === 'hire' && currentPath === '/' ? 'active' : ''}`}
+              className={`nav-link-btn ${activeTab === 'hire' && location.pathname === '/' ? 'active' : ''}`}
               onClick={() => { setActiveTab('hire'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               Hire Talent
@@ -186,7 +136,7 @@ export default function App() {
 
             <button
               ref={howRef}
-              className={`nav-link-btn ${activeTab === 'how' && currentPath === '/' ? 'active' : ''}`}
+              className={`nav-link-btn ${activeTab === 'how' && location.pathname === '/' ? 'active' : ''}`}
               onClick={() => { setActiveTab('how'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               How It Works
@@ -194,7 +144,7 @@ export default function App() {
 
             <button
               ref={whyRef}
-              className={`nav-link-btn ${activeTab === 'why' && currentPath === '/' ? 'active' : ''}`}
+              className={`nav-link-btn ${activeTab === 'why' && location.pathname === '/' ? 'active' : ''}`}
               onClick={() => { setActiveTab('why'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               Why Jaradeck
@@ -202,7 +152,7 @@ export default function App() {
 
             <button
               ref={joinRef}
-              className={`nav-link-btn ${currentPath === '/onboarding' ? 'active' : ''}`}
+              className={`nav-link-btn ${location.pathname === '/onboarding' ? 'active' : ''}`}
               onClick={() => { setActiveTab('join'); setIsMoreOpen(false); navigateTo('/onboarding'); }}
             >
               Use Jaradeck
@@ -308,28 +258,28 @@ export default function App() {
           {/* Sectioned Menu Items List */}
           <div className="mobile-menu-list">
             <button
-              className={`mobile-nav-row ${activeTab === 'hire' && currentPath === '/' ? 'active' : ''}`}
+              className={`mobile-nav-row ${activeTab === 'hire' && location.pathname === '/' ? 'active' : ''}`}
               onClick={() => { setActiveTab('hire'); setIsMobileMenuOpen(false); navigateTo('/'); }}
             >
               <span className="mobile-row-text">Hire Talent</span>
             </button>
 
             <button
-              className={`mobile-nav-row ${activeTab === 'how' && currentPath === '/' ? 'active' : ''}`}
+              className={`mobile-nav-row ${activeTab === 'how' && location.pathname === '/' ? 'active' : ''}`}
               onClick={() => { setActiveTab('how'); setIsMobileMenuOpen(false); navigateTo('/'); }}
             >
               <span className="mobile-row-text">How It Works</span>
             </button>
 
             <button
-              className={`mobile-nav-row ${activeTab === 'why' && currentPath === '/' ? 'active' : ''}`}
+              className={`mobile-nav-row ${activeTab === 'why' && location.pathname === '/' ? 'active' : ''}`}
               onClick={() => { setActiveTab('why'); setIsMobileMenuOpen(false); navigateTo('/'); }}
             >
               <span className="mobile-row-text">Why Jaradeck</span>
             </button>
 
             <button
-              className={`mobile-nav-row ${currentPath === '/onboarding' ? 'active' : ''}`}
+              className={`mobile-nav-row ${location.pathname === '/onboarding' ? 'active' : ''}`}
               onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); navigateTo('/onboarding'); }}
             >
               <span className="mobile-row-text">Use Jaradeck</span>
@@ -359,67 +309,11 @@ export default function App() {
         </div>
       )}
 
-      {/* Conditionally Render Onboarding Page OR Full Landing Page */}
-      {currentPath === '/onboarding' ? (
-        <OnboardingPage onNavigateHome={() => navigateTo('/')} />
-      ) : (
-        <>
-          {/* Main Hero Content Area */}
-          <main className="hero-main">
-            <div className="hero-content">
-              <div className="hero-headline-wrapper">
-                <h1 key={headlineIndex} className="hero-headline hero-headline-animated">
-                  {HEADLINES[headlineIndex].map((part, index) =>
-                    part.action ? (
-                      <span key={index} className="action-word">{part.text}</span>
-                    ) : (
-                      <React.Fragment key={index}>{part.text}</React.Fragment>
-                    )
-                  )}
-                </h1>
-              </div>
-
-              <p className="hero-subtitle">
-                Jaradeck is the easiest way to get work done without sifting through endless profiles and fake reviews. Give us the grunt work.
-              </p>
-
-              <button className="hero-cta-btn" onClick={() => navigateTo('/onboarding')}>
-                <span>Use Jaradeck</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-icon">
-                  <path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Stadium Architecture & Hero Graphics */}
-            <div className="stadium-section">
-              <StadiumIllustration />
-            </div>
-          </main>
-
-          {/* Blue Canopy Section */}
-          <section className="canopy-section">
-            <div className="canopy-content-wrapper">
-              <NeedItDoneAnimation />
-            </div>
-          </section>
-
-          {/* Comparison Cards Section */}
-          <ComparisonCards />
-
-          {/* Feature Cards Section (60 Seconds Office Card) */}
-          <FeatureCards />
-
-          {/* Real Impact, Real Stories Section (White Background with Wavy Pattern) */}
-          <RealImpactSection />
-
-          {/* FAQ Section (Solid Blue Background with Accordions) */}
-          <FaqSection />
-
-          {/* Newsletter / Footer Grid Section */}
-          <NewsletterSection />
-        </>
-      )}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }

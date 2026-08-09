@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const faqData = [
   {
@@ -35,6 +36,7 @@ const faqData = [
 
 export default function FaqSection() {
   const [openId, setOpenId] = useState(null);
+  const navigate = useNavigate();
 
   const toggleFaq = (id) => {
     setOpenId(openId === id ? null : id);
@@ -129,8 +131,7 @@ export default function FaqSection() {
         <button
           className="cta-banner-btn"
           onClick={() => {
-            window.history.pushState({}, '', '/waitlist');
-            window.dispatchEvent(new Event('popstate'));
+            navigate('/onboarding');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
