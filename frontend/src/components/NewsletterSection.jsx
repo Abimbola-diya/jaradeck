@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BrandLogo from './BrandLogo';
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState('');
@@ -20,24 +21,7 @@ export default function NewsletterSection() {
         <div className="newsletter-header-row">
           <div className="newsletter-title-group">
             {/* Jaradeck 3D Stacked Blocks Logo */}
-            <svg
-              className="newsletter-logo-icon"
-              width="42"
-              height="30"
-              viewBox="0 0 42 30"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="white" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 21.5234H3.90593L0 19.4655H37.0411L41.0577 21.5234Z" fill="#E2E2E2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 21.5234V29.5169L0 27.1387V19.4655L3.90593 21.5234Z" fill="#EFEFEF" />
-              <path d="M3.90593 11.9195H41.0577V19.913H3.90593V11.9195Z" fill="white" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 11.9195H3.90593L0 9.86157H37.0411L41.0577 11.9195Z" fill="#E2E2E2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 11.9195V19.913L0 17.5348V9.86157L3.90593 11.9195Z" fill="#EFEFEF" />
-              <path d="M3.90593 2.05795H41.0577V10.0515H3.90593V2.05795Z" fill="white" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 2.05795H3.90593L0 0H37.0411L41.0577 2.05795Z" fill="#E2E2E2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 2.05795V10.0515L0 7.67324V0L3.90593 2.05795Z" fill="#EFEFEF" />
-            </svg>
+            <BrandLogo className="newsletter-logo-icon" width={42} height={30} />
 
             <div className="newsletter-text-stack">
               <h2 className="newsletter-title">
@@ -115,24 +99,7 @@ export default function NewsletterSection() {
           {/* Left Brand Cell */}
           <div className="newsletter-brand-cell">
             <div className="newsletter-brand-logo-group">
-              <svg
-                className="newsletter-footer-logo"
-                width="38"
-                height="27"
-                viewBox="0 0 42 30"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path d="M3.90593 21.5234H41.0577V29.5169H3.90593V21.5234Z" fill="white" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 21.5234H3.90593L0 19.4655H37.0411L41.0577 21.5234Z" fill="#E2E2E2" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 21.5234V29.5169L0 27.1387V19.4655L3.90593 21.5234Z" fill="#EFEFEF" />
-                <path d="M3.90593 11.9195H41.0577V19.913H3.90593V11.9195Z" fill="white" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 11.9195H3.90593L0 9.86157H37.0411L41.0577 11.9195Z" fill="#E2E2E2" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 11.9195V19.913L0 17.5348V9.86157L3.90593 11.9195Z" fill="#EFEFEF" />
-                <path d="M3.90593 2.05795H41.0577V10.0515H3.90593V2.05795Z" fill="white" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M41.0577 2.05795H3.90593L0 0H37.0411L41.0577 2.05795Z" fill="#E2E2E2" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M3.90593 2.05795V10.0515L0 7.67324V0L3.90593 2.05795Z" fill="#EFEFEF" />
-              </svg>
+              <BrandLogo className="newsletter-footer-logo" width={38} height={27} />
               <span className="newsletter-brand-name">Jaradeck</span>
             </div>
           </div>

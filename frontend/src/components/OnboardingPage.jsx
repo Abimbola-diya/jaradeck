@@ -1,23 +1,6 @@
 import React, { useState, useRef } from 'react';
-
-// ─── Shared SVG Icons ────────────────────────────────────────────────────────
-
-function JaradeckLogoBlue({ size = 40 }) {
-  const h = Math.round(size * (310 / 434));
-  return (
-    <svg width={size} height={h} viewBox="0 0 434 310" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M41.2752 225.44H433.87V309.91H41.2752V225.44Z" fill="#0048B3" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M433.87 225.44H41.2752L0 203.693H391.426L433.87 225.44Z" fill="#00388D" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M41.2752 225.44V309.91L0 284.779V203.693L41.2752 225.44Z" fill="#0048B3" />
-      <path d="M41.2752 123.953H433.87V208.423H41.2752V123.953Z" fill="#0048B3" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M433.87 123.953H41.2752L0 102.206H391.426L433.87 123.953Z" fill="#00388D" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M41.2752 123.953V208.423L0 183.291V102.206L41.2752 123.953Z" fill="#0048B3" />
-      <path d="M41.2752 21.7469H433.87V106.217H41.2752V21.7469Z" fill="#0048B3" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M433.87 21.7469H41.2752L0 0H391.426L433.87 21.7469Z" fill="#00388D" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M41.2752 21.7469V106.217L0 81.0853V0L41.2752 21.7469Z" fill="#0048B3" />
-    </svg>
-  );
-}
+import ArrowIcon from './ArrowIcon';
+import BrandLogo from './BrandLogo';
 
 function EyeIcon({ visible }) {
   return visible ? (
@@ -29,24 +12,6 @@ function EyeIcon({ visible }) {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
       <line x1="1" y1="1" x2="23" y2="23" />
-    </svg>
-  );
-}
-
-function ArrowRight() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
-    </svg>
-  );
-}
-
-function ArrowLeft() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="19" y1="12" x2="5" y2="12" />
-      <polyline points="12 19 5 12 12 5" />
     </svg>
   );
 }
@@ -77,12 +42,12 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
       {/* Top Left Back Button */}
       {!hideBack && onBack && (
         <button type="button" className="ob2-back-btn" onClick={onBack} aria-label="Go back">
-          <ArrowLeft />
+          <ArrowIcon direction="left" size={20} strokeWidth={2} />
         </button>
       )}
       {/* Logo — centered at top */}
       <div className="ob2-logo-wrap">
-        <JaradeckLogoBlue size={42} />
+        <BrandLogo width={42} tone="blue" />
       </div>
 
       {/* Main content area */}
@@ -114,11 +79,11 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
     <div className="ob2-page">
       {onNavigateHome && (
         <button type="button" className="ob2-back-btn" onClick={onNavigateHome} aria-label="Go back home">
-          <ArrowLeft />
+          <ArrowIcon direction="left" size={20} strokeWidth={2} />
         </button>
       )}
       <div className="ob2-logo-wrap">
-        <JaradeckLogoBlue size={42} />
+        <BrandLogo width={42} tone="blue" />
       </div>
 
       <div className="ob2-content">
@@ -216,7 +181,7 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
         {error && <p className="ob2-error">{error}</p>}
 
         <button type="submit" className="ob2-cta-btn">
-          Sign in <ArrowRight />
+          Sign in <ArrowIcon />
         </button>
       </form>
     </OBShell>
@@ -277,7 +242,7 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
         {error && <p className="ob2-error">{error}</p>}
 
         <button type="submit" className="ob2-cta-btn">
-          Continue <ArrowRight />
+          Continue <ArrowIcon />
         </button>
       </form>
     </OBShell>
@@ -383,7 +348,7 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
         {error && <p className="ob2-error">{error}</p>}
 
         <button type="submit" className="ob2-cta-btn">
-          Continue to Jaradeck <ArrowRight />
+          Continue to Jaradeck <ArrowIcon />
         </button>
       </form>
     </OBShell>
@@ -467,7 +432,7 @@ function OTPStep({ role, onNext, onSignIn, onBack }) {
         </p>
 
         <button type="submit" className="ob2-cta-btn" style={{ marginTop: '2rem' }}>
-          Continue to Jaradeck <ArrowRight />
+          Continue to Jaradeck <ArrowIcon />
         </button>
       </form>
     </OBShell>
@@ -479,7 +444,7 @@ function SuccessStep({ role, profileData, onNavigateHome }) {
   return (
     <div className="ob2-page ob2-page-success">
       <div className="ob2-logo-wrap">
-        <JaradeckLogoBlue size={42} />
+        <BrandLogo width={42} tone="blue" />
       </div>
       <div className="ob2-content ob2-content-centered">
         <div className="ob2-success-check">✓</div>
@@ -492,7 +457,7 @@ function SuccessStep({ role, profileData, onNavigateHome }) {
             : "Your worker profile is live. We'll start matching you with projects right away."}
         </p>
         <button className="ob2-cta-btn" style={{ marginTop: '1.5rem' }} onClick={onNavigateHome}>
-          Back to Home <ArrowRight />
+          Back to Home <ArrowIcon />
         </button>
       </div>
     </div>
