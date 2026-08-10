@@ -250,3 +250,7 @@ def simulate_match(query: MatchQuery):
 def get_students():
     # Return vetted pool
     return STUDENTS_POOL
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "message": "Backend is running smoothly!"}
