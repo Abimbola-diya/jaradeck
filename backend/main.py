@@ -14,11 +14,49 @@ url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
+def init_db():
+    db_url = os.getenv("DIRECT_URL") or os.getenv("DATABASE_URL")
+    if not db_url:
+        return
+    try:
+        import psycopg2
+        conn = psycopg2.connect(db_url, connect_timeout=5)
+        cur = conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS waitlist_submissions (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                name TEXT NOT NULL,
+                contact_selected JSONB NOT NULL,
+                contacts JSONB NOT NULL,
+                role TEXT NOT NULL,
+                role_other TEXT,
+                tasks_selected JSONB NOT NULL,
+                tasks_other TEXT,
+                frequency TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                email TEXT UNIQUE NOT NULL
+            );
+        """)
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Successfully created/verified Supabase database tables on startup!")
+    except Exception as e:
+        print(f"Database startup sync note: {e}")
+
 app = FastAPI(
     title="JaraDeck API",
     description="Backend services for JaraDeck - The Trusted Execution Platform",
     version="1.0.0"
 )
+
+@app.on_event("startup")
+def startup_event():
+    init_db()
 
 # Enable CORS for the Vite development server
 app.add_middleware(
