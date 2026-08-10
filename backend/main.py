@@ -13,7 +13,10 @@ load_dotenv(dotenv_path=".env")
 
 DEFAULT_SUPABASE_URL = "https://yjzfotmjkziehsqvxito.supabase.co"
 DEFAULT_SUPABASE_KEY = "sb_publishable_N3Oec4Tjne6yjnxnY9iEsQ_ewLUH6Ga"
-DEFAULT_DATABASE_URL = "postgresql://postgres:abimbola%402007db@db.yjzfotmjkziehsqvxito.supabase.co:5432/postgres?sslmode=require"
+DEFAULT_DATABASE_URL = os.getenv(
+    "DATABASE_URL", 
+    "postgresql://postgres.yjzfotmjkziehsqvxito:abimbola%402007@aws-0-eu-west-2.pooler.supabase.com:6543/postgres?sslmode=require"
+)
 
 url: str = os.getenv("SUPABASE_URL") or DEFAULT_SUPABASE_URL
 key: str = os.getenv("SUPABASE_ANON_KEY") or DEFAULT_SUPABASE_KEY
