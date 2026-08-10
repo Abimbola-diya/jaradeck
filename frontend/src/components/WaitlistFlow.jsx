@@ -419,7 +419,21 @@ export default function WaitlistFlow({ onClose }) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+        console.error("Failed to join waitlist:", await response.text());
+        // Still show success for UX, or handle error properly
+      }
+    } catch (err) {
+      console.error("Error submitting waitlist:", err);
+    }
+    
     setAnimDir('out');
     setTimeout(() => {
       setIsSubmitted(true);

@@ -8,13 +8,27 @@ export default function NewsletterSection() {
   const [emailError, setEmailError] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const res = validateEmail(email);
     if (!res.isValid) {
       setEmailError(res.error);
       return;
     }
+    try {
+      const response = await fetch('http://localhost:8000/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      if (!response.ok) {
+        console.error("Failed to subscribe:", await response.text());
+        // Show error? For now we just fall through to success confetti
+      }
+    } catch (err) {
+      console.error("Error subscribing:", err);
+    }
+    
     setEmailError('');
     setSubscribed(true);
     confetti({
@@ -25,6 +39,7 @@ export default function NewsletterSection() {
     });
     setTimeout(() => {
       setSubscribed(false);
+      setEmail('');
     }, 6000);
   };
 

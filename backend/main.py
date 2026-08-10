@@ -1,8 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import random
+import os
+from dotenv import load_dotenv
+from supabase import create_client, Client
+
+# Load environment variables
+load_dotenv(dotenv_path="../.env")
+
+url: str = os.getenv("SUPABASE_URL")
+key: str = os.getenv("SUPABASE_ANON_KEY")
+supabase: Client = create_client(url, key)
 
 app = FastAPI(
     title="JaraDeck API",
@@ -79,6 +89,16 @@ STUDENTS_POOL = [
 
 # Request Schemas
 class WaitlistSignup(BaseModel):
+    name: str
+    contactSelected: List[str]
+    contacts: Dict[str, str]
+    role: str
+    roleOther: Optional[str] = ""
+    tasksSelected: List[str]
+    tasksOther: Optional[str] = ""
+    frequency: str
+
+class NewsletterSignup(BaseModel):
     email: EmailStr
 
 class TaskRequest(BaseModel):
@@ -102,12 +122,34 @@ def read_root():
 
 @app.post("/api/waitlist")
 def join_waitlist(signup: WaitlistSignup):
+    data = {
+        "name": signup.name,
+        "contact_selected": signup.contactSelected,
+        "contacts": signup.contacts,
+        "role": signup.role,
+        "role_other": signup.roleOther,
+        "tasks_selected": signup.tasksSelected,
+        "tasks_other": signup.tasksOther,
+        "frequency": signup.frequency
+    }
+    try:
+        response = supabase.table("waitlist_submissions").insert(data).execute()
+        return {"message": "Successfully joined the JaraDeck waitlist. Welcome aboard!", "already_exists": False}
+    except Exception as e:
+        if "duplicate key value" in str(e).lower() or "already exists" in str(e).lower():
+            return {"message": "You are already on the waitlist!", "already_exists": True}
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/newsletter")
+def join_newsletter(signup: NewsletterSignup):
     email_lower = signup.email.lower()
-    if email_lower in [x["email"] for x in waitlist_db]:
-        return {"message": "You are already on the waitlist! We will keep you updated.", "already_exists": True}
-    
-    waitlist_db.append({"email": email_lower})
-    return {"message": "Successfully joined the JaraDeck waitlist. Welcome aboard!", "already_exists": False}
+    try:
+        response = supabase.table("newsletter_subscribers").insert({"email": email_lower}).execute()
+        return {"message": "Successfully subscribed to the newsletter."}
+    except Exception as e:
+        if "duplicate key value" in str(e).lower():
+            return {"message": "Already subscribed."}
+        raise HTTPException(status_code=400, detail=str(e))
 
 @app.post("/api/request-task")
 def submit_task_request(request: TaskRequest):
