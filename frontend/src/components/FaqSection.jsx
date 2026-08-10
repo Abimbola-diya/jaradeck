@@ -135,7 +135,7 @@ export default function FaqSection() {
         <button
           className="cta-banner-btn"
           onClick={() => {
-            navigate('/onboarding');
+            navigate('/waitlist');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >

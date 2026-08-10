@@ -5,14 +5,24 @@ import BrandLogo from './components/BrandLogo';
 import DashboardPage from './pages/DashboardPage';
 import HomePage from './pages/HomePage';
 import OnboardingPage from './pages/OnboardingPage';
+import WaitlistPage from './pages/WaitlistPage';
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('join');
+  const [activeTab, setActiveTab] = useState('why');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const isProductRoute = ['/onboarding', '/dashboard'].includes(location.pathname);
+
+  // Sync activeTab state with current route location
+  useEffect(() => {
+    if (location.pathname === '/onboarding' || location.pathname === '/waitlist') {
+      setActiveTab('join');
+    } else if (location.pathname === '/' && activeTab === 'join') {
+      setActiveTab('why');
+    }
+  }, [location.pathname]);
 
   const navigateTo = (path) => {
     navigate(path);
@@ -138,8 +148,8 @@ export default function App() {
 
             <button
               ref={joinRef}
-              className={`nav-link-btn ${location.pathname === '/onboarding' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); navigateTo('/onboarding'); }}
+              className={`nav-link-btn ${activeTab === 'join' || location.pathname === '/waitlist' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMoreOpen(false); navigateTo('/waitlist'); }}
             >
               Use Jaradeck
             </button>
@@ -255,8 +265,8 @@ export default function App() {
             </button>
 
             <button
-              className={`mobile-nav-row ${location.pathname === '/onboarding' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); navigateTo('/onboarding'); }}
+              className={`mobile-nav-row ${location.pathname === '/waitlist' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('join'); setIsMobileMenuOpen(false); navigateTo('/waitlist'); }}
             >
               <span className="mobile-row-text">Use Jaradeck</span>
             </button>
@@ -287,6 +297,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/waitlist" element={<WaitlistPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

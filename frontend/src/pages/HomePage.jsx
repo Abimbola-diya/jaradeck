@@ -44,7 +44,7 @@ export default function HomePage() {
   }, []);
 
   const goToOnboarding = () => {
-    navigate('/onboarding');
+    navigate('/waitlist');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
