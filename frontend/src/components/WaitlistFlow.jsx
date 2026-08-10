@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { validatePhone, validateEmail } from '../utils/validation';
+import { useNavigate } from 'react-router-dom';
 
 const TOTAL_STEPS = 5;
 
@@ -332,6 +333,7 @@ function StepLoading() {
 
 function StepSuccess({ name, onClose }) {
   const firstName = name ? name.trim().split(' ')[0] : '';
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Shoot a burst of confetti from the center-bottom of the screen
@@ -343,6 +345,12 @@ function StepSuccess({ name, onClose }) {
       colors: ['#0048B3', '#ffffff', '#feb943', '#ff6b6b', '#48b300']
     });
   }, []);
+
+  const handleGoHome = () => {
+    onClose();
+    navigate('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="wf-step wf-step--success">
@@ -356,7 +364,7 @@ function StepSuccess({ name, onClose }) {
       <p className="wf-success-note">
         We'll be in touch sooner than you think.
       </p>
-      <button className="wf-next-btn" onClick={onClose} style={{ marginTop: '2.25rem' }}>
+      <button className="wf-next-btn" onClick={handleGoHome} style={{ marginTop: '2.25rem' }}>
         Back to home →
       </button>
     </div>
