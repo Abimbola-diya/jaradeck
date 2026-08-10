@@ -158,6 +158,14 @@ def read_root():
         "version": "1.0.0"
     }
 
+@app.get("/health")
+@app.get("/api/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "service": "JaraDeck API"
+    }
+
 @app.post("/api/waitlist")
 def join_waitlist(signup: WaitlistSignup):
     data = {
