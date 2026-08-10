@@ -78,52 +78,39 @@ export default function AdminViewPage() {
             <button 
               onClick={fetchWaitlist}
               style={{
-                padding: '0.55rem 1.25rem',
+                padding: '0.6rem 1.4rem',
                 borderRadius: '9999px',
-                background: 'rgba(255, 255, 255, 0.12)',
-                border: '1px solid rgba(255, 255, 255, 0.28)',
+                background: 'transparent',
+                border: '1px solid #ffffff',
                 color: '#ffffff',
-                fontSize: '0.88rem',
-                fontWeight: '500',
+                fontSize: '0.9rem',
+                fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem'
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-              </svg>
               Sync Data
             </button>
             <button 
               onClick={() => navigate('/')}
               style={{
-                padding: '0.55rem 1.25rem',
+                padding: '0.6rem 1.4rem',
                 borderRadius: '9999px',
-                background: '#ffffff',
+                background: '#0048cc',
                 border: 'none',
-                color: '#0048cc',
-                fontSize: '0.88rem',
+                color: '#ffffff',
+                fontSize: '0.9rem',
                 fontWeight: '700',
                 cursor: 'pointer',
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.16)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem'
+                boxShadow: '0 4px 14px rgba(0, 72, 204, 0.3)',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 72, 204, 0.4)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 72, 204, 0.3)'; }}
             >
               Return Home
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
             </button>
           </div>
         </header>
@@ -270,7 +257,7 @@ export default function AdminViewPage() {
                     Contact Details
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                    {sub.contacts && typeof sub.contacts === 'object' ? (
+                    {sub.contacts && typeof sub.contacts === 'object' && !Array.isArray(sub.contacts) && Object.keys(sub.contacts).length > 0 ? (
                       Object.entries(sub.contacts).map(([key, val]) => (
                         <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0, 0, 0, 0.18)', padding: '0.55rem 0.8rem', borderRadius: '10px' }}>
                           <span style={{ color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.85rem', textTransform: 'capitalize' }}>{key}:</span>

@@ -6,9 +6,9 @@ const TOTAL_STEPS = 5;
 
 const CHANNELS = [
   { id: 'whatsapp', label: 'WhatsApp', placeholder: '080... or +234...', type: 'tel' },
-  { id: 'email',    label: 'Email',    placeholder: 'you@example.com', type: 'email' },
-  { id: 'x',        label: 'X',        placeholder: '@lagabaja', type: 'text' },
-  { id: 'instagram',label: 'Instagram',placeholder: '@username', type: 'text' },
+  { id: 'email', label: 'Email', placeholder: 'you@example.com', type: 'email' },
+  { id: 'x', label: 'X', placeholder: '@lagabaja', type: 'text' },
+  { id: 'instagram', label: 'Instagram', placeholder: '@username', type: 'text' },
 ];
 
 // Helper to calculate channel error
@@ -130,12 +130,12 @@ function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
 // ─── Step 3: Role ────────────────────────────────────────────────────────────
 
 const ROLES = [
-  { id: 'small_biz',   label: 'Small business owner' },
-  { id: 'creator',     label: 'Creator' },
-  { id: 'professional',label: '9–5 Professional' },
-  { id: 'startup',     label: 'Startup founder' },
-  { id: 'freelancer',  label: 'Freelancer / Solopreneur' },
-  { id: 'other',       label: 'Something else' },
+  { id: 'small_biz', label: 'Small business owner' },
+  { id: 'creator', label: 'Creator' },
+  { id: 'professional', label: '9–5 Professional' },
+  { id: 'startup', label: 'Startup founder' },
+  { id: 'freelancer', label: 'Freelancer / Solopreneur' },
+  { id: 'other', label: 'Something else' },
 ];
 
 function StepRole({ value, otherText, onChange, onOtherText, onNext }) {
@@ -192,14 +192,14 @@ function StepRole({ value, otherText, onChange, onOtherText, onNext }) {
 // ─── Step 4: Tasks Offload ───────────────────────────────────────────────────
 
 const TASK_OPTIONS = [
-  { id: 'social_media',     label: 'Social media management' },
-  { id: 'video_editing',    label: 'Video editing' },
-  { id: 'graphic_design',   label: 'Graphic design' },
-  { id: 'script_writing',   label: 'Script writing' },
-  { id: 'website_dev',      label: 'Website dev / management' },
+  { id: 'social_media', label: 'Social media management' },
+  { id: 'video_editing', label: 'Video editing' },
+  { id: 'graphic_design', label: 'Graphic design' },
+  { id: 'script_writing', label: 'Script writing' },
+  { id: 'website_dev', label: 'Website dev / management' },
   { id: 'content_creation', label: 'Content creation & copywriting' },
   { id: 'customer_support', label: 'Customer support' },
-  { id: 'other',            label: 'Something else' },
+  { id: 'other', label: 'Something else' },
 ];
 
 function StepTasks({ selected, otherText, onToggle, onOtherText, onNext }) {
@@ -256,13 +256,13 @@ function StepTasks({ selected, otherText, onToggle, onOtherText, onNext }) {
 // ─── Step 5: Frequency ("One more thing...") ─────────────────────────────────
 
 const FREQUENCIES = [
-  { id: 'every_week',  label: 'Every week' },
-  { id: 'few_month',   label: 'A few times a month' },
-  { id: 'once_while',  label: 'Once in a while' },
-  { id: 'just_one',    label: 'Just this one project' },
+  { id: 'every_week', label: 'Every week' },
+  { id: 'few_month', label: 'A few times a month' },
+  { id: 'once_while', label: 'Once in a while' },
+  { id: 'just_one', label: 'Just this one project' },
 ];
 
-function StepFrequency({ value, onChange, onSubmit }) {
+function StepFrequency({ value, onChange, onSubmit, isSubmitting }) {
   return (
     <div className="wf-step">
       <p className="wf-one-more-thing">One more thing...</p>
@@ -277,9 +277,10 @@ function StepFrequency({ value, onChange, onSubmit }) {
             <div key={f.id} className="wf-role-group">
               <button
                 className={`wf-role-btn ${selected ? 'wf-role-btn--selected' : ''}`}
-                onClick={() => onChange(f.id)}
+                onClick={() => !isSubmitting && onChange(f.id)}
                 type="button"
                 aria-pressed={selected}
+                disabled={isSubmitting}
               >
                 <span className={`wf-radio ${selected ? 'wf-radio--selected' : ''}`} />
                 {f.label}
@@ -289,9 +290,40 @@ function StepFrequency({ value, onChange, onSubmit }) {
         })}
       </div>
 
-      <button className="wf-next-btn wf-options-stagger" onClick={onSubmit} disabled={!value}>
-        Join the waitlist 🚀
+      <button
+        className="wf-next-btn wf-options-stagger"
+        onClick={onSubmit}
+        disabled={!value || isSubmitting}
+        style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', minWidth: '220px' }}
+      >
+        Save my spot!
       </button>
+    </div>
+  );
+}
+
+// ─── Loading Screen ─────────────────────────────────────────────────────────
+
+function StepLoading() {
+  return (
+    <div className="wf-step" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
+      <div className="m3-expressive-loader-wrapper" style={{ marginBottom: '2rem' }}>
+        <svg className="m3-expressive-svg" width="60" height="60" viewBox="0 0 50 50">
+          <circle 
+            className="m3-expressive-ring" 
+            cx="25" 
+            cy="25" 
+            r="20" 
+            fill="none" 
+            stroke="var(--white)" 
+            strokeWidth="5" 
+            strokeLinecap="round" 
+          />
+        </svg>
+      </div>
+      <h2 className="wf-question" style={{ textAlign: 'center', fontSize: '1.4rem' }}>
+        Chill, finding somewhere safe to keep your spot...
+      </h2>
     </div>
   );
 }
@@ -300,7 +332,7 @@ function StepFrequency({ value, onChange, onSubmit }) {
 
 function StepSuccess({ name, onClose }) {
   const firstName = name ? name.trim().split(' ')[0] : '';
-  
+
   useEffect(() => {
     // Shoot a burst of confetti from the center-bottom of the screen
     confetti({
@@ -350,6 +382,7 @@ export default function WaitlistFlow({ onClose }) {
   const [step, setStep] = useState(0);
   const [animDir, setAnimDir] = useState('in');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [data, setData] = useState({
     name: '',
     contactSelected: [],
@@ -368,11 +401,19 @@ export default function WaitlistFlow({ onClose }) {
   }, []);
 
   // Escape to close
+  const onCloseRef = useRef(onClose);
   useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    onCloseRef.current = onClose;
   }, [onClose]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => { if (e.key === 'Escape') onCloseRef.current(); };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const goNext = () => {
     setAnimDir('out');
@@ -383,7 +424,7 @@ export default function WaitlistFlow({ onClose }) {
   };
 
   const goBack = () => {
-    if (step === 0) { onClose(); return; }
+    if (isSubmitted || step === 0) { onClose(); return; }
     setAnimDir('out');
     setTimeout(() => {
       setStep((s) => s - 1);
@@ -420,6 +461,9 @@ export default function WaitlistFlow({ onClose }) {
   };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       const response = await fetch(`${apiUrl}/api/waitlist`, {
@@ -429,17 +473,17 @@ export default function WaitlistFlow({ onClose }) {
       });
       if (!response.ok) {
         console.error("Failed to join waitlist:", await response.text());
-        // Still show success for UX, or handle error properly
       }
     } catch (err) {
       console.error("Error submitting waitlist:", err);
+    } finally {
+      setAnimDir('out');
+      setTimeout(() => {
+        setIsSubmitted(true);
+        setIsSubmitting(false);
+        setAnimDir('in');
+      }, 280);
     }
-    
-    setAnimDir('out');
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setAnimDir('in');
-    }, 280);
   };
 
   return (
@@ -458,6 +502,8 @@ export default function WaitlistFlow({ onClose }) {
         <div className={`wf-step-wrapper wf-anim-${animDir}`}>
           {isSubmitted ? (
             <StepSuccess name={data.name} onClose={onClose} />
+          ) : isSubmitting ? (
+            <StepLoading />
           ) : (
             <>
               {step === 0 && (
@@ -499,6 +545,7 @@ export default function WaitlistFlow({ onClose }) {
                   value={data.frequency}
                   onChange={(v) => setData((d) => ({ ...d, frequency: v }))}
                   onSubmit={handleSubmit}
+                  isSubmitting={isSubmitting}
                 />
               )}
             </>

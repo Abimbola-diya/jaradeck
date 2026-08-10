@@ -5125,3 +5125,60 @@ textarea {
   }
 }
 
+/* ===== Material 3 Expressive Loading Indicator ===== */
+.m3-expressive-loader-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+.m3-expressive-svg {
+  animation: m3ExpressiveRotate 2.4s linear infinite;
+  transform-origin: center;
+}
+
+.m3-expressive-ring {
+  stroke-dasharray: 125, 200;
+  stroke-dashoffset: 0;
+  animation: 
+    m3ExpressiveDash 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    m3ExpressiveMorph 3s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes m3ExpressiveRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes m3ExpressiveDash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -125;
+  }
+}
+
+@keyframes m3ExpressiveMorph {
+  0% {
+    stroke-width: 5;
+    r: 22;
+  }
+  50% {
+    stroke-width: 8;
+    r: 18;
+  }
+  100% {
+    stroke-width: 4;
+    r: 24;
+  }
+}
+
