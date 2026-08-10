@@ -13,17 +13,25 @@ load_dotenv(dotenv_path=".env")
 
 DEFAULT_SUPABASE_URL = "https://yjzfotmjkziehsqvxito.supabase.co"
 DEFAULT_SUPABASE_KEY = "sb_publishable_N3Oec4Tjne6yjnxnY9iEsQ_ewLUH6Ga"
-DEFAULT_DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "postgresql://postgres.yjzfotmjkziehsqvxito:abimbola%402007@aws-0-eu-west-2.pooler.supabase.com:6543/postgres?sslmode=require"
-)
+# DEFAULT_DATABASE_URL removed for security. All configuration should come from environment variables.
 
 url: str = os.getenv("SUPABASE_URL") or DEFAULT_SUPABASE_URL
 key: str = os.getenv("SUPABASE_ANON_KEY") or DEFAULT_SUPABASE_KEY
 supabase: Client = create_client(url, key)
 
 def init_db():
-    db_url = os.getenv("DIRECT_URL") or os.getenv("DATABASE_URL") or DEFAULT_DATABASE_URL
+    db_url = os.getenv("DATABASE_URL") or os.getenv("DIRECT_URL")
+    if not db_url:
+        print("No DATABASE_URL found in environment! Skipping database initialization.")
+        return
+    
+    # Automatically rewrite direct IPv6 Supabase host to IPv4 Pooler host
+    if "db.yjzfotmjkziehsqvxito.supabase.co" in db_url:
+        db_url = db_url.replace("db.yjzfotmjkziehsqvxito.supabase.co:5432", "aws-0-eu-west-2.pooler.supabase.com:6543")
+        db_url = db_url.replace("db.yjzfotmjkziehsqvxito.supabase.co", "aws-0-eu-west-2.pooler.supabase.com:6543")
+        if "postgres.yjzfotmjkziehsqvxito" not in db_url:
+            db_url = db_url.replace("postgres:", "postgres.yjzfotmjkziehsqvxito:")
+
     if "sslmode" not in db_url:
         if "?" in db_url:
             db_url += "&sslmode=require"
