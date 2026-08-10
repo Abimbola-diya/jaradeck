@@ -9,18 +9,28 @@ from supabase import create_client, Client
 
 # Load environment variables
 load_dotenv(dotenv_path="../.env")
+load_dotenv(dotenv_path=".env")
 
-url: str = os.getenv("SUPABASE_URL")
-key: str = os.getenv("SUPABASE_ANON_KEY")
+DEFAULT_SUPABASE_URL = "https://yjzfotmjkziehsqvxito.supabase.co"
+DEFAULT_SUPABASE_KEY = "sb_publishable_N3Oec4Tjne6yjnxnY9iEsQ_ewLUH6Ga"
+DEFAULT_DATABASE_URL = "postgresql://postgres:abimbola%402007db@db.yjzfotmjkziehsqvxito.supabase.co:5432/postgres?sslmode=require"
+
+url: str = os.getenv("SUPABASE_URL") or DEFAULT_SUPABASE_URL
+key: str = os.getenv("SUPABASE_ANON_KEY") or DEFAULT_SUPABASE_KEY
 supabase: Client = create_client(url, key)
 
 def init_db():
-    db_url = os.getenv("DIRECT_URL") or os.getenv("DATABASE_URL")
-    if not db_url:
-        return
+    db_url = os.getenv("DIRECT_URL") or os.getenv("DATABASE_URL") or DEFAULT_DATABASE_URL
+    if "sslmode" not in db_url:
+        if "?" in db_url:
+            db_url += "&sslmode=require"
+        else:
+            db_url += "?sslmode=require"
+            
     try:
         import psycopg2
-        conn = psycopg2.connect(db_url, connect_timeout=5)
+        print(f"Connecting to Supabase PostgreSQL at {db_url.split('@')[-1]}...")
+        conn = psycopg2.connect(db_url, sslmode="require", connect_timeout=15)
         cur = conn.cursor()
         cur.execute("""
             CREATE TABLE IF NOT EXISTS waitlist_submissions (
@@ -46,7 +56,7 @@ def init_db():
         conn.close()
         print("Successfully created/verified Supabase database tables on startup!")
     except Exception as e:
-        print(f"Database startup sync note: {e}")
+        print(f"DATABASE INITIALIZATION FAILED ERROR: {e}")
 
 app = FastAPI(
     title="JaraDeck API",
