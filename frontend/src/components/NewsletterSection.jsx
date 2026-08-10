@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
+import confetti from 'canvas-confetti';
 import BrandLogo from './BrandLogo';
+import { validateEmail } from '../utils/validation';
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 3000);
-      setEmail('');
+    const res = validateEmail(email);
+    if (!res.isValid) {
+      setEmailError(res.error);
+      return;
     }
+    setEmailError('');
+    setSubscribed(true);
+    confetti({
+      particleCount: 65,
+      spread: 70,
+      origin: { y: 0.85 },
+      colors: ['#4ADE80', '#93C5FD', '#FFFFFF', '#FFE699']
+    });
+    setTimeout(() => {
+      setSubscribed(false);
+    }, 6000);
   };
 
   return (
@@ -56,9 +70,19 @@ export default function NewsletterSection() {
               className="newsletter-email-input"
               placeholder="yourname@email.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError(''); }}
               required
             />
+            {emailError && (
+              <div className="newsletter-error-text">
+                {emailError}
+              </div>
+            )}
+            {subscribed && (
+              <div className="newsletter-subscribed-text">
+                Subscribed! 🎉
+              </div>
+            )}
           </div>
 
           <button type="submit" className="newsletter-submit-btn" aria-label="Subscribe to newsletter">

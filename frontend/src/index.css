@@ -2488,10 +2488,34 @@ textarea {
 }
 
 .newsletter-input-cell {
-  padding: 1.75rem 0 1.75rem clamp(2rem, 4.5vw, 4.2rem);
+  padding: 1.5rem 0 1.5rem clamp(2rem, 4.5vw, 4.2rem);
   border-right: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.newsletter-subscribed-text {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4ADE80;
+  margin-top: 0.2rem;
+  display: flex;
   align-items: center;
+  gap: 0.35rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.newsletter-error-text {
+  font-family: "PP Neue Montreal", var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #F87171;
+  margin-top: 0.2rem;
+  animation: fadeIn 0.3s ease;
 }
 
 .newsletter-email-input {

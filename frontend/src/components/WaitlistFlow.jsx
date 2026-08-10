@@ -1,14 +1,29 @@
 import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import { validatePhone, validateEmail } from '../utils/validation';
 
 const TOTAL_STEPS = 5;
 
 const CHANNELS = [
-  { id: 'whatsapp', label: 'WhatsApp', placeholder: '080...', type: 'tel' },
+  { id: 'whatsapp', label: 'WhatsApp', placeholder: '080... or +234...', type: 'tel' },
   { id: 'email',    label: 'Email',    placeholder: 'you@example.com', type: 'email' },
   { id: 'x',        label: 'X',        placeholder: '@lagabaja', type: 'text' },
   { id: 'instagram',label: 'Instagram',placeholder: '@username', type: 'text' },
 ];
+
+// Helper to calculate channel error
+function getChannelError(id, val) {
+  if (!val || !val.trim()) return '';
+  if (id === 'whatsapp') {
+    const res = validatePhone(val);
+    return res.isValid ? '' : res.error;
+  }
+  if (id === 'email') {
+    const res = validateEmail(val);
+    return res.isValid ? '' : res.error;
+  }
+  return '';
+}
 
 // ─── Step 1: Name ─────────────────────────────────────────────────────────────
 
@@ -40,9 +55,12 @@ function StepName({ value, onChange, onNext }) {
 // ─── Step 2: Contact channels ─────────────────────────────────────────────────
 
 function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
-  // valid = at least one channel checked AND every checked channel has a value
-  const isValid = selected.length > 0 &&
-    selected.every((id) => contacts[id]?.trim());
+  // Check validity for every selected channel
+  const isEverySelectedValid = selected.length > 0 && selected.every((id) => {
+    const val = contacts[id];
+    if (!val || !val.trim()) return false;
+    return getChannelError(id, val) === '';
+  });
 
   return (
     <div className="wf-step">
@@ -55,6 +73,9 @@ function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
       <div className="wf-channels">
         {CHANNELS.map((ch) => {
           const checked = selected.includes(ch.id);
+          const val = contacts[ch.id] || '';
+          const errorMsg = checked ? getChannelError(ch.id, val) : '';
+
           return (
             <div key={ch.id} className="wf-channel-group">
               {/* Checkbox row */}
@@ -72,21 +93,34 @@ function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
 
               {/* Conditional input — slides in when checked */}
               {checked && (
-                <input
-                  className="wf-input wf-channel-input"
-                  type={ch.type}
-                  placeholder={ch.placeholder}
-                  value={contacts[ch.id] || ''}
-                  onChange={(e) => onContact(ch.id, e.target.value)}
-                  autoComplete="off"
-                />
+                <div style={{ width: '100%' }}>
+                  <input
+                    className={`wf-input wf-channel-input ${errorMsg ? 'wf-input--error' : ''}`}
+                    type={ch.type}
+                    placeholder={ch.placeholder}
+                    value={val}
+                    onChange={(e) => onContact(ch.id, e.target.value)}
+                    autoComplete="off"
+                  />
+                  {errorMsg && (
+                    <p style={{
+                      color: '#F87171',
+                      fontSize: '0.85rem',
+                      marginTop: '0.35rem',
+                      fontFamily: "'PP Neue Montreal', var(--font-family)",
+                      fontWeight: 500
+                    }}>
+                      {errorMsg}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           );
         })}
       </div>
 
-      <button className="wf-next-btn" onClick={onNext} disabled={!isValid}>
+      <button className="wf-next-btn" onClick={onNext} disabled={!isEverySelectedValid}>
         Got it. →
       </button>
     </div>
