@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage';
 import HomePage from './pages/HomePage';
 import OnboardingPage from './pages/OnboardingPage';
 import WaitlistPage from './pages/WaitlistPage';
+import AdminViewPage from './pages/AdminViewPage';
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function App() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isProductRoute = ['/onboarding', '/dashboard'].includes(location.pathname);
+  const isProductRoute = ['/onboarding', '/dashboard', '/admin_view'].includes(location.pathname);
 
   // Sync activeTab state with current route location
   useEffect(() => {
@@ -300,6 +301,7 @@ export default function App() {
         <Route path="/waitlist" element={<WaitlistPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/admin_view" element={<AdminViewPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

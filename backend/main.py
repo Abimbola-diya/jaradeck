@@ -79,11 +79,11 @@ app = FastAPI(
 def startup_event():
     init_db()
 
-# Enable CORS for the Vite development server
+# Enable CORS for the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -265,3 +265,11 @@ def get_students():
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "message": "Backend is running smoothly!"}
+
+@app.get("/api/admin/waitlist")
+def get_admin_waitlist():
+    try:
+        response = supabase.table("waitlist_submissions").select("*").order("created_at", desc=True).execute()
+        return {"success": True, "data": response.data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
