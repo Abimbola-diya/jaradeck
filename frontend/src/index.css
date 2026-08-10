@@ -4679,7 +4679,7 @@ textarea {
   position: relative;
   z-index: 2;
   /* Visual vertical centering via margin, ensuring content only expands downward */
-  margin-top: clamp(8rem, 35vh, 16rem);
+  margin-top: 7rem;
   margin-bottom: auto;
 }
 
@@ -4991,7 +4991,7 @@ textarea {
   }
 
   .wf-step-wrapper {
-    margin-top: clamp(6rem, 35vh, 15rem);
+    margin-top: 5rem;
     margin-bottom: auto;
   }
 
