@@ -5523,3 +5523,36 @@ textarea {
   }
 }
 
+/* ===== /apply Page Responsive Layout ===== */
+@media (max-width: 768px) {
+  .apply-hero-layout {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 5rem !important;
+    padding-bottom: 2rem !important;
+    gap: 2.5rem !important;
+    min-height: 100vh !important;
+    text-align: center !important;
+  }
+
+  .apply-text-col {
+    align-items: center !important;
+    text-align: center !important;
+    flex: unset !important;
+    width: 100% !important;
+  }
+
+  .apply-text-col h1 {
+    text-align: center !important;
+  }
+
+  .apply-svg-col {
+    flex: unset !important;
+    width: 100% !important;
+    max-width: 360px !important;
+    align-self: center !important;
+    justify-content: center !important;
+  }
+}
+
