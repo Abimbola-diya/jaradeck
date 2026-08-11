@@ -11,7 +11,7 @@ jobs:
 
       - name: Execute SQL
         env:
-          DATABASE_URL: "postgresql://postgres:abimbola%402007db@db.yjzfotmjkziehsqvxito.supabase.co:5432/postgres"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           # Use psql to execute the SQL string directly
           psql "$DATABASE_URL" -c "
