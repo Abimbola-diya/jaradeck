@@ -33,7 +33,7 @@ function StepName({ value, onChange, onNext }) {
   useEffect(() => { inputRef.current?.focus(); }, []);
 
   return (
-    <div className="wf-step">
+    <div className="wf-step" style={{ marginTop: '12vh' }}>
       <p className="wf-greeting">Nice to meet you.</p>
       <h2 className="wf-question">What should we call you?</h2>
       <input
