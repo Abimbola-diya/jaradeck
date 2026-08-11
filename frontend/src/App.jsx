@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import BackgroundGrid from './components/BackgroundGrid';
 import BrandLogo from './components/BrandLogo';
 import DashboardPage from './pages/DashboardPage';
+import DashboardTabPage from './pages/DashboardTabPage';
 import HomePage from './pages/HomePage';
 import OnboardingPage from './pages/OnboardingPage';
 import WaitlistPage from './pages/WaitlistPage';
@@ -14,16 +15,7 @@ export default function App() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isProductRoute = ['/onboarding', '/dashboard', '/admin_view'].includes(location.pathname);
-
-  // Sync activeTab state with current route location
-  useEffect(() => {
-    if (location.pathname === '/onboarding' || location.pathname === '/waitlist') {
-      setActiveTab('join');
-    } else if (location.pathname === '/' && activeTab === 'join') {
-      setActiveTab('why');
-    }
-  }, [location.pathname]);
+  const isProductRoute = location.pathname === '/onboarding' || location.pathname.startsWith('/dashboard');
 
   const navigateTo = (path) => {
     navigate(path);
@@ -302,6 +294,9 @@ export default function App() {
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin_view" element={<AdminViewPage />} />
+        <Route path="/dashboard/wallet" element={<DashboardTabPage tab="wallet" />} />
+        <Route path="/dashboard/chat" element={<DashboardTabPage tab="chat" />} />
+        <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

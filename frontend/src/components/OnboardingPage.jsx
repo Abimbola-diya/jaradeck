@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
+import confettiImage from '../assets/coffette.svg';
+import successTickImage from '../assets/success tick.svg';
 
 function EyeIcon({ visible }) {
   return visible ? (
@@ -56,7 +58,7 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
       </div>
 
       {/* Bottom auth switch */}
-      <div className="ob2-bottom-bar">
+      <div className="ob2-bottom-bar ob2-role-bottom-bar">
         {isSignIn ? (
           <>
             <span>New to Jaradeck?</span>
@@ -75,6 +77,8 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
 
 // ─── STEP 1: Role Selection ───────────────────────────────────────────────────
 function RoleSelectionStep({ onSelect, onNavigateHome }) {
+  const [selectedRole, setSelectedRole] = useState(null);
+
   return (
     <div className="ob2-page">
       {onNavigateHome && (
@@ -92,8 +96,8 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
 
         <div className="ob2-role-list">
           <button
-            className="ob2-role-card"
-            onClick={() => onSelect('customer')}
+            className={`ob2-role-card ${selectedRole === 'customer' ? 'ob2-role-card-selected' : ''}`}
+            onClick={() => setSelectedRole('customer')}
           >
             <div className="ob2-role-icon"><BriefcaseIcon /></div>
             <div className="ob2-role-text">
@@ -106,8 +110,8 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
 
           {/* Worker card */}
           <button
-            className="ob2-role-card"
-            onClick={() => onSelect('worker')}
+            className={`ob2-role-card ${selectedRole === 'worker' ? 'ob2-role-card-selected' : ''}`}
+            onClick={() => setSelectedRole('worker')}
           >
             <div className="ob2-role-icon"><ToolsIcon /></div>
             <div className="ob2-role-text">
@@ -121,8 +125,18 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
       </div>
 
       <div className="ob2-bottom-bar">
-        <span>Already on Jaradeck?</span>
-        <button className="ob2-link-btn" onClick={() => onSelect('signin-only')}>Sign up</button>
+        <button
+          type="button"
+          className="ob2-cta-btn ob2-role-continue-btn"
+          disabled={!selectedRole}
+          onClick={() => onSelect(selectedRole)}
+        >
+          Sign up <ArrowIcon />
+        </button>
+        <div className="ob2-role-auth-switch">
+          <span>Already on Jaradeck?</span>
+          <button className="ob2-link-btn" onClick={() => onSelect('signin-only')}>Sign in</button>
+        </div>
       </div>
     </div>
   );
@@ -443,11 +457,9 @@ function OTPStep({ role, onNext, onSignIn, onBack }) {
 function SuccessStep({ onNavigateDashboard }) {
   return (
     <div className="ob2-page ob2-page-success">
-      <div className="ob2-confetti" aria-hidden="true">
-        {Array.from({ length: 28 }, (_, index) => <span key={index} />)}
-      </div>
+      <img src={confettiImage} className="ob2-confetti-img" alt="" aria-hidden="true" />
       <div className="ob2-success-content">
-        <div className="ob2-success-badge" aria-label="Onboarding complete">✓</div>
+        <img src={successTickImage} className="ob2-success-badge-img" alt="Onboarding complete" />
         <h1 className="ob2-success-title">You&apos;re all set!</h1>
         <p className="ob2-success-copy">
           Keep an eye on your dashboard<br />
