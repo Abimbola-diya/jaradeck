@@ -1,6 +1,6 @@
 name: Database Setup
 
-on: [push]
+on: workflow_dispatch
 
 jobs:
   setup-db:
