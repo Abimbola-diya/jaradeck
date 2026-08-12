@@ -727,17 +727,22 @@ export default function ApplyPage() {
                 if (!data) return null;
                 return (
                   <div key={skillId} style={{ width: '100%' }}>
-                    <h3 style={{ 
-                      fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', 
-                      fontWeight: 700, 
-                      color: '#ffffff', 
-                      marginBottom: '1.25rem' 
-                    }}>
-                      {data.title}
-                    </h3>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.4rem' }}>
+                      <h3 style={{ 
+                        fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', 
+                        fontWeight: 700, 
+                        color: '#ffffff', 
+                        margin: 0
+                      }}>
+                        {data.title}
+                      </h3>
+                      <span className="wf-swipe-hint">
+                        Swipe right to see more options →
+                      </span>
+                    </div>
 
-                    {/* Multi-column grid layout for subskills (3 columns on mobile) */}
-                    <div className="wf-subskills-grid">
+                    {/* Multi-column grid layout for subskills (3 rows horizontal swipe on mobile) */}
+                    <div className="wf-subskills-grid no-scrollbar">
                       {data.items.map((item) => {
                         const isChecked = selectedSubSkills.includes(item);
                         return (
