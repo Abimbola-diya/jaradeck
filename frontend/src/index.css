@@ -27,8 +27,8 @@ html,
 body {
   /* Neutral base layer. Blue belongs to marketing pages (.hero-page) only,
      so it can't leak onto the product pages (onboarding / dashboard). */
-  background-color: #f3f3f3;
-  color: var(--white);
+  background-color: #ffffff;
+  color: #12131a;
   font-family: var(--font-family);
   min-height: 100vh;
   min-height: 100svh;
@@ -76,7 +76,7 @@ textarea {
   min-height: 100vh;
   min-height: 100svh;
   width: 100%;
-  background: #f3f3f3;
+  background: #ffffff;
 }
 
 /* ===== Vector Background Grid ===== */
@@ -4140,7 +4140,7 @@ textarea {
   box-sizing: border-box;
   border-radius: 999px;
   background: #fafafa;
-  box-shadow: 0 -2.6rem 2.4rem rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 2.7rem 1.1rem rgba(255, 255, 255, 0.96);
   transform: translateX(-50%);
 }
 
@@ -4157,6 +4157,7 @@ textarea {
   font: inherit;
   font-size: 0.63rem;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .dashboard-nav-item svg {
@@ -4197,6 +4198,48 @@ textarea {
   font-size: 0.9rem;
 }
 
+/* ── Wallet and withdrawal flow ── */
+.wallet-page, .withdraw-page { padding-top: 4.55rem; }
+.dashboard-back-btn { width: 2.42rem; height: 2.42rem; display: grid; place-items: center; margin: 0 0 1.45rem; padding: 0; border: 0; border-radius: 50%; background: #fcfcfc; color: #172139; cursor: pointer; }
+.wallet-heading { margin-top: 1.15rem; }
+.wallet-heading h1 { margin: 0; color: #181a22; font-size: 1.13rem; font-weight: 500; letter-spacing: -0.045em; }
+.wallet-heading p { margin: 0.27rem 0 0; color: #a3a3a8; font-size: 0.78rem; letter-spacing: -0.025em; }
+
+.wallet-balance { display: flex; flex-direction: column; align-items: center; margin-top: 2.35rem; }
+.wallet-balance-label { color: #6e6e6e; font-size: 0.9rem; font-weight: 500; letter-spacing: -0.04em; }
+.wallet-balance-amount { display: flex; align-items: center; gap: 0.48rem; margin-top: 0.45rem; color: #08090d; font-size: 2.25rem; font-weight: 500; letter-spacing: -0.065em; line-height: 1; }
+.wallet-eye-btn { width: 1.35rem; height: 1.35rem; display: grid; place-items: center; padding: 0; border: 0; background: none; cursor: pointer; }
+.wallet-eye-btn img { width: 100%; height: 100%; object-fit: contain; }
+.wallet-withdraw-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.28rem; height: 2.3rem; margin-top: 1.45rem; padding: 0 0.92rem; border: 0; border-radius: 999px; background: #064db9; color: #fff; font: inherit; font-size: 0.82rem; cursor: pointer; }
+.wallet-withdraw-btn img { width: 0.85rem; height: 0.85rem; object-fit: contain; }
+
+.wallet-transactions { margin-top: 3.9rem; }
+.wallet-txn-header { display: flex; align-items: center; justify-content: space-between; }
+.wallet-txn-header h2 { margin: 0; color: #14161d; font-size: 0.99rem; font-weight: 500; letter-spacing: -0.045em; }
+.wallet-segmented { display: flex; height: 2.55rem; padding: 0.25rem; border-radius: 999px; background: #f4f4f4; }
+.wallet-seg-btn { min-width: 4.7rem; padding: 0 0.55rem; border: 0; border-radius: 999px; background: transparent; color: #949499; font: inherit; font-size: 0.79rem; cursor: pointer; }
+.wallet-seg-active { background: #ffffff; color: #85858b; }
+.wallet-txn-list { margin-top: 2rem; }
+.wallet-txn-list .dashboard-person { margin: 0.55rem 0; }
+.wallet-txn-list .dashboard-person-avatar { width: 3.7rem; height: 3.7rem; }
+.wallet-empty { display: flex; flex-direction: column; align-items: center; color: #96969b; text-align: center; }
+.wallet-empty svg { margin-bottom: 0.62rem; }
+.wallet-empty p { margin: 0; font-size: 0.84rem; line-height: 1.12; letter-spacing: -0.03em; }
+.wallet-empty-full { margin-top: 14.7rem; }
+.wallet-empty-full .wallet-empty-title { margin-bottom: 0.08rem; }
+.wallet-transactions .wallet-empty { max-width: 11rem; margin: 10.15rem auto 0; }
+.withdraw-method-list { margin-top: 1.2rem; }
+.withdraw-method-card { width: 100%; min-height: 5.15rem; display: flex; align-items: center; gap: 1.15rem; padding: 0.85rem 1.35rem; border: 0; border-radius: 1rem; background: #fbfbfb; color: #1c1d24; text-align: left; font: inherit; cursor: pointer; }
+.withdraw-method-card + .withdraw-method-card { margin-top: 1rem; }
+.withdraw-method-icon { width: 2rem; display: grid; place-items: center; flex: 0 0 2rem; }
+.withdraw-method-icon svg { width: 2rem; height: 2rem; }
+.withdraw-method-text { display: flex; flex-direction: column; gap: 0.24rem; }
+.withdraw-method-title { font-size: 0.98rem; font-weight: 500; letter-spacing: -0.045em; }
+.withdraw-method-desc { max-width: 13rem; color: #a1a1a6; font-size: 0.77rem; line-height: 1.22; letter-spacing: -0.03em; }
+.withdraw-method-disabled { color: #9b9ba0; cursor: default; }
+
+@media (max-width: 390px) { .worker-dashboard { padding-inline: 1.25rem; } .wallet-balance-amount { font-size: clamp(2rem, 9.1vw, 2.25rem); } }
+
 @media (min-width: 600px) {
   .product-page {
     min-height: 100dvh;
@@ -4204,6 +4247,7 @@ textarea {
   }
 
   /* .product-page background/min-height now come from the base rule above. */
+  .product-page { background: #f3f3f3; }
   .worker-dashboard {
     box-shadow: 0 0 0 1px #ececec;
   }
