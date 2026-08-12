@@ -731,22 +731,10 @@ export default function ApplyPage() {
                       fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', 
                       fontWeight: 700, 
                       color: '#ffffff', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '0.6rem', 
-                      marginBottom: '0.35rem' 
+                      marginBottom: '1.25rem' 
                     }}>
-                      <span>{data.emoji}</span> {data.title}
+                      {data.title}
                     </h3>
-                    <p style={{ 
-                      fontSize: '0.98rem', 
-                      fontStyle: 'italic', 
-                      color: 'rgba(255, 255, 255, 0.65)', 
-                      marginBottom: '1.25rem',
-                      lineHeight: '1.4'
-                    }}>
-                      {data.intro}
-                    </p>
 
                     {/* Multi-column grid layout for subskills (3 columns on mobile) */}
                     <div className="wf-subskills-grid">
