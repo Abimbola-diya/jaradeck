@@ -117,7 +117,11 @@ export default function WalletPage() {
               </div>
             ) : (
               <div className="wallet-empty">
-                <TicketIcon />
+                {filter === 'pending' ? (
+                  <img src="/Logo I.png" className="wallet-pending-logo" alt="" />
+                ) : (
+                  <TicketIcon />
+                )}
                 <p>
                   {filter === 'pending'
                     ? 'You have no pending transactions'

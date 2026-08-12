@@ -4224,6 +4224,7 @@ textarea {
 .wallet-txn-list .dashboard-person-avatar { width: 3.7rem; height: 3.7rem; }
 .wallet-empty { display: flex; flex-direction: column; align-items: center; color: #96969b; text-align: center; }
 .wallet-empty svg { margin-bottom: 0.62rem; }
+.wallet-pending-logo { width: 2.15rem; height: 1.7rem; margin-bottom: 0.62rem; object-fit: contain; }
 .wallet-empty p { margin: 0; font-size: 0.84rem; line-height: 1.12; letter-spacing: -0.03em; }
 .wallet-empty-full { margin-top: 14.7rem; }
 .wallet-empty-full .wallet-empty-title { margin-bottom: 0.08rem; }
