@@ -1,11 +1,252 @@
 import { useNavigate } from 'react-router-dom';
 import BackgroundGrid from '../components/BackgroundGrid';
 import BrandLogo from '../components/BrandLogo';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
+  const gridRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [maxScroll, setMaxScroll] = useState(0);
+
+  const updateScroll = () => {
+    if (gridRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = gridRef.current;
+      const max = scrollWidth - clientWidth;
+      setMaxScroll(max);
+      if (max > 0) {
+        setScrollProgress(scrollLeft / max);
+      } else {
+        setScrollProgress(0);
+      }
+    }
+  };
+
+  useEffect(() => {
+    updateScroll();
+    window.addEventListener('resize', updateScroll);
+    return () => window.removeEventListener('resize', updateScroll);
+  }, [data]);
+
+  const scrollByAmount = (direction) => {
+    if (gridRef.current) {
+      const amount = direction === 'left' ? -220 : 220;
+      gridRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div style={{ width: '100%' }}>
+      <div style={{ marginBottom: '1.25rem' }}>
+        <h3 style={{
+          fontSize: 'clamp(1.3rem, 3vw, 1.6rem)',
+          fontWeight: 700,
+          color: '#ffffff',
+          margin: 0,
+          marginBottom: '0.25rem'
+        }}>
+          {data.title}
+        </h3>
+        <span className="wf-swipe-hint">
+          Swipe right to see more options →
+        </span>
+      </div>
+
+      {/* Multi-column grid layout */}
+      <div
+        ref={gridRef}
+        onScroll={updateScroll}
+        className="wf-subskills-grid no-scrollbar"
+      >
+        {data.items.map((item) => {
+          const isChecked = selectedSubSkills.includes(item);
+          return (
+            <button
+              key={item}
+              type="button"
+              className="wf-subskill-item"
+              onClick={() => toggleSubSkill(item)}
+              style={{
+                color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
+              }}
+            >
+              <span
+                className={`wf-checkbox ${isChecked ? 'wf-checkbox--checked' : ''}`}
+                style={{ flexShrink: 0 }}
+              >
+                {isChecked && '✓'}
+              </span>
+              <span
+                className="wf-subskill-text"
+                style={{
+                  fontWeight: isChecked ? 600 : 400,
+                }}
+              >
+                {item}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Custom sliding pill button scrollbar */}
+      {maxScroll > 5 && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.65rem',
+          marginTop: '0.85rem',
+          maxWidth: '580px',
+          padding: '0 0.15rem'
+        }}>
+          <button
+            type="button"
+            onClick={() => scrollByAmount('left')}
+            aria-label="Scroll left"
+            style={{
+              background: 'none',
+              border: 'none',
+              color: scrollProgress > 0.05 ? '#ffffff' : 'rgba(255, 255, 255, 0.25)',
+              cursor: scrollProgress > 0.05 ? 'pointer' : 'default',
+              padding: '0 0.25rem',
+              fontSize: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            ◀
+          </button>
+
+          {/* Track Bar */}
+          <div
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const clickX = e.clientX - rect.left;
+              const ratio = clickX / rect.width;
+              if (gridRef.current) {
+                gridRef.current.scrollTo({
+                  left: ratio * maxScroll,
+                  behavior: 'smooth'
+                });
+              }
+            }}
+            style={{
+              flex: 1,
+              height: '6px',
+              background: 'rgba(255, 255, 255, 0.18)',
+              borderRadius: '9999px',
+              position: 'relative',
+              cursor: 'pointer',
+            }}
+          >
+            {/* Sliding Pill Button */}
+            <div style={{
+              width: '28%',
+              height: '100%',
+              background: 'rgba(255, 255, 255, 0.85)',
+              borderRadius: '9999px',
+              position: 'absolute',
+              top: 0,
+              left: `${scrollProgress * 72}%`,
+              transition: 'left 0.1s ease-out',
+            }} />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => scrollByAmount('right')}
+            aria-label="Scroll right"
+            style={{
+              background: 'none',
+              border: 'none',
+              color: scrollProgress < 0.95 ? '#ffffff' : 'rgba(255, 255, 255, 0.25)',
+              cursor: scrollProgress < 0.95 ? 'pointer' : 'default',
+              padding: '0 0.25rem',
+              fontSize: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            ▶
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VerticalScrollIndicator({ containerRef }) {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [maxScroll, setMaxScroll] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const max = el.scrollHeight - el.clientHeight;
+      setMaxScroll(max);
+      if (max > 10) {
+        setScrollProgress(el.scrollTop / max);
+      } else {
+        setScrollProgress(0);
+      }
+    };
+
+    handleScroll();
+    el.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    const observer = new MutationObserver(handleScroll);
+    observer.observe(el, { childList: true, subtree: true, attributes: true });
+
+    return () => {
+      el.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      observer.disconnect();
+    };
+  }, [containerRef]);
+
+  if (maxScroll <= 10) return null;
+
+  return (
+    <div 
+      style={{
+        position: 'fixed',
+        right: '12px',
+        top: '100px',
+        bottom: '40px',
+        width: '6px',
+        background: 'rgba(255, 255, 255, 0.18)',
+        borderRadius: '9999px',
+        zIndex: 99,
+        pointerEvents: 'none',
+      }}
+    >
+      {/* Sliding White Pill Button */}
+      <div 
+        style={{
+          width: '100%',
+          height: '50px',
+          background: 'rgba(255, 255, 255, 0.85)',
+          borderRadius: '9999px',
+          position: 'absolute',
+          left: 0,
+          top: `calc(${scrollProgress * 100}% - ${scrollProgress * 50}px)`,
+          transition: 'top 0.1s ease-out',
+        }}
+      />
+    </div>
+  );
+}
 
 export default function ApplyPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+
+  const step2Ref = useRef(null);
+  const step3Ref = useRef(null);
+  const step4Ref = useRef(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -337,8 +578,41 @@ export default function ApplyPage() {
     );
   };
 
+  const [proofLinks, setProofLinks] = useState({});
+
+  const proofPlatforms = [
+    { id: 'behance', label: 'Behance', placeholder: 'https://behance.net/lagbaja' },
+    { id: 'dribbble', label: 'Dribbble', placeholder: 'https://dribbble.com/lagbaja' },
+    { id: 'github', label: 'GitHub', placeholder: 'https://github.com/lagbajatamedo' },
+    { id: 'instagram', label: 'Instagram', placeholder: 'https://instagram.com/lagbaja' },
+    { id: 'tiktok', label: 'TikTok', placeholder: 'https://tiktok.com/@lagbaja' },
+    { id: 'portfolio', label: 'Portfolio link', placeholder: 'https://lagbajatamedo.design' },
+    { id: 'gdrive', label: 'Google Drive link', placeholder: 'https://drive.google.com/drive/folders/lagbaja' },
+  ];
+
+  const toggleProofPlatform = (id) => {
+    setProofLinks(prev => {
+      const copy = { ...prev };
+      if (Object.prototype.hasOwnProperty.call(copy, id)) {
+        delete copy[id];
+      } else {
+        copy[id] = '';
+      }
+      return copy;
+    });
+  };
+
+  const updateProofLink = (id, value) => {
+    setProofLinks(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
   const handleBack = () => {
-    if (step === 3) {
+    if (step === 4) {
+      setStep(3);
+    } else if (step === 3) {
       setStep(2);
     } else if (step === 2) {
       setStep(1);
@@ -406,19 +680,31 @@ export default function ApplyPage() {
 
       {/* Container for steps to handle absolute positioning crossfade */}
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-        
-        {/* Thinking illustration — side accent on steps after the hero (like lekki on the waitlist) */}
+
+        {/* Thinking illustration — steps 1 to 3 */}
         <img
           src="/thinking.svg?v=2"
           alt=""
           aria-hidden="true"
           className="apply-thinking-bg"
           style={{
-            opacity: step > 0 ? 0.9 : 0,
+            opacity: step > 0 && step < 4 ? 0.9 : 0,
             transition: 'opacity 0.6s ease',
           }}
         />
-      
+
+        {/* Hands on chin illustration — step 4 */}
+        <img
+          src="/hands_chin.svg?v=2"
+          alt=""
+          aria-hidden="true"
+          className="apply-thinking-bg"
+          style={{
+            opacity: step >= 4 ? 0.9 : 0,
+            transition: 'opacity 0.6s ease',
+          }}
+        />
+
         {/* Step 0: Hero Greeting */}
         <div style={{
           position: 'absolute',
@@ -469,13 +755,13 @@ export default function ApplyPage() {
                 {line}
               </h1>
             ))}
-            
-            <div style={{ 
+
+            <div style={{
               marginTop: '2.5rem',
               opacity: 0,
               animation: `wfSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards`
             }}>
-              <button 
+              <button
                 className="waitlist-reserve-btn"
                 onClick={() => setStep(1)}
                 style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', width: 'auto' }}
@@ -537,10 +823,10 @@ export default function ApplyPage() {
             }}>
               Let's start with the basics...
             </h2>
-            
-            <div style={{ 
-              position: 'relative', 
-              width: '100%', 
+
+            <div style={{
+              position: 'relative',
+              width: '100%',
               overflow: 'hidden',
               paddingBottom: '0.5rem', // for focus ring space
               opacity: step === 1 ? 1 : 0,
@@ -569,14 +855,14 @@ export default function ApplyPage() {
               </div>
             </div>
 
-            <button 
-              className="wf-next-btn" 
-              onClick={handleNext} 
+            <button
+              className="wf-next-btn"
+              onClick={handleNext}
               disabled={!isCurrentValid}
-              style={{ 
-                marginTop: '2.5rem', 
-                width: 'auto', 
-                padding: '1rem 2.5rem', 
+              style={{
+                marginTop: '2.5rem',
+                width: 'auto',
+                padding: '1rem 2.5rem',
                 fontSize: '1.1rem',
                 opacity: step === 1 ? (isCurrentValid ? 1 : 0.35) : 0,
                 cursor: isCurrentValid ? 'pointer' : 'not-allowed',
@@ -590,7 +876,8 @@ export default function ApplyPage() {
         </div>
 
         {/* Step 2: Ridiculously Well Form */}
-        <div 
+        <div
+          ref={step2Ref}
           className="no-scrollbar"
           style={{
             position: 'absolute',
@@ -616,10 +903,10 @@ export default function ApplyPage() {
             <p className="wf-note" style={{ marginBottom: '2rem' }}>
               (p.s: if you'd hesitate to stake your reputation on it, don't pick it.)
             </p>
-            
+
             <div className="wf-channels" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
-              {(selectedSkills.length > 0 
-                ? mainSkills.filter(s => selectedSkills.includes(s.id)) 
+              {(selectedSkills.length > 0
+                ? mainSkills.filter(s => selectedSkills.includes(s.id))
                 : mainSkills
               ).map((skill) => {
                 const checked = selectedSkills.includes(skill.id);
@@ -641,23 +928,23 @@ export default function ApplyPage() {
                         transition: 'all 0.2s ease',
                       }}
                     >
-                      <span 
+                      <span
                         className={`wf-checkbox ${checked ? 'wf-checkbox--checked' : ''}`}
                         style={{ marginTop: '0.2rem', flexShrink: 0 }}
                       >
                         {checked && '✓'}
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                        <span style={{ 
-                          fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)', 
+                        <span style={{
+                          fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
                           fontWeight: 700,
                           color: checked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)'
                         }}>
                           {skill.title}
                         </span>
                         {checked && (
-                          <span style={{ 
-                            fontSize: '1rem', 
+                          <span style={{
+                            fontSize: '1rem',
                             fontWeight: 400,
                             color: 'rgba(255, 255, 255, 0.75)',
                             lineHeight: '1.45',
@@ -673,15 +960,15 @@ export default function ApplyPage() {
               })}
             </div>
 
-            <button 
-              className="wf-next-btn" 
-              onClick={() => setStep(3)} 
+            <button
+              className="wf-next-btn"
+              onClick={() => setStep(3)}
               disabled={selectedSkills.length === 0}
-              style={{ 
-                marginTop: '2.5rem', 
+              style={{
+                marginTop: '2.5rem',
                 marginBottom: '2rem',
-                width: 'auto', 
-                padding: '1rem 2.5rem', 
+                width: 'auto',
+                padding: '1rem 2.5rem',
                 fontSize: '1.1rem',
                 opacity: selectedSkills.length > 0 ? 1 : 0.35,
                 cursor: selectedSkills.length > 0 ? 'pointer' : 'not-allowed',
@@ -691,10 +978,12 @@ export default function ApplyPage() {
               Next →
             </button>
           </div>
+          {step === 2 && <VerticalScrollIndicator containerRef={step2Ref} />}
         </div>
 
         {/* Step 3: Sub-skills Narrow Down */}
-        <div 
+        <div
+          ref={step3Ref}
           className="no-scrollbar"
           style={{
             position: 'absolute',
@@ -714,79 +1003,37 @@ export default function ApplyPage() {
           }}
         >
           <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
-            <p className="wf-note" style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '1.25rem', marginBottom: '0.2rem', fontWeight: 500 }}>
+            <p className="wf-note" style={{ color: 'rgba(255, 255, 255, 0.73)', fontSize: '1.25rem', marginBottom: '0.2rem', fontWeight: 500 }}>
               Alright...
             </p>
             <h2 className="wf-question" style={{ marginBottom: '2.5rem' }}>
               let's narrow it down.
             </h2>
-            
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem', width: '100%' }}>
               {selectedSkills.map((skillId) => {
                 const data = subSkillsData[skillId];
                 if (!data) return null;
                 return (
-                  <div key={skillId} style={{ width: '100%' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.4rem' }}>
-                      <h3 style={{ 
-                        fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', 
-                        fontWeight: 700, 
-                        color: '#ffffff', 
-                        margin: 0
-                      }}>
-                        {data.title}
-                      </h3>
-                      <span className="wf-swipe-hint">
-                        Swipe right to see more options →
-                      </span>
-                    </div>
-
-                    {/* Multi-column grid layout for subskills (3 rows horizontal swipe on mobile) */}
-                    <div className="wf-subskills-grid no-scrollbar">
-                      {data.items.map((item) => {
-                        const isChecked = selectedSubSkills.includes(item);
-                        return (
-                          <button
-                            key={item}
-                            type="button"
-                            className="wf-subskill-item"
-                            onClick={() => toggleSubSkill(item)}
-                            style={{
-                              color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
-                            }}
-                          >
-                            <span 
-                              className={`wf-checkbox ${isChecked ? 'wf-checkbox--checked' : ''}`}
-                              style={{ flexShrink: 0 }}
-                            >
-                              {isChecked && '✓'}
-                            </span>
-                            <span 
-                              className="wf-subskill-text"
-                              style={{ 
-                                fontWeight: isChecked ? 600 : 400,
-                              }}
-                            >
-                              {item}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <SubSkillsCategory
+                    key={skillId}
+                    data={data}
+                    selectedSubSkills={selectedSubSkills}
+                    toggleSubSkill={toggleSubSkill}
+                  />
                 );
               })}
             </div>
 
-            <button 
-              className="wf-next-btn" 
-              onClick={() => console.log('Form Submitted!', { formData, selectedSkills, selectedSubSkills })} 
+            <button
+              className="wf-next-btn"
+              onClick={() => setStep(4)}
               disabled={selectedSubSkills.length === 0}
-              style={{ 
-                marginTop: '3rem', 
-                marginBottom: '3rem',
-                width: 'auto', 
-                padding: '1rem 2.5rem', 
+              style={{
+                marginTop: '4.5rem',
+                marginBottom: '5rem',
+                width: 'auto',
+                padding: '1.1rem 2.75rem',
                 fontSize: '1.1rem',
                 opacity: selectedSubSkills.length > 0 ? 1 : 0.35,
                 cursor: selectedSubSkills.length > 0 ? 'pointer' : 'not-allowed',
@@ -796,6 +1043,138 @@ export default function ApplyPage() {
               Next →
             </button>
           </div>
+          {step === 3 && <VerticalScrollIndicator containerRef={step3Ref} />}
+        </div>
+
+        {/* Step 4: Show us proof (Links) */}
+        <div
+          ref={step4Ref}
+          className="no-scrollbar"
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: step === 4 ? 2 : 1,
+            opacity: step === 4 ? 1 : 0,
+            pointerEvents: step === 4 ? 'auto' : 'none',
+            transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: step === 4 ? 'translateX(0)' : 'translateX(50px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            width: '100%',
+            padding: '6.5rem 2rem 3rem',
+            overflowY: 'auto',
+          }}
+        >
+          <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
+            {/* Dynamic intro header */}
+            <p className="wf-note" style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', marginBottom: '1.25rem', fontWeight: 500, lineHeight: 1.45 }}>
+              <strong style={{ color: '#ffffff' }}>{formData.name ? formData.name.trim().split(' ')[0] : 'Ayo'}</strong>, you said you're ridiculously good at <strong style={{ color: '#ffffff' }}>{
+                selectedSkills.map(id => subSkillsData[id]?.title || id).join(' & ') || 'Design'
+              }</strong>.
+            </p>
+            <h2 className="wf-question" style={{ marginBottom: '2.5rem', maxWidth: '750px' }}>
+              Show us something that makes us believe you.
+            </h2>
+
+            {/* Proof platforms list */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', width: '100%', maxWidth: '650px' }}>
+              {proofPlatforms.map((platform) => {
+                const isChecked = Object.prototype.hasOwnProperty.call(proofLinks, platform.id);
+                return (
+                  <div key={platform.id} className="wf-channel-group" style={{ width: '100%' }}>
+                    <button
+                      type="button"
+                      className={`wf-channel-btn ${isChecked ? 'wf-channel-btn--checked' : ''}`}
+                      onClick={() => toggleProofPlatform(platform.id)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.8rem',
+                        textAlign: 'left',
+                        padding: '0.5rem 0',
+                        width: '100%',
+                        color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
+                        transition: 'all 0.2s ease',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <span
+                        className={`wf-checkbox ${isChecked ? 'wf-checkbox--checked' : ''}`}
+                        style={{ flexShrink: 0 }}
+                      >
+                        {isChecked && '✓'}
+                      </span>
+                      <span style={{
+                        fontSize: 'clamp(1.1rem, 2.5vw, 1.35rem)',
+                        fontWeight: 700,
+                        color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)'
+                      }}>
+                        {platform.label}
+                      </span>
+                    </button>
+
+                    {/* Collapsible input field for link */}
+                    {isChecked && (
+                      <div style={{ marginLeft: '2.3rem', marginTop: '0.2rem', marginBottom: '1.2rem', animation: 'wfSlideIn 0.3s ease forwards' }}>
+                        <input
+                          type="url"
+                          className="wf-underlined-input"
+                          placeholder={platform.placeholder}
+                          value={proofLinks[platform.id] || ''}
+                          onChange={(e) => updateProofLink(platform.id, e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          style={{
+                            width: '100%',
+                            padding: '0.4rem 0 0.5rem 0',
+                            background: 'transparent',
+                            border: 'none',
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+                            borderRadius: '0px',
+                            color: '#ffffff',
+                            fontFamily: 'var(--font-family)',
+                            fontSize: '1.15rem',
+                            fontWeight: 600,
+                            outline: 'none',
+                            transition: 'border-bottom-color 0.2s ease',
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderBottomColor = '#ffffff';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderBottomColor = 'rgba(255, 255, 255, 0.4)';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Next / Submit Button */}
+            <button
+              className="wf-next-btn"
+              onClick={() => console.log('Form Submitted!', { formData, selectedSkills, selectedSubSkills, proofLinks })}
+              disabled={Object.values(proofLinks).every(v => !v || v.trim() === '')}
+              style={{
+                marginTop: '4.5rem',
+                marginBottom: '5rem',
+                width: 'auto',
+                padding: '1.1rem 2.75rem',
+                fontSize: '1.1rem',
+                opacity: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 1 : 0.35,
+                cursor: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 'pointer' : 'not-allowed',
+                transition: 'all 0.4s ease'
+              }}
+            >
+              Next →
+            </button>
+          </div>
+          {step === 4 && <VerticalScrollIndicator containerRef={step4Ref} />}
         </div>
       </div>
     </div>
