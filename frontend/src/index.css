@@ -25,13 +25,17 @@
 
 html,
 body {
-  background-color: var(--blue-bg);
+  /* Neutral base layer. Blue belongs to marketing pages (.hero-page) only,
+     so it can't leak onto the product pages (onboarding / dashboard). */
+  background-color: #f3f3f3;
   color: var(--white);
   font-family: var(--font-family);
   min-height: 100vh;
   min-height: 100svh;
   width: 100%;
   overflow-x: clip;
+  /* Stop the rubber-band bounce from revealing the base layer under a page. */
+  overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -61,6 +65,18 @@ textarea {
   align-items: center;
   justify-content: space-between;
   overflow-x: clip;
+}
+
+/* ===== Product Page Wrapper (onboarding / dashboard) ===== */
+/* Base background at ALL widths so the neutral base — not blue — shows
+   around narrower product content (e.g. the 390px dashboard column on
+   phones wider than 390px). The ≥600px override below keeps the same grey. */
+.product-page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  width: 100%;
+  background: #f3f3f3;
 }
 
 /* ===== Vector Background Grid ===== */
@@ -4187,6 +4203,7 @@ textarea {
     background: #f3f3f3;
   }
 
+  /* .product-page background/min-height now come from the base rule above. */
   .worker-dashboard {
     box-shadow: 0 0 0 1px #ececec;
   }
