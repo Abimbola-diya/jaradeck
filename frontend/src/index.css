@@ -5899,3 +5899,32 @@ textarea {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.85) rgba(255, 255, 255, 0.18);
 }
+/* Onboarding refinements */
+.ob2-role-label { font-weight: 500; }
+.ob2-role-bottom-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+.ob2-role-bottom-bar .ob2-role-continue-btn { width: 100%; }
+.ob2-role-auth-switch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+.ob2-role-list + .ob2-bottom-bar { flex-wrap: nowrap; }
+.ob2-page:has(.ob2-role-list) .ob2-title { font-weight: 600; }
+.ob2-cta-btn,
+.ob2-cta-btn:hover,
+.ob2-role-card:hover,
+.ob2-role-card-selected {
+  box-shadow: none;
+}
+
+/* The floating navigation fades content in every direction, like the reference. */
+.dashboard-bottom-nav {
+  box-shadow: 0 0 4.5rem 2.35rem rgba(255, 255, 255, 0.98);
+}

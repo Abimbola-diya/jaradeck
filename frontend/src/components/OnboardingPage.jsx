@@ -58,7 +58,7 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
       </div>
 
       {/* Bottom auth switch */}
-      <div className="ob2-bottom-bar ob2-role-bottom-bar">
+      <div className="ob2-bottom-bar">
         {isSignIn ? (
           <>
             <span>New to Jaradeck?</span>
@@ -124,7 +124,7 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
         </div>
       </div>
 
-      <div className="ob2-bottom-bar">
+      <div className="ob2-bottom-bar ob2-role-bottom-bar">
         <button
           type="button"
           className="ob2-cta-btn ob2-role-continue-btn"
@@ -265,12 +265,12 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
 // ─── STEP 3: Profile Setup ────────────────────────────────────────────────────
 // Customer: Full Name, Email, Password
-// Worker:   Full Name, Email, Password + Phone Number (for SMS OTP)
+// Worker:   Full Name, Email, Password + Portfolio Link
 function ProfileStep({ role, onNext, onSignIn, onBack }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [portfolioLink, setPortfolioLink] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
 
@@ -281,9 +281,9 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
     if (!fullName.trim()) { setError('Please enter your full name.'); return; }
     if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email address.'); return; }
     if (!password || password.length < 8) { setError('Password must be at least 8 characters.'); return; }
-    if (isWorker && !phone.trim()) { setError('Please enter your phone number.'); return; }
+    if (isWorker && !portfolioLink.trim()) { setError('Please add a link to your work samples.'); return; }
     setError('');
-    onNext({ fullName, email, password, ...(isWorker && { phone }) });
+    onNext({ fullName, email, password, ...(isWorker && { portfolioLink }) });
   };
 
   return (
@@ -344,17 +344,17 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
           </div>
         </div>
 
-        {/* Phone Number — Worker only (required for SMS OTP) */}
+        {/* Portfolio link — Worker only */}
         {isWorker && (
           <div className="ob2-field">
-            <label className="ob2-label">Phone Number</label>
+            <label className="ob2-label">Portfolio Link</label>
             <input
-              type="tel"
+              type="url"
               className="ob2-input"
-              placeholder="+1 (555) 000-0000"
-              value={phone}
-              onChange={(e) => { setPhone(e.target.value); setError(''); }}
-              autoComplete="tel"
+              placeholder="link to your primary work samples"
+              value={portfolioLink}
+              onChange={(e) => { setPortfolioLink(e.target.value); setError(''); }}
+              autoComplete="url"
             />
           </div>
         )}
