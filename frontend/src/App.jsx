@@ -13,6 +13,7 @@ import WithdrawPage from './pages/WithdrawPage';
 import WithdrawAmountPage from './pages/WithdrawAmountPage';
 import WithdrawConfirmPage from './pages/WithdrawConfirmPage';
 import WithdrawPinPage from './pages/WithdrawPinPage';
+import WithdrawSuccessPage from './pages/WithdrawSuccessPage';
 import ChatPage from './pages/ChatPage';
 import ChatThreadPage from './pages/ChatThreadPage';
 
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/dashboard/wallet/withdraw/amount" element={<WithdrawAmountPage />} />
         <Route path="/dashboard/wallet/withdraw/confirm" element={<WithdrawConfirmPage />} />
         <Route path="/dashboard/wallet/withdraw/pin" element={<WithdrawPinPage />} />
+        <Route path="/dashboard/wallet/withdraw/success" element={<WithdrawSuccessPage />} />
         <Route path="/dashboard/chat" element={<ChatPage />} />
         <Route path="/dashboard/chat/:id" element={<ChatThreadPage />} />
         <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />

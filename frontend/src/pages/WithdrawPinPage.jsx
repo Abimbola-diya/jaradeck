@@ -26,7 +26,7 @@ export default function WithdrawPinPage() {
     setPin(next);
     if (next.length === PIN_LENGTH) {
       // TODO: verify PIN against backend; for now navigate to success
-      setTimeout(() => navigate('/dashboard/wallet', { replace: true }), 300);
+      setTimeout(() => navigate('/dashboard/wallet/withdraw/success', { replace: true }), 300);
     }
   };
 
