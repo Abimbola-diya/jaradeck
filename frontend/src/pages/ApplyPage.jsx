@@ -214,7 +214,7 @@ function VerticalScrollIndicator({ containerRef }) {
   if (maxScroll <= 10) return null;
 
   return (
-    <div 
+    <div
       style={{
         position: 'fixed',
         right: '12px',
@@ -228,7 +228,7 @@ function VerticalScrollIndicator({ containerRef }) {
       }}
     >
       {/* Sliding White Pill Button */}
-      <div 
+      <div
         style={{
           width: '100%',
           height: '50px',
@@ -916,28 +916,28 @@ export default function ApplyPage() {
               fontFamily: "var(--font-family)",
               fontSize: '0.95rem',
               fontWeight: '500',
-            cursor: 'pointer',
-            padding: '0.4rem 0',
-            letterSpacing: '-0.01em',
-            transition: 'color 0.2s ease',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'; }}
-        >
-          <ArrowLeft02Icon size={16} /> Back
-        </button>
+              cursor: 'pointer',
+              padding: '0.4rem 0',
+              letterSpacing: '-0.01em',
+              transition: 'color 0.2s ease',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'; }}
+          >
+            <ArrowLeft02Icon size={16} /> Back
+          </button>
 
-        {/* Brand Logo */}
-        <div
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigate('/')}
-        >
-          <BrandLogo width={36} />
+          {/* Brand Logo */}
+          <div
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/')}
+          >
+            <BrandLogo width={36} />
+          </div>
         </div>
-      </div>
       )}
 
       {/* Container for steps to handle absolute positioning crossfade */}
@@ -1891,22 +1891,24 @@ export default function ApplyPage() {
               onClick={async () => {
                 setStep(7);
                 try {
-                  // TODO: replace with real API call
-                  // const res = await fetch('/api/apply', {
-                  //   method: 'POST',
-                  //   headers: { 'Content-Type': 'application/json' },
-                  //   body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),
-                  // });
-                  // const data = await res.json();
+                  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                  const res = await fetch(`${apiUrl}/api/apply`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),
+                  });
+                  const data = await res.json();
+                  
+                  if (!res.ok) {
+                    throw new Error(data.detail || data.message || 'Submission failed');
+                  }
 
-                  // Simulated backend delay (swap out with real await above)
-                  await new Promise((resolve) => setTimeout(resolve, 3500));
-
-                  // Navigate to success page when backend responds
+                  // Navigate to success page when backend responds successfully
                   navigate('/apply/success');
                 } catch (err) {
                   console.error('Submission failed:', err);
-                  // TODO: handle error state
+                  alert('Submission failed: ' + err.message);
+                  setStep(6); // Revert to previous step on failure
                 }
               }}
               disabled={!fitAnswer || fitAnswer.trim() === ''}

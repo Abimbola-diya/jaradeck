@@ -11,12 +11,14 @@ from supabase import create_client, Client
 load_dotenv(dotenv_path="../.env")
 load_dotenv(dotenv_path=".env")
 
-DEFAULT_SUPABASE_URL = "https://yjzfotmjkziehsqvxito.supabase.co"
-DEFAULT_SUPABASE_KEY = "sb_publishable_N3Oec4Tjne6yjnxnY9iEsQ_ewLUH6Ga"
-# DEFAULT_DATABASE_URL removed for security. All configuration should come from environment variables.
+url: str = os.getenv("SUPABASE_URL", "")
+key: str = os.getenv("SUPABASE_ANON_KEY", "")
 
-url: str = os.getenv("SUPABASE_URL") or DEFAULT_SUPABASE_URL
-key: str = os.getenv("SUPABASE_ANON_KEY") or DEFAULT_SUPABASE_KEY
+if not url or not key:
+    raise RuntimeError(
+        "Missing required environment variables: SUPABASE_URL and SUPABASE_ANON_KEY must be set."
+    )
+
 supabase: Client = create_client(url, key)
 
 def init_db():
@@ -60,6 +62,20 @@ def init_db():
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
                 email TEXT UNIQUE NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS talent_applications (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                name TEXT NOT NULL,
+                university TEXT,
+                level TEXT,
+                phone TEXT,
+                email TEXT NOT NULL,
+                selected_skills JSONB,
+                selected_sub_skills JSONB,
+                proof_links JSONB,
+                paying_experience TEXT,
+                fit_answer TEXT
             );
         """)
         conn.commit()
@@ -160,6 +176,14 @@ class WaitlistSignup(BaseModel):
 class NewsletterSignup(BaseModel):
     email: EmailStr
 
+class TalentApplication(BaseModel):
+    formData: Dict[str, str]
+    selectedSkills: List[str]
+    selectedSubSkills: List[str]
+    proofLinks: Dict[str, str]
+    payingExperience: str
+    fitAnswer: str
+
 class TaskRequest(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
     email: EmailStr
@@ -216,6 +240,26 @@ def join_newsletter(signup: NewsletterSignup):
     except Exception as e:
         if "duplicate key value" in str(e).lower():
             return {"message": "Already subscribed."}
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/apply")
+def submit_talent_application(application: TalentApplication):
+    data = {
+        "name": application.formData.get("name", ""),
+        "university": application.formData.get("university", ""),
+        "level": application.formData.get("level", ""),
+        "phone": application.formData.get("phone", ""),
+        "email": application.formData.get("email", ""),
+        "selected_skills": application.selectedSkills,
+        "selected_sub_skills": application.selectedSubSkills,
+        "proof_links": application.proofLinks,
+        "paying_experience": application.payingExperience,
+        "fit_answer": application.fitAnswer
+    }
+    try:
+        response = supabase.table("talent_applications").insert(data).execute()
+        return {"success": True, "message": "Application submitted successfully!"}
+    except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.post("/api/request-task")
