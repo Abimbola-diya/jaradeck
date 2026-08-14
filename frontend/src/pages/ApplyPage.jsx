@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import BackgroundGrid from '../components/BackgroundGrid';
 import BrandLogo from '../components/BrandLogo';
+import ArrowRight02Icon from '../components/ArrowRight02Icon';
+import ArrowLeft02Icon from '../components/ArrowLeft02Icon';
+import Tick02Icon from '../components/Tick02Icon';
+import MagicWand01Icon from '../components/MagicWand01Icon';
 import { useState, useEffect, useRef } from 'react';
 
 function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
@@ -47,7 +51,7 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
           {data.title}
         </h3>
         <span className="wf-swipe-hint">
-          Swipe right to see more options →
+          Swipe right to see more options <ArrowRight02Icon size={14} />
         </span>
       </div>
 
@@ -73,7 +77,7 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
                 className={`wf-checkbox ${isChecked ? 'wf-checkbox--checked' : ''}`}
                 style={{ flexShrink: 0 }}
               >
-                {isChecked && '✓'}
+                {isChecked && <Tick02Icon size={13} color="#0066ff" strokeWidth={3.5} autoPlay />}
               </span>
               <span
                 className="wf-subskill-text"
@@ -210,7 +214,7 @@ function VerticalScrollIndicator({ containerRef }) {
   if (maxScroll <= 10) return null;
 
   return (
-    <div 
+    <div
       style={{
         position: 'fixed',
         right: '12px',
@@ -224,7 +228,7 @@ function VerticalScrollIndicator({ containerRef }) {
       }}
     >
       {/* Sliding White Pill Button */}
-      <div 
+      <div
         style={{
           width: '100%',
           height: '50px',
@@ -247,6 +251,19 @@ export default function ApplyPage() {
   const step2Ref = useRef(null);
   const step3Ref = useRef(null);
   const step4Ref = useRef(null);
+  const step5Ref = useRef(null);
+  const step6Ref = useRef(null);
+
+  const [fitAnswer, setFitAnswer] = useState('');
+
+  const [payingExperience, setPayingExperience] = useState('');
+  const payingOptions = [
+    'Still waiting for my first paid gig.',
+    '1–5 paying clients.',
+    '6–20 paying clients.',
+    '20+ paying clients.',
+    'This is my full-time thing.',
+  ];
 
   // Form state
   const [formData, setFormData] = useState({
@@ -610,7 +627,11 @@ export default function ApplyPage() {
   };
 
   const handleBack = () => {
-    if (step === 4) {
+    if (step === 6) {
+      setStep(5);
+    } else if (step === 5) {
+      setStep(4);
+    } else if (step === 4) {
       setStep(3);
     } else if (step === 3) {
       setStep(2);
@@ -627,68 +648,309 @@ export default function ApplyPage() {
     }
   };
 
-  // Split text into lines for rendering
-  const fullText = "Well, well... 👋\nRumour has it you're good at what you do. We'd like to see for ourselves.";
-  const lines = fullText.split('\n');
+  // Step 5: "Be honest... how long have people been paying you for this?" reading animation
+  const step5PrefixWords = ["Be", "honest..."];
+  const step5MainWords = ["how", "long", "have", "people", "been", "paying", "you", "for", "this?"];
+  const totalStep5Words = step5PrefixWords.length + step5MainWords.length;
+  const [activeStep5WordCount, setActiveStep5WordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 5) {
+      setActiveStep5WordCount(0);
+      return;
+    }
+
+    if (activeStep5WordCount >= totalStep5Words) return;
+
+    let delay = 190;
+    if (activeStep5WordCount === 0) {
+      delay = 350;
+    } else if (activeStep5WordCount === step5PrefixWords.length) {
+      delay = 380;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveStep5WordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeStep5WordCount, totalStep5Words]);
+
+  const handleSkipStep5Reading = () => {
+    if (activeStep5WordCount < totalStep5Words) {
+      setActiveStep5WordCount(totalStep5Words);
+    }
+  };
+
+  // Step 6: "Why do you think you're a good fit for Jaradeck?" reading animation
+  const step6MainWords = ["Why", "do", "you", "think", "you're", "a", "good", "fit", "for", "Jaradeck?"];
+  const step6NoteWords = ["Be", "authentic.", "We've", "seen", "enough", "AI", "slop", "already."];
+  const totalStep6Words = step6MainWords.length + step6NoteWords.length;
+  const [activeStep6WordCount, setActiveStep6WordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 6) {
+      setActiveStep6WordCount(0);
+      return;
+    }
+
+    if (activeStep6WordCount >= totalStep6Words) return;
+
+    let delay = 190;
+    if (activeStep6WordCount === 0) {
+      delay = 350;
+    } else if (activeStep6WordCount === step6MainWords.length) {
+      delay = 380;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveStep6WordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeStep6WordCount, totalStep6Words]);
+
+  const handleSkipStep6Reading = () => {
+    if (activeStep6WordCount < totalStep6Words) {
+      setActiveStep6WordCount(totalStep6Words);
+    }
+  };
+
+  // Step 4: "Show us something that makes us believe you." reading animation
+  const step4NameStr = formData.name ? formData.name.trim().split(' ')[0] + ',' : 'Ayo,';
+  const step4SkillsStr = selectedSkills.map(id => subSkillsData[id]?.title || id).join(' & ') || 'Design';
+  const step4Line1Words = [step4NameStr, "you", "said", "you're", "ridiculously", "good", "at", step4SkillsStr + "."];
+  const step4Line2Words = ["Show", "us", "something", "that", "makes", "us", "believe", "you."];
+  const totalStep4Words = step4Line1Words.length + step4Line2Words.length;
+
+  const [activeStep4WordCount, setActiveStep4WordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 4) {
+      setActiveStep4WordCount(0);
+      return;
+    }
+
+    if (activeStep4WordCount >= totalStep4Words) return;
+
+    let delay = 190;
+    if (activeStep4WordCount === 0) {
+      delay = 350;
+    } else if (activeStep4WordCount === step4Line1Words.length) {
+      delay = 350;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveStep4WordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeStep4WordCount, totalStep4Words, step4Line1Words.length]);
+
+  const handleSkipStep4Reading = () => {
+    if (activeStep4WordCount < totalStep4Words) {
+      setActiveStep4WordCount(totalStep4Words);
+    }
+  };
+
+  // Step 3: "Alright... let's narrow it down." reading animation
+  const step3Prefix = "Alright...";
+  const step3Words = ["let's", "narrow", "it", "down."];
+  const totalStep3Words = 1 + step3Words.length;
+  const [activeStep3WordCount, setActiveStep3WordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 3) {
+      setActiveStep3WordCount(0);
+      return;
+    }
+
+    if (activeStep3WordCount >= totalStep3Words) return;
+
+    let delay = 200;
+    if (activeStep3WordCount === 0) {
+      delay = 350;
+    } else if (activeStep3WordCount === 1) {
+      delay = 380;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveStep3WordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeStep3WordCount, totalStep3Words]);
+
+  const handleSkipStep3Reading = () => {
+    if (activeStep3WordCount < totalStep3Words) {
+      setActiveStep3WordCount(totalStep3Words);
+    }
+  };
+
+  // Step 2: "What do you do ridiculously well?" reading animation
+  const step2TitleWordsLine1 = ["What", "do", "you", "do", "ridiculously"];
+  const step2TitleWordsLine2 = ["well?"];
+  const step2SubWords = ["(p.s:", "if", "you'd", "hesitate", "to", "stake", "your", "reputation", "on", "it,", "don't", "pick", "it.)"];
+  const totalStep2Words = step2TitleWordsLine1.length + step2TitleWordsLine2.length + step2SubWords.length;
+  const [activeStep2WordCount, setActiveStep2WordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 2) {
+      setActiveStep2WordCount(0);
+      return;
+    }
+
+    if (activeStep2WordCount >= totalStep2Words) return;
+
+    let delay = 190;
+    if (activeStep2WordCount === 0) {
+      delay = 350;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveStep2WordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeStep2WordCount, totalStep2Words]);
+
+  const handleSkipStep2Reading = () => {
+    if (activeStep2WordCount < totalStep2Words) {
+      setActiveStep2WordCount(totalStep2Words);
+    }
+  };
+
+  // Step 1: "Let's start with the basics..." reading animation
+  const basicsWords = ["Let's", "start", "with", "the", "basics..."];
+  const totalBasicsWords = basicsWords.length;
+  const [activeBasicsWordCount, setActiveBasicsWordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 1) {
+      setActiveBasicsWordCount(0);
+      return;
+    }
+
+    if (activeBasicsWordCount >= totalBasicsWords) return;
+
+    let delay = 200;
+    if (activeBasicsWordCount === 0) {
+      delay = 350;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveBasicsWordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeBasicsWordCount, totalBasicsWords]);
+
+  const handleSkipBasicsReading = () => {
+    if (activeBasicsWordCount < totalBasicsWords) {
+      setActiveBasicsWordCount(totalBasicsWords);
+    }
+  };
+
+  // Hero Greeting: line 1 is static white, line 2 has word-by-word reading animation starting from "Rumour"
+  const heroLine1 = "Well, well... 👋";
+  const animWords = ["Rumour", "has", "it", "you're", "good", "at", "what", "you", "do.", "We'd", "like", "to", "see", "for", "ourselves."];
+  const totalAnimWords = animWords.length;
+
+  const [activeWordCount, setActiveWordCount] = useState(0);
+
+  useEffect(() => {
+    if (step !== 0) {
+      setActiveWordCount(0);
+      return;
+    }
+
+    if (activeWordCount >= totalAnimWords) return;
+
+    let delay = 200;
+    const currentWord = animWords[activeWordCount - 1];
+
+    if (activeWordCount === 0) {
+      delay = 350;
+    } else if (currentWord && currentWord.endsWith('.')) {
+      delay = 380;
+    }
+
+    const timer = setTimeout(() => {
+      setActiveWordCount((prev) => prev + 1);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [step, activeWordCount, totalAnimWords]);
+
+  const handleSkipReading = () => {
+    if (activeWordCount < totalAnimWords) {
+      setActiveWordCount(totalAnimWords);
+    }
+  };
 
   return (
     <div className="hero-page" style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
       <BackgroundGrid />
 
       {/* Top Bar */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '1.5rem 2rem',
-        zIndex: 50,
-      }}>
-        {/* Back Button */}
-        <button
-          onClick={handleBack}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'rgba(255, 255, 255, 0.7)',
-            fontFamily: "var(--font-family)",
-            fontSize: '0.95rem',
-            fontWeight: '500',
-            cursor: 'pointer',
-            padding: '0.4rem 0',
-            letterSpacing: '-0.01em',
-            transition: 'color 0.2s ease',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'; }}
-        >
-          ← Back
-        </button>
+      {step < 7 && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '1.5rem 2rem',
+          zIndex: 50,
+        }}>
+          {/* Back Button */}
+          <button
+            onClick={handleBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontFamily: "var(--font-family)",
+              fontSize: '0.95rem',
+              fontWeight: '500',
+              cursor: 'pointer',
+              padding: '0.4rem 0',
+              letterSpacing: '-0.01em',
+              transition: 'color 0.2s ease',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'; }}
+          >
+            <ArrowLeft02Icon size={16} /> Back
+          </button>
 
-        {/* Brand Logo */}
-        <div
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigate('/')}
-        >
-          <BrandLogo width={36} />
+          {/* Brand Logo */}
+          <div
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/')}
+          >
+            <BrandLogo width={36} />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Container for steps to handle absolute positioning crossfade */}
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
 
-        {/* Thinking illustration — steps 1 to 3 */}
+        {/* Thinking illustration — steps 1 to 3 & step 6 */}
         <img
           src="/thinking.svg?v=2"
           alt=""
           aria-hidden="true"
           className="apply-thinking-bg"
           style={{
-            opacity: step > 0 && step < 4 ? 0.9 : 0,
+            opacity: (step > 0 && step < 4) || step === 6 ? 0.9 : 0,
             transition: 'opacity 0.6s ease',
           }}
         />
@@ -700,7 +962,19 @@ export default function ApplyPage() {
           aria-hidden="true"
           className="apply-thinking-bg"
           style={{
-            opacity: step >= 4 ? 0.9 : 0,
+            opacity: step === 4 ? 0.9 : 0,
+            transition: 'opacity 0.6s ease',
+          }}
+        />
+
+        {/* Hirer illustration — step 5 */}
+        <img
+          src="/hirer.svg?v=2"
+          alt=""
+          aria-hidden="true"
+          className="apply-thinking-bg"
+          style={{
+            opacity: step === 5 ? 0.9 : 0,
             transition: 'opacity 0.6s ease',
           }}
         />
@@ -725,48 +999,83 @@ export default function ApplyPage() {
         }}
           className="apply-hero-layout"
         >
-          {/* Left — Typing text */}
+          {/* Left — Reading animation text */}
           <div style={{
             flex: '1 1 50%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             zIndex: 5,
+            cursor: activeWordCount < totalAnimWords ? 'pointer' : 'default',
           }}
             className="apply-text-col"
+            onClick={handleSkipReading}
           >
-            {lines.map((line, i) => (
-              <h1
-                key={i}
-                style={{
-                  fontFamily: "var(--font-family)",
-                  fontWeight: i === 0 ? 800 : 800,
-                  fontSize: i === 0 ? 'clamp(3rem, 6vw, 4.5rem)' : 'clamp(1.5rem, 3.5vw, 2.2rem)',
-                  lineHeight: i === 0 ? 1.15 : 1.35,
-                  color: '#ffffff',
-                  letterSpacing: '-0.03em',
-                  margin: 0,
-                  marginBottom: i === 0 ? '1.5rem' : 0,
-                  textAlign: 'left',
-                  opacity: 0,
-                  animation: `wfSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + i * 0.15}s forwards`
-                }}
-              >
-                {line}
-              </h1>
-            ))}
+            {/* Line 1: Static white header */}
+            <h1
+              style={{
+                fontFamily: "var(--font-family)",
+                fontWeight: 800,
+                fontSize: 'clamp(3rem, 6vw, 4.5rem)',
+                lineHeight: 1.15,
+                color: '#ffffff',
+                letterSpacing: '-0.03em',
+                margin: 0,
+                marginBottom: '1.5rem',
+                textAlign: 'left',
+              }}
+            >
+              {heroLine1}
+            </h1>
+
+            {/* Line 2: Reading animated words */}
+            <h1
+              style={{
+                fontFamily: "var(--font-family)",
+                fontWeight: 800,
+                fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)',
+                lineHeight: 1.35,
+                color: '#ffffff',
+                letterSpacing: '-0.03em',
+                margin: 0,
+                textAlign: 'left',
+              }}
+            >
+              {animWords.map((word, wIdx) => {
+                const isActive = wIdx < activeWordCount;
+
+                return (
+                  <span
+                    key={wIdx}
+                    style={{
+                      display: 'inline-block',
+                      marginRight: wIdx === animWords.length - 1 ? 0 : '0.28em',
+                      color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                      transition: 'color 0.2s ease',
+                    }}
+                  >
+                    {word}
+                  </span>
+                );
+              })}
+            </h1>
 
             <div style={{
               marginTop: '2.5rem',
-              opacity: 0,
-              animation: `wfSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards`
+              opacity: activeWordCount >= 2 ? 1 : 0,
+              transform: activeWordCount >= 2 ? 'translateY(0)' : 'translateY(12px)',
+              transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              pointerEvents: activeWordCount >= 2 ? 'auto' : 'none',
             }}>
               <button
                 className="waitlist-reserve-btn"
-                onClick={() => setStep(1)}
-                style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', width: 'auto' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setStep(1);
+                }}
+                style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', width: 'auto', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
               >
-                Let's find out →
+                Let's find out <ArrowRight02Icon size={18} />
               </button>
             </div>
           </div>
@@ -816,12 +1125,33 @@ export default function ApplyPage() {
           padding: '6rem 1.5rem 3rem',
         }}>
           <div className="wf-step" style={{ width: '100%', maxWidth: '600px' }}>
-            <h2 className="wf-question" style={{
-              opacity: step === 1 ? 1 : 0,
-              transform: step === 1 ? 'translateY(0)' : (step === 0 ? 'translateY(25px)' : 'translateY(0)'),
-              transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s',
-            }}>
-              Let's start with the basics...
+            <h2
+              className="wf-question"
+              onClick={handleSkipBasicsReading}
+              style={{
+                opacity: step === 1 ? 1 : 0,
+                transform: step === 1 ? 'translateY(0)' : (step === 0 ? 'translateY(25px)' : 'translateY(0)'),
+                transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s',
+                cursor: activeBasicsWordCount < totalBasicsWords ? 'pointer' : 'default',
+              }}
+            >
+              {basicsWords.map((word, wIdx) => {
+                const isActive = wIdx < activeBasicsWordCount;
+
+                return (
+                  <span
+                    key={wIdx}
+                    style={{
+                      display: 'inline-block',
+                      marginRight: wIdx === basicsWords.length - 1 ? 0 : '0.28em',
+                      color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                      transition: 'color 0.2s ease',
+                    }}
+                  >
+                    {word}
+                  </span>
+                );
+              })}
             </h2>
 
             <div style={{
@@ -860,17 +1190,21 @@ export default function ApplyPage() {
               onClick={handleNext}
               disabled={!isCurrentValid}
               style={{
-                marginTop: '2.5rem',
+                marginTop: '3.5rem',
+                marginBottom: '4rem',
                 width: 'auto',
-                padding: '1rem 2.5rem',
+                padding: '1.1rem 2.75rem',
                 fontSize: '1.1rem',
                 opacity: step === 1 ? (isCurrentValid ? 1 : 0.35) : 0,
                 cursor: isCurrentValid ? 'pointer' : 'not-allowed',
                 transform: step === 1 ? 'translateY(0)' : (step === 0 ? 'translateY(25px)' : 'translateY(0)'),
                 transition: 'opacity 0.4s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
               }}
             >
-              {currentQIndex === questions.length - 1 ? 'Easy Enough →' : 'Next →'}
+              {currentQIndex === questions.length - 1 ? 'Easy Enough' : 'Next'} <ArrowRight02Icon size={18} />
             </button>
           </div>
         </div>
@@ -897,12 +1231,68 @@ export default function ApplyPage() {
           }}
         >
           <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
-            <h2 className="wf-question">
-              What do you do ridiculously<br />well?
-            </h2>
-            <p className="wf-note" style={{ marginBottom: '2rem' }}>
-              (p.s: if you'd hesitate to stake your reputation on it, don't pick it.)
-            </p>
+            <div onClick={handleSkipStep2Reading} style={{ cursor: activeStep2WordCount < totalStep2Words ? 'pointer' : 'default' }}>
+              <h2 className="wf-question">
+                {step2TitleWordsLine1.map((word, wIdx) => {
+                  const globalIdx = wIdx;
+                  const isActive = globalIdx < activeStep2WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step2TitleWordsLine1.length - 1 ? 0 : '0.28em',
+                        color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+                <br />
+                {step2TitleWordsLine2.map((word, wIdx) => {
+                  const globalIdx = step2TitleWordsLine1.length + wIdx;
+                  const isActive = globalIdx < activeStep2WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step2TitleWordsLine2.length - 1 ? 0 : '0.28em',
+                        color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </h2>
+
+              <p className="wf-note" style={{ marginBottom: '2rem' }}>
+                {step2SubWords.map((word, wIdx) => {
+                  const globalIdx = step2TitleWordsLine1.length + step2TitleWordsLine2.length + wIdx;
+                  const isActive = globalIdx < activeStep2WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step2SubWords.length - 1 ? 0 : '0.28em',
+                        color: isActive ? 'rgba(255, 255, 255, 0.75)' : 'rgba(255, 255, 255, 0.25)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </p>
+            </div>
 
             <div className="wf-channels" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
               {(selectedSkills.length > 0
@@ -932,7 +1322,7 @@ export default function ApplyPage() {
                         className={`wf-checkbox ${checked ? 'wf-checkbox--checked' : ''}`}
                         style={{ marginTop: '0.2rem', flexShrink: 0 }}
                       >
-                        {checked && '✓'}
+                        {checked && <Tick02Icon size={13} color="#0066ff" strokeWidth={3.5} autoPlay />}
                       </span>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                         <span style={{
@@ -965,20 +1355,22 @@ export default function ApplyPage() {
               onClick={() => setStep(3)}
               disabled={selectedSkills.length === 0}
               style={{
-                marginTop: '2.5rem',
-                marginBottom: '2rem',
+                marginTop: '4.5rem',
+                marginBottom: '5rem',
                 width: 'auto',
                 padding: '1rem 2.5rem',
                 fontSize: '1.1rem',
                 opacity: selectedSkills.length > 0 ? 1 : 0.35,
                 cursor: selectedSkills.length > 0 ? 'pointer' : 'not-allowed',
-                transition: 'all 0.4s ease'
+                transition: 'all 0.4s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
               }}
             >
-              Next →
+              Next <ArrowRight02Icon size={18} />
             </button>
           </div>
-          {step === 2 && <VerticalScrollIndicator containerRef={step2Ref} />}
         </div>
 
         {/* Step 3: Sub-skills Narrow Down */}
@@ -1003,12 +1395,31 @@ export default function ApplyPage() {
           }}
         >
           <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
-            <p className="wf-note" style={{ color: 'rgba(255, 255, 255, 0.73)', fontSize: '1.25rem', marginBottom: '0.2rem', fontWeight: 500 }}>
-              Alright...
-            </p>
-            <h2 className="wf-question" style={{ marginBottom: '2.5rem' }}>
-              let's narrow it down.
-            </h2>
+            <div onClick={handleSkipStep3Reading} style={{ cursor: activeStep3WordCount < totalStep3Words ? 'pointer' : 'default' }}>
+              <p className="wf-note" style={{ color: activeStep3WordCount > 0 ? 'rgba(255, 255, 255, 0.73)' : 'rgba(255, 255, 255, 0.35)', fontSize: '1.25rem', marginBottom: '0.2rem', fontWeight: 500, transition: 'color 0.2s ease' }}>
+                {step3Prefix}
+              </p>
+              <h2 className="wf-question" style={{ marginBottom: '2.5rem' }}>
+                {step3Words.map((word, wIdx) => {
+                  const globalIdx = 1 + wIdx;
+                  const isActive = globalIdx < activeStep3WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step3Words.length - 1 ? 0 : '0.28em',
+                        color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </h2>
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem', width: '100%' }}>
               {selectedSkills.map((skillId) => {
@@ -1037,13 +1448,15 @@ export default function ApplyPage() {
                 fontSize: '1.1rem',
                 opacity: selectedSubSkills.length > 0 ? 1 : 0.35,
                 cursor: selectedSubSkills.length > 0 ? 'pointer' : 'not-allowed',
-                transition: 'all 0.4s ease'
+                transition: 'all 0.4s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
               }}
             >
-              Next →
+              Next <ArrowRight02Icon size={18} />
             </button>
           </div>
-          {step === 3 && <VerticalScrollIndicator containerRef={step3Ref} />}
         </div>
 
         {/* Step 4: Show us proof (Links) */}
@@ -1057,7 +1470,7 @@ export default function ApplyPage() {
             opacity: step === 4 ? 1 : 0,
             pointerEvents: step === 4 ? 'auto' : 'none',
             transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-            transform: step === 4 ? 'translateX(0)' : 'translateX(50px)',
+            transform: step === 4 ? 'translateX(0)' : (step < 4 ? 'translateX(50px)' : 'translateX(-50px)'),
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -1068,50 +1481,99 @@ export default function ApplyPage() {
           }}
         >
           <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
-            {/* Dynamic intro header */}
-            <p className="wf-note" style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', marginBottom: '1.25rem', fontWeight: 500, lineHeight: 1.45 }}>
-              <strong style={{ color: '#ffffff' }}>{formData.name ? formData.name.trim().split(' ')[0] : 'Ayo'}</strong>, you said you're ridiculously good at <strong style={{ color: '#ffffff' }}>{
-                selectedSkills.map(id => subSkillsData[id]?.title || id).join(' & ') || 'Design'
-              }</strong>.
-            </p>
-            <h2 className="wf-question" style={{ marginBottom: '2.5rem', maxWidth: '750px' }}>
-              Show us something that makes us believe you.
-            </h2>
+            <div onClick={handleSkipStep4Reading} style={{ cursor: activeStep4WordCount < totalStep4Words ? 'pointer' : 'default' }}>
+              <p className="wf-note" style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', marginBottom: '1.25rem', fontWeight: 500, lineHeight: 1.45 }}>
+                {step4Line1Words.map((word, wIdx) => {
+                  const isActive = wIdx < activeStep4WordCount;
+                  const isBold = wIdx === 0 || wIdx === step4Line1Words.length - 1;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step4Line1Words.length - 1 ? 0 : '0.28em',
+                        color: isActive ? (isBold ? '#ffffff' : 'rgba(255, 255, 255, 0.85)') : 'rgba(255, 255, 255, 0.35)',
+                        fontWeight: isBold ? 700 : 500,
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </p>
+
+              <h2 className="wf-question" style={{ marginBottom: '2.5rem', maxWidth: '750px' }}>
+                {step4Line2Words.map((word, wIdx) => {
+                  const globalIdx = step4Line1Words.length + wIdx;
+                  const isActive = globalIdx < activeStep4WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step4Line2Words.length - 1 ? 0 : '0.28em',
+                        color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </h2>
+            </div>
 
             {/* Proof platforms list */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', width: '100%', maxWidth: '650px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: '100%', maxWidth: '650px' }}>
               {proofPlatforms.map((platform) => {
                 const isChecked = Object.prototype.hasOwnProperty.call(proofLinks, platform.id);
                 return (
-                  <div key={platform.id} className="wf-channel-group" style={{ width: '100%' }}>
+                  <div key={platform.id} style={{ display: 'flex', flexDirection: 'column' }}>
                     <button
                       type="button"
                       className={`wf-channel-btn ${isChecked ? 'wf-channel-btn--checked' : ''}`}
                       onClick={() => toggleProofPlatform(platform.id)}
+                      aria-pressed={isChecked}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '0.8rem',
+                        gap: '0.85rem',
                         textAlign: 'left',
                         padding: '0.5rem 0',
                         width: '100%',
+                        background: 'transparent',
+                        border: 'none',
                         color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
                         transition: 'all 0.2s ease',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
                       }}
                     >
                       <span
                         className={`wf-checkbox ${isChecked ? 'wf-checkbox--checked' : ''}`}
-                        style={{ flexShrink: 0 }}
+                        style={{
+                          width: '22px',
+                          height: '22px',
+                          borderRadius: '6px',
+                          border: isChecked ? '2px solid #ffffff' : '2px solid rgba(255, 255, 255, 0.45)',
+                          background: isChecked ? '#ffffff' : 'transparent',
+                          color: isChecked ? '#0066ff' : 'transparent',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.85rem',
+                          fontWeight: 900,
+                          flexShrink: 0,
+                          transition: 'all 0.2s ease',
+                        }}
                       >
-                        {isChecked && '✓'}
+                        {isChecked && <Tick02Icon size={13} color="#0066ff" strokeWidth={3.5} autoPlay />}
                       </span>
                       <span style={{
-                        fontSize: 'clamp(1.1rem, 2.5vw, 1.35rem)',
-                        fontWeight: 700,
-                        color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)'
+                        fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
+                        fontWeight: isChecked ? 700 : 500,
+                        color: isChecked ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
                       }}>
                         {platform.label}
                       </span>
@@ -1155,10 +1617,10 @@ export default function ApplyPage() {
               })}
             </div>
 
-            {/* Next / Submit Button */}
+            {/* Next Button */}
             <button
               className="wf-next-btn"
-              onClick={() => console.log('Form Submitted!', { formData, selectedSkills, selectedSubSkills, proofLinks })}
+              onClick={() => setStep(5)}
               disabled={Object.values(proofLinks).every(v => !v || v.trim() === '')}
               style={{
                 marginTop: '4.5rem',
@@ -1168,14 +1630,343 @@ export default function ApplyPage() {
                 fontSize: '1.1rem',
                 opacity: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 1 : 0.35,
                 cursor: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 'pointer' : 'not-allowed',
-                transition: 'all 0.4s ease'
+                transition: 'all 0.4s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
               }}
             >
-              Next →
+              Next <ArrowRight02Icon size={18} />
             </button>
           </div>
-          {step === 4 && <VerticalScrollIndicator containerRef={step4Ref} />}
         </div>
+
+        {/* Step 5: Paid Experience Question */}
+        <div
+          ref={step5Ref}
+          className="no-scrollbar"
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: step === 5 ? 2 : 1,
+            opacity: step === 5 ? 1 : 0,
+            pointerEvents: step === 5 ? 'auto' : 'none',
+            transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: step === 5 ? 'translateX(0)' : 'translateX(50px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            width: '100%',
+            padding: '6.5rem 2rem 3rem',
+            overflowY: 'auto',
+          }}
+        >
+          <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
+            <div onClick={handleSkipStep5Reading} style={{ cursor: activeStep5WordCount < totalStep5Words ? 'pointer' : 'default' }}>
+              <p className="wf-note" style={{ fontSize: '1.25rem', marginBottom: '0.2rem', fontWeight: 500 }}>
+                {step5PrefixWords.map((word, wIdx) => {
+                  const isActive = wIdx < activeStep5WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step5PrefixWords.length - 1 ? 0 : '0.28em',
+                        color: isActive ? 'rgba(255, 255, 255, 0.73)' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </p>
+              <h2 className="wf-question" style={{ marginBottom: '2.5rem', maxWidth: '750px' }}>
+                {step5MainWords.map((word, wIdx) => {
+                  const globalIdx = step5PrefixWords.length + wIdx;
+                  const isActive = globalIdx < activeStep5WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step5MainWords.length - 1 ? 0 : '0.28em',
+                        color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </h2>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', maxWidth: '650px' }}>
+              {payingOptions.map((option) => {
+                const checked = payingExperience === option;
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    className={`wf-channel-btn ${checked ? 'wf-channel-btn--checked' : ''}`}
+                    onClick={() => setPayingExperience(option)}
+                    aria-pressed={checked}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.85rem',
+                      textAlign: 'left',
+                      padding: '0.5rem 0',
+                      width: '100%',
+                      background: 'transparent',
+                      border: 'none',
+                      color: checked ? '#ffffff' : 'rgba(255, 255, 255, 0.65)',
+                      transition: 'all 0.2s ease',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span
+                      className={`wf-checkbox ${checked ? 'wf-checkbox--checked' : ''}`}
+                      style={{
+                        width: '22px',
+                        height: '22px',
+                        borderRadius: '6px',
+                        border: checked ? '2px solid #ffffff' : '2px solid rgba(255, 255, 255, 0.45)',
+                        background: checked ? '#ffffff' : 'transparent',
+                        color: checked ? '#0066ff' : 'transparent',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.85rem',
+                        fontWeight: 900,
+                        flexShrink: 0,
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {checked && <Tick02Icon size={13} color="#0066ff" strokeWidth={3.5} autoPlay />}
+                    </span>
+                    <span style={{
+                      fontSize: 'clamp(1.1rem, 2.2vw, 1.35rem)',
+                      fontWeight: checked ? 700 : 500,
+                      color: checked ? '#ffffff' : 'rgba(255, 255, 255, 0.75)',
+                      transition: 'color 0.2s ease',
+                    }}>
+                      {option}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Next Button */}
+            <button
+              className="wf-next-btn"
+              onClick={() => setStep(6)}
+              disabled={!payingExperience}
+              style={{
+                marginTop: '3.5rem',
+                marginBottom: '4rem',
+                width: 'auto',
+                padding: '1.1rem 2.75rem',
+                fontSize: '1.1rem',
+                opacity: payingExperience ? 1 : 0.35,
+                cursor: payingExperience ? 'pointer' : 'not-allowed',
+                transition: 'all 0.4s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+              }}
+            >
+              Next <ArrowRight02Icon size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Step 6: Fit Question */}
+        <div
+          ref={step6Ref}
+          className="no-scrollbar"
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: step === 6 ? 2 : 1,
+            opacity: step === 6 ? 1 : 0,
+            pointerEvents: step === 6 ? 'auto' : 'none',
+            transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: step === 6 ? 'translateX(0)' : 'translateX(50px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            width: '100%',
+            padding: '6.5rem 2rem 3rem',
+            overflowY: 'auto',
+          }}
+        >
+          <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
+            <div onClick={handleSkipStep6Reading} style={{ cursor: activeStep6WordCount < totalStep6Words ? 'pointer' : 'default' }}>
+              <h2 className="wf-question" style={{ marginBottom: '0.4rem', maxWidth: '750px' }}>
+                {step6MainWords.map((word, wIdx) => {
+                  const isActive = wIdx < activeStep6WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step6MainWords.length - 1 ? 0 : '0.28em',
+                        color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </h2>
+              <p className="wf-note" style={{ fontSize: '1.15rem', marginBottom: '2.5rem', fontWeight: 400 }}>
+                {step6NoteWords.map((word, wIdx) => {
+                  const globalIdx = step6MainWords.length + wIdx;
+                  const isActive = globalIdx < activeStep6WordCount;
+
+                  return (
+                    <span
+                      key={wIdx}
+                      style={{
+                        display: 'inline-block',
+                        marginRight: wIdx === step6NoteWords.length - 1 ? 0 : '0.28em',
+                        color: isActive ? 'rgba(255, 255, 255, 0.73)' : 'rgba(255, 255, 255, 0.25)',
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
+              </p>
+            </div>
+
+            <div style={{ width: '100%', maxWidth: '700px' }}>
+              <textarea
+                className="wf-textarea"
+                value={fitAnswer}
+                onChange={(e) => {
+                  setFitAnswer(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 300) + 'px';
+                }}
+                placeholder="Type your response here..."
+                rows={3}
+                style={{
+                  width: '100%',
+                  minHeight: '130px',
+                  maxHeight: '300px',
+                  padding: '1.1rem 1.25rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '16px',
+                  color: '#ffffff',
+                  fontFamily: 'var(--font-family)',
+                  fontSize: '1.15rem',
+                  fontWeight: 600,
+                  lineHeight: 1.6,
+                  outline: 'none',
+                  resize: 'none',
+                  overflowY: fitAnswer.length > 200 ? 'auto' : 'hidden',
+                  boxSizing: 'border-box',
+                  transition: 'border-color 0.2s ease',
+                }}
+                onFocus={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.65)'}
+                onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.25)'}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              className="wf-next-btn"
+              onClick={async () => {
+                setStep(7);
+                try {
+                  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                  const res = await fetch(`${apiUrl}/api/apply`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),
+                  });
+                  const data = await res.json();
+                  
+                  if (!res.ok) {
+                    throw new Error(data.detail || data.message || 'Submission failed');
+                  }
+
+                  // Navigate to success page when backend responds successfully
+                  navigate('/apply/success');
+                } catch (err) {
+                  console.error('Submission failed:', err);
+                  alert('Submission failed: ' + err.message);
+                  setStep(6); // Revert to previous step on failure
+                }
+              }}
+              disabled={!fitAnswer || fitAnswer.trim() === ''}
+              style={{
+                marginTop: '3.5rem',
+                marginBottom: '4rem',
+                width: 'auto',
+                padding: '1.1rem 2.75rem',
+                fontSize: '1.1rem',
+                opacity: fitAnswer && fitAnswer.trim() !== '' ? 1 : 0.35,
+                cursor: fitAnswer && fitAnswer.trim() !== '' ? 'pointer' : 'not-allowed',
+                transition: 'all 0.4s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+              }}
+            >
+              Submit <ArrowRight02Icon size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Step 7: Loading/Submitted State */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          zIndex: step === 7 ? 100 : 1,
+          opacity: step === 7 ? 1 : 0,
+          pointerEvents: step === 7 ? 'auto' : 'none',
+          transition: 'opacity 0.6s ease',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          padding: '2rem',
+          textAlign: 'center'
+        }}>
+          <MagicWand01Icon loop size={120} style={{ color: '#ffffff', marginBottom: '2.5rem' }} />
+          <h2 style={{
+            fontSize: 'clamp(2rem, 4vw, 3rem)',
+            fontWeight: '700',
+            color: '#ffffff',
+            fontFamily: 'var(--font-family)',
+            lineHeight: 1.2,
+            maxWidth: '800px',
+            margin: 0
+          }}>
+            Hang tight... we're trying not to fumble your application.
+          </h2>
+        </div>
+
+        {/* Fixed Stationary Vertical Scroll Indicators */}
+        {step === 2 && <VerticalScrollIndicator containerRef={step2Ref} />}
+        {step === 3 && <VerticalScrollIndicator containerRef={step3Ref} />}
+        {step === 4 && <VerticalScrollIndicator containerRef={step4Ref} />}
+        {step === 5 && <VerticalScrollIndicator containerRef={step5Ref} />}
+        {step === 6 && <VerticalScrollIndicator containerRef={step6Ref} />}
       </div>
     </div>
   );
