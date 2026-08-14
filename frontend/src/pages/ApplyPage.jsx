@@ -339,7 +339,34 @@ export default function ApplyPage() {
   };
 
   const currentVal = formData[questions[currentQIndex].id];
-  const isCurrentValid = currentVal.trim() !== '';
+  const currentFieldId = questions[currentQIndex].id;
+
+  // Per-field validators — return error string or null if valid
+  const validators = {
+    name: (v) => v.trim().length >= 2 ? null : 'Please enter your full name.',
+    university: (v) => v.trim().length >= 2 ? null : 'Please enter your university name.',
+    level: (v) => {
+      const cleaned = v.trim().toUpperCase().replace(/\s/g, '');
+      const match = cleaned.match(/^([1-6]00)L?$/);
+      if (!match) return 'Enter a valid level: 100L, 200L, 300L, 400L, 500L or 600L.';
+      return null;
+    },
+    phone: (v) => {
+      const cleaned = v.trim().replace(/\s/g, '');
+      const valid = /^(\+?234|0)[789][01]\d{8}$/.test(cleaned);
+      return valid ? null : 'Enter a valid Nigerian phone number (e.g. 08012345678).';
+    },
+    email: (v) => {
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+      return valid ? null : 'Enter a valid email address (e.g. you@example.com).';
+    },
+  };
+
+  // Live computed — recalculates every render as user types
+  const currentError = validators[currentFieldId] ? validators[currentFieldId](currentVal) : null;
+  const isCurrentValid = currentVal.trim() !== '' && currentError === null;
+  // Only show the error once the user has started typing something
+  const showLiveError = currentVal.trim().length > 0 && currentError !== null;
 
   const toggleSkill = (id) => {
     setSelectedSkills(prev =>
@@ -1158,7 +1185,7 @@ export default function ApplyPage() {
               position: 'relative',
               width: '100%',
               overflow: 'hidden',
-              paddingBottom: '0.5rem', // for focus ring space
+              paddingBottom: '0.5rem',
               opacity: step === 1 ? 1 : 0,
               transform: step === 1 ? 'translateY(0)' : (step === 0 ? 'translateY(25px)' : 'translateY(0)'),
               transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s',
@@ -1179,11 +1206,30 @@ export default function ApplyPage() {
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                       autoComplete="off"
+                      style={{
+                        borderBottomColor: i === currentQIndex && showLiveError
+                          ? '#ff6b6b'
+                          : undefined
+                      }}
                     />
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Live validation error message — shows instantly as user types */}
+            {showLiveError && (
+              <p style={{
+                color: '#ff6b6b',
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                marginTop: '0.5rem',
+                fontFamily: 'var(--font-family)',
+                lineHeight: 1.4,
+              }}>
+                {currentError}
+              </p>
+            )}
 
             <button
               className="wf-next-btn"
@@ -1898,7 +1944,7 @@ export default function ApplyPage() {
                     body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),
                   });
                   const data = await res.json();
-                  
+
                   if (!res.ok) {
                     throw new Error(data.detail || data.message || 'Submission failed');
                   }
