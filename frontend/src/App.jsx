@@ -15,92 +15,17 @@ import WithdrawConfirmPage from './pages/WithdrawConfirmPage';
 import WithdrawPinPage from './pages/WithdrawPinPage';
 import ChatPage from './pages/ChatPage';
 import ChatThreadPage from './pages/ChatThreadPage';
-import ApplySuccessPage from './pages/ApplySuccessPage';
 
 export default function App() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const isProductRoute = ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
 
-  const navigateTo = (path) => {
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Refs for navigation containers and buttons
-  const mainPillRef = useRef(null);
-  const hireRef = useRef(null);
-  const howRef = useRef(null);
-  const whyRef = useRef(null);
-  const joinRef = useRef(null);
-  const morePillRef = useRef(null);
-  const dropdownRef = useRef(null);
-
-  // Absolute indicator pill position state inside mainPillRef
-  const [indicatorStyle, setIndicatorStyle] = useState({
-    left: 0,
-    width: 0,
-    height: 0,
-    opacity: 0,
-  });
-
-  // Update position of sliding indicator relative to mainPillRef
-  useEffect(() => {
-    const updateIndicator = () => {
-      const activeRef = {
-        hire: hireRef.current,
-        how: howRef.current,
-        why: whyRef.current,
-        join: joinRef.current,
-      }[activeTab];
-
-      if (activeRef && mainPillRef.current) {
-        const pillRect = mainPillRef.current.getBoundingClientRect();
-        const activeRect = activeRef.getBoundingClientRect();
-
-        if (activeRect.width > 0) {
-          setIndicatorStyle({
-            left: activeRect.left - pillRect.left,
-            width: activeRect.width,
-            height: activeRect.height,
-            opacity: 1,
-          });
-        } else {
-          setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
-        }
-      } else {
-        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
-      }
-    };
-
-    updateIndicator();
-    document.fonts.ready.then(updateIndicator);
-    window.addEventListener('resize', updateIndicator);
-    return () => window.removeEventListener('resize', updateIndicator);
-  }, [activeTab]);
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        morePillRef.current &&
-        !morePillRef.current.contains(e.target)
-      ) {
-        setIsMoreOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const isProductRoute =
+    ['/onboarding', '/admin_view', '/apply'].includes(location.pathname) ||
+    location.pathname.startsWith('/dashboard');
 
   return (
     <div className={isProductRoute ? 'product-page' : 'hero-page'}>
-      {/* Background Vector Hatch Grid & Glow Overlay */}
       {!isProductRoute && <BackgroundGrid />}
-
-      {/* Floating Glassmorphic Navigation Bar */}
       {!isProductRoute && <Header />}
 
       <Routes>
