@@ -331,9 +331,10 @@ export default function ApplySuccessPage() {
               }}
             >
                <a 
-                 href="#whatsapp" 
+                 href="https://chat.whatsapp.com/KkGslKovWBsI1hZOUzunhQ" 
                  className="newsletter-social-cell" 
-                 onClick={(e) => e.preventDefault()} 
+                 target="_blank"
+                 rel="noopener noreferrer"
                  style={{ 
                    display: 'flex',
                    alignItems: 'center',
@@ -355,9 +356,10 @@ export default function ApplySuccessPage() {
                </a>
 
                <a 
-                 href="#instagram" 
+                 href="https://www.instagram.com/jaradeckhq/" 
                  className="newsletter-social-cell" 
-                 onClick={(e) => e.preventDefault()} 
+                 target="_blank"
+                 rel="noopener noreferrer"
                  style={{ 
                    display: 'flex',
                    alignItems: 'center',
