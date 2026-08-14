@@ -2650,6 +2650,10 @@ textarea {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+.apply-social-cell:hover {
+  background-color: rgba(0, 72, 179, 0.06);
+}
+
 .newsletter-copyright {
   text-align: center;
   padding: 2.5rem 0 1rem 0;
@@ -5934,4 +5938,18 @@ a:hover .hugeicons-animated-arrow-left .arrow-head {
 button:active .hugeicons-animated-arrow-left,
 a:active .hugeicons-animated-arrow-left {
   transform: translateX(-7px) scale(1.1);
+}
+
+@keyframes wfAirplaneTakeoff {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  50% { transform: translate(15px, -15px) scale(0.8); opacity: 0; }
+  51% { transform: translate(-15px, 15px) scale(0.8); opacity: 0; }
+  100% { transform: translate(0, 0) scale(1); opacity: 1; }
+}
+
+.wf-airplane-animate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: wfAirplaneTakeoff 2.5s infinite ease-in-out;
 }

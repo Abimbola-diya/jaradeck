@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BackgroundGrid from '../components/BackgroundGrid';
 import ArrowRight02Icon from '../components/ArrowRight02Icon';
+import hirerSvg from '../assets/hirer.svg';
 
 // ─── Confetti particle system ────────────────────────────────────────────────
-function useConfetti(canvasRef) {
+function useConfetti(canvasRef, enabled = true) {
   useEffect(() => {
+    if (!enabled) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -99,14 +101,15 @@ function useConfetti(canvasRef) {
       clearInterval(spawnInterval);
       window.removeEventListener('resize', resize);
     };
-  }, [canvasRef]);
+  }, [canvasRef, enabled]);
 }
 
 // ─── Main component ──────────────────────────────────────────────────────────
 export default function ApplySuccessPage() {
   const navigate = useNavigate();
+  const [showSocials, setShowSocials] = useState(false);
   const canvasRef = useRef(null);
-  useConfetti(canvasRef);
+  useConfetti(canvasRef, !showSocials);
 
   const textBlocks = [
     { isHeading: true, words: ["You're", "in."] },
@@ -182,29 +185,32 @@ export default function ApplySuccessPage() {
     >
       <BackgroundGrid />
 
-      {/* Confetti canvas */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 4,
-        }}
-      />
+      {/* Confetti canvas (only on You're in view) */}
+      {!showSocials && (
+        <canvas
+          ref={canvasRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            zIndex: 4,
+          }}
+        />
+      )}
 
       {/* Background illustration */}
       <img
-        src="/hands_chin.svg?v=2"
+        src={showSocials ? hirerSvg : "/hands_chin.svg?v=2"}
         alt=""
         aria-hidden="true"
         className="apply-thinking-bg"
         style={{
           opacity: 0.9,
           zIndex: 1,
+          objectPosition: showSocials ? 'bottom center' : 'bottom right', // Adjust position for hirer
         }}
       />
 
@@ -223,62 +229,172 @@ export default function ApplySuccessPage() {
           animation: 'wfSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both',
         }}
       >
-        {blocksWithGlobalIndices.map((block, bIdx) => (
+        {!showSocials ? (
+          <>
+            {blocksWithGlobalIndices.map((block, bIdx) => (
+              <div
+                key={bIdx}
+                style={{
+                  fontFamily: 'var(--font-family)',
+                  fontSize: block.isHeading
+                    ? 'clamp(3rem, 7vw, 5.5rem)'
+                    : 'clamp(1.15rem, 2.5vw, 1.55rem)',
+                  fontWeight: block.isHeading ? 800 : 400,
+                  lineHeight: block.isHeading ? 1.15 : 1.6,
+                  letterSpacing: block.isHeading ? '-0.04em' : '-0.01em',
+                  margin: 0,
+                  marginBottom: block.isHeading ? '1.75rem' : '0.4rem',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: block.isHeading ? '0.6rem' : '0.35rem',
+                }}
+              >
+                {block.words.map(w => {
+                  const isCurrent = w.index === activeWordIndex;
+                  const isPast = w.index < activeWordIndex;
+
+                  return (
+                    <span
+                      key={w.index}
+                      style={{
+                        display: 'inline-block',
+                        transition: 'color 0.2s ease',
+                        color: isPast || isCurrent ? '#ffffff' : 'rgba(255, 255, 255, 0.32)',
+                      }}
+                    >
+                      {w.text}
+                    </span>
+                  );
+                })}
+              </div>
+            ))}
+
+            <div
+              style={{
+                marginTop: '2.5rem',
+                opacity: isFinished ? 1 : 0,
+                transform: isFinished ? 'translateY(0)' : 'translateY(15px)',
+                pointerEvents: isFinished ? 'auto' : 'none',
+                transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
+              <button
+                className="wf-next-btn"
+                onClick={() => setShowSocials(true)}
+              >
+                Next <ArrowRight02Icon size={18} />
+              </button>
+            </div>
+          </>
+        ) : (
           <div
-            key={bIdx}
             style={{
-              fontFamily: 'var(--font-family)',
-              fontSize: block.isHeading
-                ? 'clamp(3rem, 7vw, 5.5rem)'
-                : 'clamp(1.15rem, 2.5vw, 1.55rem)',
-              fontWeight: block.isHeading ? 800 : 400,
-              lineHeight: block.isHeading ? 1.15 : 1.6,
-              letterSpacing: block.isHeading ? '-0.04em' : '-0.01em',
-              margin: 0,
-              marginBottom: block.isHeading ? '1.75rem' : '0.4rem',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: block.isHeading ? '0.6rem' : '0.35rem',
+               animation: 'wfFadeIn 0.5s ease',
+               width: '100%',
+               display: 'flex',
+               flexDirection: 'column',
+               gap: '1.5rem',
             }}
           >
-            {block.words.map(w => {
-              const isCurrent = w.index === activeWordIndex;
-              const isPast = w.index < activeWordIndex;
+            <h2 style={{
+              fontFamily: 'var(--font-family)',
+              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontWeight: 800,
+              lineHeight: 1.15,
+              letterSpacing: '-0.04em',
+              color: '#ffffff',
+              margin: 0,
+            }}>
+              Want the inside gist?
+            </h2>
+            <p style={{
+              fontFamily: 'var(--font-family)',
+              fontSize: 'clamp(1.15rem, 2.5vw, 1.55rem)',
+              color: 'rgba(255, 255, 255, 0.73)',
+              margin: 0,
+              lineHeight: 1.6,
+            }}>
+              Join our WhatsApp community and follow us on Instagram.
+            </p>
 
-              return (
-                <span
-                  key={w.index}
-                  style={{
-                    display: 'inline-block',
-                    transition: 'color 0.2s ease',
-                    color: isPast || isCurrent ? '#ffffff' : 'rgba(255, 255, 255, 0.32)',
-                  }}
-                >
-                  {w.text}
-                </span>
-              );
-            })}
+            {/* Social Links Stacked Vertically */}
+            <div 
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                width: '100%',
+                maxWidth: '450px',
+                marginTop: '1.5rem'
+              }}
+            >
+               <a 
+                 href="#whatsapp" 
+                 className="newsletter-social-cell" 
+                 onClick={(e) => e.preventDefault()} 
+                 style={{ 
+                   display: 'flex',
+                   alignItems: 'center',
+                   justifyContent: 'flex-start',
+                   gap: '0.85rem',
+                   padding: '1.25rem 1.5rem',
+                   borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+                   textDecoration: 'none',
+                   fontFamily: 'var(--font-family)',
+                   fontSize: '1.25rem',
+                   fontWeight: 800,
+                   color: '#ffffff',
+                 }}
+               >
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="#93C5FD" aria-hidden="true">
+                   <path d="M12 2C12 7.52285 16.4771 12 22 12C16.4771 12 12 16.4771 12 22C12 16.4771 7.52285 12 2 12C7.52285 12 12 7.52285 12 2Z" />
+                 </svg>
+                 <span>WhatsApp Community</span>
+               </a>
+
+               <a 
+                 href="#instagram" 
+                 className="newsletter-social-cell" 
+                 onClick={(e) => e.preventDefault()} 
+                 style={{ 
+                   display: 'flex',
+                   alignItems: 'center',
+                   justifyContent: 'flex-start',
+                   gap: '0.85rem',
+                   padding: '1.25rem 1.5rem',
+                   textDecoration: 'none',
+                   fontFamily: 'var(--font-family)',
+                   fontSize: '1.25rem',
+                   fontWeight: 800,
+                   color: '#ffffff',
+                 }}
+               >
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="#F472B6" aria-hidden="true">
+                   <path d="M12 2L14.2 8.3L21 9L15.8 13.8L17.5 20.5L12 17L6.5 20.5L8.2 13.8L3 9L9.8 8.3L12 2Z" />
+                 </svg>
+                 <span>Instagram</span>
+               </a>
+            </div>
+
+            <div style={{ marginTop: '2rem' }}>
+              <button
+                className="wf-next-btn"
+                onClick={() => navigate('/')}
+                style={{
+                  padding: '0.8rem 1.6rem',
+                  fontSize: '0.95rem',
+                  width: 'fit-content',
+                }}
+              >
+                Back to home <ArrowRight02Icon size={16} />
+              </button>
+            </div>
           </div>
-        ))}
-
-        {/* Back to home — appears after all words highlighted */}
-        <div
-          style={{
-            marginTop: '2.5rem',
-            opacity: isFinished ? 1 : 0,
-            transform: isFinished ? 'translateY(0)' : 'translateY(15px)',
-            pointerEvents: isFinished ? 'auto' : 'none',
-            transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
-        >
-          <button
-            className="wf-next-btn"
-            onClick={() => navigate('/')}
-          >
-            Back to home <ArrowRight02Icon size={18} />
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
 }
+
