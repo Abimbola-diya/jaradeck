@@ -10,6 +10,8 @@ import AdminViewPage from './pages/AdminViewPage';
 import ApplyPage from './pages/ApplyPage';
 import WalletPage from './pages/WalletPage';
 import WithdrawPage from './pages/WithdrawPage';
+import ChatPage from './pages/ChatPage';
+import ChatThreadPage from './pages/ChatThreadPage';
 
 export default function App() {
   const location = useLocation();
@@ -33,10 +35,11 @@ export default function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin_view" element={<AdminViewPage />} />
         <Route path="/apply" element={<ApplyPage />} />
-        <Route path="/dashboard/wallet" element={<DashboardTabPage tab="wallet" />} />
+        {/* <Route path="/dashboard/wallet" element={<DashboardTabPage tab="wallet" />} /> */}
         <Route path="/dashboard/wallet" element={<WalletPage />} />
         <Route path="/dashboard/wallet/withdraw" element={<WithdrawPage />} />
-        <Route path="/dashboard/chat" element={<DashboardTabPage tab="chat" />} />
+        <Route path="/dashboard/chat" element={<ChatPage />} />
+        <Route path="/dashboard/chat/:id" element={<ChatThreadPage />} />
         <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
