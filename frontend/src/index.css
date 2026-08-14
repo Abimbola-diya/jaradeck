@@ -6211,3 +6211,193 @@ textarea {
 }
 .chat-input-attach { background: #f4f4f6; color: #6b6b75; }
 .chat-input-send { background: #1a4fd6; color: #fff; }
+
+/* ===== Withdraw flow shared ===== */
+.wd-amount-page,
+.wd-confirm-page,
+.wd-pin-page { padding-top: 4.55rem; }
+
+.wd-title {
+  margin: 1.6rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  color: #0d0f17;
+  text-align: center;
+}
+
+/* sort arrows icon */
+.wd-sort-icon {
+  display: flex;
+  justify-content: center;
+  margin: 0.85rem 0 0.7rem;
+  color: #9a9aa5;
+}
+
+/* account chip */
+.wd-account-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: #f4f4f6;
+}
+.wd-bank-logo { width: 1.5rem; height: 1.5rem; object-fit: contain; border-radius: 50%; }
+.wd-account-number { display: block; font-size: 0.85rem; font-weight: 500; color: #0d0f17; letter-spacing: -0.02em; }
+.wd-account-bank { display: block; font-size: 0.7rem; color: #9a9aa5; }
+
+/* balance row */
+.wd-balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 1.1rem;
+}
+.wd-balance-label { font-size: 0.75rem; color: #9a9aa5; }
+.wd-balance-value { font-size: 0.85rem; font-weight: 500; color: #0d0f17; letter-spacing: -0.03em; }
+.wd-eye-btn { display: grid; place-items: center; padding: 0; border: 0; background: none; color: #9a9aa5; cursor: pointer; }
+
+/* amount display */
+.wd-amount-display {
+  min-height: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0 0;
+}
+.wd-amount-cursor {
+  display: block;
+  width: 1.5px;
+  height: 2.2rem;
+  background: #c0c0c8;
+  animation: wd-blink 1s step-end infinite;
+}
+@keyframes wd-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.wd-amount-value {
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  color: #0d0f17;
+  line-height: 1;
+}
+.wd-amount-error {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: #e53935;
+}
+
+/* confirm button */
+.wd-confirm-btn {
+  display: block;
+  width: 100%;
+  height: 3rem;
+  margin: 1.4rem 0 0;
+  border: 0;
+  border-radius: 999px;
+  background: #e0e0e5;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: default;
+  transition: background 0.15s;
+}
+.wd-confirm-active {
+  background: #1a4fd6;
+  cursor: pointer;
+}
+.wd-confirm-standalone { margin-top: 3rem; }
+
+/* numpad */
+.wd-numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.6rem;
+  row-gap: 0;
+}
+.wd-key {
+  display: grid;
+  place-items: center;
+  height: 4.5rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 1.55rem;
+  font-weight: 400;
+  color: #0d0f17;
+  cursor: pointer;
+  letter-spacing: -0.04em;
+}
+.wd-key:active { background: #f4f4f6; border-radius: 0.5rem; }
+.wd-key-empty { cursor: default; }
+.wd-key-del { color: #6b6b75; }
+
+/* ===== Confirm withdrawal page ===== */
+.wd-review-amount-label {
+  margin-top: 2.2rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #9a9aa5;
+  letter-spacing: -0.02em;
+}
+.wd-review-amount {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  color: #0d0f17;
+  line-height: 1.1;
+  margin-top: 0.3rem;
+}
+.wd-review-rows {
+  margin-top: 2.2rem;
+  border-top: 1px solid #f0f0f3;
+}
+.wd-review-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f3;
+}
+.wd-review-icon { display: grid; place-items: center; flex-shrink: 0; }
+.wd-review-key { flex: 1; font-size: 0.88rem; color: #9a9aa5; letter-spacing: -0.025em; }
+.wd-review-val { font-size: 0.88rem; font-weight: 500; color: #0d0f17; letter-spacing: -0.025em; }
+
+/* ===== PIN page ===== */
+.wd-pin-title {
+  margin: 1.8rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  color: #0d0f17;
+}
+.wd-pin-sub {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: #9a9aa5;
+  line-height: 1.5;
+  max-width: 18rem;
+}
+.wd-pin-dots {
+  display: flex;
+  gap: 1rem;
+  margin: 2.4rem 0 0;
+}
+.wd-pin-dot {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: 1.5px solid #d0d0d8;
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.wd-pin-dot-filled {
+  background: #1a4fd6;
+  border-color: #1a4fd6;
+}

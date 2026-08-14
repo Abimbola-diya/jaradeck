@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import WorkerBottomNav from '../components/WorkerBottomNav';
 import BackButton from '../components/BackButton';
 
@@ -25,6 +26,7 @@ function CoinsIcon() {
 }
 
 export default function WithdrawPage() {
+  const navigate = useNavigate();
   return (
     <main className="worker-dashboard withdraw-page">
       <BackButton to="/dashboard/wallet" />
@@ -33,9 +35,7 @@ export default function WithdrawPage() {
         <button
           type="button"
           className="withdraw-method-card"
-          onClick={() => {
-            // TODO: launch the local-bank withdrawal flow (no design yet)
-          }}
+          onClick={() => navigate('/dashboard/wallet/withdraw/amount')}
         >
           <span className="withdraw-method-icon">
             <BankNoteIcon />
