@@ -245,7 +245,7 @@ def join_newsletter(signup: NewsletterSignup):
 @app.post("/api/apply")
 def submit_talent_application(application: TalentApplication):
     data = {
-        "name": application.formData.get("name", ""),
+        "name": application.formData.get("name", "").strip().title(),
         "university": application.formData.get("university", ""),
         "level": application.formData.get("level", ""),
         "phone": application.formData.get("phone", ""),

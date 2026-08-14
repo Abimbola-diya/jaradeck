@@ -624,6 +624,19 @@ export default function ApplyPage() {
 
   const [proofLinks, setProofLinks] = useState({});
 
+  const isValidUrl = (string) => {
+    try {
+      new URL(string.trim());
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const hasAnyLink = Object.values(proofLinks).some(v => v && v.trim() !== '');
+  const hasInvalidLinks = Object.values(proofLinks).some(v => v && v.trim() !== '' && !isValidUrl(v));
+  const canProceedStep4 = hasAnyLink && !hasInvalidLinks;
+
   const proofPlatforms = [
     { id: 'behance', label: 'Behance', placeholder: 'https://behance.net/lagbaja' },
     { id: 'dribbble', label: 'Dribbble', placeholder: 'https://dribbble.com/lagbaja' },
@@ -743,8 +756,16 @@ export default function ApplyPage() {
     }
   };
 
+  // Helper to format name to Title Case
+  const formatName = (name) => {
+    if (!name) return '';
+    const trimmed = name.trim();
+    if (!trimmed) return '';
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+  };
+
   // Step 4: "Show us something that makes us believe you." reading animation
-  const step4NameStr = formData.name ? formData.name.trim().split(' ')[0] + ',' : 'Ayo,';
+  const step4NameStr = formData.name ? formatName(formData.name.split(' ')[0]) + ',' : 'Ayo,';
   const step4SkillsStr = selectedSkills.map(id => subSkillsData[id]?.title || id).join(' & ') || 'Design';
   const step4Line1Words = [step4NameStr, "you", "said", "you're", "ridiculously", "good", "at", step4SkillsStr + "."];
   const step4Line2Words = ["Show", "us", "something", "that", "makes", "us", "believe", "you."];
@@ -1663,19 +1684,32 @@ export default function ApplyPage() {
               })}
             </div>
 
+            {hasInvalidLinks && (
+              <p style={{
+                color: '#ff6b6b',
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                marginTop: '1.5rem',
+                fontFamily: 'var(--font-family)',
+                lineHeight: 1.4,
+              }}>
+                Please ensure all provided links are valid URLs (e.g., https://example.com).
+              </p>
+            )}
+
             {/* Next Button */}
             <button
               className="wf-next-btn"
               onClick={() => setStep(5)}
-              disabled={Object.values(proofLinks).every(v => !v || v.trim() === '')}
+              disabled={!canProceedStep4}
               style={{
                 marginTop: '4.5rem',
                 marginBottom: '5rem',
                 width: 'auto',
                 padding: '1.1rem 2.75rem',
                 fontSize: '1.1rem',
-                opacity: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 1 : 0.35,
-                cursor: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 'pointer' : 'not-allowed',
+                opacity: canProceedStep4 ? 1 : 0.35,
+                cursor: canProceedStep4 ? 'pointer' : 'not-allowed',
                 transition: 'all 0.4s ease',
                 display: 'inline-flex',
                 alignItems: 'center',

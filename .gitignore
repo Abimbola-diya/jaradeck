@@ -60,3 +60,6 @@ desktop.ini
 *.kilo/
 .kilo
 guide/
+.claude/
+.vscode/
+.github/
