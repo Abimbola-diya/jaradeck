@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { signInSchema, signUpSchema, profileSchema } from '../utils/schemas';
+import { useRole } from '../context/RoleContext';
 import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
@@ -496,21 +497,22 @@ function SuccessStep({ onNavigateDashboard }) {
 //
 export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) {
   const [step, setStep] = useState('role');
-  const [role, setRole] = useState(null);
-  const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'signin'
+  const [role, setLocalRole] = useState(null);
+  const [authMode, setAuthMode] = useState('signup');
   const [profileData, setProfileData] = useState({});
+  const { setRole } = useRole();
 
-  // ── Role selection ──────────────────────────────────────────────
   const handleRoleSelect = (selected) => {
     if (selected === 'signin-only') {
-      setRole(null);
+      setLocalRole(null);
       setAuthMode('signin');
       setStep('auth');
       return;
     }
-    setRole(selected);
+    setLocalRole(selected);
+    setRole(selected);          // persist to context + sessionStorage
     setAuthMode('signup');
-    setStep('auth');   // both customer & worker go to auth first
+    setStep('auth');
   };
 
   // ── Auth → next ─────────────────────────────────────────────────
@@ -527,6 +529,8 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
 
   // ── OTP → done ──────────────────────────────────────────────────
   const handleOTPNext = () => setStep('done');
+
+  const dashboardPath = localRole === 'customer' ? '/dashboard/customer' : '/dashboard';
 
   // ── Switch between sign-in / sign-up ────────────────────────────
   const switchToSignIn = () => { setAuthMode('signin'); setStep('auth'); };
@@ -552,15 +556,15 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
       )}
 
       {step === 'profile' && (
-        <ProfileStep role={role} onNext={handleProfileNext} onSignIn={switchToSignIn} onBack={goBackToAuth} />
+        <ProfileStep role={localRole} onNext={handleProfileNext} onSignIn={switchToSignIn} onBack={goBackToAuth} />
       )}
 
       {step === 'otp' && (
-        <OTPStep role={role} onNext={handleOTPNext} onSignIn={switchToSignIn} onBack={goBackToProfile} />
+        <OTPStep role={localRole} onNext={handleOTPNext} onSignIn={switchToSignIn} onBack={goBackToProfile} />
       )}
 
       {step === 'done' && (
-        <SuccessStep onNavigateDashboard={onNavigateDashboard} />
+        <SuccessStep onNavigateDashboard={() => onNavigateDashboard(dashboardPath)} />
       )}
     </>
   );

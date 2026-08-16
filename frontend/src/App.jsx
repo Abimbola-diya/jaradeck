@@ -45,6 +45,12 @@ export default function App() {
         <Route path="/dashboard/chat" element={<ChatPage />} />
         <Route path="/dashboard/chat/:id" element={<ChatThreadPage />} />
         <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />
+        {/* ── Customer routes ── */}
+        <Route path="/dashboard/customer" element={<DashboardTabPage role="customer" tab="home" />} />
+        <Route path="/dashboard/customer/orders" element={<DashboardTabPage role="customer" tab="orders" />} />
+        <Route path="/dashboard/customer/chat" element={<ChatPage />} />
+        <Route path="/dashboard/customer/chat/:id" element={<ChatThreadPage />} />
+        <Route path="/dashboard/customer/settings" element={<DashboardTabPage role="customer" tab="settings" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
