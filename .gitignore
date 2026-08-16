@@ -43,10 +43,12 @@ htmlcov/
 *.env
 *.env.*
 
-# Editor / System Directories
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
+# Root Files
+/package.json
+/package-lock.json
+
+# Editor / System Directories & Tools
+.vscode/
 .idea/
 *.suo
 *.ntvs*
@@ -57,6 +59,10 @@ htmlcov/
 Thumbs.db
 desktop.ini
 .gemini/
+.kilocode/
 *.kilo/
 .kilo
 guide/
+.claude/
+.github/
+

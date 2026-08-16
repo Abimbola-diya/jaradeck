@@ -344,19 +344,24 @@ export default function ApplyPage() {
   const currentField = questions[currentQIndex].id;
   const currentVal = formData[currentField];
 
+  // Live validation driven by Zod — recalculates every render as user types
+  const getLiveError = (field, value) => {
+    if (!value.trim()) return null;
+    const result = applyBasicsSchema.safeParse({ ...formData, [field]: value });
+    if (result.success) return null;
+    return result.error.flatten().fieldErrors[field]?.[0] ?? null;
+  };
+
+  const currentError = getLiveError(currentField, currentVal);
+  const isCurrentValid = currentVal.trim() !== '' && currentError === null;
+  const showLiveError = currentVal.trim().length > 0 && currentError !== null;
+
   const validateCurrentField = () => {
-    const result = applyBasicsSchema.safeParse(formData);
-    if (result.success) { setFieldErrors({}); return true; }
-    const errs = result.error.flatten().fieldErrors;
-    if (errs[currentField]) {
-      setFieldErrors({ [currentField]: errs[currentField][0] });
-      return false;
-    }
+    const err = getLiveError(currentField, currentVal);
+    if (err) { setFieldErrors({ [currentField]: err }); return false; }
     setFieldErrors({});
     return true;
   };
-
-  const isCurrentValid = currentVal.trim() !== '';
 
   const toggleSkill = (id) => {
     setSelectedSkills(prev =>
@@ -615,6 +620,19 @@ export default function ApplyPage() {
 
   const [proofLinks, setProofLinks] = useState({});
 
+  const isValidUrl = (string) => {
+    try {
+      new URL(string.trim());
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const hasAnyLink = Object.values(proofLinks).some(v => v && v.trim() !== '');
+  const hasInvalidLinks = Object.values(proofLinks).some(v => v && v.trim() !== '' && !isValidUrl(v));
+  const canProceedStep4 = hasAnyLink && !hasInvalidLinks;
+
   const proofPlatforms = [
     { id: 'behance', label: 'Behance', placeholder: 'https://behance.net/lagbaja' },
     { id: 'dribbble', label: 'Dribbble', placeholder: 'https://dribbble.com/lagbaja' },
@@ -741,8 +759,16 @@ export default function ApplyPage() {
     }
   };
 
+  // Helper to format name to Title Case
+  const formatName = (name) => {
+    if (!name) return '';
+    const trimmed = name.trim();
+    if (!trimmed) return '';
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+  };
+
   // Step 4: "Show us something that makes us believe you." reading animation
-  const step4NameStr = formData.name ? formData.name.trim().split(' ')[0] + ',' : 'Ayo,';
+  const step4NameStr = formData.name ? formatName(formData.name.split(' ')[0]) + ',' : 'Ayo,';
   const step4SkillsStr = selectedSkills.map(id => subSkillsData[id]?.title || id).join(' & ') || 'Design';
   const step4Line1Words = [step4NameStr, "you", "said", "you're", "ridiculously", "good", "at", step4SkillsStr + "."];
   const step4Line2Words = ["Show", "us", "something", "that", "makes", "us", "believe", "you."];
@@ -1183,7 +1209,7 @@ export default function ApplyPage() {
               position: 'relative',
               width: '100%',
               overflow: 'hidden',
-              paddingBottom: '0.5rem', // for focus ring space
+              paddingBottom: '0.5rem',
               opacity: step === 1 ? 1 : 0,
               transform: step === 1 ? 'translateY(0)' : (step === 0 ? 'translateY(25px)' : 'translateY(0)'),
               transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s',
@@ -1204,16 +1230,30 @@ export default function ApplyPage() {
                       onChange={(e) => { handleInputChange(q.id, e.target.value); setFieldErrors({}); }}
                       onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                       autoComplete="off"
+                      style={{
+                        borderBottomColor: i === currentQIndex && showLiveError
+                          ? '#ff6b6b'
+                          : undefined
+                      }}
                     />
-                    {fieldErrors[q.id] && (
-                      <p style={{ color: '#F87171', fontSize: '0.85rem', marginTop: '0.35rem', fontFamily: "'PP Neue Montreal', var(--font-family)", fontWeight: 500 }}>
-                        {fieldErrors[q.id]}
-                      </p>
-                    )}
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Live validation error message — shows instantly as user types */}
+            {showLiveError && (
+              <p style={{
+                color: '#ff6b6b',
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                marginTop: '0.5rem',
+                fontFamily: 'var(--font-family)',
+                lineHeight: 1.4,
+              }}>
+                {currentError}
+              </p>
+            )}
 
             <button
               className="wf-next-btn"
@@ -1650,19 +1690,32 @@ export default function ApplyPage() {
               })}
             </div>
 
+            {hasInvalidLinks && (
+              <p style={{
+                color: '#ff6b6b',
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                marginTop: '1.5rem',
+                fontFamily: 'var(--font-family)',
+                lineHeight: 1.4,
+              }}>
+                Please ensure all provided links are valid URLs (e.g., https://example.com).
+              </p>
+            )}
+
             {/* Next Button */}
             <button
               className="wf-next-btn"
               onClick={() => setStep(5)}
-              disabled={Object.values(proofLinks).every(v => !v || v.trim() === '')}
+              disabled={!canProceedStep4}
               style={{
                 marginTop: '4.5rem',
                 marginBottom: '5rem',
                 width: 'auto',
                 padding: '1.1rem 2.75rem',
                 fontSize: '1.1rem',
-                opacity: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 1 : 0.35,
-                cursor: Object.values(proofLinks).some(v => v && v.trim() !== '') ? 'pointer' : 'not-allowed',
+                opacity: canProceedStep4 ? 1 : 0.35,
+                cursor: canProceedStep4 ? 'pointer' : 'not-allowed',
                 transition: 'all 0.4s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1931,7 +1984,7 @@ export default function ApplyPage() {
                     body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),
                   });
                   const data = await res.json();
-                  
+
                   if (!res.ok) {
                     throw new Error(data.detail || data.message || 'Submission failed');
                   }
