@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { signInSchema, signUpSchema, profileSchema } from '../utils/schemas';
+import { useRole } from '../context/RoleContext';
 import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
@@ -58,7 +60,7 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
       </div>
 
       {/* Bottom auth switch */}
-      <div className="ob2-bottom-bar ob2-role-bottom-bar">
+      <div className="ob2-bottom-bar">
         {isSignIn ? (
           <>
             <span>New to Jaradeck?</span>
@@ -124,7 +126,7 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
         </div>
       </div>
 
-      <div className="ob2-bottom-bar">
+      <div className="ob2-bottom-bar ob2-role-bottom-bar">
         <button
           type="button"
           className="ob2-cta-btn ob2-role-continue-btn"
@@ -151,8 +153,12 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email address.'); return; }
-    if (!password) { setError('Please enter your password.'); return; }
+    const result = signInSchema.safeParse({ email, password });
+    if (!result.success) {
+      const errs = result.error.flatten().fieldErrors;
+      setError(errs.email?.[0] || errs.password?.[0] || 'Please check your details.');
+      return;
+    }
     setError('');
     onNext({ email, password });
   };
@@ -211,9 +217,12 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email address.'); return; }
-    if (!password) { setError('Please enter your password.'); return; }
-    if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    const result = signUpSchema.safeParse({ email, password });
+    if (!result.success) {
+      const errs = result.error.flatten().fieldErrors;
+      setError(errs.email?.[0] || errs.password?.[0] || 'Please check your details.');
+      return;
+    }
     setError('');
     onNext({ email, password });
   };
@@ -265,12 +274,12 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
 // ─── STEP 3: Profile Setup ────────────────────────────────────────────────────
 // Customer: Full Name, Email, Password
-// Worker:   Full Name, Email, Password + Phone Number (for SMS OTP)
+// Worker:   Full Name, Email, Password + Portfolio Link
 function ProfileStep({ role, onNext, onSignIn, onBack }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [portfolioLink, setPortfolioLink] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
 
@@ -278,12 +287,17 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!fullName.trim()) { setError('Please enter your full name.'); return; }
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email address.'); return; }
-    if (!password || password.length < 8) { setError('Password must be at least 8 characters.'); return; }
-    if (isWorker && !phone.trim()) { setError('Please enter your phone number.'); return; }
+    const result = profileSchema.safeParse({ fullName, email, password, ...(isWorker ? { portfolioLink } : {}) });
+    if (!result.success) {
+      const errs = result.error.flatten().fieldErrors;
+      setError(
+        errs.fullName?.[0] || errs.email?.[0] || errs.password?.[0] || errs.portfolioLink?.[0] || 'Please check your details.'
+      );
+      return;
+    }
+    if (isWorker && !portfolioLink.trim()) { setError('Please add a link to your work samples.'); return; }
     setError('');
-    onNext({ fullName, email, password, ...(isWorker && { phone }) });
+    onNext({ fullName, email, password, ...(isWorker && { portfolioLink }) });
   };
 
   return (
@@ -344,17 +358,17 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
           </div>
         </div>
 
-        {/* Phone Number — Worker only (required for SMS OTP) */}
+        {/* Portfolio link — Worker only */}
         {isWorker && (
           <div className="ob2-field">
-            <label className="ob2-label">Phone Number</label>
+            <label className="ob2-label">Portfolio Link</label>
             <input
-              type="tel"
+              type="url"
               className="ob2-input"
-              placeholder="+1 (555) 000-0000"
-              value={phone}
-              onChange={(e) => { setPhone(e.target.value); setError(''); }}
-              autoComplete="tel"
+              placeholder="link to your primary work samples"
+              value={portfolioLink}
+              onChange={(e) => { setPortfolioLink(e.target.value); setError(''); }}
+              autoComplete="url"
             />
           </div>
         )}
@@ -483,21 +497,22 @@ function SuccessStep({ onNavigateDashboard }) {
 //
 export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) {
   const [step, setStep] = useState('role');
-  const [role, setRole] = useState(null);
-  const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'signin'
+  const [role, setLocalRole] = useState(null);
+  const [authMode, setAuthMode] = useState('signup');
   const [profileData, setProfileData] = useState({});
+  const { setRole } = useRole();
 
-  // ── Role selection ──────────────────────────────────────────────
   const handleRoleSelect = (selected) => {
     if (selected === 'signin-only') {
-      setRole(null);
+      setLocalRole(null);
       setAuthMode('signin');
       setStep('auth');
       return;
     }
-    setRole(selected);
+    setLocalRole(selected);
+    setRole(selected);          // persist to context + sessionStorage
     setAuthMode('signup');
-    setStep('auth');   // both customer & worker go to auth first
+    setStep('auth');
   };
 
   // ── Auth → next ─────────────────────────────────────────────────
@@ -514,6 +529,8 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
 
   // ── OTP → done ──────────────────────────────────────────────────
   const handleOTPNext = () => setStep('done');
+
+  const dashboardPath = localRole === 'customer' ? '/dashboard/customer' : '/dashboard';
 
   // ── Switch between sign-in / sign-up ────────────────────────────
   const switchToSignIn = () => { setAuthMode('signin'); setStep('auth'); };
@@ -539,15 +556,15 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
       )}
 
       {step === 'profile' && (
-        <ProfileStep role={role} onNext={handleProfileNext} onSignIn={switchToSignIn} onBack={goBackToAuth} />
+        <ProfileStep role={localRole} onNext={handleProfileNext} onSignIn={switchToSignIn} onBack={goBackToAuth} />
       )}
 
       {step === 'otp' && (
-        <OTPStep role={role} onNext={handleOTPNext} onSignIn={switchToSignIn} onBack={goBackToProfile} />
+        <OTPStep role={localRole} onNext={handleOTPNext} onSignIn={switchToSignIn} onBack={goBackToProfile} />
       )}
 
       {step === 'done' && (
-        <SuccessStep onNavigateDashboard={onNavigateDashboard} />
+        <SuccessStep onNavigateDashboard={() => onNavigateDashboard(dashboardPath)} />
       )}
     </>
   );

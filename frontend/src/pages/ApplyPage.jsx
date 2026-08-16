@@ -6,6 +6,7 @@ import ArrowLeft02Icon from '../components/ArrowLeft02Icon';
 import Tick02Icon from '../components/Tick02Icon';
 import MagicWand01Icon from '../components/MagicWand01Icon';
 import { useState, useEffect, useRef } from 'react';
+import { applyBasicsSchema, applyProofLinkSchema } from '../utils/schemas';
 
 function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
   const gridRef = useRef(null);
@@ -338,35 +339,29 @@ export default function ApplyPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const currentVal = formData[questions[currentQIndex].id];
-  const currentFieldId = questions[currentQIndex].id;
+  const [fieldErrors, setFieldErrors] = useState({});
 
-  // Per-field validators — return error string or null if valid
-  const validators = {
-    name: (v) => v.trim().length >= 2 ? null : 'Please enter your full name.',
-    university: (v) => v.trim().length >= 2 ? null : 'Please enter your university name.',
-    level: (v) => {
-      const cleaned = v.trim().toUpperCase().replace(/\s/g, '');
-      const match = cleaned.match(/^([1-6]00)L?$/);
-      if (!match) return 'Enter a valid level: 100L, 200L, 300L, 400L, 500L or 600L.';
-      return null;
-    },
-    phone: (v) => {
-      const cleaned = v.trim().replace(/\s/g, '');
-      const valid = /^(\+?234|0)[789][01]\d{8}$/.test(cleaned);
-      return valid ? null : 'Enter a valid Nigerian phone number (e.g. 08012345678).';
-    },
-    email: (v) => {
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
-      return valid ? null : 'Enter a valid email address (e.g. you@example.com).';
-    },
+  const currentField = questions[currentQIndex].id;
+  const currentVal = formData[currentField];
+
+  // Live validation driven by Zod — recalculates every render as user types
+  const getLiveError = (field, value) => {
+    if (!value.trim()) return null;
+    const result = applyBasicsSchema.safeParse({ ...formData, [field]: value });
+    if (result.success) return null;
+    return result.error.flatten().fieldErrors[field]?.[0] ?? null;
   };
 
-  // Live computed — recalculates every render as user types
-  const currentError = validators[currentFieldId] ? validators[currentFieldId](currentVal) : null;
+  const currentError = getLiveError(currentField, currentVal);
   const isCurrentValid = currentVal.trim() !== '' && currentError === null;
-  // Only show the error once the user has started typing something
   const showLiveError = currentVal.trim().length > 0 && currentError !== null;
+
+  const validateCurrentField = () => {
+    const err = getLiveError(currentField, currentVal);
+    if (err) { setFieldErrors({ [currentField]: err }); return false; }
+    setFieldErrors({});
+    return true;
+  };
 
   const toggleSkill = (id) => {
     setSelectedSkills(prev =>
@@ -376,6 +371,7 @@ export default function ApplyPage() {
 
   const handleNext = () => {
     if (!isCurrentValid) return;
+    if (!validateCurrentField()) return;
     if (currentQIndex < questions.length - 1) {
       setCurrentQIndex(prev => prev + 1);
     } else {
@@ -659,11 +655,18 @@ export default function ApplyPage() {
     });
   };
 
+  const validateProofLink = (id, value) => {
+    if (!value || !value.trim()) return '';
+    const result = applyProofLinkSchema.safeParse(value.trim());
+    return result.success ? '' : result.error.errors[0].message;
+  };
+
+  const [proofLinkErrors, setProofLinkErrors] = useState({});
+
   const updateProofLink = (id, value) => {
-    setProofLinks(prev => ({
-      ...prev,
-      [id]: value
-    }));
+    setProofLinks(prev => ({ ...prev, [id]: value }));
+    const err = validateProofLink(id, value);
+    setProofLinkErrors(prev => ({ ...prev, [id]: err }));
   };
 
   const handleBack = () => {
@@ -1224,7 +1227,7 @@ export default function ApplyPage() {
                       type={q.type}
                       placeholder={q.placeholder}
                       value={formData[q.id]}
-                      onChange={(e) => handleInputChange(q.id, e.target.value)}
+                      onChange={(e) => { handleInputChange(q.id, e.target.value); setFieldErrors({}); }}
                       onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                       autoComplete="off"
                       style={{
@@ -1661,22 +1664,25 @@ export default function ApplyPage() {
                             padding: '0.4rem 0 0.5rem 0',
                             background: 'transparent',
                             border: 'none',
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+                            borderBottom: `1px solid ${proofLinkErrors[platform.id] ? '#F87171' : 'rgba(255, 255, 255, 0.4)'}`,
                             borderRadius: '0px',
                             color: '#ffffff',
                             fontFamily: 'var(--font-family)',
                             fontSize: '1.15rem',
                             fontWeight: 600,
                             outline: 'none',
+                            resize: 'none',
+                            boxSizing: 'border-box',
                             transition: 'border-bottom-color 0.2s ease',
                           }}
-                          onFocus={(e) => {
-                            e.target.style.borderBottomColor = '#ffffff';
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.borderBottomColor = 'rgba(255, 255, 255, 0.4)';
-                          }}
+                          onFocus={(e) => { e.target.style.borderBottomColor = '#ffffff'; }}
+                          onBlur={(e) => { e.target.style.borderBottomColor = proofLinkErrors[platform.id] ? '#F87171' : 'rgba(255, 255, 255, 0.4)'; }}
                         />
+                        {proofLinkErrors[platform.id] && (
+                          <p style={{ color: '#F87171', fontSize: '0.82rem', marginTop: '0.25rem', fontFamily: "'PP Neue Montreal', var(--font-family)", fontWeight: 500 }}>
+                            {proofLinkErrors[platform.id]}
+                          </p>
+                        )}
                       </div>
                     )}
                   </div>

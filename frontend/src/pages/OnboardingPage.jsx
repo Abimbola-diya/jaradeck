@@ -7,7 +7,7 @@ export default function OnboardingPage() {
   return (
     <OnboardingFlow
       onNavigateHome={() => navigate('/')}
-      onNavigateDashboard={() => navigate('/dashboard')}
+      onNavigateDashboard={(path) => navigate(path || '/dashboard')}
     />
   );
 }
