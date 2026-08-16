@@ -6,6 +6,7 @@ import ArrowLeft02Icon from '../components/ArrowLeft02Icon';
 import Tick02Icon from '../components/Tick02Icon';
 import MagicWand01Icon from '../components/MagicWand01Icon';
 import { useState, useEffect, useRef } from 'react';
+import { applyBasicsSchema, applyProofLinkSchema } from '../utils/schemas';
 
 function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
   const gridRef = useRef(null);
@@ -338,7 +339,23 @@ export default function ApplyPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const currentVal = formData[questions[currentQIndex].id];
+  const [fieldErrors, setFieldErrors] = useState({});
+
+  const currentField = questions[currentQIndex].id;
+  const currentVal = formData[currentField];
+
+  const validateCurrentField = () => {
+    const result = applyBasicsSchema.safeParse(formData);
+    if (result.success) { setFieldErrors({}); return true; }
+    const errs = result.error.flatten().fieldErrors;
+    if (errs[currentField]) {
+      setFieldErrors({ [currentField]: errs[currentField][0] });
+      return false;
+    }
+    setFieldErrors({});
+    return true;
+  };
+
   const isCurrentValid = currentVal.trim() !== '';
 
   const toggleSkill = (id) => {
@@ -349,6 +366,7 @@ export default function ApplyPage() {
 
   const handleNext = () => {
     if (!isCurrentValid) return;
+    if (!validateCurrentField()) return;
     if (currentQIndex < questions.length - 1) {
       setCurrentQIndex(prev => prev + 1);
     } else {
@@ -619,11 +637,18 @@ export default function ApplyPage() {
     });
   };
 
+  const validateProofLink = (id, value) => {
+    if (!value || !value.trim()) return '';
+    const result = applyProofLinkSchema.safeParse(value.trim());
+    return result.success ? '' : result.error.errors[0].message;
+  };
+
+  const [proofLinkErrors, setProofLinkErrors] = useState({});
+
   const updateProofLink = (id, value) => {
-    setProofLinks(prev => ({
-      ...prev,
-      [id]: value
-    }));
+    setProofLinks(prev => ({ ...prev, [id]: value }));
+    const err = validateProofLink(id, value);
+    setProofLinkErrors(prev => ({ ...prev, [id]: err }));
   };
 
   const handleBack = () => {
@@ -1176,10 +1201,15 @@ export default function ApplyPage() {
                       type={q.type}
                       placeholder={q.placeholder}
                       value={formData[q.id]}
-                      onChange={(e) => handleInputChange(q.id, e.target.value)}
+                      onChange={(e) => { handleInputChange(q.id, e.target.value); setFieldErrors({}); }}
                       onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                       autoComplete="off"
                     />
+                    {fieldErrors[q.id] && (
+                      <p style={{ color: '#F87171', fontSize: '0.85rem', marginTop: '0.35rem', fontFamily: "'PP Neue Montreal', var(--font-family)", fontWeight: 500 }}>
+                        {fieldErrors[q.id]}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -1594,22 +1624,25 @@ export default function ApplyPage() {
                             padding: '0.4rem 0 0.5rem 0',
                             background: 'transparent',
                             border: 'none',
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+                            borderBottom: `1px solid ${proofLinkErrors[platform.id] ? '#F87171' : 'rgba(255, 255, 255, 0.4)'}`,
                             borderRadius: '0px',
                             color: '#ffffff',
                             fontFamily: 'var(--font-family)',
                             fontSize: '1.15rem',
                             fontWeight: 600,
                             outline: 'none',
+                            resize: 'none',
+                            boxSizing: 'border-box',
                             transition: 'border-bottom-color 0.2s ease',
                           }}
-                          onFocus={(e) => {
-                            e.target.style.borderBottomColor = '#ffffff';
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.borderBottomColor = 'rgba(255, 255, 255, 0.4)';
-                          }}
+                          onFocus={(e) => { e.target.style.borderBottomColor = '#ffffff'; }}
+                          onBlur={(e) => { e.target.style.borderBottomColor = proofLinkErrors[platform.id] ? '#F87171' : 'rgba(255, 255, 255, 0.4)'; }}
                         />
+                        {proofLinkErrors[platform.id] && (
+                          <p style={{ color: '#F87171', fontSize: '0.82rem', marginTop: '0.25rem', fontFamily: "'PP Neue Montreal', var(--font-family)", fontWeight: 500 }}>
+                            {proofLinkErrors[platform.id]}
+                          </p>
+                        )}
                       </div>
                     )}
                   </div>

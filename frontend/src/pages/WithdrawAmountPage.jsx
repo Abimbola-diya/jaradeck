@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WorkerBottomNav from '../components/WorkerBottomNav';
 import BackButton from '../components/BackButton';
+import { withdrawAmountSchema } from '../utils/schemas';
 
 const AVAILABLE = 19000;
 const ACCOUNT = { number: '12321245472', bank: 'Zenith Bank', logo: '/Logo I.png' };
@@ -48,8 +49,11 @@ export default function WithdrawAmountPage() {
   const del = () => setDigits((p) => p.slice(0, -1));
 
   const amount = digits ? parseInt(digits, 10) : 0;
-  const overBalance = amount > AVAILABLE;
-  const canConfirm = amount > 0 && !overBalance;
+  const schema = withdrawAmountSchema(AVAILABLE);
+  const validation = digits ? schema.safeParse({ amount }) : null;
+  const zodError = validation && !validation.success ? validation.error.flatten().fieldErrors.amount?.[0] : null;
+  const overBalance = zodError?.includes('exceeds');
+  const canConfirm = !!digits && !zodError;
 
   const handleConfirm = () => {
     if (!canConfirm) return;
@@ -82,7 +86,7 @@ export default function WithdrawAmountPage() {
         {digits ? (
           <>
             <span className="wd-amount-value">{formatAmount(digits)}</span>
-            {overBalance && <span className="wd-amount-error">Amount exceeds current balance</span>}
+            {zodError && <span className="wd-amount-error">{zodError}</span>}
           </>
         ) : (
           <span className="wd-amount-cursor" />

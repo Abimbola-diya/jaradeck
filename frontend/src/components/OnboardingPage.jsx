@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { signInSchema, signUpSchema, profileSchema } from '../utils/schemas';
 import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
@@ -151,8 +152,12 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email address.'); return; }
-    if (!password) { setError('Please enter your password.'); return; }
+    const result = signInSchema.safeParse({ email, password });
+    if (!result.success) {
+      const errs = result.error.flatten().fieldErrors;
+      setError(errs.email?.[0] || errs.password?.[0] || 'Please check your details.');
+      return;
+    }
     setError('');
     onNext({ email, password });
   };
@@ -211,9 +216,12 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email address.'); return; }
-    if (!password) { setError('Please enter your password.'); return; }
-    if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    const result = signUpSchema.safeParse({ email, password });
+    if (!result.success) {
+      const errs = result.error.flatten().fieldErrors;
+      setError(errs.email?.[0] || errs.password?.[0] || 'Please check your details.');
+      return;
+    }
     setError('');
     onNext({ email, password });
   };
@@ -278,9 +286,14 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!fullName.trim()) { setError('Please enter your full name.'); return; }
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email address.'); return; }
-    if (!password || password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    const result = profileSchema.safeParse({ fullName, email, password, ...(isWorker ? { portfolioLink } : {}) });
+    if (!result.success) {
+      const errs = result.error.flatten().fieldErrors;
+      setError(
+        errs.fullName?.[0] || errs.email?.[0] || errs.password?.[0] || errs.portfolioLink?.[0] || 'Please check your details.'
+      );
+      return;
+    }
     if (isWorker && !portfolioLink.trim()) { setError('Please add a link to your work samples.'); return; }
     setError('');
     onNext({ fullName, email, password, ...(isWorker && { portfolioLink }) });
