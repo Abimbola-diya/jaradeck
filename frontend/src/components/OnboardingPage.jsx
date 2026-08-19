@@ -6,12 +6,12 @@ import successTickImage from '../assets/success tick.svg';
 
 function EyeIcon({ visible }) {
   return visible ? (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
       <circle cx="12" cy="12" r="3" />
     </svg>
   ) : (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
       <line x1="1" y1="1" x2="23" y2="23" />
     </svg>
@@ -36,9 +36,7 @@ function ToolsIcon() {
 }
 
 // ─── Shared Layout Shell ──────────────────────────────────────────────────────
-// isSignIn=true  → "New to Jaradeck? Sign up"
-// isSignIn=false → "Already on Jaradeck? Sign in"
-function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false }) {
+function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = true }) {
   return (
     <div className="ob2-page">
       {/* Top Left Back Button */}
@@ -49,27 +47,27 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
       )}
       {/* Logo — centered at top */}
       <div className="ob2-logo-wrap">
-        <BrandLogo width={42} tone="blue" />
+        <BrandLogo width={34} height={25} tone="blue" />
       </div>
 
       {/* Main content area */}
       <div className="ob2-content">
         {children}
-      </div>
 
-      {/* Bottom auth switch */}
-      <div className="ob2-bottom-bar ob2-role-bottom-bar">
-        {isSignIn ? (
-          <>
-            <span>New to Jaradeck?</span>
-            <button className="ob2-link-btn" onClick={onAuthSwitch}>Sign up</button>
-          </>
-        ) : (
-          <>
-            <span>Already on Jaradeck?</span>
-            <button className="ob2-link-btn" onClick={onAuthSwitch}>Sign in</button>
-          </>
-        )}
+        {/* Bottom auth switch placed inline directly below CTA button */}
+        <div className="ob2-bottom-bar ob2-role-bottom-bar">
+          {isSignIn ? (
+            <>
+              <span>New to Jaradeck?</span>
+              <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign up</button>
+            </>
+          ) : (
+            <>
+              <span>Already on Jaradeck?</span>
+              <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign in</button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -86,56 +84,68 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
           <ArrowIcon direction="left" size={20} strokeWidth={2} />
         </button>
       )}
-      <div className="ob2-logo-wrap">
-        <BrandLogo width={42} tone="blue" />
-      </div>
 
-      <div className="ob2-content">
-        <h1 className="ob2-title">How can we help you?</h1>
-        <p className="ob2-subtitle">Choose how you would like to use Jaradeck</p>
-
-        <div className="ob2-role-list">
-          <button
-            className={`ob2-role-card ${selectedRole === 'customer' ? 'ob2-role-card-selected' : ''}`}
-            onClick={() => setSelectedRole('customer')}
-          >
-            <div className="ob2-role-icon"><BriefcaseIcon /></div>
-            <div className="ob2-role-text">
-              <div className="ob2-role-label">I need work done.</div>
-              <div className="ob2-role-desc">
-                Hand off your projects and get finished results without the hiring hassle.
-              </div>
+      <div className="ob2-role-container">
+        <div className="ob2-role-top-section">
+          <div className="ob2-role-header-group">
+            <div className="ob2-role-logo">
+              <svg width="34" height="25" viewBox="0 0 34 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.23453 17.8236H34.0002V24.4431H3.23453V21.1334V17.8236Z" fill="#0048B3"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M34.0002 17.8236H3.23453L0 16.1194H30.674L34.0002 17.8236Z" fill="#487DCD"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.23453 17.8236V21.1334V24.4431L0 22.4737V16.1194L3.23453 17.8236Z" fill="#2F6BC4"/>
+                <path d="M3.23453 9.87086H34.0002V16.4904H3.23453V9.87086Z" fill="#0048B3"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M34.0002 9.87086H3.23453L0 8.16666H30.674L34.0002 9.87086Z" fill="#487DCD"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.23453 9.87086V16.4904L0 14.5209V8.16666L3.23453 9.87086Z" fill="#2F6BC4"/>
+                <path d="M3.23453 1.7042H34.0002V8.3237H3.23453V1.7042Z" fill="#0048B3"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M34.0002 1.7042H3.23453L0 0H30.674L34.0002 1.7042Z" fill="#487DCD"/>
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.23453 1.7042V8.3237L0 6.35427V0L3.23453 1.7042Z" fill="#2F6BC4"/>
+              </svg>
             </div>
-          </button>
-
-          {/* Worker card */}
-          <button
-            className={`ob2-role-card ${selectedRole === 'worker' ? 'ob2-role-card-selected' : ''}`}
-            onClick={() => setSelectedRole('worker')}
-          >
-            <div className="ob2-role-icon"><ToolsIcon /></div>
-            <div className="ob2-role-text">
-              <div className="ob2-role-label">I want to do work</div>
-              <div className="ob2-role-desc">
-                Get matched directly with active projects and earn on your terms.
-              </div>
+            <div className="ob2-role-title-group">
+              <h1 className="ob2-role-title">How can we help you?</h1>
+              <p className="ob2-role-subtitle">Choose how you would like to use Jaradeck</p>
             </div>
-          </button>
+          </div>
+
+          <div className="ob2-role-card-group">
+            <button
+              className={`ob2-role-custom-card ${selectedRole === 'customer' ? 'ob2-role-custom-card-selected' : ''}`}
+              onClick={() => setSelectedRole('customer')}
+            >
+              <div className="ob2-role-card-content">
+                <div className="ob2-role-card-title">I need work done.</div>
+                <div className="ob2-role-card-desc">
+                  Hand off your projects and get finished results without the hiring hassle.
+                </div>
+              </div>
+            </button>
+
+            <button
+              className={`ob2-role-custom-card ${selectedRole === 'worker' ? 'ob2-role-custom-card-selected' : ''}`}
+              onClick={() => setSelectedRole('worker')}
+            >
+              <div className="ob2-role-card-content">
+                <div className="ob2-role-card-title">I want to do work</div>
+                <div className="ob2-role-card-desc">
+                  Get matched directly with active projects and earn on your terms.
+                </div>
+              </div>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="ob2-bottom-bar">
-        <button
-          type="button"
-          className="ob2-cta-btn ob2-role-continue-btn"
-          disabled={!selectedRole}
-          onClick={() => onSelect(selectedRole)}
-        >
-          Sign up <ArrowIcon />
-        </button>
-        <div className="ob2-role-auth-switch">
-          <span>Already on Jaradeck?</span>
-          <button className="ob2-link-btn" onClick={() => onSelect('signin-only')}>Sign in</button>
+        <div className="ob2-role-footer">
+          <button
+            type="button"
+            className="ob2-role-submit-btn"
+            disabled={!selectedRole}
+            onClick={() => onSelect(selectedRole)}
+          >
+            Sign in <ArrowIcon size={14} />
+          </button>
+          <div className="ob2-role-signup-text">
+            New to Jaradeck? <button className="ob2-role-link" onClick={() => onSelect('signup-only')}>Sign up</button>
+          </div>
         </div>
       </div>
     </div>
@@ -148,6 +158,8 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
+
+  const isFormValid = Boolean(email.trim() && password.trim());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -194,7 +206,7 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
         {error && <p className="ob2-error">{error}</p>}
 
-        <button type="submit" className="ob2-cta-btn">
+        <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
           Sign in <ArrowIcon />
         </button>
       </form>
@@ -208,6 +220,8 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
+
+  const isFormValid = Boolean(email.trim() && password.trim());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -255,7 +269,7 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
         {error && <p className="ob2-error">{error}</p>}
 
-        <button type="submit" className="ob2-cta-btn">
+        <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
           Continue <ArrowIcon />
         </button>
       </form>
@@ -264,8 +278,6 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 }
 
 // ─── STEP 3: Profile Setup ────────────────────────────────────────────────────
-// Customer: Full Name, Email, Password
-// Worker:   Full Name, Email, Password + Phone Number (for SMS OTP)
 function ProfileStep({ role, onNext, onSignIn, onBack }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -275,6 +287,10 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
   const [error, setError] = useState('');
 
   const isWorker = role === 'worker';
+
+  const isFormValid = isWorker
+    ? Boolean(fullName.trim() && email.trim() && password.trim() && phone.trim())
+    : Boolean(fullName.trim() && email.trim() && password.trim());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -361,7 +377,7 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
 
         {error && <p className="ob2-error">{error}</p>}
 
-        <button type="submit" className="ob2-cta-btn">
+        <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
           Continue to Jaradeck <ArrowIcon />
         </button>
       </form>

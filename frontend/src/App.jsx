@@ -12,12 +12,21 @@ import ApplyPage from './pages/ApplyPage';
 import ApplySuccessPage from './pages/ApplySuccessPage';
 
 export default function App() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('why');
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState(location.pathname === '/waitlist' ? 'join' : 'why');
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const isProductRoute = ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
+
+  useEffect(() => {
+    if (location.pathname === '/waitlist') {
+      setActiveTab((prev) => prev !== 'join' ? 'join' : prev);
+    } else if (location.pathname === '/') {
+      setActiveTab((prev) => prev === 'join' ? 'why' : prev);
+    }
+  }, [location.pathname]);
+
 
   const navigateTo = (path) => {
     navigate(path);
