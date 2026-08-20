@@ -19,9 +19,8 @@ import ChatThreadPage from './pages/ChatThreadPage';
 
 export default function App() {
   const location = useLocation();
-
   const isProductRoute =
-    ['/onboarding', '/admin_view', '/apply'].includes(location.pathname) ||
+    ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) ||
     location.pathname.startsWith('/dashboard');
 
   return (
