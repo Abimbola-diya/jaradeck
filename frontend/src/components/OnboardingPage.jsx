@@ -150,7 +150,6 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
           <button className="ob2-link-btn" onClick={() => onSelect('signin-only')}>Sign in</button>
         </div>
       </div>
-        </div>
       </div>
     </div>
   );
@@ -302,7 +301,7 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
   const isWorker = role === 'worker';
 
   const isFormValid = isWorker
-    ? Boolean(fullName.trim() && email.trim() && password.trim() && phone.trim())
+    ? Boolean(fullName.trim() && email.trim() && password.trim() && portfolioLink.trim())
     : Boolean(fullName.trim() && email.trim() && password.trim());
 
   const handleSubmit = (e) => {
@@ -517,7 +516,7 @@ function SuccessStep({ onNavigateDashboard }) {
 //
 export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) {
   const [step, setStep] = useState('role');
-  const [role, setLocalRole] = useState(null);
+  const [localRole, setLocalRole] = useState(null);
   const [authMode, setAuthMode] = useState('signup');
   const [profileData, setProfileData] = useState({});
   const { setRole } = useRole();
