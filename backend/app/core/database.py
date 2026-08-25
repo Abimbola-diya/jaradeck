@@ -97,6 +97,45 @@ def init_db():
                 paying_experience TEXT,
                 fit_answer TEXT
             );
+
+                        CREATE TABLE IF NOT EXISTS users (
+                id UUID PRIMARY KEY,
+                email TEXT UNIQUE NOT NULL,
+                full_name TEXT,
+                role TEXT NOT NULL DEFAULT 'customer',
+                phone TEXT,
+                avatar_url TEXT,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+                CONSTRAINT users_role_check
+                    CHECK (role IN ('customer', 'worker', 'admin'))
+            );
+
+            CREATE TABLE IF NOT EXISTS applications (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                customer_id UUID NOT NULL
+                    REFERENCES users(id) ON DELETE CASCADE,
+
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'open',
+                budget NUMERIC(12, 2),
+                deadline TIMESTAMP WITH TIME ZONE,
+
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+                CONSTRAINT applications_status_check
+                    CHECK (
+                        status IN (
+                            'open',
+                            'in_progress',
+                            'completed',
+                            'cancelled'
+                        )
+                    )
+            );
             """
         )
 

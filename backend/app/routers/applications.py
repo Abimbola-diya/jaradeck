@@ -1,45 +1,68 @@
-from typing import Dict, List
+from uuid import UUID
 
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.core.database import supabase
+from app.core.auth import get_current_user
+from app.core.permissions import require_role
+from app.models import ApplicationCreate
+from app.services.user_service import get_or_create_user
+from app.services import (
+    create_application,
+    get_application,
+    get_customer_applications,
+)
+
+router = APIRouter(
+    prefix="/api/applications",
+    tags=["Applications"],
+)
 
 
-router = APIRouter()
+@router.post("/", status_code=status.HTTP_201_CREATED)
+def create_new_application(
+    data: ApplicationCreate,
+    current_user=Depends(require_role("customer")),
+):
+    customer_id = UUID(str(current_user["id"]))
+
+    return create_application(
+        customer_id=customer_id,
+        data=data.model_dump(mode="json"),
+    )
 
 
-class TalentApplication(BaseModel):
-    formData: Dict[str, str]
-    selectedSkills: List[str]
-    selectedSubSkills: List[str]
-    proofLinks: Dict[str, str]
-    payingExperience: str
-    fitAnswer: str
+@router.get("/")
+def list_my_applications(
+    current_user=Depends(require_role("customer")),
+):
+    customer_id = UUID(str(current_user["id"]))
+
+    return get_customer_applications(customer_id)
 
 
-@router.post("/api/apply")
-def submit_talent_application(application: TalentApplication):
-    data = {
-        "name": application.formData.get("name", "").strip().title(),
-        "university": application.formData.get("university", ""),
-        "level": application.formData.get("level", ""),
-        "phone": application.formData.get("phone", ""),
-        "email": application.formData.get("email", ""),
-        "selected_skills": application.selectedSkills,
-        "selected_sub_skills": application.selectedSubSkills,
-        "proof_links": application.proofLinks,
-        "paying_experience": application.payingExperience,
-        "fit_answer": application.fitAnswer,
-    }
+@router.get("/{application_id}")
+def get_single_application(
+    application_id: UUID,
+    current_user=Depends(get_current_user),
+):
+    application = get_application(application_id)
 
-    try:
-        supabase.table("talent_applications").insert(data).execute()
+    if not application:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Application not found",
+        )
 
-        return {
-            "success": True,
-            "message": "Application submitted successfully!",
-        }
+    # Customer can only view their own application.
+    user = get_or_create_user(current_user)
 
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    if (
+        user["role"] == "customer"
+        and application["customer_id"] != user["id"]
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have access to this application",
+        )
+
+    return application

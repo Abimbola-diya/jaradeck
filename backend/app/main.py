@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.database import init_db
-from app.routers import applications, health, waitlist
+from app.routers import applications, health, waitlist, talent_applications
 
 
 app = FastAPI(
@@ -29,3 +29,4 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(waitlist.router)
 app.include_router(applications.router)
+app.include_router(talent_applications.router)

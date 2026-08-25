@@ -15,7 +15,6 @@ def read_root():
     }
 
 
-@router.get("/health")
 @router.get("/api/health")
 def health_check():
     return {
@@ -24,16 +23,16 @@ def health_check():
     }
 
 
-@router.get("/health/protected")
+@router.get("/api/health/protected")
 def protected_health(current_user=Depends(get_current_user)):
     return {
         "status": "authenticated",
-        "user_id": str(current_user.id),
-        "email": current_user.email,
+        "user_id": str(current_user["id"]),
+"email": current_user["email"],
     }
 
 
-@router.get("/me")
+@router.get("/api/me")
 def get_me(current_user=Depends(get_current_user)):
     user = get_or_create_user(current_user)
 
