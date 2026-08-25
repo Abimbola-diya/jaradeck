@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { signInSchema, signUpSchema, profileSchema } from '../utils/schemas';
-import { useRole } from '../context/RoleContext';
+import { Briefcase01Icon, UserAccountIcon } from 'hugeicons-react';
 import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
@@ -20,23 +19,6 @@ function EyeIcon({ visible }) {
   );
 }
 
-function BriefcaseIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-    </svg>
-  );
-}
-
-function ToolsIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-    </svg>
-  );
-}
-
 // ─── Shared Layout Shell ──────────────────────────────────────────────────────
 function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = true }) {
   return (
@@ -52,24 +34,24 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
         <BrandLogo width={34} height={25} tone="blue" />
       </div>
 
-       {/* Main content area */}
+      {/* Main content area */}
       <div className="ob2-content">
         {children}
 
-      {/* Bottom auth switch */}
-      <div className="ob2-bottom-bar ob2-role-bottom-bar">
-        {isSignIn ? (
-          <>
-            <span>New to Jaradeck?</span>
-            <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign up</button>
-          </>
-        ) : (
-          <>
-            <span>Already on Jaradeck?</span>
-            <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign in</button>
-          </>
-        )}
-      </div>
+        {/* Bottom auth switch placed inline directly below CTA button */}
+        <div className="ob2-bottom-bar ob2-role-bottom-bar">
+          {isSignIn ? (
+            <>
+              <span>New to Jaradeck?</span>
+              <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign up</button>
+            </>
+          ) : (
+            <>
+              <span>Already on Jaradeck?</span>
+              <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign in</button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -77,7 +59,7 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
 
 // ─── STEP 1: Role Selection ───────────────────────────────────────────────────
 function RoleSelectionStep({ onSelect, onNavigateHome }) {
-  const [selectedRole, setSelectedRole] = useState(null);
+  const [selectedRole, setSelectedRole] = useState('customer');
 
   return (
     <div className="ob2-page">
@@ -111,9 +93,13 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
 
           <div className="ob2-role-card-group">
             <button
+              type="button"
               className={`ob2-role-custom-card ${selectedRole === 'customer' ? 'ob2-role-custom-card-selected' : ''}`}
               onClick={() => setSelectedRole('customer')}
             >
+              <div className="ob2-role-card-icon">
+                <BriefcaseIcon size={26} />
+              </div>
               <div className="ob2-role-card-content">
                 <div className="ob2-role-card-title">I need work done.</div>
                 <div className="ob2-role-card-desc">
@@ -123,9 +109,13 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
             </button>
 
             <button
+              type="button"
               className={`ob2-role-custom-card ${selectedRole === 'worker' ? 'ob2-role-custom-card-selected' : ''}`}
               onClick={() => setSelectedRole('worker')}
             >
+              <div className="ob2-role-card-icon">
+                <UserCardIcon size={26} />
+              </div>
               <div className="ob2-role-card-content">
                 <div className="ob2-role-card-title">I want to do work</div>
                 <div className="ob2-role-card-desc">
@@ -136,20 +126,19 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
           </div>
         </div>
 
-      <div className="ob2-bottom-bar ob2-role-bottom-bar">
-        <button
-          type="button"
-          className="ob2-cta-btn ob2-role-continue-btn"
-          disabled={!selectedRole}
-          onClick={() => onSelect(selectedRole)}
-        >
-          Sign up <ArrowIcon />
-        </button>
-        <div className="ob2-role-auth-switch">
-          <span>Already on Jaradeck?</span>
-          <button className="ob2-link-btn" onClick={() => onSelect('signin-only')}>Sign in</button>
+        <div className="ob2-role-footer">
+          <button
+            type="button"
+            className="ob2-role-submit-btn"
+            disabled={!selectedRole}
+            onClick={() => onSelect(selectedRole)}
+          >
+            Sign in <ArrowIcon size={14} />
+          </button>
+          <div className="ob2-role-signup-text">
+            New to Jaradeck? <button className="ob2-role-link" onClick={() => onSelect('signup-only')}>Sign up</button>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -166,12 +155,8 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = signInSchema.safeParse({ email, password });
-    if (!result.success) {
-      const errs = result.error.flatten().fieldErrors;
-      setError(errs.email?.[0] || errs.password?.[0] || 'Please check your details.');
-      return;
-    }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email address.'); return; }
+    if (!password) { setError('Please enter your password.'); return; }
     setError('');
     onNext({ email, password });
   };
@@ -232,12 +217,9 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = signUpSchema.safeParse({ email, password });
-    if (!result.success) {
-      const errs = result.error.flatten().fieldErrors;
-      setError(errs.email?.[0] || errs.password?.[0] || 'Please check your details.');
-      return;
-    }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email address.'); return; }
+    if (!password) { setError('Please enter your password.'); return; }
+    if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
     setError('');
     onNext({ email, password });
   };
@@ -288,35 +270,28 @@ function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 }
 
 // ─── STEP 3: Profile Setup ────────────────────────────────────────────────────
-// Customer: Full Name, Email, Password
-// Worker:   Full Name, Email, Password + Portfolio Link
 function ProfileStep({ role, onNext, onSignIn, onBack }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [portfolioLink, setPortfolioLink] = useState('');
+  const [phone, setPhone] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
 
   const isWorker = role === 'worker';
 
   const isFormValid = isWorker
-    ? Boolean(fullName.trim() && email.trim() && password.trim() && portfolioLink.trim())
+    ? Boolean(fullName.trim() && email.trim() && password.trim() && phone.trim())
     : Boolean(fullName.trim() && email.trim() && password.trim());
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = profileSchema.safeParse({ fullName, email, password, ...(isWorker ? { portfolioLink } : {}) });
-    if (!result.success) {
-      const errs = result.error.flatten().fieldErrors;
-      setError(
-        errs.fullName?.[0] || errs.email?.[0] || errs.password?.[0] || errs.portfolioLink?.[0] || 'Please check your details.'
-      );
-      return;
-    }
-    if (isWorker && !portfolioLink.trim()) { setError('Please add a link to your work samples.'); return; }
+    if (!fullName.trim()) { setError('Please enter your full name.'); return; }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { setError('Please enter a valid email address.'); return; }
+    if (!password || password.length < 8) { setError('Password must be at least 8 characters.'); return; }
+    if (isWorker && !phone.trim()) { setError('Please enter your phone number.'); return; }
     setError('');
-    onNext({ fullName, email, password, ...(isWorker && { portfolioLink }) });
+    onNext({ fullName, email, password, ...(isWorker && { phone }) });
   };
 
   return (
@@ -377,17 +352,17 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
           </div>
         </div>
 
-        {/* Portfolio link — Worker only */}
+        {/* Phone Number — Worker only (required for SMS OTP) */}
         {isWorker && (
           <div className="ob2-field">
-            <label className="ob2-label">Portfolio Link</label>
+            <label className="ob2-label">Phone Number</label>
             <input
-              type="url"
+              type="tel"
               className="ob2-input"
-              placeholder="link to your primary work samples"
-              value={portfolioLink}
-              onChange={(e) => { setPortfolioLink(e.target.value); setError(''); }}
-              autoComplete="url"
+              placeholder="+1 (555) 000-0000"
+              value={phone}
+              onChange={(e) => { setPhone(e.target.value); setError(''); }}
+              autoComplete="tel"
             />
           </div>
         )}
@@ -516,22 +491,21 @@ function SuccessStep({ onNavigateDashboard }) {
 //
 export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) {
   const [step, setStep] = useState('role');
-  const [localRole, setLocalRole] = useState(null);
-  const [authMode, setAuthMode] = useState('signup');
+  const [role, setRole] = useState(null);
+  const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'signin'
   const [profileData, setProfileData] = useState({});
-  const { setRole } = useRole();
 
+  // ── Role selection ──────────────────────────────────────────────
   const handleRoleSelect = (selected) => {
     if (selected === 'signin-only') {
-      setLocalRole(null);
+      setRole(null);
       setAuthMode('signin');
       setStep('auth');
       return;
     }
-    setLocalRole(selected);
-    setRole(selected);          // persist to context + sessionStorage
+    setRole(selected);
     setAuthMode('signup');
-    setStep('auth');
+    setStep('auth');   // both customer & worker go to auth first
   };
 
   // ── Auth → next ─────────────────────────────────────────────────
@@ -548,8 +522,6 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
 
   // ── OTP → done ──────────────────────────────────────────────────
   const handleOTPNext = () => setStep('done');
-
-  const dashboardPath = localRole === 'customer' ? '/dashboard/customer' : '/dashboard';
 
   // ── Switch between sign-in / sign-up ────────────────────────────
   const switchToSignIn = () => { setAuthMode('signin'); setStep('auth'); };
@@ -575,15 +547,15 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
       )}
 
       {step === 'profile' && (
-        <ProfileStep role={localRole} onNext={handleProfileNext} onSignIn={switchToSignIn} onBack={goBackToAuth} />
+        <ProfileStep role={role} onNext={handleProfileNext} onSignIn={switchToSignIn} onBack={goBackToAuth} />
       )}
 
       {step === 'otp' && (
-        <OTPStep role={localRole} onNext={handleOTPNext} onSignIn={switchToSignIn} onBack={goBackToProfile} />
+        <OTPStep role={role} onNext={handleOTPNext} onSignIn={switchToSignIn} onBack={goBackToProfile} />
       )}
 
       {step === 'done' && (
-        <SuccessStep onNavigateDashboard={() => onNavigateDashboard(dashboardPath)} />
+        <SuccessStep onNavigateDashboard={onNavigateDashboard} />
       )}
     </>
   );

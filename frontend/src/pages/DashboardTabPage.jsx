@@ -1,15 +1,13 @@
 import WorkerBottomNav from '../components/WorkerBottomNav';
 
 const tabCopy = {
-  wallet:   ['Wallet',   'Your balance and payouts will appear here.'],
-  chat:     ['Chat',     'Your project conversations will appear here.'],
-  settings: ['Settings', 'Manage your profile and availability.'],
-  home:     ['Home',     'Your active projects will appear here.'],
-  orders:   ['Orders',   'Your project orders will appear here.'],
+  wallet: ['Wallet', 'Your balance and payouts will appear here.'],
+  chat: ['Chat', 'Your project conversations will appear here.'],
+  settings: ['Settings', 'Manage your worker profile and availability.'],
 };
 
-export default function DashboardTabPage({ tab, role }) {
-  const [title, description] = tabCopy[tab] ?? [tab, ''];
+export default function DashboardTabPage({ tab }) {
+  const [title, description] = tabCopy[tab];
 
   return (
     <main className="worker-dashboard dashboard-tab-page">

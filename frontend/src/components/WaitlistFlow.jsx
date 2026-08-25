@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { waitlistNameSchema, waitlistContactSchema } from '../utils/schemas';
+import { validatePhone, validateEmail } from '../utils/validation';
 import { useNavigate } from 'react-router-dom';
 
 const TOTAL_STEPS = 5;
@@ -15,10 +15,15 @@ const CHANNELS = [
 // Helper to calculate channel error
 function getChannelError(id, val) {
   if (!val || !val.trim()) return '';
-  const result = waitlistContactSchema.safeParse({ [id]: val });
-  if (result.success) return '';
-  const errs = result.error.flatten().fieldErrors;
-  return errs[id]?.[0] || '';
+  if (id === 'whatsapp') {
+    const res = validatePhone(val);
+    return res.isValid ? '' : res.error;
+  }
+  if (id === 'email') {
+    const res = validateEmail(val);
+    return res.isValid ? '' : res.error;
+  }
+  return '';
 }
 
 // ─── Step 1: Name ─────────────────────────────────────────────────────────────
@@ -26,12 +31,6 @@ function getChannelError(id, val) {
 function StepName({ value, onChange, onNext }) {
   const inputRef = useRef(null);
   useEffect(() => { inputRef.current?.focus(); }, []);
-
-  const handleNext = () => {
-    const result = waitlistNameSchema.safeParse({ name: value });
-    if (!result.success) return;
-    onNext();
-  };
 
   return (
     <div className="wf-step" style={{ marginTop: '12vh' }}>
@@ -44,10 +43,10 @@ function StepName({ value, onChange, onNext }) {
         placeholder="Lagabaja Tamedo"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && value.trim().length >= 2 && handleNext()}
+        onKeyDown={(e) => e.key === 'Enter' && value.trim() && onNext()}
         autoComplete="off"
       />
-      <button className="wf-next-btn" onClick={handleNext} disabled={value.trim().length < 2}>
+      <button className="wf-next-btn" onClick={onNext} disabled={!value.trim()}>
         Nice. →
       </button>
     </div>
