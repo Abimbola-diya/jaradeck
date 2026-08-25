@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { Briefcase01Icon, UserAccountIcon } from 'hugeicons-react';
 import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
@@ -14,23 +15,6 @@ function EyeIcon({ visible }) {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
       <line x1="1" y1="1" x2="23" y2="23" />
-    </svg>
-  );
-}
-
-function BriefcaseIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-    </svg>
-  );
-}
-
-function ToolsIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
     </svg>
   );
 }
@@ -75,7 +59,7 @@ function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = 
 
 // ─── STEP 1: Role Selection ───────────────────────────────────────────────────
 function RoleSelectionStep({ onSelect, onNavigateHome }) {
-  const [selectedRole, setSelectedRole] = useState(null);
+  const [selectedRole, setSelectedRole] = useState('customer');
 
   return (
     <div className="ob2-page">
@@ -109,9 +93,13 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
 
           <div className="ob2-role-card-group">
             <button
+              type="button"
               className={`ob2-role-custom-card ${selectedRole === 'customer' ? 'ob2-role-custom-card-selected' : ''}`}
               onClick={() => setSelectedRole('customer')}
             >
+              <div className="ob2-role-card-icon">
+                <BriefcaseIcon size={26} />
+              </div>
               <div className="ob2-role-card-content">
                 <div className="ob2-role-card-title">I need work done.</div>
                 <div className="ob2-role-card-desc">
@@ -121,9 +109,13 @@ function RoleSelectionStep({ onSelect, onNavigateHome }) {
             </button>
 
             <button
+              type="button"
               className={`ob2-role-custom-card ${selectedRole === 'worker' ? 'ob2-role-custom-card-selected' : ''}`}
               onClick={() => setSelectedRole('worker')}
             >
+              <div className="ob2-role-card-icon">
+                <UserCardIcon size={26} />
+              </div>
               <div className="ob2-role-card-content">
                 <div className="ob2-role-card-title">I want to do work</div>
                 <div className="ob2-role-card-desc">

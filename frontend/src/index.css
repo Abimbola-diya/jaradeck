@@ -1,5 +1,16 @@
 @import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-[#0A0A0A] antialiased;
+    font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+}
+
 :root {
   --blue-bg: #0048cc;
   --blue-dark: #003299;
@@ -6024,63 +6035,83 @@ a:active .hugeicons-animated-arrow-left {
 .ob2-role-custom-card {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 12.1248px;
-  gap: 7.88px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 20px;
   width: 100%;
-  height: 120px;
+  min-height: 132px;
   background: #F9F8F8;
-  border-radius: 12.1248px;
+  border-radius: 16px;
   border: none;
   cursor: pointer;
   box-shadow: none;
-  transition: all 0.2s ease;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
+  text-align: left;
 }
 
-.ob2-role-custom-card:hover,
-.ob2-role-custom-card:active,
+.ob2-role-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0A0A0A;
+  margin-top: 2px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
+}
+
+.ob2-role-custom-card:hover:not(.ob2-role-custom-card-selected) {
+  background: #F2F1F1;
+}
+
 .ob2-role-custom-card-selected {
   background: #0048B3;
   box-shadow: inset 2px -2px 4px rgba(255, 255, 255, 0.25), inset 0px 1px 4px rgba(255, 255, 255, 0.3);
+}
+
+.ob2-role-custom-card-selected .ob2-role-card-icon {
+  color: #FFFFFF;
 }
 
 .ob2-role-card-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 4px;
   width: 100%;
 }
 
 .ob2-role-card-title {
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 18px;
+  line-height: 120%;
   color: #0A0A0A;
   margin: 0;
+  text-align: left;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ob2-role-card-desc {
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: -0.02em;
-  color: #0A0A0A;
+  font-size: 13px;
+  line-height: 130%;
+  letter-spacing: -0.01em;
+  color: #525252;
   text-align: left;
   margin: 0;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.ob2-role-custom-card:hover .ob2-role-card-title,
-.ob2-role-custom-card:hover .ob2-role-card-desc,
-.ob2-role-custom-card:active .ob2-role-card-title,
-.ob2-role-custom-card:active .ob2-role-card-desc,
-.ob2-role-custom-card-selected .ob2-role-card-title,
-.ob2-role-custom-card-selected .ob2-role-card-desc {
+.ob2-role-custom-card-selected .ob2-role-card-title {
   color: #FFFFFF;
+}
+
+.ob2-role-custom-card-selected .ob2-role-card-desc {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .ob2-role-footer {
