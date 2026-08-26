@@ -3165,7 +3165,6 @@ textarea {
 
 /* Full page: white, mobile-first, vertically padded */
 .ob2-page {
-  height: 100vh;
   min-height: 100vh;
   overflow-y: auto;
   width: 100%;
@@ -3173,15 +3172,14 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Center children horizontally */
-  justify-content: center;
-  /* Logo at top */
-  padding: 2.5rem 1.5rem 3rem 1.5rem;
+  /* Start content from top with clean padding so logo is fully visible */
+  justify-content: flex-start;
+  padding: 4rem 1.5rem 4rem 1.5rem;
   box-sizing: border-box;
   position: relative;
   z-index: 10;
-  /* entrance animation */
-  animation: ob2-fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* smooth springy entrance animation */
+  animation: ob2-page-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .ob2-back-btn {
@@ -3199,30 +3197,82 @@ textarea {
   justify-content: center;
   cursor: pointer;
   z-index: 20;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .ob2-back-btn:hover {
   background: #0048b3;
   border-color: #0048b3;
   color: #ffffff;
+  transform: scale(1.05);
 }
 
 .ob2-page>*:not(.ob2-back-btn) {
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   /* Restrict width on desktop */
 }
 
-@keyframes ob2-fade-up {
-  from {
+@keyframes ob2-page-enter {
+  0% {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(20px) scale(0.985);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
-  to {
+@keyframes ob2-child-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes ob2-child-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Stagger animation utility classes */
+.ob2-anim-back {
+  animation: ob2-child-fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.ob2-anim-logo {
+  animation: ob2-child-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.ob2-anim-header {
+  animation: ob2-child-slide-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.ob2-anim-card-1 {
+  animation: ob2-child-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.ob2-anim-card-2 {
+  animation: ob2-child-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+}
+
+.ob2-anim-footer {
+  animation: ob2-child-slide-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both;
+}
+
+.ob2-anim-form {
+  animation: ob2-child-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
 /* Centered logo at top */
@@ -3328,6 +3378,68 @@ textarea {
 }
 
 /* Input with right-side eye button */
+.ob2-field-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.ob2-field-row .ob2-field {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 480px) {
+  .ob2-field-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+/* Country Select Dropdown */
+.ob2-select-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ob2-select {
+  width: 100%;
+  height: 50px;
+  background: #FAFAFA;
+  border-radius: 10px;
+  padding: 12px 38px 12px 16px;
+  border: 1.5px solid transparent;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 110%;
+  color: #3D3D3D;
+  outline: none;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ob2-select:focus,
+.ob2-select:active {
+  background: #FAFAFA;
+  border-color: #0048B3;
+  box-shadow: 0 0 0 1px #0048B3;
+}
+
+.ob2-select-arrow {
+  position: absolute;
+  right: 14px;
+  pointer-events: none;
+}
+
 .ob2-input-row {
   position: relative;
   display: flex;
