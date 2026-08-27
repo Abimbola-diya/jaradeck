@@ -510,32 +510,35 @@ textarea {
   align-items: center;
   justify-content: center;
   padding: 0 1.5rem;
-  max-width: 840px;
+  width: 100%;
+  max-width: 720px;
   text-align: center;
   position: relative;
   z-index: 20;
   margin-top: auto;
   margin-bottom: auto;
+  box-sizing: border-box;
 }
 
 .hero-headline-wrapper {
-  min-height: clamp(7.5rem, 16vw, 11rem);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   width: 100%;
 }
 
 .hero-headline {
-  font-size: clamp(2.52rem, 6.3vw, 4.41rem);
+  font-size: clamp(2.4rem, 6.2vw, 4.4rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.15;
   letter-spacing: -0.035em;
   color: var(--white);
-  margin-bottom: 0;
+  margin-bottom: 0.75rem;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
+  white-space: nowrap;
 }
 
 .action-word {
@@ -577,13 +580,15 @@ textarea {
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2.2vw, 1.15rem);
-  font-weight: 400;
-  line-height: 1.55;
+  font-size: clamp(1.05rem, 2.3vw, 1.25rem);
+  font-weight: 450;
+  line-height: 1.45;
   color: var(--white-muted);
-  max-width: 620px;
-  margin-bottom: 1.25rem;
-  letter-spacing: -0.01em;
+  max-width: 680px;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.015em;
+  text-align: center;
+  opacity: 0.9;
 }
 
 /* Hero Main CTA Button */
@@ -687,34 +692,52 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  background-color: #1a1d24;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #0048b3;
   border: none;
   border-radius: 9999px;
   padding: 0.7rem 1.4rem;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .hero-chatbox-btn:hover {
-  background-color: #0c0e12;
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  background-color: #f5f8ff;
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
 }
 
 .hero-chatbox-btn:active {
   transform: scale(0.97);
 }
 
-.hero-chatbox-globe-icon {
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  background: conic-gradient(from 180deg at 50% 50%, #00c6ff 0deg, #0072ff 120deg, #3a7bd5 240deg, #00c6ff 360deg);
-  box-shadow: 0 0 8px rgba(0, 198, 255, 0.7);
+/* Eye icon infinite blinking animation */
+@keyframes eyeBlinkPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scaleY(0.2);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.blinking-eye-icon {
+  animation: eyeBlinkPulse 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  display: inline-block;
+  vertical-align: middle;
   flex-shrink: 0;
 }
 
@@ -777,27 +800,30 @@ textarea {
   }
 
   .hero-content {
+    width: 100%;
     padding: 0 1.25rem;
     justify-content: center;
     margin-top: auto;
     margin-bottom: auto;
+    box-sizing: border-box;
   }
 
   .hero-headline-wrapper {
-    min-height: clamp(8.5rem, 25vw, 11.5rem);
-    margin-bottom: 1rem;
+    min-height: auto;
+    margin-bottom: 0.75rem;
   }
 
   .hero-headline {
-    font-size: clamp(2.26rem, 8.4vw, 3.05rem);
-    line-height: 1.1;
+    font-size: clamp(2rem, 7.5vw, 2.8rem);
+    line-height: 1.15;
+    white-space: nowrap;
   }
 
   .hero-subtitle {
-    font-size: clamp(0.98rem, 3.5vw, 1.1rem);
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    max-width: 95%;
+    font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+    line-height: 1.45;
+    margin-bottom: 0.75rem;
+    max-width: 100%;
   }
 
   .hero-cta-btn {

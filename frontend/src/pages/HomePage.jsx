@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../components/ArrowIcon';
+import HugeAnimatedEye from '../components/HugeAnimatedEye';
 import StadiumIllustration from '../components/StadiumIllustration';
 import NeedItDoneAnimation from '../components/NeedItDoneAnimation';
 import ComparisonCards from '../components/ComparisonCards';
@@ -24,8 +25,11 @@ export default function HomePage() {
         <div className="hero-content">
           <div className="hero-headline-wrapper">
             <h1 className="hero-headline">
-              You can't do everything yourself.
+              Stop, pass it on.
             </h1>
+            <p className="hero-subtitle">
+              You can't keep doing everything yourself.
+            </p>
           </div>
 
           <form className="hero-chatbox-wrapper" onSubmit={goToOnboarding}>
@@ -36,7 +40,7 @@ export default function HomePage() {
             />
             <div className="hero-chatbox-footer">
               <button type="submit" className="hero-chatbox-btn">
-                <div className="hero-chatbox-globe-icon"></div>
+                <HugeAnimatedEye size={20} color="#0048b3" />
                 <span>Let's go</span>
               </button>
             </div>
