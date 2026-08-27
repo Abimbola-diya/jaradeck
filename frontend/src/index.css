@@ -457,52 +457,39 @@ textarea {
 .marquee-single-container {
   width: 100vw;
   position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  margin-top: 2rem;
-  margin-bottom: 2.25rem;
+  left: calc(-50vw + 50%);
+  margin-top: clamp(6rem, 10vh, 8.5rem);
+  margin-bottom: 0rem;
   padding: 0.6rem 0;
   background: transparent;
   user-select: none;
   z-index: 10;
-  /* Removed mask-image so it enters/exits directly at the far edges of the screen */
+  overflow: hidden;
 }
 
 .marquee-row {
   display: flex;
   width: max-content;
   overflow: visible;
-  padding: 0.6rem 0;
+  padding: 0.4rem 0;
+}
+
+.marquee-row-left {
+  margin-bottom: 0.75rem;
 }
 
 .marquee-track {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding-right: 1.25rem;
   width: max-content;
-  will-change: transform;
   flex-shrink: 0;
 }
 
-.marquee-row-left .marquee-track {
-  animation: marqueeScrollLeft 32s linear infinite;
+.marquee-card-wrapper {
+  padding-right: 1.25rem;
+  flex-shrink: 0;
 }
 
-.marquee-single-container:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes marqueeScrollLeft {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-100%, 0, 0);
-  }
-}
 
 /* Glassmorphic Rectangular Cards - Chowdeck style with rounded corners & 15% longer length */
 .marquee-glass-card {
@@ -516,9 +503,7 @@ textarea {
   border-radius: 16px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.3),
-    0 8px 24px rgba(0, 15, 60, 0.22);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
   cursor: pointer;
   flex-shrink: 0;
   transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
@@ -528,9 +513,7 @@ textarea {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.42);
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.5),
-    0 12px 32px rgba(0, 20, 80, 0.35);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .marquee-glass-card:active {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // ── 7 Vector Shape Icon Components with darker colors & larger size ─────
 
@@ -58,6 +58,54 @@ function FourPointStarShape({ fill = '#1B5E20', size = 42 }) {
   );
 }
 
+function DiamondShape({ fill = '#FFD700', size = 36 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="20,2 38,20 20,38 2,20" fill={fill} />
+    </svg>
+  );
+}
+
+function PillShape({ fill = '#00E5FF', size = 38 }) {
+  return (
+    <svg width={size} height={Math.round(size * 0.55)} viewBox="0 0 50 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="50" height="28" rx="14" fill={fill} />
+    </svg>
+  );
+}
+
+function CrossStarShape({ fill = '#FF3366', size = 36 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 0L24 16L40 20L24 24L20 40L16 24L0 20L16 16Z" fill={fill} />
+    </svg>
+  );
+}
+
+function ArchShape({ fill = '#00E676', size = 38 }) {
+  return (
+    <svg width={size} height={Math.round(size * 0.75)} viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 30V15C0 6.71573 6.71573 0 15 0H25C33.2843 0 40 6.71573 40 15V30H0Z" fill={fill} />
+    </svg>
+  );
+}
+
+function RingCircleShape({ fill = '#FFFFFF', size = 36 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 0C8.9543 0 0 8.9543 0 20C0 31.0457 8.9543 40 20 40C31.0457 40 40 31.0457 40 20C40 8.9543 31.0457 0 20 0ZM20 28C15.5817 28 12 24.4183 12 20C12 15.5817 15.5817 12 20 12C24.4183 12 28 15.5817 28 20C28 24.4183 24.4183 28 20 28Z" fill={fill} />
+    </svg>
+  );
+}
+
+function HexBadgeShape({ fill = '#FF6D00', size = 36 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill={fill} />
+    </svg>
+  );
+}
+
 // Helper to render icon by shape name with large size
 function DynamicIcon({ shape, color }) {
   switch (shape) {
@@ -75,14 +123,26 @@ function DynamicIcon({ shape, color }) {
       return <MultiPointStarShape fill={color} size={36} />;
     case 'four_star':
       return <FourPointStarShape fill={color} size={36} />;
+    case 'diamond':
+      return <DiamondShape fill={color} size={36} />;
+    case 'pill':
+      return <PillShape fill={color} size={36} />;
+    case 'cross_star':
+      return <CrossStarShape fill={color} size={36} />;
+    case 'arch':
+      return <ArchShape fill={color} size={36} />;
+    case 'ring_circle':
+      return <RingCircleShape fill={color} size={36} />;
+    case 'hex_badge':
+      return <HexBadgeShape fill={color} size={36} />;
     default:
       return <SparkleStarShape fill={color} size={36} />;
   }
 }
 
-// ── 15 Phrases with Richer Darker Vectors & Formatted Text ────────────────────
+// ── 15 Phrases for Row 1 (Right to Left) ──────────────────────────────────────
 
-const ALL_PHRASES = [
+const ALL_PHRASES_ROW1 = [
   { text: "Photographer to pepper them\non your birthday shoot", shape: 'sparkle', color: '#FF3B30' },
   { text: "Videographer for that\n3-day non-stop Owambe", shape: 'semi', color: '#FF6B00' },
   { text: "Ghostwriter for the book\nyou keep talking about", shape: 'four_star', color: '#059669' },
@@ -100,35 +160,145 @@ const ALL_PHRASES = [
   { text: "Backend dev whose APIs won’t\ncollapse at 100 users", shape: 'multi_star', color: '#E086FF' },
 ];
 
+// ── 12 Phrases for Row 2 (Left to Right) ──────────────────────────────────────
+
+const ALL_PHRASES_ROW2 = [
+  { text: "UI/UX Designer so your web app\ndoesn’t look like Inec's IREV portal", shape: 'semi', color: '#FFD700' },
+  { text: "Social Media Manager so your business\npage finally stops replying \"DM for price\"", shape: 'four_star', color: '#00E5FF' },
+  { text: "Video Editor to turn raw phone clips\ninto snappy Reels before the trend dies", shape: 'sparkle', color: '#FF3366' },
+  { text: "Graphic Designer for flyers that\ndon’t look like a church crusade banner", shape: 'pink_semi', color: '#00E676' },
+  { text: "Photographer to capture your birthday\ndrip before the sweat ruins the look", shape: 'multi_star', color: '#FFFFFF' },
+  { text: "DM Closer / VA to attend to customers\nbefore they take their money to competitor", shape: 'triangle', color: '#FF6D00' },
+  { text: "Content Creator who can hold a mic\non the street without sounding awkward", shape: 'bumpy', color: '#D500F9' },
+  { text: "Instagram Ads Expert who won't burn\nyour last ₦50k budget on zero conversions", shape: 'sparkle', color: '#FFD700' },
+  { text: "Event MC who can hype up your\nguests without making tacky jokes", shape: 'pink_semi', color: '#FF3366' },
+  { text: "Makeup Artist for a clean facebeat\nthat can actually survive Lagos heat", shape: 'four_star', color: '#00E5FF' },
+  { text: "Mobile App Dev whose app won't consume\n200MB data just to open login screen", shape: 'semi', color: '#00E676' },
+  { text: "Pitch Deck Designer to get straight to\nthe point before investors close tab", shape: 'bumpy', color: '#FFFFFF' },
+];
+
 export default function MarqueeTicker({ onSelectPhrase }) {
+  // Row 1 Cards (Right to Left)
+  const [cardsRow1] = useState(() => {
+    const initial = [];
+    let lastIdx = -1;
+    for (let i = 0; i < 25; i++) {
+      let nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW1.length);
+      while (nextIdx === lastIdx) {
+        nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW1.length);
+      }
+      initial.push({ ...ALL_PHRASES_ROW1[nextIdx], id: `r1-${i}` });
+      lastIdx = nextIdx;
+    }
+    return initial;
+  });
+
+  // Row 2 Cards (Left to Right)
+  const [cardsRow2] = useState(() => {
+    const initial = [];
+    let lastIdx = -1;
+    for (let i = 0; i < 25; i++) {
+      let nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW2.length);
+      while (nextIdx === lastIdx) {
+        nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW2.length);
+      }
+      initial.push({ ...ALL_PHRASES_ROW2[nextIdx], id: `r2-v3-${i}` });
+      lastIdx = nextIdx;
+    }
+    return initial;
+  });
+
+  const trackRefRow1 = useRef(null);
+  const trackRefRow2 = useRef(null);
+  const xOffsetRow1 = useRef(0);
+  const xOffsetRow2 = useRef(0);
+  const isInitializedRow2 = useRef(false);
+  const requestRef = useRef(null);
+
+  useEffect(() => {
+    const speed = 1.35; // Pixels per frame
+
+    // Pre-fill Row 2's left off-screen buffer so cards roll in from the far left edge immediately
+    if (trackRefRow2.current && !isInitializedRow2.current) {
+      let initialLeftBufferOffset = 0;
+      const children = trackRefRow2.current.children;
+      const count = Math.min(12, children.length);
+      for (let i = 0; i < count; i++) {
+        initialLeftBufferOffset += children[i].offsetWidth;
+      }
+      xOffsetRow2.current = -initialLeftBufferOffset;
+      isInitializedRow2.current = true;
+    }
+
+    const animate = () => {
+      // ── Row 1: Right to Left ──────────────────────────────────────────────
+      xOffsetRow1.current -= speed;
+      if (trackRefRow1.current && trackRefRow1.current.firstElementChild) {
+        const firstChild = trackRefRow1.current.firstElementChild;
+        const firstChildWidth = firstChild.offsetWidth;
+
+        if (Math.abs(xOffsetRow1.current) >= firstChildWidth) {
+          xOffsetRow1.current += firstChildWidth;
+          trackRefRow1.current.appendChild(firstChild);
+        }
+        trackRefRow1.current.style.transform = `translate3d(${xOffsetRow1.current}px, 0, 0)`;
+      }
+
+      // ── Row 2: Left to Right ──────────────────────────────────────────────
+      xOffsetRow2.current += speed;
+      if (trackRefRow2.current && trackRefRow2.current.lastElementChild) {
+        const lastChild = trackRefRow2.current.lastElementChild;
+        const lastChildWidth = lastChild.offsetWidth;
+
+        if (xOffsetRow2.current >= lastChildWidth) {
+          xOffsetRow2.current -= lastChildWidth;
+          trackRefRow2.current.insertBefore(lastChild, trackRefRow2.current.firstElementChild);
+        }
+        trackRefRow2.current.style.transform = `translate3d(${xOffsetRow2.current}px, 0, 0)`;
+      }
+
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, []);
+
   return (
     <div className="marquee-single-container" aria-label="Jaradeck Talent Services Ticker">
+      {/* Row 1: Right to Left */}
       <div className="marquee-row marquee-row-left">
-        <div className="marquee-track">
-          {ALL_PHRASES.map((item, idx) => (
-            <div 
-              key={`m1-${idx}`} 
-              className="marquee-glass-card"
-              onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
-            >
-              <span className="marquee-card-icon">
-                <DynamicIcon shape={item.shape} color={item.color} />
-              </span>
-              <span className="marquee-card-text">{item.text}</span>
+        <div className="marquee-track" ref={trackRefRow1}>
+          {cardsRow1.map((item) => (
+            <div key={item.id} className="marquee-card-wrapper">
+              <div 
+                className="marquee-glass-card"
+                onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
+              >
+                <span className="marquee-card-icon">
+                  <DynamicIcon shape={item.shape} color={item.color} />
+                </span>
+                <span className="marquee-card-text">{item.text}</span>
+              </div>
             </div>
           ))}
         </div>
-        <div className="marquee-track" aria-hidden="true">
-          {ALL_PHRASES.map((item, idx) => (
-            <div 
-              key={`m2-${idx}`} 
-              className="marquee-glass-card"
-              onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
-            >
-              <span className="marquee-card-icon">
-                <DynamicIcon shape={item.shape} color={item.color} />
-              </span>
-              <span className="marquee-card-text">{item.text}</span>
+      </div>
+
+      {/* Row 2: Left to Right */}
+      <div className="marquee-row marquee-row-right">
+        <div className="marquee-track" ref={trackRefRow2}>
+          {cardsRow2.map((item) => (
+            <div key={item.id} className="marquee-card-wrapper">
+              <div 
+                className="marquee-glass-card"
+                onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
+              >
+                <span className="marquee-card-icon">
+                  <DynamicIcon shape={item.shape} color={item.color} />
+                </span>
+                <span className="marquee-card-text">{item.text}</span>
+              </div>
             </div>
           ))}
         </div>
