@@ -160,77 +160,69 @@ const ALL_PHRASES_ROW1 = [
   { text: "Backend dev whose APIs won’t\ncollapse at 100 users", shape: 'multi_star', color: '#E086FF' },
 ];
 
+// Helper to generate sequential card sequence in exact array order
+function generateSequentialSequence(phrases, totalCount, prefix) {
+  const result = [];
+  for (let i = 0; i < totalCount; i++) {
+    const item = phrases[i % phrases.length];
+    result.push({ ...item, id: `${prefix}-${i}` });
+  }
+  return result;
+}
+
 // ── 12 Phrases for Row 2 (Left to Right) ──────────────────────────────────────
 
 const ALL_PHRASES_ROW2 = [
-  { text: "UI/UX Designer so your web app\ndoesn’t look like Inec's IREV portal", shape: 'semi', color: '#FFD700' },
-  { text: "Social Media Manager so your business\npage finally stops replying \"DM for price\"", shape: 'four_star', color: '#00E5FF' },
-  { text: "Video Editor to turn raw phone clips\ninto snappy Reels before the trend dies", shape: 'sparkle', color: '#FF3366' },
-  { text: "Graphic Designer for flyers that\ndon’t look like a church crusade banner", shape: 'pink_semi', color: '#00E676' },
-  { text: "Photographer to capture your birthday\ndrip before the sweat ruins the look", shape: 'multi_star', color: '#FFFFFF' },
-  { text: "DM Closer / VA to attend to customers\nbefore they take their money to competitor", shape: 'triangle', color: '#FF6D00' },
-  { text: "Content Creator who can hold a mic\non the street without sounding awkward", shape: 'bumpy', color: '#D500F9' },
-  { text: "Instagram Ads Expert who won't burn\nyour last ₦50k budget on zero conversions", shape: 'sparkle', color: '#FFD700' },
-  { text: "Event MC who can hype up your\nguests without making tacky jokes", shape: 'pink_semi', color: '#FF3366' },
-  { text: "Makeup Artist for a clean facebeat\nthat can actually survive Lagos heat", shape: 'four_star', color: '#00E5FF' },
-  { text: "Mobile App Dev whose app won't consume\n200MB data just to open login screen", shape: 'semi', color: '#00E676' },
-  { text: "Pitch Deck Designer to get straight to\nthe point before investors close tab", shape: 'bumpy', color: '#FFFFFF' },
+  { text: "UI/UX Designer so web app\nwon’t look like INEC's portal", shape: 'semi', color: '#FFD700' },
+  { text: "Social Media Manager so page\nstops replying \"DM for price\"", shape: 'four_star', color: '#00E5FF' },
+  { text: "Video Editor for snappy Reels\nbefore the trend dies out", shape: 'sparkle', color: '#FF3366' },
+  { text: "Graphic Designer for flyers that\ndon’t look like crusade banners", shape: 'pink_semi', color: '#00E676' },
+  { text: "Photographer before the drip\nfades away in Lagos heat", shape: 'multi_star', color: '#FFFFFF' },
+  { text: "DM Closer to convert customers\nbefore competitors take them", shape: 'triangle', color: '#FF6D00' },
+  { text: "Content Creator for street clips\npeople actually want to watch", shape: 'bumpy', color: '#D500F9' },
+  { text: "Instagram Ads Expert so your ad\ndoesn’t donate ₦50k to Meta", shape: 'sparkle', color: '#FFD700' },
+  { text: "Event MC to hype your guests\nwithout making tacky jokes", shape: 'pink_semi', color: '#FF3366' },
+  { text: "Makeup Artist for facebeats\nthat survive Lagos heat", shape: 'four_star', color: '#00E5FF' },
+  { text: "Mobile App Dev whose app won't\nuse 200MB just to open login", shape: 'semi', color: '#00E676' },
+  { text: "Pitch Deck Designer so investors\ndon’t need a break at slide 5", shape: 'bumpy', color: '#FFFFFF' },
 ];
 
 export default function MarqueeTicker({ onSelectPhrase }) {
-  // Row 1 Cards (Right to Left)
-  const [cardsRow1] = useState(() => {
-    const initial = [];
-    let lastIdx = -1;
-    for (let i = 0; i < 25; i++) {
-      let nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW1.length);
-      while (nextIdx === lastIdx) {
-        nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW1.length);
-      }
-      initial.push({ ...ALL_PHRASES_ROW1[nextIdx], id: `r1-${i}` });
-      lastIdx = nextIdx;
-    }
-    return initial;
-  });
+  // Row 1 Cards (Right to Left): Exact Sequential Order
+  const [cardsRow1] = useState(() => generateSequentialSequence(ALL_PHRASES_ROW1, 30, 'r1-v7'));
 
-  // Row 2 Cards (Left to Right)
-  const [cardsRow2] = useState(() => {
-    const initial = [];
-    let lastIdx = -1;
-    for (let i = 0; i < 25; i++) {
-      let nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW2.length);
-      while (nextIdx === lastIdx) {
-        nextIdx = Math.floor(Math.random() * ALL_PHRASES_ROW2.length);
-      }
-      initial.push({ ...ALL_PHRASES_ROW2[nextIdx], id: `r2-v3-${i}` });
-      lastIdx = nextIdx;
-    }
-    return initial;
-  });
+  // Row 2 Cards (Left to Right): Exact Sequential Order
+  const [cardsRow2] = useState(() => generateSequentialSequence(ALL_PHRASES_ROW2, 30, 'r2-v7'));
 
   const trackRefRow1 = useRef(null);
   const trackRefRow2 = useRef(null);
   const xOffsetRow1 = useRef(0);
   const xOffsetRow2 = useRef(0);
   const isInitializedRow2 = useRef(false);
+  const lastTimeRef = useRef(null);
   const requestRef = useRef(null);
 
   useEffect(() => {
-    const speed = 1.35; // Pixels per frame
+    const baseSpeed = 1.35; // Base speed in pixels per 60fps frame
 
-    // Pre-fill Row 2's left off-screen buffer so cards roll in from the far left edge immediately
+    // On mount, initialize Row 2 offset to -lastChildWidth so the first element is prepared just off-screen left
     if (trackRefRow2.current && !isInitializedRow2.current) {
-      let initialLeftBufferOffset = 0;
-      const children = trackRefRow2.current.children;
-      const count = Math.min(12, children.length);
-      for (let i = 0; i < count; i++) {
-        initialLeftBufferOffset += children[i].offsetWidth;
+      const lastChild = trackRefRow2.current.lastElementChild;
+      if (lastChild) {
+        xOffsetRow2.current = -lastChild.offsetWidth;
       }
-      xOffsetRow2.current = -initialLeftBufferOffset;
       isInitializedRow2.current = true;
     }
 
-    const animate = () => {
+    const animate = (time) => {
+      if (lastTimeRef.current === null) {
+        lastTimeRef.current = time;
+      }
+      const deltaTime = Math.min((time - lastTimeRef.current) / 16.667, 2.5); // Normalized to 60fps frame time
+      lastTimeRef.current = time;
+
+      const speed = baseSpeed * deltaTime;
+
       // ── Row 1: Right to Left ──────────────────────────────────────────────
       xOffsetRow1.current -= speed;
       if (trackRefRow1.current && trackRefRow1.current.firstElementChild) {
@@ -247,10 +239,9 @@ export default function MarqueeTicker({ onSelectPhrase }) {
       // ── Row 2: Left to Right ──────────────────────────────────────────────
       xOffsetRow2.current += speed;
       if (trackRefRow2.current && trackRefRow2.current.lastElementChild) {
-        const lastChild = trackRefRow2.current.lastElementChild;
-        const lastChildWidth = lastChild.offsetWidth;
-
-        if (xOffsetRow2.current >= lastChildWidth) {
+        if (xOffsetRow2.current >= 0) {
+          const lastChild = trackRefRow2.current.lastElementChild;
+          const lastChildWidth = lastChild.offsetWidth;
           xOffsetRow2.current -= lastChildWidth;
           trackRefRow2.current.insertBefore(lastChild, trackRefRow2.current.firstElementChild);
         }
