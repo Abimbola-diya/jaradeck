@@ -179,7 +179,7 @@ const ALL_PHRASES_ROW2 = [
   { text: "Graphic Designer for flyers that\ndon’t look like crusade banners", shape: 'pink_semi', color: '#00E676' },
   { text: "Photographer before the drip\nfades away in Lagos heat", shape: 'multi_star', color: '#FFFFFF' },
   { text: "DM Closer to convert customers\nbefore competitors take them", shape: 'triangle', color: '#FF6D00' },
-  { text: "Content Creator for street clips\npeople actually want to watch", shape: 'bumpy', color: '#D500F9' },
+  { text: "Content Creator for street episodes\nthat people actually want to answer", shape: 'bumpy', color: '#D500F9' },
   { text: "Instagram Ads Expert so your ad\ndoesn’t donate ₦50k to Meta", shape: 'sparkle', color: '#FFD700' },
   { text: "Event MC to hype your guests\nwithout making tacky jokes", shape: 'pink_semi', color: '#FF3366' },
   { text: "Makeup Artist for facebeats\nthat survive Lagos heat", shape: 'four_star', color: '#00E5FF' },
