@@ -691,16 +691,16 @@ textarea {
 .hero-chatbox-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.45rem;
   background-color: #ffffff;
   color: #0048b3;
   border: none;
   border-radius: 9999px;
-  padding: 0.7rem 1.4rem;
-  font-size: 0.95rem;
+  padding: 0.45rem 1.05rem;
+  font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -824,6 +824,11 @@ textarea {
     line-height: 1.45;
     margin-bottom: 0.75rem;
     max-width: 100%;
+  }
+
+  .hero-chatbox-wrapper {
+    min-height: 144px; /* Exactly 10% reduction from 160px */
+    padding: 1.15rem 1.15rem 0.9rem 1.15rem;
   }
 
   .hero-cta-btn {

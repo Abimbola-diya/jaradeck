@@ -40,7 +40,7 @@ export default function HomePage() {
             />
             <div className="hero-chatbox-footer">
               <button type="submit" className="hero-chatbox-btn">
-                <HugeAnimatedEye size={20} color="#0048b3" />
+                <HugeAnimatedEye size={17} color="#0048b3" />
                 <span>Let's go</span>
               </button>
             </div>
