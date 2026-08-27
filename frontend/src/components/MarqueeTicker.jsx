@@ -42,10 +42,10 @@ function MultiPointStarShape({ fill = '#00838F', size = 42 }) {
   );
 }
 
-function SparkleStarShape({ fill = '#F57F17', size = 42 }) {
+function SparkleStarShape({ fill = '#FF1744', size = 38 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 63 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 31.4284C4.8955 30.835 14.2507 26.0467 17.6945 22.5911C22.253 18.017 26.122 11.4991 27.9374 5.27416C28.28 4.09923 28.3732 0.103596 29.0305 0C30.0058 0.875205 30.5242 5.09463 31.0523 6.47836C32.9494 11.4455 35.4804 16.4913 39.5131 20.0686C39.8281 20.3481 40.2123 21.2189 40.4851 21.4213C42.6941 23.0581 44.5937 24.8162 47.067 26.0977C48.0447 26.6043 49.0958 27.6323 50.1143 28.0702C53.431 29.4962 56.4198 31.0249 60.0294 31.6015C60.4567 31.6697 61.8149 32.3735 62.4268 32.5675L62.5948 32.7833L62.5289 32.9467C60.6586 33.5367 58.9402 33.3545 56.9755 34.0165C51.3248 35.9036 45.6336 38.214 41.3038 42.4459C40.1926 43.3454 39.2054 44.2568 38.2749 45.3437C37.1055 46.7099 36.2685 48.2708 35.2525 49.7394C32.5093 53.7045 30.7255 58.2904 29.7527 63C29.6593 63.4524 29.507 64.2248 29.1312 64.5081C28.3404 64.2561 28.4129 62.5919 28.1675 61.8243C27.7654 60.5658 27.4379 59.2335 27.0039 57.982C25.7847 55.4296 24.6736 52.3218 23.2806 49.9407C18.9948 42.6931 12.2644 37.2012 4.30585 44.4398C2.82808 33.9199 1.78832 33.522 0.225746 33.3483C-0.013135 32.5498 0.312746 32.2891 0 31.4284Z" fill={fill}/>
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 0C24 13.2548 13.2548 24 0 24C13.2548 24 24 34.7452 24 48C24 34.7452 34.7452 24 48 24C34.7452 24 24 13.2548 24 0Z" fill={fill}/>
     </svg>
   );
 }
@@ -83,34 +83,45 @@ function DynamicIcon({ shape, color }) {
 // ── 15 Phrases with Richer Darker Vectors & Formatted Text ────────────────────
 
 const ALL_PHRASES = [
-  { text: "Photographer to pepper them\non your birthday shoot", shape: 'sparkle', color: '#F59E0B' },
+  { text: "Photographer to pepper them\non your birthday shoot", shape: 'sparkle', color: '#FF3B30' },
   { text: "Videographer for that\n3-day non-stop Owambe", shape: 'semi', color: '#FF6B00' },
   { text: "Ghostwriter for the book\nyou keep talking about", shape: 'four_star', color: '#059669' },
   { text: "Brand strategist who\nunderstands the culture", shape: 'pink_semi', color: '#EC4899' },
-  { text: "Brand designer who won't\njust copy Pinterest templates", shape: 'bumpy', color: '#8B5CF6' },
+  { text: "Brand designer who won't\njust copy Pinterest templates", shape: 'bumpy', color: '#E086FF' },
   { text: "Content creator so your brand\nstops posting generic quotes", shape: 'triangle', color: '#E65100' },
   { text: "Motion designer for a\nproper, slick product launch", shape: 'multi_star', color: '#00E5FF' },
   { text: "Voiceover artist with\nzero fake oyinbo accent", shape: 'four_star', color: '#10B981' },
   { text: "Scriptwriter for skits\nthat are genuinely funny", shape: 'four_star', color: '#D946EF' },
   { text: "3D artist for renders\nthat blow minds", shape: 'bumpy', color: '#D97706' },
-  { text: "Copywriter to kill corporate\nbuzzwords and AI slop", shape: 'semi', color: '#0284C7' },
-  { text: "Frontend dev who actually\ntests on mobile screens", shape: 'sparkle', color: '#F59E0B' },
+  { text: "Copywriter to kill corporate\nbuzzwords and AI slop", shape: 'semi', color: '#FFFFFF' },
+  { text: "Frontend dev who actually\ntests on mobile screens", shape: 'sparkle', color: '#FF1744' },
   { text: "Web3 builder who writes\ntight smart contracts", shape: 'pink_semi', color: '#E11D48' },
   { text: "Landing page dev to convert\ntraffic into signups day one", shape: 'triangle', color: '#059669' },
-  { text: "Backend dev whose APIs won’t\ncollapse at 100 users", shape: 'multi_star', color: '#7C3AED' },
+  { text: "Backend dev whose APIs won’t\ncollapse at 100 users", shape: 'multi_star', color: '#E086FF' },
 ];
 
 export default function MarqueeTicker({ onSelectPhrase }) {
-  // Multiply phrases so infinite animation scrolling stays seamlessly smooth without jump
-  const fullTrack = [...ALL_PHRASES, ...ALL_PHRASES, ...ALL_PHRASES];
-
   return (
     <div className="marquee-single-container" aria-label="Jaradeck Talent Services Ticker">
       <div className="marquee-row marquee-row-left">
         <div className="marquee-track">
-          {fullTrack.map((item, idx) => (
+          {ALL_PHRASES.map((item, idx) => (
             <div 
-              key={`m-${idx}`} 
+              key={`m1-${idx}`} 
+              className="marquee-glass-card"
+              onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
+            >
+              <span className="marquee-card-icon">
+                <DynamicIcon shape={item.shape} color={item.color} />
+              </span>
+              <span className="marquee-card-text">{item.text}</span>
+            </div>
+          ))}
+        </div>
+        <div className="marquee-track" aria-hidden="true">
+          {ALL_PHRASES.map((item, idx) => (
+            <div 
+              key={`m2-${idx}`} 
               className="marquee-glass-card"
               onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
             >
