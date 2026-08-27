@@ -625,6 +625,100 @@ textarea {
   transform: translate(3px, -3px);
 }
 
+/* ===== Hero Chatbox Card Section ===== */
+.hero-chatbox-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 720px;
+  min-height: 160px;
+  padding: 1.4rem 1.4rem 1.1rem 1.4rem;
+  background: var(--nav-bg);
+  border: 1px solid var(--nav-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 28px;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    0 10px 30px rgba(0, 15, 60, 0.25);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
+  text-align: left;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-chatbox-wrapper:focus-within {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    0 14px 38px rgba(0, 15, 60, 0.35);
+}
+
+.hero-chatbox-input {
+  width: 100%;
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+  font-family: var(--font-family);
+  color: #ffffff;
+  resize: none;
+  line-height: 1.55;
+  padding: 0;
+}
+
+.hero-chatbox-input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+}
+
+.hero-chatbox-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.hero-chatbox-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background-color: #1a1d24;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hero-chatbox-btn:hover {
+  background-color: #0c0e12;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.hero-chatbox-btn:active {
+  transform: scale(0.97);
+}
+
+.hero-chatbox-globe-icon {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg at 50% 50%, #00c6ff 0deg, #0072ff 120deg, #3a7bd5 240deg, #00c6ff 360deg);
+  box-shadow: 0 0 8px rgba(0, 198, 255, 0.7);
+  flex-shrink: 0;
+}
+
+
 /* ===== Stadium Architecture Section - Anchored Flush at Bottom ===== */
 .stadium-section {
   position: relative;
@@ -3218,6 +3312,7 @@ textarea {
     opacity: 0;
     transform: translateY(20px) scale(0.985);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -3229,6 +3324,7 @@ textarea {
     opacity: 0;
     transform: translateY(18px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -3240,6 +3336,7 @@ textarea {
     opacity: 0;
     transform: scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -3280,6 +3377,7 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 1.5rem;
   margin-bottom: 36px;
   width: 100%;
 }
@@ -3373,8 +3471,8 @@ textarea {
 .ob2-input:focus,
 .ob2-input:active {
   background: #FAFAFA;
-  border-color: #0048B3;
-  box-shadow: 0 0 0 1px #0048B3;
+  border-color: #B5C4D8;
+  box-shadow: 0 0 0 1px #B5C4D8;
 }
 
 /* Input with right-side eye button */
@@ -6071,14 +6169,20 @@ a:active .hugeicons-animated-arrow-left {
 }
 
 /* --- ROLE SELECTION STEP - PIXEL PERFECT FIGMA MATCH --- */
+.ob2-role-page {
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
 .ob2-role-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 84px;
+  gap: 52px;
   width: 100%;
   max-width: 350px;
-  margin: 0 auto;
+  margin: auto 0;
 }
 
 .ob2-role-top-section {
@@ -6158,9 +6262,9 @@ a:active .hugeicons-animated-arrow-left {
   cursor: pointer;
   box-shadow: none;
   transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-tap-highlight-color: transparent;
   text-align: left;
 }
@@ -6230,7 +6334,7 @@ a:active .hugeicons-animated-arrow-left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
   max-width: 350px;
   margin: 0 auto;
@@ -6242,25 +6346,54 @@ a:active .hugeicons-animated-arrow-left {
   justify-content: center;
   align-items: center;
   padding: 12px 16px;
-  gap: 4px;
+  gap: 6px;
   width: 100%;
-  height: 44px;
+  height: 48px;
   background: #0048B3;
   box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35);
-  border-radius: 22px;
+  border-radius: 24px;
   border: none;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 110%;
   color: #FFFFFF;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
 .ob2-role-submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.ob2-google-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 10px;
+  width: 100%;
+  height: 48px;
+  background: #F4F4F6;
+  border-radius: 24px;
+  border: none;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 110%;
+  color: #0A0A0A;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.ob2-google-btn:hover {
+  background: #EBEBEF;
+}
+
+.ob2-google-btn:active {
+  transform: scale(0.99);
 }
 
 .ob2-role-signup-text {

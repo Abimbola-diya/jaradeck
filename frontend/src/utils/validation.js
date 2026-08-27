@@ -77,7 +77,7 @@ export function validateEmail(email) {
   // Basic RFC 5322 structure check: username@domain.tld
   const standardEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!standardEmailRegex.test(trimmed)) {
-    return { isValid: false, error: 'Please enter a valid email address (e.g., name@example.com).' };
+    return { isValid: false, error: 'Please enter a valid email address.' };
   }
 
   const [username, domain] = trimmed.split('@');
@@ -105,5 +105,48 @@ export function validateEmail(email) {
     return { isValid: false, error: 'Please enter a valid domain extension (e.g. .com or .ng).' };
   }
 
+  return { isValid: true };
+}
+
+/**
+ * Validates Password to ensure it meets strong security requirements
+ * @param {string} password 
+ * @returns {{ isValid: boolean, error?: string }}
+ */
+export function validatePassword(password) {
+  if (!password) {
+    return { isValid: false, error: 'Please enter your password.' };
+  }
+  if (password.length < 8) {
+    return { isValid: false, error: 'Password must be at least 8 characters.' };
+  }
+  if (!/[A-Z]/.test(password)) {
+    return { isValid: false, error: 'Password must contain at least one uppercase letter.' };
+  }
+  if (!/[a-z]/.test(password)) {
+    return { isValid: false, error: 'Password must contain at least one lowercase letter.' };
+  }
+  if (!/\d/.test(password)) {
+    return { isValid: false, error: 'Password must contain at least one number.' };
+  }
+  if (!/[!@#$%^&*(),.?":{}|<>\-_+=\[\]\\|/~`]/.test(password)) {
+    return { isValid: false, error: 'Password must contain at least one special character.' };
+  }
+  return { isValid: true };
+}
+
+/**
+ * Validates Full Name
+ * @param {string} name 
+ * @returns {{ isValid: boolean, error?: string }}
+ */
+export function validateFullName(name) {
+  if (!name || !name.trim()) {
+    return { isValid: false, error: 'Please enter your full name.' };
+  }
+  const parts = name.trim().split(/\s+/);
+  if (parts.length < 2) {
+    return { isValid: false, error: 'Please enter both your first and last name.' };
+  }
   return { isValid: true };
 }

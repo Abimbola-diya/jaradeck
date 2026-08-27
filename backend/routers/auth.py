@@ -75,13 +75,27 @@ async def login(user_credentials: UserLogin):
 
 @router.post("/google", response_model=Token)
 async def google_login(google_login: GoogleLogin):
-    idinfo = verify_google_token(google_login.credential)
-    if not idinfo:
-        raise HTTPException(status_code=400, detail="Invalid Google token")
+    email = google_login.email
+    full_name = google_login.full_name or "Google User"
+
+    if google_login.credential:
+        idinfo = verify_google_token(google_login.credential)
+        if not idinfo:
+            raise HTTPException(status_code=400, detail="Invalid Google token")
+        email = idinfo.get("email")
+        full_name = idinfo.get("name", full_name)
+    elif google_login.access_token:
+        # Fetch profile from Google userinfo API
+        import requests
+        resp = requests.get("https://www.googleapis.com/oauth2/v3/userinfo", headers={
+            "Authorization": f"Bearer {google_login.access_token}"
+        })
+        if resp.status_code != 200:
+            raise HTTPException(status_code=400, detail="Invalid Google access token")
+        userinfo = resp.json()
+        email = userinfo.get("email")
+        full_name = userinfo.get("name", full_name)
         
-    email = idinfo.get("email")
-    full_name = idinfo.get("name", "Google User")
-    
     if not email:
         raise HTTPException(status_code=400, detail="Email not provided by Google")
         
@@ -94,16 +108,12 @@ async def google_login(google_login: GoogleLogin):
         return {"access_token": access_token, "token_type": "bearer", "user": user}
     else:
         # User does not exist, create
-        if not google_login.role:
-            raise HTTPException(
-                status_code=428, 
-                detail="Role is required for new Google signups"
-            )
+        role = google_login.role or "customer"
             
         new_user_data = {
             "email": email,
             "full_name": full_name,
-            "role": google_login.role,
+            "role": role,
             "auth_provider": "google"
         }
         

@@ -14,8 +14,11 @@ class UserLogin(BaseModel):
     password: str
 
 class GoogleLogin(BaseModel):
-    credential: str
-    role: Optional[str] = None  # Required only if it's a new user and we need their role
+    credential: Optional[str] = None
+    access_token: Optional[str] = None
+    email: Optional[EmailStr] = None
+    full_name: Optional[str] = None
+    role: Optional[str] = None  # 'customer' or 'worker'
 
 class Token(BaseModel):
     access_token: str
