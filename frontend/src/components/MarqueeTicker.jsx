@@ -143,21 +143,21 @@ function DynamicIcon({ shape, color }) {
 // ── 15 Phrases for Row 1 (Right to Left) ──────────────────────────────────────
 
 const ALL_PHRASES_ROW1 = [
-  { text: "Photographer to pepper them\non your birthday shoot", shape: 'sparkle', color: '#FF3B30' },
-  { text: "Videographer for that\n3-day non-stop Owambe", shape: 'semi', color: '#FF6B00' },
-  { text: "Ghostwriter for the book\nyou keep talking about", shape: 'four_star', color: '#059669' },
-  { text: "Brand strategist who\nunderstands the culture", shape: 'pink_semi', color: '#EC4899' },
-  { text: "Brand designer who won't\njust copy Pinterest templates", shape: 'bumpy', color: '#E086FF' },
-  { text: "Content creator so your brand\nstops posting generic quotes", shape: 'triangle', color: '#E65100' },
-  { text: "Motion designer for a\nproper, slick product launch", shape: 'multi_star', color: '#00E5FF' },
-  { text: "Voiceover artist with\nzero fake oyinbo accent", shape: 'four_star', color: '#10B981' },
-  { text: "Scriptwriter for skits\nthat are genuinely funny", shape: 'four_star', color: '#D946EF' },
-  { text: "3D artist for renders\nthat blow minds", shape: 'bumpy', color: '#D97706' },
-  { text: "Copywriter to kill corporate\nbuzzwords and AI slop", shape: 'semi', color: '#FFFFFF' },
-  { text: "Frontend dev who actually\ntests on mobile screens", shape: 'sparkle', color: '#FF1744' },
-  { text: "Web3 builder who writes\ntight smart contracts", shape: 'pink_semi', color: '#E11D48' },
-  { text: "Landing page dev to convert\ntraffic into signups day one", shape: 'triangle', color: '#059669' },
-  { text: "Backend dev whose APIs won’t\ncollapse at 100 users", shape: 'multi_star', color: '#E086FF' },
+  { text: "Photographer to pepper them on birthday shoot", shape: 'sparkle', color: '#FF3B30' },
+  { text: "Videographer for that 3-day non-stop Owambe", shape: 'semi', color: '#FF6B00' },
+  { text: "Ghostwriter for books you keep talking about", shape: 'four_star', color: '#059669' },
+  { text: "Brand strategist who understands the culture", shape: 'pink_semi', color: '#EC4899' },
+  { text: "Brand designer who won't just copy templates", shape: 'bumpy', color: '#E086FF' },
+  { text: "Content creator so brand stops posting dry quotes", shape: 'triangle', color: '#E65100' },
+  { text: "Motion designer for a slick product launch", shape: 'multi_star', color: '#00E5FF' },
+  { text: "Voiceover artist with zero fake oyinbo accent", shape: 'four_star', color: '#10B981' },
+  { text: "Scriptwriter for skits that are genuinely funny", shape: 'four_star', color: '#D946EF' },
+  { text: "3D artist for renders that blow minds", shape: 'bumpy', color: '#D97706' },
+  { text: "Copywriter to kill buzzwords and AI slop", shape: 'semi', color: '#FFFFFF' },
+  { text: "Frontend dev who tests on mobile screens", shape: 'sparkle', color: '#FF1744' },
+  { text: "Web3 builder who writes tight smart contracts", shape: 'pink_semi', color: '#E11D48' },
+  { text: "Landing page dev to turn traffic into signups", shape: 'triangle', color: '#059669' },
+  { text: "Backend dev whose APIs won’t crash at 100 users", shape: 'multi_star', color: '#E086FF' },
 ];
 
 // Helper to generate sequential card sequence in exact array order
@@ -173,26 +173,26 @@ function generateSequentialSequence(phrases, totalCount, prefix) {
 // ── 12 Phrases for Row 2 (Left to Right) ──────────────────────────────────────
 
 const ALL_PHRASES_ROW2 = [
-  { text: "UI/UX Designer so web app\nwon’t look like INEC's portal", shape: 'semi', color: '#FFD700' },
-  { text: "Social Media Manager so page\nstops replying \"DM for price\"", shape: 'four_star', color: '#00E5FF' },
-  { text: "Video Editor for snappy Reels\nbefore the trend dies out", shape: 'sparkle', color: '#FF3366' },
-  { text: "Graphic Designer for flyers that\ndon’t look like crusade banners", shape: 'pink_semi', color: '#00E676' },
-  { text: "Photographer before the drip\nfades away in Lagos heat", shape: 'multi_star', color: '#FFFFFF' },
-  { text: "DM Closer to convert customers\nbefore competitors take them", shape: 'triangle', color: '#FF6D00' },
-  { text: "Content Creator for street episodes\nthat people actually want to answer", shape: 'bumpy', color: '#D500F9' },
-  { text: "Instagram Ads Expert so your ad\ndoesn’t donate ₦50k to Meta", shape: 'sparkle', color: '#FFD700' },
-  { text: "Event MC to hype your guests\nwithout making tacky jokes", shape: 'pink_semi', color: '#FF3366' },
-  { text: "Makeup Artist for facebeats\nthat survive Lagos heat", shape: 'four_star', color: '#00E5FF' },
-  { text: "Mobile App Dev whose app won't\nuse 200MB just to open login", shape: 'semi', color: '#00E676' },
-  { text: "Pitch Deck Designer so investors\ndon’t need a break at slide 5", shape: 'bumpy', color: '#FFFFFF' },
+  { text: "UI/UX Designer so web app won’t look like INEC's portal", shape: 'semi', color: '#FFD700' },
+  { text: "Social Media Manager so page stops replying \"DM for price\"", shape: 'four_star', color: '#00E5FF' },
+  { text: "Video Editor for snappy Reels before the trend dies out", shape: 'sparkle', color: '#FF3366' },
+  { text: "Graphic Designer for flyers that don’t look like crusade banners", shape: 'pink_semi', color: '#00E676' },
+  { text: "Photographer before the drip fades away in Lagos heat", shape: 'multi_star', color: '#FFFFFF' },
+  { text: "DM Closer to convert customers before competitors take them", shape: 'triangle', color: '#FF6D00' },
+  { text: "Content Creator for street episodes that people actually want to answer", shape: 'bumpy', color: '#D500F9' },
+  { text: "Instagram Ads Expert so your ad doesn’t donate ₦50k to Meta", shape: 'sparkle', color: '#FFD700' },
+  { text: "Event MC to hype your guests without making tacky jokes", shape: 'pink_semi', color: '#FF3366' },
+  { text: "Makeup Artist for facebeats that survive Lagos heat", shape: 'four_star', color: '#00E5FF' },
+  { text: "Mobile App Dev whose app won't use 200MB just to open login", shape: 'semi', color: '#00E676' },
+  { text: "Pitch Deck Designer so investors don’t need a break at slide 5", shape: 'bumpy', color: '#FFFFFF' },
 ];
 
 export default function MarqueeTicker({ onSelectPhrase }) {
   // Row 1 Cards (Right to Left): Exact Sequential Order
-  const [cardsRow1] = useState(() => generateSequentialSequence(ALL_PHRASES_ROW1, 30, 'r1-v7'));
+  const [cardsRow1] = useState(() => generateSequentialSequence(ALL_PHRASES_ROW1, 30, 'r1-v9'));
 
   // Row 2 Cards (Left to Right): Exact Sequential Order
-  const [cardsRow2] = useState(() => generateSequentialSequence(ALL_PHRASES_ROW2, 30, 'r2-v7'));
+  const [cardsRow2] = useState(() => generateSequentialSequence(ALL_PHRASES_ROW2, 30, 'r2-v9'));
 
   const trackRefRow1 = useRef(null);
   const trackRefRow2 = useRef(null);
@@ -264,7 +264,7 @@ export default function MarqueeTicker({ onSelectPhrase }) {
             <div key={item.id} className="marquee-card-wrapper">
               <div 
                 className="marquee-glass-card"
-                onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
+                onClick={() => onSelectPhrase && onSelectPhrase(item.text)}
               >
                 <span className="marquee-card-icon">
                   <DynamicIcon shape={item.shape} color={item.color} />
@@ -283,7 +283,7 @@ export default function MarqueeTicker({ onSelectPhrase }) {
             <div key={item.id} className="marquee-card-wrapper">
               <div 
                 className="marquee-glass-card"
-                onClick={() => onSelectPhrase && onSelectPhrase(item.text.replace('\n', ' '))}
+                onClick={() => onSelectPhrase && onSelectPhrase(item.text)}
               >
                 <span className="marquee-card-icon">
                   <DynamicIcon shape={item.shape} color={item.color} />
