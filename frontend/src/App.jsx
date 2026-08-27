@@ -159,64 +159,33 @@ export default function App() {
             </button>
           </nav>
 
-          {/* 3. Far Right Standalone "More ⌃" Glassmorphic Pill */}
-          <div className="nav-more-wrapper">
+          {/* 3. Far Right Controls: White Sign up Pill + Log in text link (Desktop) / Triple Button (Mobile) */}
+          <div className="nav-header-right">
             <button
-              ref={morePillRef}
-              className={`nav-more-pill ${isMoreOpen ? 'open' : ''}`}
-              onClick={() => setIsMoreOpen(!isMoreOpen)}
+              className="nav-signup-btn"
+              onClick={() => navigateTo('/waitlist')}
             >
-              <span>More</span>
-              <svg
-                className={`chevron-icon ${isMoreOpen ? 'open' : ''}`}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              Sign up
             </button>
 
-            {/* Glassmorphic Dropdown Menu popping under More Pill */}
-            {isMoreOpen && (
-              <div className="nav-dropdown-menu" ref={dropdownRef}>
-                <button
-                  className="dropdown-item-btn"
-                  onClick={() => { setIsMoreOpen(false); }}
-                >
-                  Contact Us
-                </button>
-                <button
-                  className="dropdown-item-btn"
-                  onClick={() => { setIsMoreOpen(false); }}
-                >
-                  FAQs
-                </button>
-                <button
-                  className="dropdown-item-btn"
-                  onClick={() => { setIsMoreOpen(false); }}
-                >
-                  Blog
-                </button>
-              </div>
-            )}
-          </div>
+            <button
+              className="nav-login-btn"
+              onClick={() => navigateTo('/onboarding')}
+            >
+              Log in
+            </button>
 
-          {/* Mobile Hamburger Menu */}
-          <button
-            className="nav-hamburger"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Open Navigation Menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            {/* Triple Button / Hamburger Menu Icon (Mobile) */}
+            <button
+              className="nav-hamburger"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open Navigation Menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
         </div>
       </header>
       )}
