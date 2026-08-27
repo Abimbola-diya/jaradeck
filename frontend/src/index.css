@@ -548,8 +548,11 @@ textarea {
     margin-top: 1.25rem;
     margin-bottom: 1.5rem;
   }
+  .marquee-row-right {
+    display: none !important;
+  }
   .marquee-card-wrapper {
-    width: 330px;
+    width: 290px;
     padding-right: 0.85rem;
   }
   .marquee-glass-card {
