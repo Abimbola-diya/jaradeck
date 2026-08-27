@@ -502,6 +502,7 @@ textarea {
   gap: 1.1rem;
   padding: 0.85rem 1.75rem;
   width: 100%;
+  height: 74px;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -6653,4 +6654,295 @@ a:active .hugeicons-animated-arrow-left {
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+/* ===== Standalone Jaradeck Sign Up Modal & Page ===== */
+.jd-signup-page-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--blue-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.jd-signup-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 10, 30, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.jd-signup-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 530px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 1.75rem 2.25rem 1.5rem 2.25rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  color: #0A0A0A;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  will-change: transform, opacity;
+}
+
+.jd-signup-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E293B;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.jd-signup-close-btn:hover {
+  background-color: #F1F5F9;
+}
+
+.jd-signup-close-btn:active {
+  transform: scale(0.92);
+}
+
+.jd-signup-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.85rem;
+}
+
+.jd-signup-title-container .jd-signup-title {
+  margin-bottom: 0;
+}
+
+.jd-signup-title {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 28px;
+  font-weight: 500;
+  color: #0A0A0A;
+  text-align: center;
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Blue Google SSO Button */
+.jd-google-blue-btn {
+  width: 100%;
+  height: 48px;
+  background: #0048B3;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35), 0 4px 14px rgba(0, 72, 179, 0.3);
+  transition: all 0.2s ease;
+}
+
+.jd-google-blue-btn:hover {
+  background: #003b99;
+  transform: translateY(-1px);
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.35), inset 2px 2px 4px rgba(255, 255, 255, 0.4), 0 6px 18px rgba(0, 72, 179, 0.4);
+}
+
+.jd-google-blue-btn:active {
+  transform: translateY(0) scale(0.99);
+}
+
+
+
+/* Divider */
+.jd-signup-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 1.15rem 0;
+  gap: 1rem;
+}
+
+.jd-signup-divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #E2E8F0;
+}
+
+.jd-signup-divider-text {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 13px;
+  font-weight: 400;
+  color: #94A3B8;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+/* Form Fields */
+.jd-signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.jd-signup-field {
+  position: relative;
+  width: 100%;
+}
+
+.jd-signup-input {
+  width: 100%;
+  height: 46px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 0 1.25rem;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 400;
+  font-size: 15px;
+  color: #0F172A;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.jd-signup-input::placeholder {
+  color: #94A3B8;
+}
+
+.jd-signup-input:focus {
+  background-color: #FFFFFF;
+  border-color: #0048cc;
+  box-shadow: 0 0 0 3px rgba(0, 72, 204, 0.12);
+}
+
+.jd-signup-field-password .jd-signup-input {
+  padding-right: 3rem;
+}
+
+.jd-signup-eye-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.jd-signup-eye-btn:hover {
+  color: #0F172A;
+}
+
+.jd-signup-error-msg {
+  font-family: var(--font-family);
+  font-size: 13px;
+  color: #EF4444;
+  text-align: center;
+  margin-top: -0.25rem;
+}
+
+
+/* Continue Button */
+.jd-signup-continue-btn {
+  width: 100%;
+  height: 48px;
+  background: #0048B3;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35), 0 4px 14px rgba(0, 72, 179, 0.3);
+  transition: all 0.2s ease;
+  margin-top: 0.25rem;
+}
+
+.jd-signup-continue-btn:hover:not(:disabled) {
+  background: #003b99;
+  transform: translateY(-1px);
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.35), inset 2px 2px 4px rgba(255, 255, 255, 0.4), 0 6px 18px rgba(0, 72, 179, 0.4);
+}
+
+.jd-signup-continue-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+}
+
+.jd-signup-continue-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Footer */
+.jd-signup-footer {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+  color: #64748B;
+  text-align: center;
+  margin-top: 1.15rem;
+}
+
+.jd-signup-login-link {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  color: #0048cc;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.jd-signup-login-link:hover {
+  text-decoration: underline;
+}
+
+@keyframes jdFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes jdSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes jdSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -10,6 +10,7 @@ import WaitlistPage from './pages/WaitlistPage';
 import AdminViewPage from './pages/AdminViewPage';
 import ApplyPage from './pages/ApplyPage';
 import ApplySuccessPage from './pages/ApplySuccessPage';
+import SignupPage from './pages/SignupPage';
 
 export default function App() {
   const location = useLocation();
@@ -18,18 +19,27 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(location.pathname === '/waitlist' ? 'join' : 'why');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const isProductRoute = ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
+  const isSignupRoute = location.pathname === '/signup';
+  const routesLocation = isSignupRoute ? { ...location, pathname: '/' } : location;
 
   useEffect(() => {
     if (location.pathname === '/waitlist') {
       setActiveTab((prev) => prev !== 'join' ? 'join' : prev);
-    } else if (location.pathname === '/') {
+    } else if (location.pathname === '/' || location.pathname === '/signup') {
       setActiveTab((prev) => prev === 'join' ? 'why' : prev);
     }
   }, [location.pathname]);
 
 
-  const navigateTo = (path) => {
-    navigate(path);
+  const navigateTo = (path, e) => {
+    if (e && (e.clientX || e.currentTarget)) {
+      const rect = e.currentTarget?.getBoundingClientRect();
+      const originX = rect ? rect.left + rect.width / 2 : e.clientX;
+      const originY = rect ? rect.top + rect.height / 2 : e.clientY;
+      navigate(path, { state: { origin: { x: originX, y: originY } } });
+    } else {
+      navigate(path);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -128,7 +138,7 @@ export default function App() {
 
             <button
               ref={hireRef}
-              className={`nav-link-btn ${activeTab === 'hire' && location.pathname === '/' ? 'active' : ''}`}
+              className={`nav-link-btn ${activeTab === 'hire' && (location.pathname === '/' || location.pathname === '/signup') ? 'active' : ''}`}
               onClick={() => { setActiveTab('hire'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               Hire Talent
@@ -136,7 +146,7 @@ export default function App() {
 
             <button
               ref={howRef}
-              className={`nav-link-btn ${activeTab === 'how' && location.pathname === '/' ? 'active' : ''}`}
+              className={`nav-link-btn ${activeTab === 'how' && (location.pathname === '/' || location.pathname === '/signup') ? 'active' : ''}`}
               onClick={() => { setActiveTab('how'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               How It Works
@@ -144,7 +154,7 @@ export default function App() {
 
             <button
               ref={whyRef}
-              className={`nav-link-btn ${activeTab === 'why' && location.pathname === '/' ? 'active' : ''}`}
+              className={`nav-link-btn ${activeTab === 'why' && (location.pathname === '/' || location.pathname === '/signup') ? 'active' : ''}`}
               onClick={() => { setActiveTab('why'); setIsMoreOpen(false); navigateTo('/'); }}
             >
               Why Jaradeck
@@ -163,7 +173,7 @@ export default function App() {
           <div className="nav-header-right">
             <button
               className="nav-signup-btn"
-              onClick={() => navigateTo('/waitlist')}
+              onClick={(e) => navigateTo('/signup', e)}
             >
               Sign up
             </button>
@@ -268,7 +278,7 @@ export default function App() {
         </div>
       )}
 
-      <Routes>
+      <Routes location={routesLocation}>
         <Route path="/" element={<HomePage />} />
         <Route path="/waitlist" element={<WaitlistPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
@@ -281,6 +291,8 @@ export default function App() {
         <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {isSignupRoute && <SignupPage />}
     </div>
   );
 }
