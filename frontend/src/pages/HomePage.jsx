@@ -9,6 +9,7 @@ import FeatureCards from '../components/FeatureCards';
 import RealImpactSection from '../components/RealImpactSection';
 import FaqSection from '../components/FaqSection';
 import NewsletterSection from '../components/NewsletterSection';
+import MarqueeTicker from '../components/MarqueeTicker';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -46,6 +47,9 @@ export default function HomePage() {
             </div>
           </form>
         </div>
+
+        {/* Chowdeck-Style Glassmorphic Marquee Ticker */}
+        <MarqueeTicker onSelectPhrase={() => { navigate('/waitlist'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
 
         <div className="stadium-section">
           <StadiumIllustration />
