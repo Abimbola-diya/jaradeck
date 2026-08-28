@@ -1,11 +1,14 @@
 import React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 export default function GooglePillButton({ role, onGoogleSuccess, onError }) {
   const login = useGoogleLogin({
+    prompt: 'select_account',
     onSuccess: async (tokenResponse) => {
       try {
-        const res = await fetch('http://localhost:8000/api/auth/google', {
+        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -18,6 +21,8 @@ export default function GooglePillButton({ role, onGoogleSuccess, onError }) {
           onError(data.detail || 'Google authentication failed');
           return;
         }
+        localStorage.setItem('jaradeck_token', data.access_token);
+        localStorage.setItem('jaradeck_user', JSON.stringify(data.user));
         onGoogleSuccess(data);
       } catch (err) {
         onError('Could not connect to backend authentication server.');

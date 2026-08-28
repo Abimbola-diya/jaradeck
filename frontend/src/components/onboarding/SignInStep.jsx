@@ -5,6 +5,8 @@ import EyeIcon from './EyeIcon';
 import ArrowIcon from '../ArrowIcon';
 import { validateEmail } from '../../utils/validation';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 export default function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +29,7 @@ export default function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await fetch('http://localhost:8000/api/auth/google', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

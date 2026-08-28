@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import { useGoogleLogin } from '@react-oauth/google';
 import EyeIcon from './onboarding/EyeIcon';
 import BrandLogo from './BrandLogo';
 import { Cancel01Icon } from './ui/cancel-01';
+import ArrowRight02Icon from './ArrowRight02Icon';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
+function formatErrorMessage(detail, fallback = 'An unexpected error occurred. Please try again.') {
+  if (!detail) return fallback;
+  if (typeof detail === 'string') {
+    if (detail.startsWith('{') || detail.includes('Database error') || detail.includes('Failing row contains') || detail.includes('violates')) {
+      return fallback;
+    }
+    return detail;
+  }
+  if (typeof detail === 'object') {
+    if (typeof detail.message === 'string') return detail.message;
+    if (Array.isArray(detail) && detail[0]?.msg) return detail[0].msg;
+  }
+  return fallback;
+}
 
 export default function SignupModalCard({
   onClose,
   onSwitchToLogin,
   onGoogleSuccess,
-  onFormSubmit,
+  onOTPRequired,
   triggerOrigin,
 }) {
   const [fullName, setFullName] = useState('');
@@ -17,6 +36,8 @@ export default function SignupModalCard({
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isClosing, setIsClosing] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
 
@@ -27,6 +48,40 @@ export default function SignupModalCard({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const googleLogin = useGoogleLogin({
+    prompt: 'select_account',
+    onSuccess: async (tokenResponse) => {
+      setIsGoogleLoading(true);
+      setError('');
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_token: tokenResponse.access_token,
+            role: 'customer'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(formatErrorMessage(data.detail, 'Google Sign-In failed. Please try again.'));
+          setIsGoogleLoading(false);
+          return;
+        }
+        localStorage.setItem('jaradeck_token', data.access_token);
+        localStorage.setItem('jaradeck_user', JSON.stringify(data.user));
+        if (onGoogleSuccess) {
+          onGoogleSuccess(data);
+        }
+      } catch (err) {
+        setError('Network error connecting to authentication server.');
+      } finally {
+        setIsGoogleLoading(false);
+      }
+    },
+    onError: () => setError('Google Sign-In was cancelled or failed.')
+  });
 
   // Compute CSS transform-origin relative to the modal card
   const transformOrigin = (() => {
@@ -47,7 +102,7 @@ export default function SignupModalCard({
     }, 180);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fullName.trim()) {
       setError('Please enter your full name');
@@ -61,15 +116,35 @@ export default function SignupModalCard({
       setError('Password must be at least 6 characters');
       return;
     }
-    setError('');
-    if (onFormSubmit) {
-      onFormSubmit({ fullName, email, password });
-    }
-  };
 
-  const handleGoogleClick = () => {
-    if (onGoogleSuccess) {
-      onGoogleSuccess();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name: fullName.trim(),
+          email: email.trim().toLowerCase(),
+          password,
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(formatErrorMessage(data.detail, 'Registration failed. Please try again.'));
+        return;
+      }
+
+      // Success — hand off to OTP step
+      if (onOTPRequired) {
+        onOTPRequired(email.trim().toLowerCase());
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -145,7 +220,8 @@ export default function SignupModalCard({
         <button
           type="button"
           className="jd-google-blue-btn"
-          onClick={handleGoogleClick}
+          onClick={() => googleLogin()}
+          disabled={isGoogleLoading}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -153,7 +229,7 @@ export default function SignupModalCard({
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
           </svg>
-          <span>Continue with Google</span>
+          <span>{isGoogleLoading ? 'Signing in...' : 'Continue with Google'}</span>
         </button>
 
         {/* Divider */}
@@ -170,7 +246,7 @@ export default function SignupModalCard({
             <input
               type="text"
               className="jd-signup-input"
-              placeholder={isMobile ? "Your full name" : "Full name"}
+              placeholder="Full name e.g Lagbaja Tamedo"
               value={fullName}
               onChange={(e) => { setFullName(e.target.value); setError(''); }}
               required
@@ -182,7 +258,7 @@ export default function SignupModalCard({
             <input
               type="email"
               className="jd-signup-input"
-              placeholder={isMobile ? "example@gmail.com" : "name@work-email.com"}
+              placeholder="mrlagbajatamedo@gmail.com"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(''); }}
               required
@@ -213,13 +289,14 @@ export default function SignupModalCard({
 
           {error && <div className="jd-signup-error-msg">{error}</div>}
 
-          {/* Continue CTA Button */}
+          {/* Sign up CTA Button */}
           <button
             type="submit"
             className="jd-signup-continue-btn"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isSubmitting}
           >
-            Continue
+            <span>{isSubmitting ? 'Sending code…' : 'Sign up'}</span>
+            {!isSubmitting && <ArrowRight02Icon size={18} />}
           </button>
         </form>
 

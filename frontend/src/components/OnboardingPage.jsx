@@ -14,11 +14,15 @@ import SuccessStep from './onboarding/SuccessStep';
 // Worker Flow:
 //   role → auth (signup) ↔ auth (signin) → profile (+ phone) → otp (sms) → done
 //
-export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) {
-  const [step, setStep] = useState('role');
+export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, initialVerifiedUser, initialAccessToken, startAtRoleSelection }) {
+  const [step, setStep] = useState(startAtRoleSelection ? 'role' : 'role');
   const [role, setRole] = useState(null);
   const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'signin'
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState(initialVerifiedUser || {});
+  // When user arrives from OTP flow, they are already authenticated
+  const [verifiedUser] = useState(initialVerifiedUser || null);
+  const [accessToken] = useState(initialAccessToken || null);
+  const isFromSignup = Boolean(startAtRoleSelection && verifiedUser);
 
   // Sync with browser history popstate so using the browser back button steps backward inside onboarding instead of navigating to home page
   useEffect(() => {
@@ -54,7 +58,7 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
   };
 
   // ── Role selection ──────────────────────────────────────────────
-  const handleRoleSelect = (selected) => {
+  const handleRoleSelect = async (selected) => {
     if (selected === 'signin-only') {
       setRole(null);
       setAuthMode('signin');
@@ -62,6 +66,28 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard }) 
       return;
     }
     setRole(selected);
+
+    // If user arrived from OTP verification (normal signup), save their role
+    // via API before proceeding to profile/done
+    if (isFromSignup && verifiedUser && accessToken) {
+      try {
+        await fetch(
+          `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/auth/set-role`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({ role: selected }),
+          }
+        );
+      } catch (e) {
+        // Non-fatal: role will be set on first dashboard load or profile step
+        console.warn('[OB] Failed to set role:', e);
+      }
+    }
+
     goToStep('profile');   // Customer & worker go directly to "Let's set up your profile"
   };
 

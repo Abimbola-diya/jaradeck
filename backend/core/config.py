@@ -18,4 +18,12 @@ class Settings:
 
     GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
 
+    # Brevo Transactional Email
+    BREVO_API_KEY: str = os.getenv("BREVO_API_KEY", "")
+    OTP_SENDER_EMAIL: str = os.getenv("OTP_SENDER_EMAIL", "noreply@jaradeck.com")
+    OTP_SENDER_NAME: str = os.getenv("OTP_SENDER_NAME", "Jaradeck")
+    OTP_EXPIRY_MINUTES: int = 10
+    OTP_MAX_RESENDS_PER_HOUR: int = 3
+    OTP_MAX_ATTEMPTS: int = 5
+
 settings = Settings()

@@ -62,16 +62,42 @@ def init_db():
                 email TEXT UNIQUE NOT NULL,
                 password_hash TEXT,
                 full_name TEXT NOT NULL,
-                role TEXT NOT NULL,
+                role TEXT,
                 country TEXT,
                 phone TEXT,
                 auth_provider TEXT DEFAULT 'local',
+                is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+                failed_otp_attempts INTEGER NOT NULL DEFAULT 0,
+                otp_locked_until TIMESTAMP WITH TIME ZONE,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
             );
+
+            -- Safely update column constraints & add new columns to existing deployments
+            ALTER TABLE users ALTER COLUMN role DROP NOT NULL;
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN NOT NULL DEFAULT FALSE;
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS failed_otp_attempts INTEGER NOT NULL DEFAULT 0;
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_locked_until TIMESTAMP WITH TIME ZONE;
+
+            -- OTP verification codes table
+            CREATE TABLE IF NOT EXISTS otp_codes (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                email TEXT NOT NULL,
+                code TEXT NOT NULL,
+                expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+                used BOOLEAN NOT NULL DEFAULT FALSE,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+            CREATE INDEX IF NOT EXISTS idx_users_auth_provider ON users(auth_provider);
+            CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+            CREATE INDEX IF NOT EXISTS idx_otp_codes_email ON otp_codes(email);
+            CREATE INDEX IF NOT EXISTS idx_otp_codes_user_id ON otp_codes(user_id);
         """)
         conn.commit()
         cur.close()
         conn.close()
-        print("Successfully created/verified Supabase database tables on startup!")
+        print("Successfully created/verified Supabase database tables and high-scale indexes on startup!")
     except Exception as e:
         print(f"DATABASE INITIALIZATION FAILED ERROR: {e}")
