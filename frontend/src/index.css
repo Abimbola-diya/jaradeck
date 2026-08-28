@@ -6771,8 +6771,6 @@ a:active .hugeicons-animated-arrow-left {
   transform: translateY(0) scale(0.99);
 }
 
-
-
 /* Divider */
 .jd-signup-divider {
   display: flex;
@@ -6811,6 +6809,21 @@ a:active .hugeicons-animated-arrow-left {
   width: 100%;
 }
 
+.jd-signup-label {
+  font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0A0A0A;
+  margin-bottom: 6px;
+  display: block;
+  text-align: left;
+}
+
+.jd-signup-input-row {
+  position: relative;
+  width: 100%;
+}
+
 .jd-signup-input {
   width: 100%;
   height: 46px;
@@ -6836,7 +6849,7 @@ a:active .hugeicons-animated-arrow-left {
   box-shadow: 0 0 0 3px rgba(0, 72, 204, 0.12);
 }
 
-.jd-signup-field-password .jd-signup-input {
+.jd-signup-input-pw {
   padding-right: 3rem;
 }
 
@@ -6868,7 +6881,6 @@ a:active .hugeicons-animated-arrow-left {
   text-align: center;
   margin-top: -0.25rem;
 }
-
 
 /* Continue Button */
 .jd-signup-continue-btn {
@@ -6924,6 +6936,97 @@ a:active .hugeicons-animated-arrow-left {
 
 .jd-signup-login-link:hover {
   text-decoration: underline;
+}
+
+/* ===== Mobile Full-Page Signup View (max-width: 640px) ===== */
+@media (max-width: 640px) {
+  .jd-signup-modal-overlay {
+    background-color: #FFFFFF;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .jd-signup-modal-card {
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 3rem 1.5rem 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .jd-signup-close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    z-index: 10;
+  }
+
+  .jd-signup-close-btn:hover {
+    background-color: #F1F5F9;
+  }
+
+  .jd-signup-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .jd-signup-header-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .jd-signup-title {
+    font-size: 30px;
+    line-height: 32px;
+  }
+
+  .jd-google-blue-btn {
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .jd-signup-form {
+    gap: 1.15rem;
+  }
+
+  .jd-signup-input {
+    height: 50px;
+    font-size: 16px;
+    border-radius: 14px;
+  }
+
+  .jd-signup-continue-btn {
+    height: 50px;
+    font-size: 16px;
+    margin-top: 2rem;
+  }
+
+  .jd-signup-footer {
+    margin-top: 0.85rem;
+    padding-top: 0;
+    font-size: 15px;
+  }
 }
 
 @keyframes jdFadeIn {

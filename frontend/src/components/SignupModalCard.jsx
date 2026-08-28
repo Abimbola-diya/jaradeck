@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import EyeIcon from './onboarding/EyeIcon';
 import BrandLogo from './BrandLogo';
+import { Cancel01Icon } from './ui/cancel-01';
 
 export default function SignupModalCard({
   onClose,
@@ -16,6 +17,16 @@ export default function SignupModalCard({
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isClosing, setIsClosing] = useState(false);
+
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Compute CSS transform-origin relative to the modal card
   const transformOrigin = (() => {
@@ -74,26 +85,28 @@ export default function SignupModalCard({
     >
       <motion.div
         className="jd-signup-modal-card"
-        style={{ transformOrigin }}
+        style={isMobile ? undefined : { transformOrigin }}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="signup-modal-title"
-        initial={{ opacity: 0, scale: 0.05 }}
+        initial={isMobile ? { opacity: 0, y: 16 } : { opacity: 0, scale: 0.05 }}
         animate={
           isClosing
-            ? { opacity: 0, scale: 0.05 }
-            : { opacity: 1, scale: 1 }
+            ? (isMobile ? { opacity: 0, y: 16 } : { opacity: 0, scale: 0.05 })
+            : (isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1 })
         }
         transition={
           isClosing
             ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
-            : {
-                type: 'spring',
-                stiffness: 420,
-                damping: 30,
-                mass: 0.5,
-              }
+            : (isMobile
+                ? { duration: 0.2, ease: 'easeOut' }
+                : {
+                    type: 'spring',
+                    stiffness: 420,
+                    damping: 30,
+                    mass: 0.5,
+                  })
         }
       >
         {/* Close Button */}
@@ -103,19 +116,30 @@ export default function SignupModalCard({
           onClick={handleClose}
           aria-label="Close modal"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <Cancel01Icon size={20} />
         </button>
 
-        {/* Modal Title with BrandLogo */}
-        <div className="jd-signup-title-container">
-          <BrandLogo width={28} tone="blue" />
-          <h2 id="signup-modal-title" className="jd-signup-title">
-            Sign up to Jaradeck
-          </h2>
-        </div>
+        {isMobile ? (
+          /* Mobile Layout: Logo on top centered */
+          <>
+            <div className="jd-signup-logo-container">
+              <BrandLogo width={34} height={25} tone="blue" />
+            </div>
+            <div className="jd-signup-header-block">
+              <h1 id="signup-modal-title" className="jd-signup-title">
+                Sign up to Jaradeck
+              </h1>
+            </div>
+          </>
+        ) : (
+          /* Desktop Layout: Logo inline beside Title on the same line */
+          <div className="jd-signup-title-container">
+            <BrandLogo width={28} tone="blue" />
+            <h2 id="signup-modal-title" className="jd-signup-title">
+              Sign up to Jaradeck
+            </h2>
+          </div>
+        )}
 
         {/* Google SSO Button */}
         <button
@@ -135,17 +159,18 @@ export default function SignupModalCard({
         {/* Divider */}
         <div className="jd-signup-divider">
           <span className="jd-signup-divider-line"></span>
-          <span className="jd-signup-divider-text">or sign up below</span>
+          <span className="jd-signup-divider-text">{isMobile ? "or" : "or sign up below"}</span>
           <span className="jd-signup-divider-line"></span>
         </div>
 
         {/* Form Fields */}
         <form className="jd-signup-form" onSubmit={handleSubmit} noValidate>
           <div className="jd-signup-field">
+            {isMobile && <label className="jd-signup-label">Full Name</label>}
             <input
               type="text"
               className="jd-signup-input"
-              placeholder="Full name"
+              placeholder={isMobile ? "Your full name" : "Full name"}
               value={fullName}
               onChange={(e) => { setFullName(e.target.value); setError(''); }}
               required
@@ -153,33 +178,37 @@ export default function SignupModalCard({
           </div>
 
           <div className="jd-signup-field">
+            {isMobile && <label className="jd-signup-label">Email Address</label>}
             <input
               type="email"
               className="jd-signup-input"
-              placeholder="name@work-email.com"
+              placeholder={isMobile ? "example@gmail.com" : "name@work-email.com"}
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(''); }}
               required
             />
           </div>
 
-          <div className="jd-signup-field jd-signup-field-password">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              className="jd-signup-input"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); setError(''); }}
-              required
-            />
-            <button
-              type="button"
-              className="jd-signup-eye-btn"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              <EyeIcon visible={showPassword} stroke="#64748B" />
-            </button>
+          <div className="jd-signup-field">
+            {isMobile && <label className="jd-signup-label">Password</label>}
+            <div className="jd-signup-input-row">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="jd-signup-input jd-signup-input-pw"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                required
+              />
+              <button
+                type="button"
+                className="jd-signup-eye-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                <EyeIcon visible={showPassword} stroke={isMobile ? "#3D3D3D" : "#64748B"} />
+              </button>
+            </div>
           </div>
 
           {error && <div className="jd-signup-error-msg">{error}</div>}
