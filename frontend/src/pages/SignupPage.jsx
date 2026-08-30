@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import SignupModalCard from '../components/SignupModalCard';
 import OTPStep from '../components/onboarding/OTPStep';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -84,30 +84,40 @@ export default function SignupPage() {
     setPendingEmail('');
   };
 
+  const mainContent = (
+    <>
+      {step === 'form' && (
+        <SignupModalCard
+          onClose={handleClose}
+          onSwitchToLogin={handleSwitchToLogin}
+          onGoogleSuccess={handleGoogleSuccess}
+          onOTPRequired={handleOTPRequired}
+          triggerOrigin={triggerOrigin}
+        />
+      )}
+
+      {step === 'otp' && (
+        <div className="jd-otp-fullscreen-wrapper">
+          <OTPStep
+            email={pendingEmail}
+            onVerified={handleOTPVerified}
+            onSignIn={handleSwitchToLogin}
+            onBack={handleOTPBack}
+          />
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className="jd-signup-standalone-page">
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        {step === 'form' && (
-          <SignupModalCard
-            onClose={handleClose}
-            onSwitchToLogin={handleSwitchToLogin}
-            onGoogleSuccess={handleGoogleSuccess}
-            onOTPRequired={handleOTPRequired}
-            triggerOrigin={triggerOrigin}
-          />
-        )}
-
-        {step === 'otp' && (
-          <div className="jd-otp-fullscreen-wrapper">
-            <OTPStep
-              email={pendingEmail}
-              onVerified={handleOTPVerified}
-              onSignIn={handleSwitchToLogin}
-              onBack={handleOTPBack}
-            />
-          </div>
-        )}
-      </GoogleOAuthProvider>
+      {GOOGLE_CLIENT_ID ? (
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          {mainContent}
+        </GoogleOAuthProvider>
+      ) : (
+        mainContent
+      )}
     </div>
   );
 }

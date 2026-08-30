@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import OnboardingFlow from '../components/OnboardingPage';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com";
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
@@ -35,18 +35,26 @@ export default function OnboardingPage() {
   const fromSignup = location.state?.fromSignup || false;
   const initialStep = location.state?.initialStep || null;
 
+  const flowContent = (
+    <OnboardingFlow
+      onNavigateHome={() => navigate('/')}
+      onNavigateDashboard={() => navigate('/dashboard')}
+      initialVerifiedUser={verifiedUser}
+      initialAccessToken={accessToken}
+      startAtRoleSelection={fromSignup && !!verifiedUser}
+      initialStep={initialStep}
+    />
+  );
+
   return (
     <div className="jd-onboarding-wrapper">
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        <OnboardingFlow
-          onNavigateHome={() => navigate('/')}
-          onNavigateDashboard={() => navigate('/dashboard')}
-          initialVerifiedUser={verifiedUser}
-          initialAccessToken={accessToken}
-          startAtRoleSelection={fromSignup && !!verifiedUser}
-          initialStep={initialStep}
-        />
-      </GoogleOAuthProvider>
+      {GOOGLE_CLIENT_ID ? (
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          {flowContent}
+        </GoogleOAuthProvider>
+      ) : (
+        flowContent
+      )}
     </div>
   );
 }
