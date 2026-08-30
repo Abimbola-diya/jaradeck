@@ -9,17 +9,22 @@ export default function OnboardingPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Ensure html and body have solid white background during onboarding
+  // Ensure html and body have solid white background during onboarding on mobile
   useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
     const origHtmlBg = document.documentElement.style.backgroundColor;
     const origBodyBg = document.body.style.backgroundColor;
 
-    document.documentElement.style.backgroundColor = '#FFFFFF';
-    document.body.style.backgroundColor = '#FFFFFF';
+    if (isMobile) {
+      document.documentElement.style.backgroundColor = '#FFFFFF';
+      document.body.style.backgroundColor = '#FFFFFF';
+    }
 
     return () => {
-      document.documentElement.style.backgroundColor = origHtmlBg;
-      document.body.style.backgroundColor = origBodyBg;
+      if (isMobile) {
+        document.documentElement.style.backgroundColor = origHtmlBg;
+        document.body.style.backgroundColor = origBodyBg;
+      }
     };
   }, []);
 

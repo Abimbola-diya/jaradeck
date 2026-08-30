@@ -179,9 +179,7 @@ export default function OTPStep({ email, role, onVerified, onSignIn, onBack }) {
         We just sent you an {role === 'worker' ? 'SMS' : 'OTP'}
       </h1>
       <p className="ob2-subtitle ob2-otp-subtitle">
-        We've sent a 6-digit code to your {role === 'worker' ? 'phone number' : 'email address'}{email ? ` (${maskEmail(email)})` : ''}.
-        <br />
-        Enter it below to verify if it's you
+        We've sent a 6-digit code to your {role === 'worker' ? 'phone number' : 'email address'}{email ? ` (${maskEmail(email)})` : ''}. Enter it below to verify if it's you.
       </p>
 
       <form className="ob2-form" onSubmit={handleSubmit} noValidate>
@@ -239,8 +237,8 @@ export default function OTPStep({ email, role, onVerified, onSignIn, onBack }) {
 
         <button
           type="submit"
-          className="ob2-cta-btn"
-          style={{ marginTop: '2rem' }}
+          className="ob2-cta-btn ob2-otp-cta-btn"
+          style={{ marginTop: '52px' }}
           disabled={!isComplete || isLoading}
         >
           {isLoading ? 'Verifying…' : <>Continue to Jaradeck <ArrowRight02Icon size={18} /></>}

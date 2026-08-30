@@ -4027,20 +4027,20 @@ textarea {
   font-weight: 500;
   color: #0A0A0A;
   margin: 0 0 12px 0;
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
 @media (min-width: 769px) {
   .ob2-otp-title {
-    font-size: 44px;
-    margin-bottom: 16px;
+    font-size: 42px;
+    margin-bottom: 14px;
   }
 }
 
 @media (max-width: 768px) {
   .ob2-otp-title {
-    font-size: 32px;
+    font-size: 34px;
     margin-bottom: 12px;
   }
 }
@@ -4051,33 +4051,33 @@ textarea {
   font-weight: 400;
   font-size: 15px;
   line-height: 1.45;
-  color: #333333;
-  margin: 0 0 28px 0;
+  color: #555555;
+  margin: 0 0 32px 0;
 }
 
 /* ── OTP: 6 individual digit boxes ── */
 .ob2-otp-row {
   display: flex;
-  gap: 0.75rem;
+  gap: 10px;
   justify-content: space-between;
   width: 100%;
-  margin: 0.5rem 0 0.75rem 0;
+  margin: 0 0 24px 0;
 }
 
 .ob2-otp-box {
   flex: 1;
   min-width: 0;
-  height: 60px;
+  height: 56px;
   text-align: center;
   font-family:
     "PP Neue Montreal",
     var(--font-family),
     -apple-system,
     sans-serif !important;
-  font-size: 1.4rem;
+  font-size: 22px;
   font-weight: 500 !important;
-  color: #333333;
-  background: #F4F4F6;
+  color: #0A0A0A;
+  background: #F5F5F7;
   border: 1.5px solid transparent;
   border-radius: 14px;
   outline: none;
@@ -4091,10 +4091,10 @@ textarea {
 }
 
 .ob2-otp-box--filled {
-  background: #F4F4F6;
+  background: #F5F5F7;
   border-color: transparent;
   font-weight: 500 !important;
-  color: #333333;
+  color: #0A0A0A;
 }
 
 .ob2-otp-box--filled:focus {
@@ -4115,22 +4115,22 @@ textarea {
     var(--font-family),
     -apple-system,
     sans-serif;
-  font-size: 0.95rem;
-  color: #6b7280;
+  font-size: 14px;
+  color: #666666;
   text-align: center;
-  margin: 0.5rem 0 0 0;
+  margin: 20px 0 0 0;
 }
 
 .ob2-resend-text .ob2-link-btn {
-  font-size: 0.95rem !important;
-  font-weight: 500 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
   color: #0048B3 !important;
 }
 
 .ob2-resend-countdown {
   color: #0048B3;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -6760,10 +6760,16 @@ a:active .hugeicons-animated-arrow-left {
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
-  background-color: #FFFFFF !important;
+  background: transparent;
   z-index: 99999;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .jd-signup-standalone-page {
+    background-color: #FFFFFF !important;
+  }
 }
 
 .jd-otp-fullscreen-wrapper {

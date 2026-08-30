@@ -11,8 +11,10 @@ export default function SignupPage() {
   const location = useLocation();
   const triggerOrigin = location.state?.origin;
 
-  // Lock html & body scroll & set white background when signup flow is active
+  // Lock html & body scroll & set white background ONLY on mobile screens
   React.useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+
     const origHtmlOverflow = document.documentElement.style.overflow;
     const origBodyOverflow = document.body.style.overflow;
     const origHtmlHeight = document.documentElement.style.height;
@@ -20,20 +22,24 @@ export default function SignupPage() {
     const origHtmlBg = document.documentElement.style.backgroundColor;
     const origBodyBg = document.body.style.backgroundColor;
 
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.height = '100vh';
-    document.body.style.height = '100vh';
-    document.documentElement.style.backgroundColor = '#FFFFFF';
-    document.body.style.backgroundColor = '#FFFFFF';
+    if (isMobile) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.height = '100vh';
+      document.body.style.height = '100vh';
+      document.documentElement.style.backgroundColor = '#FFFFFF';
+      document.body.style.backgroundColor = '#FFFFFF';
+    }
 
     return () => {
-      document.documentElement.style.overflow = origHtmlOverflow;
-      document.body.style.overflow = origBodyOverflow;
-      document.documentElement.style.height = origHtmlHeight;
-      document.body.style.height = origBodyHeight;
-      document.documentElement.style.backgroundColor = origHtmlBg;
-      document.body.style.backgroundColor = origBodyBg;
+      if (isMobile) {
+        document.documentElement.style.overflow = origHtmlOverflow;
+        document.body.style.overflow = origBodyOverflow;
+        document.documentElement.style.height = origHtmlHeight;
+        document.body.style.height = origBodyHeight;
+        document.documentElement.style.backgroundColor = origHtmlBg;
+        document.body.style.backgroundColor = origBodyBg;
+      }
     };
   }, []);
 
