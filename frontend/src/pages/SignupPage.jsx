@@ -11,23 +11,26 @@ export default function SignupPage() {
   const location = useLocation();
   const triggerOrigin = location.state?.origin;
 
-  // Lock html & body scroll when signup flow is active
+  // Lock html & body scroll & set white background when signup flow is active
   React.useEffect(() => {
     const origHtmlOverflow = document.documentElement.style.overflow;
     const origBodyOverflow = document.body.style.overflow;
     const origHtmlHeight = document.documentElement.style.height;
     const origBodyHeight = document.body.style.height;
+    const origBodyBg = document.body.style.backgroundColor;
 
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.documentElement.style.height = '100vh';
     document.body.style.height = '100vh';
+    document.body.style.backgroundColor = '#FFFFFF';
 
     return () => {
       document.documentElement.style.overflow = origHtmlOverflow;
       document.body.style.overflow = origBodyOverflow;
       document.documentElement.style.height = origHtmlHeight;
       document.body.style.height = origBodyHeight;
+      document.body.style.backgroundColor = origBodyBg;
     };
   }, []);
 
