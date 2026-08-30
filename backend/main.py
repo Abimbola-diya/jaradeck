@@ -3,12 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional, Dict, Any
 import random
+
 from app.core.database import init_db, supabase
+from app.core.config import settings
+from routers.auth import router as auth_router
 
 app = FastAPI(
-    title="JaraDeck API",
+    title=settings.PROJECT_NAME,
     description="Backend services for JaraDeck - The Trusted Execution Platform",
-    version="1.0.0"
+    version=settings.VERSION
 )
 
 @app.on_event("startup")
@@ -24,6 +27,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include Routers
+app.include_router(auth_router)
+
+# --- Legacy Endpoints and Mock DBs ---
 # In-memory "databases" for simulation
 waitlist_db = []
 task_requests_db = []
@@ -120,7 +127,7 @@ def read_root():
     return {
         "status": "online",
         "message": "JaraDeck API is running smoothly.",
-        "version": "1.0.0"
+        "version": settings.VERSION
     }
 
 @app.get("/health")
@@ -225,10 +232,6 @@ def simulate_match(query: MatchQuery):
 def get_students():
     # Return vetted pool
     return STUDENTS_POOL
-
-@app.get("/api/health")
-def health_check():
-    return {"status": "ok", "message": "Backend is running smoothly!"}
 
 @app.get("/api/admin/waitlist")
 def get_admin_waitlist():
