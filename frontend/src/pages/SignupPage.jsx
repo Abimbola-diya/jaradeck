@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import SignupModalCard from '../components/SignupModalCard';
 import OTPStep from '../components/onboarding/OTPStep';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -17,12 +17,14 @@ export default function SignupPage() {
     const origBodyOverflow = document.body.style.overflow;
     const origHtmlHeight = document.documentElement.style.height;
     const origBodyHeight = document.body.style.height;
+    const origHtmlBg = document.documentElement.style.backgroundColor;
     const origBodyBg = document.body.style.backgroundColor;
 
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.documentElement.style.height = '100vh';
     document.body.style.height = '100vh';
+    document.documentElement.style.backgroundColor = '#FFFFFF';
     document.body.style.backgroundColor = '#FFFFFF';
 
     return () => {
@@ -30,6 +32,7 @@ export default function SignupPage() {
       document.body.style.overflow = origBodyOverflow;
       document.documentElement.style.height = origHtmlHeight;
       document.body.style.height = origBodyHeight;
+      document.documentElement.style.backgroundColor = origHtmlBg;
       document.body.style.backgroundColor = origBodyBg;
     };
   }, []);
@@ -76,27 +79,29 @@ export default function SignupPage() {
   };
 
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      {step === 'form' && (
-        <SignupModalCard
-          onClose={handleClose}
-          onSwitchToLogin={handleSwitchToLogin}
-          onGoogleSuccess={handleGoogleSuccess}
-          onOTPRequired={handleOTPRequired}
-          triggerOrigin={triggerOrigin}
-        />
-      )}
-
-      {step === 'otp' && (
-        <div className="jd-otp-fullscreen-wrapper">
-          <OTPStep
-            email={pendingEmail}
-            onVerified={handleOTPVerified}
-            onSignIn={handleSwitchToLogin}
-            onBack={handleOTPBack}
+    <div className="jd-signup-standalone-page">
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        {step === 'form' && (
+          <SignupModalCard
+            onClose={handleClose}
+            onSwitchToLogin={handleSwitchToLogin}
+            onGoogleSuccess={handleGoogleSuccess}
+            onOTPRequired={handleOTPRequired}
+            triggerOrigin={triggerOrigin}
           />
-        </div>
-      )}
-    </GoogleOAuthProvider>
+        )}
+
+        {step === 'otp' && (
+          <div className="jd-otp-fullscreen-wrapper">
+            <OTPStep
+              email={pendingEmail}
+              onVerified={handleOTPVerified}
+              onSignIn={handleSwitchToLogin}
+              onBack={handleOTPBack}
+            />
+          </div>
+        )}
+      </GoogleOAuthProvider>
+    </div>
   );
 }

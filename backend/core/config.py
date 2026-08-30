@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path="../.env")
-load_dotenv(dotenv_path=".env")
+load_dotenv(dotenv_path="../.env", override=True)
+load_dotenv(dotenv_path=".env", override=True)
 
 class Settings:
     PROJECT_NAME: str = "JaraDeck API"
@@ -12,7 +12,7 @@ class Settings:
     SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "")
     DATABASE_URL: str = os.getenv("DATABASE_URL") or os.getenv("DIRECT_URL") or ""
     
-    SECRET_KEY: str = os.environ["SECRET_KEY"]  # MUST be set in .env — no default
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 

@@ -174,7 +174,7 @@ export default function OTPStep({ email, role, onVerified, onSignIn, onBack }) {
   const isComplete = digits.every(d => d !== '');
 
   return (
-    <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack} align="left">
+    <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack} hideBack={true} align="left">
       <h1 className="ob2-title ob2-otp-title">
         We just sent you an {role === 'worker' ? 'SMS' : 'OTP'}
       </h1>

@@ -75,14 +75,8 @@ export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
             disabled={!selectedRole}
             onClick={() => onSelect(selectedRole)}
           >
-            Sign up <ArrowRight02Icon size={16} />
+            Continue <ArrowRight02Icon size={16} />
           </button>
-
-          <GooglePillButton
-            role={selectedRole}
-            onGoogleSuccess={(data) => onGoogleAuthSuccess(data, selectedRole)}
-            onError={(msg) => setError(msg)}
-          />
         </div>
       </div>
     </div>
