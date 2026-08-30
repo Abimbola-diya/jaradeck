@@ -14,10 +14,10 @@ import SuccessStep from './onboarding/SuccessStep';
 // Worker Flow:
 //   role → auth (signup) ↔ auth (signin) → profile (+ phone) → otp (sms) → done
 //
-export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, initialVerifiedUser, initialAccessToken, startAtRoleSelection }) {
-  const [step, setStep] = useState(startAtRoleSelection ? 'role' : 'role');
+export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, initialVerifiedUser, initialAccessToken, startAtRoleSelection, initialStep }) {
+  const [step, setStep] = useState(initialStep === 'signin' ? 'auth' : 'role');
   const [role, setRole] = useState(null);
-  const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'signin'
+  const [authMode, setAuthMode] = useState(initialStep === 'signin' ? 'signin' : 'signup'); // 'signup' | 'signin'
   const [profileData, setProfileData] = useState(initialVerifiedUser || {});
   // When user arrives from OTP flow, they are already authenticated
   const [verifiedUser] = useState(initialVerifiedUser || null);
@@ -108,6 +108,11 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
 
   // ── Auth → next ─────────────────────────────────────────────────
   const handleAuthNext = (data) => {
+    if (authMode === 'signin') {
+      // Existing user signing in -> send straight to main page / dashboard!
+      onNavigateDashboard();
+      return;
+    }
     setProfileData(prev => ({ ...prev, ...data }));
     goToStep('profile');
   };

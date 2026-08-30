@@ -9,7 +9,8 @@ from core.config import settings
 from core.email import generate_otp, send_otp_email
 from db.models import (
     UserRegister, UserLogin, GoogleLogin, Token,
-    UserResponse, OTPVerify, ResendOTP, RegisterResponse
+    UserResponse, OTPVerify, ResendOTP, RegisterResponse,
+    strip_sensitive_fields,
 )
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -91,7 +92,7 @@ async def register(user: UserRegister):
         user_id = record["id"]
     else:
         # Create a brand-new unverified user (no role yet — set after OTP + role selection)
-        hashed_password = get_password_hash(user.password)
+        hashed_password = get_password_hash(user.password) if user.password else None
         new_user_data = {
             "email": email_lower,
             "password_hash": hashed_password,
@@ -233,7 +234,7 @@ async def verify_otp(payload: OTPVerify):
     verified_user = fresh.data[0]
 
     access_token = create_access_token(data={"sub": str(verified_user["id"])})
-    return {"access_token": access_token, "token_type": "bearer", "user": verified_user}
+    return {"access_token": access_token, "token_type": "bearer", "user": strip_sensitive_fields(verified_user)}
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -301,7 +302,7 @@ async def login(user_credentials: UserLogin):
         )
 
     access_token = create_access_token(data={"sub": str(user["id"])})
-    return {"access_token": access_token, "token_type": "bearer", "user": user}
+    return {"access_token": access_token, "token_type": "bearer", "user": strip_sensitive_fields(user)}
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -310,8 +311,13 @@ async def login(user_credentials: UserLogin):
 
 @router.post("/google", response_model=Token)
 async def google_login(google_login: GoogleLogin):
-    email = google_login.email
+    # SECURITY: Require a verifiable token — never trust client-supplied email alone
+    if not google_login.credential and not google_login.access_token:
+        raise HTTPException(status_code=400, detail="A Google credential or access token is required.")
+
+    email = None
     full_name = google_login.full_name or "Google User"
+    picture = google_login.picture or google_login.avatar_url
 
     if google_login.credential:
         idinfo = verify_google_token(google_login.credential)
@@ -319,6 +325,7 @@ async def google_login(google_login: GoogleLogin):
             raise HTTPException(status_code=400, detail="Invalid Google token")
         email = idinfo.get("email")
         full_name = idinfo.get("name", full_name)
+        picture = idinfo.get("picture", picture)
     elif google_login.access_token:
         import httpx
         async with httpx.AsyncClient() as client:
@@ -330,6 +337,7 @@ async def google_login(google_login: GoogleLogin):
             userinfo = resp.json()
             email = userinfo.get("email")
             full_name = userinfo.get("name", full_name)
+            picture = userinfo.get("picture", picture)
 
     if not email:
         raise HTTPException(status_code=400, detail="Email not provided by Google")
@@ -339,12 +347,22 @@ async def google_login(google_login: GoogleLogin):
 
     if response.data:
         user = response.data[0]
-        # Google emails are inherently verified — ensure flag is set
+        updates = {}
         if not user.get("is_verified"):
-            supabase.table("users").update({"is_verified": True}).eq("id", user["id"]).execute()
+            updates["is_verified"] = True
             user["is_verified"] = True
+        if picture and user.get("avatar_url") != picture:
+            updates["avatar_url"] = picture
+            user["avatar_url"] = picture
+        if updates:
+            try:
+                supabase.table("users").update(updates).eq("id", user["id"]).execute()
+            except Exception as e:
+                print(f"[AUTH WARNING] Could not update avatar_url: {e}")
+        user["picture"] = picture or user.get("avatar_url")
+        user["avatar_url"] = picture or user.get("avatar_url")
         access_token = create_access_token(data={"sub": str(user["id"])})
-        return {"access_token": access_token, "token_type": "bearer", "user": user}
+        return {"access_token": access_token, "token_type": "bearer", "user": strip_sensitive_fields(user)}
     else:
         role = google_login.role or "customer"
         new_user_data = {
@@ -353,6 +371,7 @@ async def google_login(google_login: GoogleLogin):
             "role": role,
             "auth_provider": "google",
             "is_verified": True,  # Google auth = email already verified
+            "avatar_url": picture,
         }
         try:
             result = supabase.table("users").insert(new_user_data).execute()
@@ -361,14 +380,26 @@ async def google_login(google_login: GoogleLogin):
             err_str = str(e)
             print(f"[AUTH ERROR] Google login user creation failed for {email}: {err_str}")
             if "duplicate key" in err_str.lower() or "already exists" in err_str.lower() or "23505" in err_str:
-                raise HTTPException(status_code=400, detail="An account with this email already exists.")
-            raise HTTPException(
-                status_code=500,
-                detail="Unable to complete Google Sign-In right now. Please try again."
-            )
+                response_existing = supabase.table("users").select("*").eq("email", email).execute()
+                if response_existing.data:
+                    user = response_existing.data[0]
+                else:
+                    raise HTTPException(status_code=400, detail="An account with this email already exists.")
+            else:
+                new_user_data.pop("avatar_url", None)
+                try:
+                    result = supabase.table("users").insert(new_user_data).execute()
+                    user = result.data[0]
+                except Exception as ex:
+                    raise HTTPException(
+                        status_code=500,
+                        detail="Unable to complete Google Sign-In right now. Please try again."
+                    )
 
+        user["picture"] = picture or user.get("avatar_url")
+        user["avatar_url"] = picture or user.get("avatar_url")
         access_token = create_access_token(data={"sub": str(user["id"])})
-        return {"access_token": access_token, "token_type": "bearer", "user": user}
+        return {"access_token": access_token, "token_type": "bearer", "user": strip_sensitive_fields(user)}
 
 
 # ──────────────────────────────────────────────────────────────────────────────

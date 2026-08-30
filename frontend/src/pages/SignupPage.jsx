@@ -11,6 +11,26 @@ export default function SignupPage() {
   const location = useLocation();
   const triggerOrigin = location.state?.origin;
 
+  // Lock html & body scroll when signup flow is active
+  React.useEffect(() => {
+    const origHtmlOverflow = document.documentElement.style.overflow;
+    const origBodyOverflow = document.body.style.overflow;
+    const origHtmlHeight = document.documentElement.style.height;
+    const origBodyHeight = document.body.style.height;
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.height = '100vh';
+    document.body.style.height = '100vh';
+
+    return () => {
+      document.documentElement.style.overflow = origHtmlOverflow;
+      document.body.style.overflow = origBodyOverflow;
+      document.documentElement.style.height = origHtmlHeight;
+      document.body.style.height = origBodyHeight;
+    };
+  }, []);
+
   // 'form' | 'otp'
   const [step, setStep] = useState('form');
   const [pendingEmail, setPendingEmail] = useState('');
@@ -20,7 +40,7 @@ export default function SignupPage() {
   };
 
   const handleSwitchToLogin = () => {
-    navigate('/onboarding');
+    navigate('/onboarding', { state: { initialStep: 'signin' } });
   };
 
   const handleGoogleSuccess = (data) => {
@@ -65,7 +85,7 @@ export default function SignupPage() {
       )}
 
       {step === 'otp' && (
-        <div className="ob2-page">
+        <div className="jd-otp-fullscreen-wrapper">
           <OTPStep
             email={pendingEmail}
             onVerified={handleOTPVerified}

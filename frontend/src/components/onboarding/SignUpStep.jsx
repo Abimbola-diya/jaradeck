@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import OBShell from './OBShell';
 import EyeIcon from './EyeIcon';
-import ArrowIcon from '../ArrowIcon';
+import ArrowRight02Icon from '../ArrowRight02Icon';
 import { validateEmail, validatePassword } from '../../utils/validation';
 
 export default function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
@@ -14,13 +14,13 @@ export default function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const emailCheck = validateEmail(email);
     if (!emailCheck.isValid) { setError(emailCheck.error); return; }
-    
+
     const passwordCheck = validatePassword(password);
     if (!passwordCheck.isValid) { setError(passwordCheck.error); return; }
-    
+
     setError('');
     onNext({ email, password });
   };
@@ -63,7 +63,7 @@ export default function SignUpStep({ onNext, onSwitchToSignIn, onBack }) {
         {error && <p className="ob2-error">{error}</p>}
 
         <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
-          Continue <ArrowIcon />
+          Continue <ArrowRight02Icon size={18} />
         </button>
       </form>
     </OBShell>

@@ -13,6 +13,7 @@ export default function OnboardingPage() {
   const verifiedUser = location.state?.verifiedUser || null;
   const accessToken = location.state?.accessToken || null;
   const fromSignup = location.state?.fromSignup || false;
+  const initialStep = location.state?.initialStep || null;
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
@@ -22,6 +23,7 @@ export default function OnboardingPage() {
         initialVerifiedUser={verifiedUser}
         initialAccessToken={accessToken}
         startAtRoleSelection={fromSignup && !!verifiedUser}
+        initialStep={initialStep}
       />
     </GoogleOAuthProvider>
   );

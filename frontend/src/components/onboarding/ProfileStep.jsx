@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import OBShell from './OBShell';
 import EyeIcon from './EyeIcon';
-import ArrowIcon from '../ArrowIcon';
+import ArrowRight02Icon from '../ArrowRight02Icon';
 import { validateEmail, validatePassword, validateFullName, validatePhone } from '../../utils/validation';
 
 export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
@@ -21,7 +21,7 @@ export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const nameCheck = validateFullName(fullName);
     if (!nameCheck.isValid) { setError(nameCheck.error); return; }
 
@@ -32,7 +32,7 @@ export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
     if (!passwordCheck.isValid) { setError(passwordCheck.error); return; }
 
     if (!country.trim()) { setError('Please select your country.'); return; }
-    
+
     if (isWorker) {
       const phoneCheck = validatePhone(phone);
       if (!phoneCheck.isValid) { setError(phoneCheck.error); return; }
@@ -142,7 +142,7 @@ export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
         {error && <p className="ob2-error">{error}</p>}
 
         <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
-          Continue to Jaradeck <ArrowIcon />
+          Continue to Jaradeck <ArrowRight02Icon size={18} />
         </button>
       </form>
     </OBShell>

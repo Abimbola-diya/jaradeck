@@ -3495,20 +3495,18 @@ textarea {
 
 /* Full page: white, mobile-first, vertically padded */
 .ob2-page {
-  min-height: 100vh;
-  overflow-y: auto;
+  min-height: 100%;
+  height: 100%;
   width: 100%;
   background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Start content from top with clean padding so logo is fully visible */
-  justify-content: flex-start;
-  padding: 4rem 1.5rem 4rem 1.5rem;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
   box-sizing: border-box;
   position: relative;
   z-index: 10;
-  /* smooth springy entrance animation */
   animation: ob2-page-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -3618,6 +3616,10 @@ textarea {
   width: 100%;
 }
 
+.ob2-page--left .ob2-logo-wrap {
+  justify-content: center;
+}
+
 .ob2-content {
   display: flex;
   flex-direction: column;
@@ -3631,28 +3633,32 @@ textarea {
   text-align: center;
 }
 
+.ob2-page--left .ob2-bottom-bar {
+  justify-content: center;
+}
+
 /* Title — large, bold, matches design */
 .ob2-title {
-  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
   font-style: normal;
   font-weight: 500;
-  font-size: 34px;
-  line-height: 100%;
+  font-size: 32px;
+  line-height: 110%;
   letter-spacing: -0.02em;
   color: #0A0A0A;
-  margin: 0 0 8px 0;
-  text-align: left;
+  margin: 0 0 10px 0;
+  text-align: center;
 }
 
 .ob2-subtitle {
-  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  line-height: 120%;
-  color: #3D3D3D;
+  line-height: 140%;
+  color: #64748B;
   margin: 0 0 24px 0;
-  text-align: left;
+  text-align: center;
 }
 
 /* Form stack */
@@ -3698,8 +3704,8 @@ textarea {
 }
 
 .ob2-input::placeholder {
-  color: #3D3D3D;
-  opacity: 0.6;
+  color: #71717A;
+  opacity: 0.85;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-size: 14px;
 }
@@ -3806,22 +3812,21 @@ textarea {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px 16px;
-  gap: 4px;
+  gap: 8px;
   width: 100%;
-  height: 44px;
+  height: 48px;
   background: #0048B3;
   box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35);
-  border-radius: 22px;
+  border-radius: 9999px;
   border: none;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 110%;
   color: #FFFFFF;
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: 24px;
   transition: opacity 0.2s;
 }
 
@@ -3851,14 +3856,20 @@ textarea {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  margin-top: 16px;
+  gap: 6px;
+  margin-top: 20px;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 110%;
-  color: #3D3D3D;
+  color: #333333;
+}
+
+.ob2-bottom-bar .ob2-link-btn {
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: #0048B3 !important;
 }
 
 .ob2-link-btn {
@@ -3998,42 +4009,92 @@ textarea {
   line-height: 1;
 }
 
+/* ── OTP specific typography & layout ── */
+.ob2-otp-title {
+  text-align: left !important;
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
+  font-weight: 500;
+  color: #0A0A0A;
+  margin: 0 0 12px 0;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 769px) {
+  .ob2-otp-title {
+    font-size: 44px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ob2-otp-title {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+}
+
+.ob2-otp-subtitle {
+  text-align: left !important;
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #333333;
+  margin: 0 0 28px 0;
+}
+
 /* ── OTP: 6 individual digit boxes ── */
 .ob2-otp-row {
   display: flex;
-  gap: 0.55rem;
-  justify-content: center;
+  gap: 0.75rem;
+  justify-content: space-between;
   width: 100%;
-  margin: 0.25rem 0 0.5rem 0;
+  margin: 0.5rem 0 0.75rem 0;
 }
 
 .ob2-otp-box {
-  width: 46px;
-  height: 52px;
+  flex: 1;
+  min-width: 0;
+  height: 60px;
   text-align: center;
   font-family:
     "PP Neue Montreal",
     var(--font-family),
     -apple-system,
-    sans-serif;
+    sans-serif !important;
   font-size: 1.4rem;
-  font-weight: 700;
-  color: #111827;
-  background: #f5f5f7;
-  border: 1.5px solid #e8e8ee;
-  border-radius: 10px;
+  font-weight: 500 !important;
+  color: #333333;
+  background: #F4F4F6;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
   outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s,
-    background 0.2s;
-  flex-shrink: 0;
+  transition: all 0.15s ease;
 }
 
 .ob2-otp-box:focus {
-  border-color: #1a3bcc;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(26, 59, 204, 0.1);
+  border-color: #0048B3 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.ob2-otp-box--filled {
+  background: #F4F4F6;
+  border-color: transparent;
+  font-weight: 500 !important;
+  color: #333333;
+}
+
+.ob2-otp-box--filled:focus {
+  border-color: #0048B3 !important;
+  background: #ffffff !important;
+}
+
+.ob2-otp-box--error {
+  border-color: #ef4444 !important;
+  background: #fff5f5;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
 }
 
 /* "Didn't receive a code? Resend code" */
@@ -4043,27 +4104,23 @@ textarea {
     var(--font-family),
     -apple-system,
     sans-serif;
-  font-size: 0.84rem;
+  font-size: 0.95rem;
   color: #6b7280;
   text-align: center;
-  margin: 0.25rem 0 0 0;
+  margin: 0.5rem 0 0 0;
 }
 
-.ob2-otp-box--filled {
-  background: #fff;
-  border-color: #0048B3;
-}
-
-.ob2-otp-box--error {
-  border-color: #ef4444 !important;
-  background: #fff5f5;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+.ob2-resend-text .ob2-link-btn {
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: #0048B3 !important;
 }
 
 .ob2-resend-countdown {
-  color: #9ca3af;
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
+  color: #0048B3;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 /* ── Success screen extras ── */
@@ -6685,6 +6742,14 @@ a:active .hugeicons-animated-arrow-left {
   z-index: 1;
 }
 
+.jd-otp-fullscreen-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #ffffff;
+  overflow-y: auto;
+}
+
 .jd-signup-modal-overlay {
   position: fixed;
   inset: 0;
@@ -6736,6 +6801,21 @@ a:active .hugeicons-animated-arrow-left {
   transform: scale(0.92);
 }
 
+.jd-signup-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.jd-signup-logo-wrapper {
+  margin-bottom: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .jd-signup-title-container {
   display: flex;
   align-items: center;
@@ -6758,7 +6838,130 @@ a:active .hugeicons-animated-arrow-left {
   letter-spacing: -0.02em;
 }
 
-/* Google SSO Button */
+.jd-signup-subtitle {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #1E293B;
+  text-align: center;
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+/* Dribbble-Style Google Button */
+.jd-google-dribbble-btn {
+  width: 100%;
+  height: 54px;
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  border-radius: 9999px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.15s ease;
+}
+
+.jd-google-dribbble-btn:hover {
+  background: #F8F9FA;
+  border-color: #D2E3FC;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
+}
+
+.jd-google-dribbble-btn:active {
+  transform: scale(0.995);
+}
+
+.jd-google-btn-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jd-google-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jd-google-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #1A73E8;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jd-google-btn-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 12px;
+  margin-right: 8px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.jd-google-btn-title {
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #3C4043;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.jd-google-btn-email-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #5F6368;
+  font-size: 13.5px;
+  line-height: 1.3;
+  margin-top: 1px;
+}
+
+.jd-google-btn-email {
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
+  color: #5F6368;
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 260px;
+}
+
+.jd-google-chevron {
+  flex-shrink: 0;
+  stroke: #5F6368;
+}
+
+.jd-google-btn-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Google SSO Button fallback */
 .jd-google-blue-btn {
   width: 100%;
   height: 48px;
@@ -6856,7 +7059,8 @@ a:active .hugeicons-animated-arrow-left {
 }
 
 .jd-signup-input::placeholder {
-  color: #94A3B8;
+  color: #71717A;
+  opacity: 0.85;
 }
 
 .jd-signup-input:focus {

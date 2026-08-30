@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Briefcase01Icon, UserAccountIcon } from 'hugeicons-react';
 import GooglePillButton from './GooglePillButton';
-import ArrowIcon from '../ArrowIcon';
+import ArrowRight02Icon from '../ArrowRight02Icon';
 
 export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
   const [selectedRole, setSelectedRole] = useState('customer');
@@ -75,7 +75,7 @@ export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
             disabled={!selectedRole}
             onClick={() => onSelect(selectedRole)}
           >
-            Sign up <ArrowIcon size={14} />
+            Sign up <ArrowRight02Icon size={16} />
           </button>
 
           <GooglePillButton

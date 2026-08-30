@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import OBShell from './OBShell';
-import ArrowIcon from '../ArrowIcon';
+import ArrowRight02Icon from '../ArrowRight02Icon';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 const RESEND_COOLDOWN_SECONDS = 60;
@@ -28,7 +28,7 @@ function maskEmail(email) {
   return `${local[0]}***${local[local.length - 1]}@${domain}`;
 }
 
-export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
+export default function OTPStep({ email, role, onVerified, onSignIn, onBack }) {
   const [digits, setDigits] = useState(Array(6).fill(''));
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,9 +36,25 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
   const [resendStatus, setResendStatus] = useState(''); // '' | 'sending' | 'sent' | 'error'
   const inputRefs = useRef([]);
 
-  // Auto-focus first input on mount
+  // Auto-focus first input on mount & lock html/body scroll
   useEffect(() => {
     inputRefs.current[0]?.focus();
+    const origHtmlOverflow = document.documentElement.style.overflow;
+    const origBodyOverflow = document.body.style.overflow;
+    const origHtmlHeight = document.documentElement.style.height;
+    const origBodyHeight = document.body.style.height;
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.height = '100vh';
+    document.body.style.height = '100vh';
+
+    return () => {
+      document.documentElement.style.overflow = origHtmlOverflow;
+      document.body.style.overflow = origBodyOverflow;
+      document.documentElement.style.height = origHtmlHeight;
+      document.body.style.height = origBodyHeight;
+    };
   }, []);
 
   // Resend countdown timer
@@ -158,12 +174,14 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
   const isComplete = digits.every(d => d !== '');
 
   return (
-    <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack}>
-      <h1 className="ob2-title">Check your email</h1>
-      <p className="ob2-subtitle">
-        We've sent a 6-digit verification code to{' '}
-        <strong style={{ color: '#0048B3' }}>{maskEmail(email)}</strong>.
-        Enter it below to verify your account.
+    <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack} align="left">
+      <h1 className="ob2-title ob2-otp-title">
+        We just sent you an {role === 'worker' ? 'SMS' : 'OTP'}
+      </h1>
+      <p className="ob2-subtitle ob2-otp-subtitle">
+        We've sent a 6-digit code to your {role === 'worker' ? 'phone number' : 'email address'}{email ? ` (${maskEmail(email)})` : ''}.
+        <br />
+        Enter it below to verify if it's you
       </p>
 
       <form className="ob2-form" onSubmit={handleSubmit} noValidate>
@@ -189,7 +207,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
         </div>
 
         {error && (
-          <p className="ob2-error" style={{ textAlign: 'center' }} role="alert">
+          <p className="ob2-error" role="alert">
             {error}
           </p>
         )}
@@ -225,7 +243,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
           style={{ marginTop: '2rem' }}
           disabled={!isComplete || isLoading}
         >
-          {isLoading ? 'Verifying…' : <>Verify &amp; Continue <ArrowIcon /></>}
+          {isLoading ? 'Verifying…' : <>Continue to Jaradeck <ArrowRight02Icon size={18} /></>}
         </button>
       </form>
     </OBShell>

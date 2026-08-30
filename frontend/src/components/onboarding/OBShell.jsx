@@ -2,9 +2,9 @@ import React from 'react';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
 import BrandLogo from '../BrandLogo';
 
-export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false }) {
+export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, align = 'left' }) {
   return (
-    <div className="ob2-page">
+    <div className={`ob2-page${align === 'left' ? ' ob2-page--left' : ''}`}>
       {/* Top Left Back Button */}
       {!hideBack && onBack && (
         <button type="button" className="ob2-back-btn ob2-anim-back" onClick={onBack} aria-label="Go back">

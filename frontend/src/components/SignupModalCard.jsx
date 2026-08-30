@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { useGoogleLogin } from '@react-oauth/google';
-import EyeIcon from './onboarding/EyeIcon';
+import { useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 import BrandLogo from './BrandLogo';
 import { Cancel01Icon } from './ui/cancel-01';
 import ArrowRight02Icon from './ArrowRight02Icon';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
+// Decode a Google JWT (ID token) without verifying signature — frontend-only display use
+function decodeJwt(token) {
+  try {
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(
+      atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+    );
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
+}
 
 function formatErrorMessage(detail, fallback = 'An unexpected error occurred. Please try again.') {
   if (!detail) return fallback;
@@ -32,12 +44,63 @@ export default function SignupModalCard({
 }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isClosing, setIsClosing] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Google account hint — populated either from localStorage (previous sign-in)
+  // or from One Tap silent detection
+  const [googleHint, setGoogleHint] = useState(() => {
+    try {
+      const raw = localStorage.getItem('jaradeck_user');
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // Only trust records with a real backend ID from Google auth
+      if (!parsed?.id || parsed?.auth_provider !== 'google') {
+        localStorage.removeItem('jaradeck_user');
+        return null;
+      }
+      return {
+        name: parsed.full_name || parsed.name || '',
+        email: parsed.email || '',
+        picture: parsed.picture || parsed.avatar_url || null,
+        fromBackend: true,
+        backendUser: parsed,
+      };
+    } catch {
+      return null;
+    }
+  });
+
+  // One Tap: silently detect signed-in Google account to pre-fill the pill
+  useGoogleOneTapLogin({
+    onSuccess: (credentialResponse) => {
+      const payload = decodeJwt(credentialResponse.credential);
+      if (payload && !googleHint?.fromBackend) {
+        setGoogleHint({
+          name: payload.name || '',
+          email: payload.email || '',
+          picture: payload.picture || null,
+          fromBackend: false,
+          credential: credentialResponse.credential,
+        });
+      }
+    },
+    onError: () => {
+      // Silently ignore — One Tap failure just means no hint available
+    },
+    cancel_on_tap_outside: true,
+    disabled: Boolean(googleHint?.fromBackend), // skip if we already have backend data
+  });
+
+  const hasSavedUser = Boolean(googleHint && (googleHint.name || googleHint.email));
+  const displayName = googleHint?.name || '';
+  const firstName = displayName ? displayName.split(' ')[0] : '';
+  const displayEmail = googleHint?.email || '';
+  // Only allow https:// picture URLs to prevent javascript: or data: injection
+  const rawPicture = googleHint?.picture || null;
+  const displayPicture = rawPicture && rawPicture.startsWith('https://') ? rawPicture : null;
 
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
 
@@ -49,39 +112,68 @@ export default function SignupModalCard({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Authenticate with backend using either access_token (popup) or credential (One Tap JWT)
+  const authenticateWithBackend = async ({ access_token, credential }) => {
+    const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ access_token, credential, role: 'customer' }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Google Sign-In failed. Please try again.');
+    return data;
+  };
+
+  // Shared helper — saves auth data and updates Google hint state after any Google auth path
+  const finalizeGoogleAuth = (data) => {
+    localStorage.setItem('jaradeck_token', data.access_token);
+    localStorage.setItem('jaradeck_user', JSON.stringify(data.user));
+    setGoogleHint({
+      name: data.user.full_name || data.user.name || '',
+      email: data.user.email || '',
+      picture: data.user.picture || data.user.avatar_url || null,
+      fromBackend: true,
+      backendUser: data.user,
+    });
+    if (onGoogleSuccess) onGoogleSuccess(data);
+  };
+
   const googleLogin = useGoogleLogin({
     prompt: 'select_account',
+    hint: googleHint?.email || undefined,
     onSuccess: async (tokenResponse) => {
       setIsGoogleLoading(true);
       setError('');
       try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            access_token: tokenResponse.access_token,
-            role: 'customer'
-          })
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          setError(formatErrorMessage(data.detail, 'Google Sign-In failed. Please try again.'));
-          setIsGoogleLoading(false);
-          return;
-        }
-        localStorage.setItem('jaradeck_token', data.access_token);
-        localStorage.setItem('jaradeck_user', JSON.stringify(data.user));
-        if (onGoogleSuccess) {
-          onGoogleSuccess(data);
-        }
+        const data = await authenticateWithBackend({ access_token: tokenResponse.access_token });
+        finalizeGoogleAuth(data);
       } catch (err) {
-        setError('Network error connecting to authentication server.');
+        setError(err.message || 'Network error connecting to authentication server.');
       } finally {
         setIsGoogleLoading(false);
       }
     },
     onError: () => setError('Google Sign-In was cancelled or failed.')
   });
+
+  const handleGoogleButtonClick = async () => {
+    // If the hint came from One Tap (we have the credential), use it directly
+    if (googleHint && !googleHint.fromBackend && googleHint.credential) {
+      setIsGoogleLoading(true);
+      setError('');
+      try {
+        const data = await authenticateWithBackend({ credential: googleHint.credential });
+        finalizeGoogleAuth(data);
+      } catch (err) {
+        setError(err.message || 'Network error connecting to authentication server.');
+      } finally {
+        setIsGoogleLoading(false);
+      }
+      return;
+    }
+    // Otherwise open the Google popup
+    googleLogin();
+  };
 
   // Compute CSS transform-origin relative to the modal card
   const transformOrigin = (() => {
@@ -112,10 +204,6 @@ export default function SignupModalCard({
       setError('Please enter a valid email address');
       return;
     }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
 
     setError('');
     setIsSubmitting(true);
@@ -127,7 +215,6 @@ export default function SignupModalCard({
         body: JSON.stringify({
           full_name: fullName.trim(),
           email: email.trim().toLowerCase(),
-          password,
         }),
       });
       const data = await res.json();
@@ -148,7 +235,7 @@ export default function SignupModalCard({
     }
   };
 
-  const isFormValid = Boolean(fullName.trim() && email.trim() && password.trim());
+  const isFormValid = Boolean(fullName.trim() && email.trim());
 
   return (
     <motion.div
@@ -194,43 +281,76 @@ export default function SignupModalCard({
           <Cancel01Icon size={20} />
         </button>
 
-        {isMobile ? (
-          /* Mobile Layout: Logo on top centered */
-          <>
-            <div className="jd-signup-logo-container">
-              <BrandLogo width={34} height={25} tone="blue" />
-            </div>
-            <div className="jd-signup-header-block">
-              <h1 id="signup-modal-title" className="jd-signup-title">
-                Sign up to Jaradeck
-              </h1>
-            </div>
-          </>
-        ) : (
-          /* Desktop Layout: Logo inline beside Title on the same line */
-          <div className="jd-signup-title-container">
-            <BrandLogo width={28} tone="blue" />
-            <h2 id="signup-modal-title" className="jd-signup-title">
-              Sign up to Jaradeck
-            </h2>
+        {/* Top-Centered Logo & Title */}
+        <div className="jd-signup-header-container">
+          <div className="jd-signup-logo-wrapper">
+            <BrandLogo width={36} tone="blue" />
           </div>
-        )}
+          <h2 id="signup-modal-title" className="jd-signup-title">
+            Welcome to Jaradeck
+          </h2>
+          <p className="jd-signup-subtitle">
+            Let's get the formalities out of the way
+          </p>
+        </div>
 
         {/* Google SSO Button */}
-        <button
-          type="button"
-          className="jd-google-blue-btn"
-          onClick={() => googleLogin()}
-          disabled={isGoogleLoading}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
-          </svg>
-          <span>{isGoogleLoading ? 'Signing in...' : 'Continue with Google'}</span>
-        </button>
+        {hasSavedUser ? (
+          <button
+            type="button"
+            className="jd-google-dribbble-btn"
+            onClick={handleGoogleButtonClick}
+            disabled={isGoogleLoading}
+          >
+            <div className="jd-google-btn-avatar">
+              {displayPicture ? (
+                <img src={displayPicture} alt={displayName} className="jd-google-avatar-img" />
+              ) : (
+                <div className="jd-google-avatar-placeholder">
+                  {firstName ? firstName.charAt(0).toUpperCase() : 'G'}
+                </div>
+              )}
+            </div>
+
+            <div className="jd-google-btn-info">
+              <span className="jd-google-btn-title">
+                {isGoogleLoading ? 'Signing in...' : `Continue as ${firstName || 'User'}`}
+              </span>
+              {displayEmail && (
+                <div className="jd-google-btn-email-row">
+                  <span className="jd-google-btn-email">{displayEmail}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="jd-google-chevron">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              )}
+            </div>
+
+            <div className="jd-google-btn-logo">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+              </svg>
+            </div>
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="jd-google-blue-btn"
+            onClick={handleGoogleButtonClick}
+            disabled={isGoogleLoading}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+            </svg>
+            <span>{isGoogleLoading ? 'Signing in...' : 'Continue with Google'}</span>
+          </button>
+        )}
 
         {/* Divider */}
         <div className="jd-signup-divider">
@@ -261,30 +381,9 @@ export default function SignupModalCard({
               placeholder="mrlagbajatamedo@gmail.com"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(''); }}
+              autoComplete="off"
               required
             />
-          </div>
-
-          <div className="jd-signup-field">
-            {isMobile && <label className="jd-signup-label">Password</label>}
-            <div className="jd-signup-input-row">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                className="jd-signup-input jd-signup-input-pw"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                required
-              />
-              <button
-                type="button"
-                className="jd-signup-eye-btn"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                <EyeIcon visible={showPassword} stroke={isMobile ? "#3D3D3D" : "#64748B"} />
-              </button>
-            </div>
           </div>
 
           {error && <div className="jd-signup-error-msg">{error}</div>}

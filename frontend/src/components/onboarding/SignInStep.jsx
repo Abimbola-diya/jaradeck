@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import OBShell from './OBShell';
 import EyeIcon from './EyeIcon';
-import ArrowIcon from '../ArrowIcon';
+import ArrowRight02Icon from '../ArrowRight02Icon';
 import { validateEmail } from '../../utils/validation';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
@@ -99,7 +99,7 @@ export default function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
         {error && <p className="ob2-error">{error}</p>}
 
         <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
-          Sign in <ArrowIcon />
+          Sign in <ArrowRight02Icon size={18} />
         </button>
       </form>
     </OBShell>
