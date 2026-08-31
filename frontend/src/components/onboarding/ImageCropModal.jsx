@@ -13,6 +13,36 @@ export default function ImageCropModal({ imageSrc, isOpen, onClose, onSave }) {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Drag-to-dismiss state
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
+
+  const startDrag = (y) => {
+    setStartY(y);
+    setIsDragging(true);
+  };
+
+  const onDrag = (y) => {
+    if (!isDragging) return;
+    const delta = y - startY;
+    if (delta > 0) {
+      setDragOffset(delta);
+    } else {
+      setDragOffset(delta * 0.15);
+    }
+  };
+
+  const endDrag = () => {
+    if (!isDragging) return;
+    if (dragOffset > 100) {
+      onClose();
+    } else {
+      setDragOffset(0);
+    }
+    setIsDragging(false);
+  };
+
   const onCropComplete = useCallback((croppedArea, croppedPixels) => {
     setCroppedAreaPixels(croppedPixels);
   }, []);
@@ -43,10 +73,29 @@ export default function ImageCropModal({ imageSrc, isOpen, onClose, onSave }) {
   };
 
   return (
-    <div className="ob2-sheet-overlay" onClick={onClose}>
-      <div className="ob2-sheet-card" onClick={(e) => e.stopPropagation()}>
+    <div 
+      className="ob2-sheet-overlay" 
+      onClick={onClose}
+      onMouseMove={(e) => onDrag(e.clientY)}
+      onMouseUp={endDrag}
+      onMouseLeave={endDrag}
+      onTouchMove={(e) => onDrag(e.touches[0].clientY)}
+      onTouchEnd={endDrag}
+    >
+      <div 
+        className="ob2-sheet-card" 
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          transform: dragOffset !== 0 ? `translateY(${dragOffset}px)` : undefined,
+          transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}
+      >
         {/* Drag Handle Bar */}
-        <div className="ob2-sheet-handle-wrap">
+        <div 
+          className="ob2-sheet-handle-wrap"
+          onMouseDown={(e) => startDrag(e.clientY)}
+          onTouchStart={(e) => startDrag(e.touches[0].clientY)}
+        >
           <div className="ob2-sheet-handle" />
         </div>
 
@@ -64,8 +113,10 @@ export default function ImageCropModal({ imageSrc, isOpen, onClose, onSave }) {
             image={imageSrc}
             crop={crop}
             zoom={zoom}
+            minZoom={0.5}
             aspect={1}
             cropShape="round"
+            cropSize={{ width: 200, height: 200 }}
             showGrid={false}
             restrictPosition={false}
             onCropChange={setCrop}
@@ -73,7 +124,7 @@ export default function ImageCropModal({ imageSrc, isOpen, onClose, onSave }) {
             onZoomChange={setZoom}
             cropAreaStyle={{
               border: '2px solid rgba(255, 255, 255, 0.9)',
-              boxShadow: '0 0 0 9999px rgba(15, 23, 42, 0.25)',
+              boxShadow: '0 0 0 9999px rgba(15, 23, 42, 0.4)',
             }}
           />
         </div>
@@ -83,7 +134,7 @@ export default function ImageCropModal({ imageSrc, isOpen, onClose, onSave }) {
           <Image03Icon size={18} color="#000000" />
           <input
             type="range"
-            min={1}
+            min={0.5}
             max={3}
             step={0.02}
             value={zoom}

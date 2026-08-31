@@ -4216,7 +4216,7 @@ textarea {
   border-top-right-radius: 28px !important;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  padding: 10px 24px 24px 24px;
+  padding: 10px 20px 16px 20px;
   box-shadow: 0 -12px 36px rgba(0, 0, 0, 0), 0 -1px 3px rgba(0, 0, 0, 0.08) !important;
   border-top: 1.5px solid #E2E8F0 !important;
   border-left: none !important;
@@ -4256,8 +4256,8 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 4px;
-  padding-bottom: 8px;
+  padding-top: 6px;
+  padding-bottom: 12px;
   cursor: grab;
 }
 
@@ -4275,7 +4275,7 @@ textarea {
 
 /* Sheet header & titles */
 .ob2-sheet-header {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   width: 100%;
 }
 
@@ -4284,7 +4284,7 @@ textarea {
   font-size: 20px !important;
   font-weight: 500 !important;
   color: #1E293B !important;
-  margin: 0 0 8px 0 !important;
+  margin: 0 0 6px 0 !important;
   letter-spacing: -0.01em;
 }
 
@@ -4295,73 +4295,24 @@ textarea {
   color: #64748B !important;
   max-width: 100% !important;
   width: 100%;
-  margin: 0 0 20px 0 !important;
+  margin: 0 0 8px 0 !important;
   text-align: left !important;
 }
 
 /* Cropper Container Frame */
 .ob2-sheet-cropper-frame {
   position: relative;
-  width: calc(100% + 32px);
+  width: 100%;
   max-width: none;
-  height: 270px;
+  height: 280px;
   border-radius: 24px;
   overflow: hidden;
-  margin: 0 -16px 24px -16px;
+  margin: 0 0 12px 0;
   flex-shrink: 0;
   background-color: #FFFFFF;
   isolation: isolate;
   transform: translateZ(0);
   -webkit-mask-image: -webkit-radial-gradient(white, black);
-}
-
-.ob2-sheet-zoom-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  width: 100%;
-  max-width: 240px;
-  margin-bottom: 20px;
-}
-
-.ob2-sheet-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  width: 100%;
-  max-width: 100%;
-  margin-top: auto;
-  padding-bottom: 8px;
-}
-
-.ob2-sheet-cancel-btn {
-  background: transparent;
-  border: none;
-  font-family: 'PP Neue Montreal', sans-serif !important;
-  font-size: 15px;
-  font-weight: 600;
-  color: #1E293B;
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 9999px;
-  transition: background-color 0.15s ease;
-}
-
-.ob2-sheet-save-btn {
-  background: #18181B;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 9999px;
-  font-family: 'PP Neue Montreal', sans-serif !important;
-  font-size: 15px;
-  font-weight: 600;
-  padding: 10px 32px;
-  min-width: 96px;
-  cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.15s ease;
-  box-shadow: 0 2px 8px rgba(24, 24, 27, 0.2);
 }
 
 .ob2-sheet-cropper-frame .react-easy-crop_container {
@@ -4375,16 +4326,16 @@ textarea {
   justify-content: center;
   gap: 12px;
   width: 100%;
-  max-width: 300px;
-  margin-bottom: 24px;
+  max-width: 210px;
+  margin-bottom: 16px;
 }
 
 .ob2-sheet-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
-  background: #E2E8F0;
+  height: 1.5px;
+  background: #E5E7EB;
   border-radius: 9999px;
   outline: none;
   cursor: pointer;
@@ -4394,28 +4345,28 @@ textarea {
 .ob2-sheet-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   background: #FFFFFF;
-  border: 2.5px solid #1E293B;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
 .ob2-sheet-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  border-color: #0048B3;
+  transform: scale(1.08);
+  border-color: #9CA3AF;
 }
 
 .ob2-sheet-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   background: #FFFFFF;
-  border: 2.5px solid #1E293B;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: transform 0.15s ease, border-color 0.15s ease;
 }
@@ -4428,6 +4379,8 @@ textarea {
   gap: 16px;
   width: 100%;
   max-width: 300px;
+  margin-top: 8px;
+  padding-bottom: 4px;
 }
 
 .ob2-sheet-cancel-btn {
@@ -4449,7 +4402,7 @@ textarea {
 }
 
 .ob2-sheet-save-btn {
-  background: #18181B;
+  background: #0048B3;
   color: #FFFFFF;
   border: none;
   border-radius: 9999px;
@@ -4460,11 +4413,11 @@ textarea {
   min-width: 96px;
   cursor: pointer;
   transition: background-color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
-  box-shadow: 0 2px 8px rgba(24, 24, 27, 0.2);
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35);
 }
 
 .ob2-sheet-save-btn:hover {
-  background: #27272A;
+  background: #003B99;
   transform: translateY(-1px);
 }
 
@@ -7460,8 +7413,8 @@ a:active .hugeicons-animated-arrow-left {
 .ob2-role-title-group {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
   width: 100%;
 }
@@ -7471,7 +7424,7 @@ a:active .hugeicons-animated-arrow-left {
   font-weight: 500;
   font-size: 32px;
   line-height: 108%;
-  text-align: left;
+  text-align: center;
   letter-spacing: -0.02em;
   color: #0A0A0A;
   margin: 0;
