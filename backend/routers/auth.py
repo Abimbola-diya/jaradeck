@@ -78,6 +78,15 @@ async def register(user: UserRegister):
     the provided email address via Brevo. Returns 202 — no JWT is issued yet.
     """
     email_lower = user.email.lower().strip()
+    first_name = (user.first_name or "").strip()
+    last_name = (user.last_name or "").strip()
+
+    if not first_name and user.full_name:
+        parts = user.full_name.strip().split(" ", 1)
+        first_name = parts[0]
+        last_name = parts[1] if len(parts) > 1 else ""
+
+    computed_full_name = user.full_name or f"{first_name} {last_name}".strip()
 
     # Check for an existing *verified* user — reject immediately
     existing = supabase.table("users").select("id, is_verified, auth_provider").eq("email", email_lower).execute()
@@ -96,7 +105,9 @@ async def register(user: UserRegister):
         new_user_data = {
             "email": email_lower,
             "password_hash": hashed_password,
-            "full_name": user.full_name,
+            "first_name": first_name,
+            "last_name": last_name,
+            "full_name": computed_full_name,
             "country": user.country,
             "phone": user.phone,
             "auth_provider": "local",
@@ -129,7 +140,7 @@ async def register(user: UserRegister):
     _store_otp(user_id, email_lower, otp_code)
 
     # Send via Brevo
-    sent = await send_otp_email(to_email=email_lower, to_name=user.full_name, otp_code=otp_code)
+    sent = await send_otp_email(to_email=email_lower, to_name=first_name or computed_full_name, otp_code=otp_code)
     if not sent:
         # We do NOT fail the request — the user can use resend. Log the failure.
         print(f"[AUTH] Failed to send OTP email to {email_lower}")
@@ -316,6 +327,8 @@ async def google_login(google_login: GoogleLogin):
         raise HTTPException(status_code=400, detail="A Google credential or access token is required.")
 
     email = None
+    first_name = google_login.first_name or ""
+    last_name = google_login.last_name or ""
     full_name = google_login.full_name or "Google User"
     picture = google_login.picture or google_login.avatar_url
 
@@ -324,6 +337,8 @@ async def google_login(google_login: GoogleLogin):
         if not idinfo:
             raise HTTPException(status_code=400, detail="Invalid Google token")
         email = idinfo.get("email")
+        first_name = idinfo.get("given_name", first_name)
+        last_name = idinfo.get("family_name", last_name)
         full_name = idinfo.get("name", full_name)
         picture = idinfo.get("picture", picture)
     elif google_login.access_token:
@@ -336,6 +351,8 @@ async def google_login(google_login: GoogleLogin):
                 raise HTTPException(status_code=400, detail="Invalid Google access token")
             userinfo = resp.json()
             email = userinfo.get("email")
+            first_name = userinfo.get("given_name", first_name)
+            last_name = userinfo.get("family_name", last_name)
             full_name = userinfo.get("name", full_name)
             picture = userinfo.get("picture", picture)
 
@@ -343,6 +360,13 @@ async def google_login(google_login: GoogleLogin):
         raise HTTPException(status_code=400, detail="Email not provided by Google")
 
     email = email.lower()
+    if not first_name and full_name:
+        parts = full_name.strip().split(" ", 1)
+        first_name = parts[0]
+        last_name = parts[1] if len(parts) > 1 else ""
+
+    computed_full_name = full_name or f"{first_name} {last_name}".strip()
+
     response = supabase.table("users").select("*").eq("email", email).execute()
 
     if response.data:
@@ -351,6 +375,12 @@ async def google_login(google_login: GoogleLogin):
         if not user.get("is_verified"):
             updates["is_verified"] = True
             user["is_verified"] = True
+        if first_name and not user.get("first_name"):
+            updates["first_name"] = first_name
+            user["first_name"] = first_name
+        if last_name and not user.get("last_name"):
+            updates["last_name"] = last_name
+            user["last_name"] = last_name
         if picture and user.get("avatar_url") != picture:
             updates["avatar_url"] = picture
             user["avatar_url"] = picture
@@ -358,7 +388,7 @@ async def google_login(google_login: GoogleLogin):
             try:
                 supabase.table("users").update(updates).eq("id", user["id"]).execute()
             except Exception as e:
-                print(f"[AUTH WARNING] Could not update avatar_url: {e}")
+                print(f"[AUTH WARNING] Could not update user Google profile fields: {e}")
         user["picture"] = picture or user.get("avatar_url")
         user["avatar_url"] = picture or user.get("avatar_url")
         access_token = create_access_token(data={"sub": str(user["id"])})
@@ -367,7 +397,9 @@ async def google_login(google_login: GoogleLogin):
         role = google_login.role or "customer"
         new_user_data = {
             "email": email,
-            "full_name": full_name,
+            "first_name": first_name,
+            "last_name": last_name,
+            "full_name": computed_full_name,
             "role": role,
             "auth_provider": "google",
             "is_verified": True,  # Google auth = email already verified

@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-[#0A0A0A] antialiased;
+    @apply text-[#0A0A0A] antialiased;
     font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 }
@@ -353,7 +353,7 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.8),
     0 4px 14px rgba(0, 15, 60, 0.18);
   transition: all 0.22s cubic-bezier(0.25, 1, 0.5, 1);
@@ -364,7 +364,7 @@ textarea {
   background: #ffffff;
   color: #00388d;
   transform: translateY(-1px) scale(1.03);
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 1),
     0 6px 20px rgba(0, 15, 60, 0.28);
 }
@@ -390,7 +390,7 @@ textarea {
   padding: 0;
   position: relative;
   z-index: 4;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.8),
     0 4px 14px rgba(0, 15, 60, 0.18);
   transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
@@ -398,7 +398,7 @@ textarea {
 
 .nav-hamburger:hover {
   transform: translateY(-1px) scale(1.05);
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 1),
     0 6px 20px rgba(0, 15, 60, 0.28);
 }
@@ -549,13 +549,16 @@ textarea {
     margin-top: 1.25rem;
     margin-bottom: 1.5rem;
   }
+
   .marquee-row-right {
     display: none !important;
   }
+
   .marquee-card-wrapper {
     width: 290px;
     padding-right: 0.75rem;
   }
+
   .marquee-glass-card {
     padding: 0.6rem 0.9rem;
     gap: 0.65rem;
@@ -564,6 +567,7 @@ textarea {
     height: auto;
     box-sizing: border-box;
   }
+
   .marquee-card-text {
     font-size: 0.82rem;
     line-height: 1.25;
@@ -3724,8 +3728,8 @@ textarea {
 .ob2-input:focus,
 .ob2-input:active {
   background: #FAFAFA;
-  border-color: #B5C4D8;
-  box-shadow: 0 0 0 1px #B5C4D8;
+  border-color: #A3BFDE;
+  box-shadow: 0 0 0 1px #A3BFDE;
 }
 
 /* Input with right-side eye button */
@@ -3781,14 +3785,215 @@ textarea {
 .ob2-select:focus,
 .ob2-select:active {
   background: #FAFAFA;
-  border-color: #0048B3;
-  box-shadow: 0 0 0 1px #0048B3;
+  border-color: #A3BFDE;
+  box-shadow: 0 0 0 1px #A3BFDE;
 }
 
 .ob2-select-arrow {
   position: absolute;
   right: 14px;
   pointer-events: none;
+}
+
+/* Revamped Profile Step CSS */
+.ob2-profile-header-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.ob2-title-centered {
+  text-align: center !important;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 34px !important;
+  font-weight: 500 !important;
+  color: #0A0A0A !important;
+  margin-bottom: 8px !important;
+  letter-spacing: -0.02em !important;
+}
+
+.ob2-subtitle-centered {
+  text-align: center !important;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px !important;
+  color: #64748B !important;
+  margin-bottom: 0 !important;
+}
+
+/* Avatar Photo Upload Section (Vertical Centered Layout - Matching Image 1) */
+.ob2-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.ob2-hidden-file-input {
+  display: none;
+}
+
+.ob2-avatar-circle {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #F1F4F9;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.ob2-avatar-circle.has-image {
+  border-color: #0048cc;
+  overflow: visible;
+}
+
+.ob2-avatar-circle:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.ob2-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.ob2-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F1F4F9;
+}
+
+.ob2-avatar-remove-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #EF4444;
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: transform 0.15s ease;
+}
+
+.ob2-avatar-remove-badge:hover {
+  transform: scale(1.1);
+}
+
+/* Upload Photo Pill Button - Visible Slow Sweep & Fill */
+.ob2-upload-pill-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #EFF6FF 0%, #E0ECFF 50%, #FFFFFF 50%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  border: 1.5px solid #2D3748;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+  cursor: pointer;
+  z-index: 1;
+  transition: background-position 2.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 2.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 2.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.4s ease,
+    box-shadow 2.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ob2-upload-pill-btn:hover {
+  background-position: 0% 0;
+  border-color: #0048B3;
+  color: #0048B3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(0, 72, 179, 0.16);
+}
+
+.ob2-upload-btn:hover {
+  background: #E2E8F0;
+  border-color: #CBD5E1;
+}
+
+.ob2-upload-hint {
+  font-size: 12px;
+  color: #64748B;
+}
+
+/* One-Liner Textarea & Helper */
+.ob2-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ob2-char-counter {
+  font-size: 12px;
+  color: #71717A;
+  font-weight: 500;
+}
+
+.ob2-textarea {
+  width: 100%;
+  background: #FAFAFA;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1.5px solid transparent;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+  line-height: 140%;
+  color: #0A0A0A;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.ob2-textarea:focus {
+  background: #FAFAFA;
+  border-color: #A3BFDE;
+  box-shadow: 0 0 0 1px #A3BFDE;
+}
+
+.ob2-textarea::placeholder {
+  color: #71717A;
+  opacity: 0.85;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+}
+
+.ob2-field-helper {
+  font-size: 12px;
+  color: #71717A;
+  margin-top: 6px;
+  margin-bottom: 0;
+  line-height: 130%;
 }
 
 .ob2-input-row {
@@ -3899,6 +4104,726 @@ textarea {
 
 .ob2-link-btn:hover {
   text-decoration: underline;
+}
+
+.ob2-back-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151 !important;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 18px auto 0 auto;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.ob2-back-link-arrow {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+}
+
+.ob2-back-link-btn:hover {
+  color: #111827 !important;
+  text-decoration: underline;
+}
+
+/* ── Bottom Sheet Drawer Image Crop Modal (Contra Style) ── */
+.ob2-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: ob2SheetFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Page shifting when crop modal drawer is active — matching Contra layout */
+.ob2-page.ob2-crop-active {
+  justify-content: flex-start !important;
+  padding-top: 1.5rem !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.ob2-page.ob2-crop-active .ob2-logo-wrap {
+  margin-bottom: 6px !important;
+}
+
+.ob2-page.ob2-crop-active .ob2-profile-header-wrap {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+  z-index: 1;
+  position: relative;
+}
+
+.ob2-page.ob2-crop-active .ob2-title-centered {
+  font-size: 24px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  color: #0A0A0A !important;
+}
+
+.ob2-page.ob2-crop-active .ob2-subtitle-centered {
+  font-size: 13px !important;
+}
+
+.ob2-sheet-overlay {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  animation: ob2SheetFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ob2SheetFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.ob2-sheet-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  background: #FFFFFF;
+  border-top-left-radius: 28px !important;
+  border-top-right-radius: 28px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  padding: 10px 24px 24px 24px;
+  box-shadow: 0 -12px 36px rgba(0, 0, 0, 0), 0 -1px 3px rgba(0, 0, 0, 0.08) !important;
+  border-top: 1.5px solid #E2E8F0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  margin: 0 !important;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+  animation: ob2SheetSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ob2-sheet-card::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+@keyframes ob2SheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Grab handle top bar */
+.ob2-sheet-handle-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+  padding-bottom: 8px;
+  cursor: grab;
+}
+
+.ob2-sheet-handle {
+  width: 38px;
+  height: 4px;
+  border-radius: 9999px;
+  background: #2563EB;
+  transition: background-color 0.2s ease;
+}
+
+.ob2-sheet-handle-wrap:hover .ob2-sheet-handle {
+  background: #1D4ED8;
+}
+
+/* Sheet header & titles */
+.ob2-sheet-header {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.ob2-sheet-title {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  color: #1E293B !important;
+  margin: 0 0 8px 0 !important;
+  letter-spacing: -0.01em;
+}
+
+.ob2-sheet-subtitle {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.45 !important;
+  color: #64748B !important;
+  max-width: 100% !important;
+  width: 100%;
+  margin: 0 0 20px 0 !important;
+  text-align: left !important;
+}
+
+/* Cropper Container Frame */
+.ob2-sheet-cropper-frame {
+  position: relative;
+  width: calc(100% + 32px);
+  max-width: none;
+  height: 270px;
+  border-radius: 24px;
+  overflow: hidden;
+  margin: 0 -16px 24px -16px;
+  flex-shrink: 0;
+  background-color: #FFFFFF;
+  isolation: isolate;
+  transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.ob2-sheet-zoom-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 240px;
+  margin-bottom: 20px;
+}
+
+.ob2-sheet-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: auto;
+  padding-bottom: 8px;
+}
+
+.ob2-sheet-cancel-btn {
+  background: transparent;
+  border: none;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E293B;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease;
+}
+
+.ob2-sheet-save-btn {
+  background: #18181B;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 32px;
+  min-width: 96px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 2px 8px rgba(24, 24, 27, 0.2);
+}
+
+.ob2-sheet-cropper-frame .react-easy-crop_container {
+  border-radius: 24px;
+}
+
+/* Zoom Slider Row flanked by icons */
+.ob2-sheet-zoom-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 24px;
+}
+
+.ob2-sheet-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ob2-sheet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #1E293B;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.ob2-sheet-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  border-color: #0048B3;
+}
+
+.ob2-sheet-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #1E293B;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+/* Action Buttons */
+.ob2-sheet-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.ob2-sheet-cancel-btn {
+  background: transparent;
+  border: none;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E293B;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ob2-sheet-cancel-btn:hover {
+  background-color: #F1F5F9;
+  color: #0F172A;
+}
+
+.ob2-sheet-save-btn {
+  background: #18181B;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 32px;
+  min-width: 96px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 2px 8px rgba(24, 24, 27, 0.2);
+}
+
+.ob2-sheet-save-btn:hover {
+  background: #27272A;
+  transform: translateY(-1px);
+}
+
+.ob2-sheet-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Image Crop Editor Modal ── */
+.ob2-crop-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.ob2-crop-modal-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 820px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 90vh;
+  animation: ob2ModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes ob2ModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.ob2-crop-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.ob2-crop-modal-title {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0;
+}
+
+.ob2-crop-modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748B;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.ob2-crop-modal-close:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+.ob2-crop-modal-body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+  min-height: 380px;
+}
+
+/* Left Canvas Area */
+.ob2-crop-preview-wrap {
+  flex: 1;
+  background: #090D16;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+}
+
+.ob2-crop-cropper-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+}
+
+.ob2-crop-hint {
+  position: absolute;
+  bottom: 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+/* Right Control Panel */
+.ob2-crop-controls-wrap {
+  width: 320px;
+  padding: 20px 24px;
+  background: #FAFAFC;
+  border-left: 1px solid #F1F5F9;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.ob2-crop-tabs {
+  display: flex;
+  background: #E2E8F0;
+  padding: 3px;
+  border-radius: 10px;
+  gap: 2px;
+  margin-bottom: 20px;
+}
+
+.ob2-crop-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ob2-crop-tab.active {
+  background: #FFFFFF;
+  color: #0048B3;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.ob2-crop-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+}
+
+.ob2-crop-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ob2-crop-icon-btn {
+  flex: 1;
+  height: 40px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  border-radius: 10px;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ob2-crop-icon-btn:hover,
+.ob2-crop-icon-btn.active {
+  border-color: #0048B3;
+  color: #0048B3;
+  background: #EFF6FF;
+}
+
+.ob2-crop-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ob2-crop-slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.ob2-crop-slider-val {
+  color: #0048B3;
+  font-weight: 600;
+}
+
+.ob2-crop-slider {
+  accent-color: #0048B3;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.ob2-filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ob2-filter-pill {
+  padding: 8px 14px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ob2-filter-pill:hover,
+.ob2-filter-pill.active {
+  background: #0048B3;
+  color: #FFFFFF;
+  border-color: #0048B3;
+}
+
+.ob2-crop-reset-wrap {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #E2E8F0;
+  text-align: center;
+}
+
+.ob2-crop-reset-btn {
+  background: none;
+  border: none;
+  color: #64748B;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ob2-crop-reset-btn:hover {
+  color: #0F172A;
+}
+
+/* Modal Footer */
+.ob2-crop-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #F1F5F9;
+  background: #FFFFFF;
+}
+
+.ob2-crop-cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 9999px;
+  transition: background 0.15s ease;
+}
+
+.ob2-crop-cancel-btn:hover {
+  background: #F1F5F9;
+}
+
+.ob2-crop-save-btn {
+  padding: 10px 24px;
+  border: none;
+  background: #0048B3;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 9999px;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.ob2-crop-save-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.ob2-crop-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Mobile Layout Optimization ── */
+@media (max-width: 640px) {
+  .ob2-crop-modal-card {
+    max-height: 96vh;
+    border-radius: 20px 20px 0 0;
+    margin-top: auto;
+  }
+
+  .ob2-crop-modal-body {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .ob2-crop-preview-wrap {
+    min-height: 260px;
+    height: 260px;
+  }
+
+  .ob2-crop-cropper-container {
+    min-height: 260px;
+  }
+
+  .ob2-crop-controls-wrap {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #F1F5F9;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .ob2-crop-modal-footer {
+    padding: 12px 16px;
+  }
+
+  .ob2-crop-cancel-btn,
+  .ob2-crop-save-btn {
+    flex: 1;
+    text-align: center;
+  }
 }
 
 /* ── Role selection cards ── */
@@ -6519,7 +7444,7 @@ a:active .hugeicons-animated-arrow-left {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 36px;
+  gap: 24px;
   width: 100%;
 }
 
@@ -6529,13 +7454,14 @@ a:active .hugeicons-animated-arrow-left {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 }
 
 .ob2-role-title-group {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: 8px;
   width: 100%;
 }
@@ -6543,9 +7469,9 @@ a:active .hugeicons-animated-arrow-left {
 .ob2-role-title {
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 500;
-  font-size: 34px;
-  line-height: 100%;
-  text-align: center;
+  font-size: 32px;
+  line-height: 108%;
+  text-align: left;
   letter-spacing: -0.02em;
   color: #0A0A0A;
   margin: 0;
@@ -6766,7 +7692,7 @@ a:active .hugeicons-animated-arrow-left {
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .jd-signup-standalone-page {
     background-color: #FFFFFF !important;
   }
@@ -7068,6 +7994,18 @@ a:active .hugeicons-animated-arrow-left {
   text-align: left;
 }
 
+.jd-signup-name-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.jd-signup-name-row .jd-signup-field {
+  flex: 1;
+  min-width: 0;
+}
+
 .jd-signup-input-row {
   position: relative;
   width: 100%;
@@ -7299,8 +8237,13 @@ a:active .hugeicons-animated-arrow-left {
 }
 
 @keyframes jdFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes jdSlideUp {
@@ -7308,6 +8251,7 @@ a:active .hugeicons-animated-arrow-left {
     opacity: 0;
     transform: translateY(16px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -7315,6 +8259,11 @@ a:active .hugeicons-animated-arrow-left {
 }
 
 @keyframes jdSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

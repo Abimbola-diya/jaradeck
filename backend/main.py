@@ -7,6 +7,7 @@ import random
 from core.config import settings
 from db.database import init_db, supabase
 from routers.auth import router as auth_router
+from routers.media import router as media_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -29,6 +30,7 @@ app.add_middleware(
 
 # Include Routers
 app.include_router(auth_router)
+app.include_router(media_router)
 
 # --- Legacy Endpoints and Mock DBs ---
 # In-memory "databases" for simulation

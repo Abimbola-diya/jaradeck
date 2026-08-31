@@ -14,7 +14,9 @@ def strip_sensitive_fields(user: dict) -> dict:
 class UserRegister(BaseModel):
     email: EmailStr
     password: Optional[str] = Field(None, min_length=6)  # Optional for passwordless OTP flow
-    full_name: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    full_name: Optional[str] = None
     country: Optional[str] = None
     phone: Optional[str] = None
 
@@ -26,6 +28,8 @@ class GoogleLogin(BaseModel):
     credential: Optional[str] = None
     access_token: Optional[str] = None
     email: Optional[EmailStr] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
     full_name: Optional[str] = None
     picture: Optional[str] = None
     avatar_url: Optional[str] = None
@@ -39,7 +43,9 @@ class Token(BaseModel):
 class UserResponse(BaseModel):
     id: str
     email: EmailStr
-    full_name: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    full_name: Optional[str] = None
     role: Optional[str] = None
     country: Optional[str] = None
     phone: Optional[str] = None

@@ -13,7 +13,7 @@ export function validatePhone(phone) {
   }
 
   const raw = phone.trim();
-  const cleaned = raw.replace(/[\s\-\(\)]/g, '');
+  const cleaned = raw.replace(/[\s()]/g, '');
 
   // Must contain only digits and optional leading +
   if (!/^\+?\d+$/.test(cleaned)) {
@@ -129,7 +129,7 @@ export function validatePassword(password) {
   if (!/\d/.test(password)) {
     return { isValid: false, error: 'Password must contain at least one number.' };
   }
-  if (!/[!@#$%^&*(),.?":{}|<>\-_+=\[\]\\|/~`]/.test(password)) {
+  if (!/[!@#$%^&*(),.?":{}|<>\-_+=[\]\\|/~`]/.test(password)) {
     return { isValid: false, error: 'Password must contain at least one special character.' };
   }
   return { isValid: true };

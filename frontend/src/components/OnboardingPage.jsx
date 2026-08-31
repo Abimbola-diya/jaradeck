@@ -141,6 +141,7 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
       {step === 'role' && (
         <RoleSelectionStep
           key="role"
+          user={verifiedUser || profileData}
           onSelect={handleRoleSelect}
           onGoogleAuthSuccess={handleGoogleAuthSuccess}
           onNavigateHome={onNavigateHome}

@@ -1,127 +1,217 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import OBShell from './OBShell';
-import EyeIcon from './EyeIcon';
 import ArrowRight02Icon from '../ArrowRight02Icon';
-import { validateEmail, validatePassword, validateFullName, validatePhone } from '../../utils/validation';
+import { CameraAiIcon, Delete02Icon } from 'hugeicons-react';
+import { validatePhone } from '../../utils/validation';
+import { compressImageToWebP } from '../../utils/imageCompressor';
+import ImageCropModal from './ImageCropModal';
+
+const PLACEHOLDERS = [
+  "Marketer driving growth through execution and strategy",
+  "Product Designer crafting intuitive user-centric experiences",
+  "Fullstack Developer building high-scale web applications",
+  "Creative Copywriter delivering bold brand stories",
+];
+
+const MAX_CHARS = 120;
 
 export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [rawSelectedImage, setRawSelectedImage] = useState(null);
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
+  const [oneLiner, setOneLiner] = useState('');
   const [country, setCountry] = useState('Nigeria');
   const [phone, setPhone] = useState('');
-  const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
+  const fileInputRef = useRef(null);
   const isWorker = role === 'worker';
 
+  // Rotate bio placeholder every 3.5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDERS.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const wordCount = oneLiner.trim() ? oneLiner.trim().split(/\s+/).length : 0;
+  const charCount = oneLiner.length;
+
   const isFormValid = isWorker
-    ? Boolean(fullName.trim() && email.trim() && password.trim() && country.trim() && phone.trim())
-    : Boolean(fullName.trim() && email.trim() && password.trim() && country.trim());
+    ? Boolean(oneLiner.trim() && phone.trim())
+    : Boolean(oneLiner.trim());
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+    const fileExt = file.name ? file.name.substring(file.name.lastIndexOf('.')).toLowerCase() : '';
+
+    const isImageMime = file.type && file.type.startsWith('image/');
+    const isAllowedMime = allowedMimeTypes.includes(file.type.toLowerCase()) || isImageMime;
+    const isAllowedExt = allowedExtensions.includes(fileExt);
+
+    if (!isAllowedMime || !isAllowedExt) {
+      setError('Only image files (JPG, PNG, WebP, GIF, or HEIC) can be uploaded as profile photo. Videos and documents are not allowed.');
+      e.target.value = '';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image file size must be less than 5MB.');
+      e.target.value = '';
+      return;
+    }
+
+    setError('');
+    const reader = new FileReader();
+    reader.onload = () => {
+      setRawSelectedImage(reader.result);
+      setIsCropModalOpen(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAvatarCircleClick = () => {
+    if (avatarPreview || rawSelectedImage) {
+      setIsCropModalOpen(true);
+    }
+  };
+
+  const handleCropSave = (croppedWebpDataUrl) => {
+    setAvatarPreview(croppedWebpDataUrl);
+  };
+
+  const handleRemovePhoto = (e) => {
+    e.stopPropagation();
+    setAvatarPreview(null);
+    setRawSelectedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const nameCheck = validateFullName(fullName);
-    if (!nameCheck.isValid) { setError(nameCheck.error); return; }
+    if (!oneLiner.trim()) {
+      setError('Please write a brief one-liner about yourself.');
+      return;
+    }
 
-    const emailCheck = validateEmail(email);
-    if (!emailCheck.isValid) { setError(emailCheck.error); return; }
-
-    const passwordCheck = validatePassword(password);
-    if (!passwordCheck.isValid) { setError(passwordCheck.error); return; }
-
-    if (!country.trim()) { setError('Please select your country.'); return; }
+    if (oneLiner.length > MAX_CHARS) {
+      setError(`One-liner must be ${MAX_CHARS} characters or less.`);
+      return;
+    }
 
     if (isWorker) {
       const phoneCheck = validatePhone(phone);
-      if (!phoneCheck.isValid) { setError(phoneCheck.error); return; }
+      if (!phoneCheck.isValid) {
+        setError(phoneCheck.error);
+        return;
+      }
     }
 
     setError('');
-    onNext({ fullName, email, password, country, ...(isWorker && { phone }) });
+    onNext({
+      avatar: avatarPreview,
+      oneLiner: oneLiner.trim(),
+      ...(isWorker && { phone }),
+    });
   };
 
   return (
-    <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack} hideBack={true}>
-      <h1 className="ob2-title">Let's set up your profile</h1>
-      <p className="ob2-subtitle">
-        Enter a few details so we can manage your projects and send updates.
-      </p>
+    <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack} hideBack={true} hideAuthSwitch={true} isCropActive={isCropModalOpen}>
+      {/* Top Header */}
+      <div className="ob2-profile-header-wrap">
+        <h1 className="ob2-title ob2-title-centered">Let's set up your profile</h1>
+        <p className="ob2-subtitle ob2-subtitle-centered">
+          Add a few details about yourself so clients know who they're dealing with.
+        </p>
+      </div>
 
       <form className="ob2-form" onSubmit={handleSubmit} noValidate>
-        {/* Full Name */}
-        <div className="ob2-field">
-          <label className="ob2-label">Full Name</label>
+        {/* Photo Upload Section */}
+        <div className="ob2-avatar-section">
           <input
-            type="text"
-            className="ob2-input"
-            placeholder="Your full name"
-            value={fullName}
-            onChange={(e) => { setFullName(e.target.value); setError(''); }}
-            autoComplete="name"
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.gif,.heic,.heif"
+            className="ob2-hidden-file-input"
           />
+
+          {/* Centered Avatar Circle */}
+          <div
+            className={`ob2-avatar-circle ${avatarPreview ? 'has-image' : ''}`}
+            onClick={handleAvatarCircleClick}
+            title={avatarPreview ? "Click to edit photo" : ""}
+            style={{ cursor: avatarPreview ? 'pointer' : 'default' }}
+          >
+            {avatarPreview ? (
+              <>
+                <img src={avatarPreview} alt="Profile preview" className="ob2-avatar-img" />
+                <button
+                  type="button"
+                  className="ob2-avatar-remove-badge"
+                  onClick={handleRemovePhoto}
+                  title="Remove photo"
+                >
+                  <Delete02Icon size={14} />
+                </button>
+              </>
+            ) : (
+              <div className="ob2-avatar-placeholder">
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="28" cy="20" r="9" fill="#FFFFFF" />
+                  <path d="M12 46C12 36.0589 19.1634 28 28 28C36.8366 28 44 36.0589 44 46" fill="#FFFFFF" />
+                </svg>
+              </div>
+            )}
+          </div>
+
+          {/* Centered Upload Photo Pill Button */}
+          <button
+            type="button"
+            className="ob2-upload-pill-btn"
+            onClick={() => {
+              if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+              }
+              fileInputRef.current?.click();
+            }}
+          >
+            <CameraAiIcon size={18} />
+            <span>{avatarPreview ? 'Change photo' : 'Upload photo'}</span>
+          </button>
         </div>
 
-        {/* Email Address */}
+        {/* One-Liner / Bio Field */}
         <div className="ob2-field">
-          <label className="ob2-label">Email Address</label>
-          <input
-            type="email"
-            className="ob2-input"
-            placeholder="example@gmail.com"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); setError(''); }}
-            autoComplete="email"
+          <div className="ob2-label-row">
+            <label className="ob2-label">One-liner</label>
+            <span className="ob2-char-counter">
+              {charCount}/{MAX_CHARS}
+            </span>
+          </div>
+          <textarea
+            className="ob2-textarea"
+            rows={3}
+            maxLength={MAX_CHARS}
+            placeholder={PLACEHOLDERS[placeholderIndex]}
+            value={oneLiner}
+            onChange={(e) => {
+              setOneLiner(e.target.value);
+              setError('');
+            }}
           />
-        </div>
-
-        {/* Password */}
-        <div className="ob2-field">
-          <label className="ob2-label">Password</label>
-          <div className="ob2-input-row">
-            <input
-              type={showPass ? 'text' : 'password'}
-              className="ob2-input ob2-input-pw"
-              placeholder="Password (8 or more characters)"
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); setError(''); }}
-              autoComplete="new-password"
-            />
-            <button type="button" className="ob2-eye-btn" onClick={() => setShowPass(!showPass)}>
-              <EyeIcon visible={showPass} />
-            </button>
-          </div>
-        </div>
-
-        {/* Country */}
-        <div className="ob2-field">
-          <label className="ob2-label">Country</label>
-          <div className="ob2-select-wrapper">
-            <select
-              className="ob2-select"
-              value={country}
-              onChange={(e) => { setCountry(e.target.value); setError(''); }}
-            >
-              <option value="Nigeria">Nigeria</option>
-              <option value="United States">United States</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Canada">Canada</option>
-              <option value="Ghana">Ghana</option>
-              <option value="Kenya">Kenya</option>
-              <option value="South Africa">South Africa</option>
-              <option value="Germany">Germany</option>
-              <option value="France">France</option>
-              <option value="India">India</option>
-              <option value="Australia">Australia</option>
-              <option value="United Arab Emirates">United Arab Emirates</option>
-              <option value="Rwanda">Rwanda</option>
-              <option value="Egypt">Egypt</option>
-            </select>
-            <svg className="ob2-select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
+          <p className="ob2-field-helper">
+            This is the first thing potential clients see about you.
+          </p>
         </div>
 
         {/* Phone Number — Worker only */}
@@ -131,9 +221,12 @@ export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
             <input
               type="tel"
               className="ob2-input"
-              placeholder="+1 (555) 000-0000"
+              placeholder="+234 801 234 5678"
               value={phone}
-              onChange={(e) => { setPhone(e.target.value); setError(''); }}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setError('');
+              }}
               autoComplete="tel"
             />
           </div>
@@ -141,10 +234,27 @@ export default function ProfileStep({ role, onNext, onSignIn, onBack }) {
 
         {error && <p className="ob2-error">{error}</p>}
 
+        {/* CTA Button */}
         <button type="submit" className="ob2-cta-btn" disabled={!isFormValid}>
-          Continue to Jaradeck <ArrowRight02Icon size={18} />
+          Create your account
         </button>
+
+        {/* Change Account Type link */}
+        {onBack && (
+          <button type="button" className="ob2-back-link-btn" onClick={onBack}>
+            <span className="ob2-back-link-arrow">‹</span>
+            <span>Change account type</span>
+          </button>
+        )}
       </form>
+
+      {/* Image Crop & Edit Modal */}
+      <ImageCropModal
+        imageSrc={rawSelectedImage || avatarPreview}
+        isOpen={isCropModalOpen}
+        onClose={() => setIsCropModalOpen(false)}
+        onSave={handleCropSave}
+      />
     </OBShell>
   );
 }

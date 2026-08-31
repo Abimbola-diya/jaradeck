@@ -61,7 +61,9 @@ def init_db():
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                 email TEXT UNIQUE NOT NULL,
                 password_hash TEXT,
-                full_name TEXT NOT NULL,
+                first_name TEXT,
+                last_name TEXT,
+                full_name TEXT,
                 role TEXT,
                 country TEXT,
                 phone TEXT,
@@ -74,6 +76,9 @@ def init_db():
 
             -- Safely update column constraints & add new columns to existing deployments
             ALTER TABLE users ALTER COLUMN role DROP NOT NULL;
+            ALTER TABLE users ALTER COLUMN full_name DROP NOT NULL;
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS first_name TEXT;
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS last_name TEXT;
             ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN NOT NULL DEFAULT FALSE;
             ALTER TABLE users ADD COLUMN IF NOT EXISTS failed_otp_attempts INTEGER NOT NULL DEFAULT 0;
             ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_locked_until TIMESTAMP WITH TIME ZONE;

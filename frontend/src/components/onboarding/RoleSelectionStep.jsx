@@ -3,9 +3,28 @@ import { Briefcase01Icon, UserAccountIcon } from 'hugeicons-react';
 import GooglePillButton from './GooglePillButton';
 import ArrowRight02Icon from '../ArrowRight02Icon';
 
-export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
+export default function RoleSelectionStep({ user, onSelect }) {
   const [selectedRole, setSelectedRole] = useState('customer');
   const [error, setError] = useState('');
+
+  const rawFirstName = (() => {
+    if (user?.first_name) return user.first_name;
+    if (user?.full_name) return user.full_name.trim().split(' ')[0];
+    if (user?.name) return user.name.trim().split(' ')[0];
+    try {
+      const raw = localStorage.getItem('jaradeck_user');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.first_name) return parsed.first_name;
+        if (parsed.full_name) return parsed.full_name.trim().split(' ')[0];
+      }
+    } catch {}
+    return '';
+  })();
+
+  const formattedFirstName = rawFirstName
+    ? rawFirstName.charAt(0).toUpperCase() + rawFirstName.slice(1)
+    : '';
 
   return (
     <div className="ob2-page ob2-role-page">
@@ -26,7 +45,9 @@ export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
               </svg>
             </div>
             <div className="ob2-role-title-group ob2-anim-header">
-              <h1 className="ob2-role-title">How can we help you?</h1>
+              <h1 className="ob2-role-title">
+                {formattedFirstName ? `How can we help you, ${formattedFirstName}?` : 'How can we help you?'}
+              </h1>
               <p className="ob2-role-subtitle">Choose how you would like to use Jaradeck</p>
             </div>
           </div>
@@ -41,9 +62,9 @@ export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
                 <Briefcase01Icon size={26} />
               </div>
               <div className="ob2-role-card-content">
-                <div className="ob2-role-card-title">I need work done.</div>
+                <div className="ob2-role-card-title">I need work done</div>
                 <div className="ob2-role-card-desc">
-                  Hand off your projects and get finished results without the hiring hassle.
+                  Something needs doing?  Tell us what it is. We'll help you get it sorted.
                 </div>
               </div>
             </button>
@@ -59,7 +80,7 @@ export default function RoleSelectionStep({ onSelect, onGoogleAuthSuccess }) {
               <div className="ob2-role-card-content">
                 <div className="ob2-role-card-title">I want to do work</div>
                 <div className="ob2-role-card-desc">
-                  Get matched directly with active projects and earn on your terms.
+                  Got the skill? Show us. We'll find the work and get you paid
                 </div>
               </div>
             </button>

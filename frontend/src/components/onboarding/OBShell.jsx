@@ -2,9 +2,9 @@ import React from 'react';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
 import BrandLogo from '../BrandLogo';
 
-export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, align = 'left' }) {
+export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, hideAuthSwitch = false, align = 'left', isCropActive = false }) {
   return (
-    <div className={`ob2-page${align === 'left' ? ' ob2-page--left' : ''}`}>
+    <div className={`ob2-page${align === 'left' ? ' ob2-page--left' : ''}${isCropActive ? ' ob2-crop-active' : ''}`}>
       {/* Top Left Back Button */}
       {!hideBack && onBack && (
         <button type="button" className="ob2-back-btn ob2-anim-back" onClick={onBack} aria-label="Go back">
@@ -20,20 +20,22 @@ export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBa
       <div className="ob2-content ob2-anim-form">
         {children}
 
-        {/* Bottom auth switch placed inline directly below CTA button */}
-        <div className="ob2-bottom-bar ob2-role-bottom-bar">
-          {isSignIn ? (
-            <>
-              <span>New to Jaradeck?</span>
-              <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign up</button>
-            </>
-          ) : (
-            <>
-              <span>Already on Jaradeck?</span>
-              <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign in</button>
-            </>
-          )}
-        </div>
+        {/* Bottom auth switch */}
+        {!hideAuthSwitch && (
+          <div className="ob2-bottom-bar ob2-role-bottom-bar">
+            {isSignIn ? (
+              <>
+                <span>New to Jaradeck?</span>
+                <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign up</button>
+              </>
+            ) : (
+              <>
+                <span>Already on Jaradeck?</span>
+                <button type="button" className="ob2-link-btn" onClick={onAuthSwitch}>Sign in</button>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

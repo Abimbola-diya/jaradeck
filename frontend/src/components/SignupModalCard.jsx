@@ -42,7 +42,8 @@ export default function SignupModalCard({
   onOTPRequired,
   triggerOrigin,
 }) {
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [isClosing, setIsClosing] = useState(false);
@@ -96,7 +97,7 @@ export default function SignupModalCard({
 
   const hasSavedUser = Boolean(googleHint && (googleHint.name || googleHint.email));
   const displayName = googleHint?.name || '';
-  const firstName = displayName ? displayName.split(' ')[0] : '';
+  const hintFirstName = displayName ? displayName.split(' ')[0] : '';
   const displayEmail = googleHint?.email || '';
   // Only allow https:// picture URLs to prevent javascript: or data: injection
   const rawPicture = googleHint?.picture || null;
@@ -196,8 +197,12 @@ export default function SignupModalCard({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!fullName.trim()) {
-      setError('Please enter your full name');
+    if (!firstName.trim()) {
+      setError('Please enter your first name');
+      return;
+    }
+    if (!lastName.trim()) {
+      setError('Please enter your last name');
       return;
     }
     if (!email.trim() || !email.includes('@')) {
@@ -209,11 +214,14 @@ export default function SignupModalCard({
     setIsSubmitting(true);
 
     try {
+      const combinedFullName = `${firstName.trim()} ${lastName.trim()}`;
       const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          full_name: fullName.trim(),
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          full_name: combinedFullName,
           email: email.trim().toLowerCase(),
         }),
       });
@@ -235,7 +243,7 @@ export default function SignupModalCard({
     }
   };
 
-  const isFormValid = Boolean(fullName.trim() && email.trim());
+  const isFormValid = Boolean(firstName.trim() && lastName.trim() && email.trim());
 
   return (
     <motion.div
@@ -252,17 +260,17 @@ export default function SignupModalCard({
         role="dialog"
         aria-modal="true"
         aria-labelledby="signup-modal-title"
-        initial={isMobile ? { opacity: 0, y: 16 } : { opacity: 0, scale: 0.05 }}
+        initial={isMobile ? { opacity: 0, y: '100%' } : { opacity: 0, scale: 0.05 }}
         animate={
           isClosing
-            ? (isMobile ? { opacity: 0, y: 16 } : { opacity: 0, scale: 0.05 })
+            ? (isMobile ? { opacity: 0, y: '100%' } : { opacity: 0, scale: 0.05 })
             : (isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1 })
         }
         transition={
           isClosing
-            ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
+            ? (isMobile ? { duration: 0.22, ease: [0.32, 0, 0.67, 0] } : { duration: 0.16, ease: [0.4, 0, 1, 1] })
             : (isMobile
-                ? { duration: 0.2, ease: 'easeOut' }
+                ? { type: 'spring', damping: 28, stiffness: 320, mass: 0.7 }
                 : {
                     type: 'spring',
                     stiffness: 420,
@@ -307,14 +315,14 @@ export default function SignupModalCard({
                 <img src={displayPicture} alt={displayName} className="jd-google-avatar-img" />
               ) : (
                 <div className="jd-google-avatar-placeholder">
-                  {firstName ? firstName.charAt(0).toUpperCase() : 'G'}
+                  {hintFirstName ? hintFirstName.charAt(0).toUpperCase() : 'G'}
                 </div>
               )}
             </div>
 
             <div className="jd-google-btn-info">
               <span className="jd-google-btn-title">
-                {isGoogleLoading ? 'Signing in...' : `Continue as ${firstName || 'User'}`}
+                {isGoogleLoading ? 'Signing in...' : `Continue as ${hintFirstName || 'User'}`}
               </span>
               {displayEmail && (
                 <div className="jd-google-btn-email-row">
@@ -361,16 +369,29 @@ export default function SignupModalCard({
 
         {/* Form Fields */}
         <form className="jd-signup-form" onSubmit={handleSubmit} noValidate>
-          <div className="jd-signup-field">
-            {isMobile && <label className="jd-signup-label">Full Name</label>}
-            <input
-              type="text"
-              className="jd-signup-input"
-              placeholder="Full name e.g Lagbaja Tamedo"
-              value={fullName}
-              onChange={(e) => { setFullName(e.target.value); setError(''); }}
-              required
-            />
+          <div className="jd-signup-name-row">
+            <div className="jd-signup-field">
+              {isMobile && <label className="jd-signup-label">First Name</label>}
+              <input
+                type="text"
+                className="jd-signup-input"
+                placeholder={isMobile ? "Lagbaja" : "First name e.g Lagbaja"}
+                value={firstName}
+                onChange={(e) => { setFirstName(e.target.value); setError(''); }}
+                required
+              />
+            </div>
+            <div className="jd-signup-field">
+              {isMobile && <label className="jd-signup-label">Last Name</label>}
+              <input
+                type="text"
+                className="jd-signup-input"
+                placeholder={isMobile ? "Tamedo" : "Last name e.g Tamedo"}
+                value={lastName}
+                onChange={(e) => { setLastName(e.target.value); setError(''); }}
+                required
+              />
+            </div>
           </div>
 
           <div className="jd-signup-field">

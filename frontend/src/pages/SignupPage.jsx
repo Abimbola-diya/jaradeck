@@ -13,7 +13,7 @@ export default function SignupPage() {
 
   // Lock html & body scroll & set white background ONLY on mobile screens
   React.useEffect(() => {
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 640;
 
     const origHtmlOverflow = document.documentElement.style.overflow;
     const origBodyOverflow = document.body.style.overflow;
