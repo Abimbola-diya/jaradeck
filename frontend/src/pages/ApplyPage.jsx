@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../lib/api';
 import BackgroundGrid from '../components/BackgroundGrid';
 import BrandLogo from '../components/BrandLogo';
 import ArrowRight02Icon from '../components/ArrowRight02Icon';
@@ -1971,8 +1972,7 @@ export default function ApplyPage() {
               onClick={async () => {
                 setStep(7);
                 try {
-                  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-                  const res = await fetch(`${apiUrl}/api/apply`, {
+                  const res = await fetch(`${API_BASE_URL}/api/apply`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),

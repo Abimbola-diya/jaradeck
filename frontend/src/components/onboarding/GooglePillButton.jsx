@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+import { API_BASE_URL } from '../../lib/api';
 
 export default function GooglePillButton({ role, onGoogleSuccess, onError }) {
   const login = useGoogleLogin({

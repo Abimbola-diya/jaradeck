@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../lib/api';
 import RoleSelectionStep from './onboarding/RoleSelectionStep';
 import SignInStep from './onboarding/SignInStep';
 import SignUpStep from './onboarding/SignUpStep';
@@ -72,7 +73,7 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
     if (isFromSignup && verifiedUser && accessToken) {
       try {
         await fetch(
-          `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/auth/set-role`,
+          `${API_BASE_URL}/api/auth/set-role`,
           {
             method: 'POST',
             headers: {

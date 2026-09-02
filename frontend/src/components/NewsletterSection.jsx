@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../lib/api';
 import confetti from 'canvas-confetti';
 import BrandLogo from './BrandLogo';
 import { validateEmail } from '../utils/validation';
@@ -16,8 +17,7 @@ export default function NewsletterSection() {
       return;
     }
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/newsletter`, {
+      const response = await fetch(`${API_BASE_URL}/api/newsletter`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })

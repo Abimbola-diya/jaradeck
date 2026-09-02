@@ -5,7 +5,7 @@ import BrandLogo from './BrandLogo';
 import { Cancel01Icon } from './ui/cancel-01';
 import ArrowRight02Icon from './ArrowRight02Icon';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+import { API_BASE_URL } from '../lib/api';
 
 // Decode a Google JWT (ID token) without verifying signature — frontend-only display use
 function decodeJwt(token) {

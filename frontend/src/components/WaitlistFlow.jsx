@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { API_BASE_URL } from '../lib/api';
 import confetti from 'canvas-confetti';
 import { validatePhone, validateEmail } from '../utils/validation';
 import { useNavigate } from 'react-router-dom';
@@ -473,8 +474,7 @@ export default function WaitlistFlow({ onClose }) {
     setIsSubmitting(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/waitlist`, {
+      const response = await fetch(`${API_BASE_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_BASE_URL } from '../lib/api';
 import BackgroundGrid from '../components/BackgroundGrid';
 import BrandLogo from '../components/BrandLogo';
 import { useNavigate } from 'react-router-dom';
@@ -13,8 +14,7 @@ export default function AdminViewPage() {
     setLoading(true);
     setError(null);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/admin/waitlist`);
+      const response = await fetch(`${API_BASE_URL}/api/admin/waitlist`);
       if (!response.ok) {
         throw new Error(`Server status ${response.status}`);
       }

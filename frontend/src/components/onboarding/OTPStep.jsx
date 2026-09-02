@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import OBShell from './OBShell';
 import ArrowRight02Icon from '../ArrowRight02Icon';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+import { API_BASE_URL } from '../../lib/api';
 const RESEND_COOLDOWN_SECONDS = 60;
 
 function formatErrorMessage(detail, fallback = 'An unexpected error occurred. Please try again.') {
