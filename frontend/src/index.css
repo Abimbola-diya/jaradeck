@@ -3551,7 +3551,18 @@ textarea {
   transform: scale(1.05);
 }
 
-.ob2-page>*:not(.ob2-back-btn) {
+.ob2-top-right-graphic {
+  position: absolute;
+  top: 2.9rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ob2-page>*:not(.ob2-back-btn):not(.ob2-top-right-graphic) {
   width: 100%;
   max-width: 480px;
   /* Restrict width on desktop */

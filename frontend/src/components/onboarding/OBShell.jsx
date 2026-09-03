@@ -1,6 +1,7 @@
 import React from 'react';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
 import BrandLogo from '../BrandLogo';
+import DoubleLoveIcon from '../DoubleLoveIcon';
 
 export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, hideAuthSwitch = false, align = 'left', isCropActive = false }) {
   return (
@@ -14,6 +15,11 @@ export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBa
       {/* Logo — centered at top */}
       <div className="ob2-logo-wrap ob2-anim-logo">
         <BrandLogo width={34} height={25} tone="blue" />
+      </div>
+
+      {/* Top Right Graphic */}
+      <div className="ob2-top-right-graphic">
+        <DoubleLoveIcon size={38} color="#0048B3" />
       </div>
 
       {/* Main content area */}
