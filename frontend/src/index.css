@@ -7619,10 +7619,8 @@ a:active .hugeicons-animated-arrow-left {
 
 .ob2-or-line {
   flex: 1;
-  height: 8px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 6 L8 2 L16 6 L24 2 L32 6' fill='none' stroke='%23CBD5E1' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-position: center;
+  height: 1px;
+  background-color: #E2E8F0;
 }
 
 .ob2-role-signup-text {
