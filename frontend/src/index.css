@@ -7572,28 +7572,55 @@ a:active .hugeicons-animated-arrow-left {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px 16px;
+  padding: 12px 24px;
   gap: 10px;
   width: 100%;
-  height: 48px;
-  background: #F4F4F6;
-  border-radius: 24px;
-  border: none;
+  height: 50px;
+  background: #FFFFFF;
+  border-radius: 9999px;
+  border: 1px solid #DADCE0;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 500;
   font-size: 15px;
   line-height: 110%;
-  color: #0A0A0A;
+  color: #3C4043;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.15s;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 
 .ob2-google-btn:hover {
-  background: #EBEBEF;
+  background: #F8F9FA;
+  border-color: #C6C9CE;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
 }
 
 .ob2-google-btn:active {
-  transform: scale(0.99);
+  background: #F1F3F4;
+  transform: scale(0.995);
+}
+
+.ob2-or-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 22px 0 22px 0;
+  gap: 12px;
+}
+
+.ob2-or-text {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555555;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ob2-or-line {
+  flex: 1;
+  height: 1px;
+  background-color: #E2E8F0;
 }
 
 .ob2-role-signup-text {
