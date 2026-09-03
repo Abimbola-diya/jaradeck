@@ -15,12 +15,18 @@ import SignupPage from './pages/SignupPage';
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const previousLocation = useRef(location);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(location.pathname === '/waitlist' ? 'join' : 'why');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const isProductRoute = ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
   const isSignupRoute = location.pathname === '/signup';
-  const routesLocation = isSignupRoute ? { ...location, pathname: '/' } : location;
+
+  if (!isSignupRoute) {
+    previousLocation.current = location;
+  }
+  const routesLocation = isSignupRoute ? previousLocation.current : location;
 
   useEffect(() => {
     if (location.pathname === '/waitlist') {

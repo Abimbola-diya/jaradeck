@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+
 import OnboardingFlow from '../components/OnboardingPage';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com";
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
@@ -48,13 +47,7 @@ export default function OnboardingPage() {
 
   return (
     <div className="jd-onboarding-wrapper">
-      {GOOGLE_CLIENT_ID ? (
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-          {flowContent}
-        </GoogleOAuthProvider>
-      ) : (
-        flowContent
-      )}
+      {flowContent}
     </div>
   );
 }

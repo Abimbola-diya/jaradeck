@@ -207,9 +207,6 @@ export default function SignupModalCard({
       document.documentElement.style.backgroundColor = '';
       document.body.style.backgroundColor = '';
     }
-    setTimeout(() => {
-      onClose();
-    }, 180);
   };
 
   const handleSubmit = async (e) => {
@@ -266,9 +263,22 @@ export default function SignupModalCard({
     <motion.div
       className="jd-signup-modal-overlay"
       onClick={handleClose}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isClosing ? 0 : 1 }}
-      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      initial={isMobile ? { x: '100%' } : { opacity: 0 }}
+      animate={
+        isClosing
+          ? (isMobile ? { x: '100%' } : { opacity: 0 })
+          : (isMobile ? { x: 0 } : { opacity: 1 })
+      }
+      transition={
+        isMobile
+          ? (isClosing
+              ? { duration: 0.16, ease: [0.32, 0, 0.67, 0] }
+              : { duration: 0.22, ease: [0.16, 1, 0.3, 1] })
+          : { duration: 0.2, ease: [0.16, 1, 0.3, 1] }
+      }
+      onAnimationComplete={() => {
+        if (isClosing) onClose();
+      }}
     >
       <motion.div
         className="jd-signup-modal-card"
@@ -277,20 +287,22 @@ export default function SignupModalCard({
         role="dialog"
         aria-modal="true"
         aria-labelledby="signup-modal-title"
-        initial={{ opacity: 0, scale: 0.15 }}
+        initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.15 }}
         animate={{
-          opacity: isClosing ? 0 : 1,
-          scale: isClosing ? 0.15 : 1
+          opacity: isClosing ? (isMobile ? 1 : 0) : 1,
+          scale: isClosing ? (isMobile ? 1 : 0.15) : 1
         }}
         transition={
-          isClosing
-            ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
-            : {
-                type: 'spring',
-                stiffness: 380,
-                damping: 26,
-                mass: 0.5,
-              }
+          isMobile
+            ? { duration: 0 }
+            : (isClosing
+                ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
+                : {
+                    type: 'spring',
+                    stiffness: 380,
+                    damping: 26,
+                    mass: 0.5,
+                  })
         }
       >
         {/* Close Button */}
