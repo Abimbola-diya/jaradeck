@@ -4102,20 +4102,20 @@ textarea {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   margin-top: 20px;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-style: normal;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 110%;
-  color: #333333;
+  color: #64748B;
 }
 
 .ob2-bottom-bar .ob2-link-btn {
-  font-weight: 600 !important;
-  font-size: 15px !important;
-  color: #0048B3 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: #0048cc !important;
 }
 
 .ob2-link-btn {
@@ -7765,7 +7765,7 @@ a:active .hugeicons-animated-arrow-left {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .jd-signup-logo-wrapper {
@@ -7785,6 +7785,24 @@ a:active .hugeicons-animated-arrow-left {
 
 .jd-signup-title-container .jd-signup-title {
   margin-bottom: 0;
+}
+
+.jd-signup-title-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.jd-signup-title-crown {
+  position: absolute;
+  top: -36px;
+  left: calc(50% - 96px);
+  transform: rotate(-10deg);
+  pointer-events: none;
+  z-index: 5;
 }
 
 .jd-signup-title {
@@ -7807,6 +7825,14 @@ a:active .hugeicons-animated-arrow-left {
   margin-bottom: 0;
   line-height: 1.4;
   letter-spacing: -0.01em;
+}
+
+.jd-signup-smiley-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
 /* Dribbble-Style Google Button */
