@@ -3675,8 +3675,8 @@ textarea {
 
 .ob2-title-crown {
   position: absolute;
-  top: -34px;
-  left: calc(50% - 138px);
+  top: -44px;
+  left: calc(50% - 142px);
   transform: rotate(-10deg);
   pointer-events: none;
   z-index: 5;
