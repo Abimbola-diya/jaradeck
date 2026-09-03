@@ -8113,9 +8113,8 @@ a:active .hugeicons-animated-arrow-left {
     height: 100vh;
     height: 100dvh;
     z-index: 99999;
-    background-color: transparent !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
+    background-color: #FFFFFF !important;
+    overflow: hidden !important;
   }
 
   .jd-signup-modal-overlay {
