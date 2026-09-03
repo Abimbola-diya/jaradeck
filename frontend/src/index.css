@@ -8126,6 +8126,7 @@ a:active .hugeicons-animated-arrow-left {
   }
 
   .jd-signup-modal-card {
+    position: relative;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
@@ -8133,11 +8134,22 @@ a:active .hugeicons-animated-arrow-left {
     border-radius: 0;
     box-shadow: none;
     background-color: #FFFFFF !important;
-    padding: 3.75rem 1.5rem 3rem 1.5rem;
+    padding: 3.75rem 1.5rem 4rem 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex: 1;
+  }
+
+  .jd-signup-modal-card::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 200vh;
+    background-color: #FFFFFF !important;
+    pointer-events: none;
   }
 
   .jd-signup-close-btn {
