@@ -7620,7 +7620,7 @@ a:active .hugeicons-animated-arrow-left {
 .ob2-or-line {
   flex: 1;
   height: 8px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M0 5.5 L2.5 1.5 L5 5.5 L7.5 1.5 L10 5.5' fill='none' stroke='%230048B3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 6 L8 2 L16 6 L24 2 L32 6' fill='none' stroke='%23CBD5E1' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-position: center;
 }
