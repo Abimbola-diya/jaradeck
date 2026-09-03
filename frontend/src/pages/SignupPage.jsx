@@ -9,12 +9,30 @@ export default function SignupPage() {
   const location = useLocation();
   const triggerOrigin = location.state?.origin;
 
-  // Lock scroll on mount
+  // Lock scroll and set solid white background ONLY on mobile screens to cover bottom safe area
   React.useEffect(() => {
+    const isMobile = window.innerWidth <= 640;
+
     const origOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const origHtmlBg = document.documentElement.style.backgroundColor;
+    const origBodyBg = document.body.style.backgroundColor;
+
+    if (isMobile) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.backgroundColor = '#FFFFFF';
+      document.body.style.backgroundColor = '#FFFFFF';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
+
     return () => {
       document.body.style.overflow = origOverflow;
+      if (isMobile) {
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.backgroundColor = origHtmlBg;
+        document.body.style.backgroundColor = origBodyBg;
+      }
     };
   }, []);
 
