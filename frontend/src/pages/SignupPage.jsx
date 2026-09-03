@@ -9,29 +9,12 @@ export default function SignupPage() {
   const location = useLocation();
   const triggerOrigin = location.state?.origin;
 
-  // Lock html & body scroll on mount
+  // Lock scroll on mount
   React.useEffect(() => {
-    const isMobile = window.innerWidth <= 640;
-
-    const origHtmlOverflow = document.documentElement.style.overflow;
-    const origBodyOverflow = document.body.style.overflow;
-
-    if (isMobile) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
-
+    const origOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      if (isMobile) {
-        document.documentElement.style.overflow = origHtmlOverflow;
-        document.body.style.overflow = origBodyOverflow;
-        document.documentElement.style.backgroundColor = ''; // Clean up any white background set by the modal
-        document.body.style.backgroundColor = '';
-      } else {
-        document.body.style.overflow = origBodyOverflow;
-      }
+      document.body.style.overflow = origOverflow;
     };
   }, []);
 

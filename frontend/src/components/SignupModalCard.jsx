@@ -113,17 +113,7 @@ export default function SignupModalCard({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Delay setting the body background to white until after the entrance animation (200ms)
-  React.useEffect(() => {
-    let timeout;
-    if (isMobile && !isClosing) {
-      timeout = setTimeout(() => {
-        document.documentElement.style.backgroundColor = '#FFFFFF';
-        document.body.style.backgroundColor = '#FFFFFF';
-      }, 200);
-    }
-    return () => clearTimeout(timeout);
-  }, [isMobile, isClosing]);
+
 
   // Authenticate with backend using either access_token (popup) or credential (One Tap JWT)
   const authenticateWithBackend = async ({ access_token, credential }) => {
@@ -202,11 +192,6 @@ export default function SignupModalCard({
 
   const handleClose = () => {
     setIsClosing(true);
-    // Immediately clear the body background so the blue landing page shows during fade-out
-    if (isMobile) {
-      document.documentElement.style.backgroundColor = '';
-      document.body.style.backgroundColor = '';
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -263,38 +248,32 @@ export default function SignupModalCard({
     <motion.div
       className="jd-signup-modal-overlay"
       onClick={handleClose}
-      initial={isMobile ? { x: '100%' } : { opacity: 0 }}
-      animate={
-        isClosing
-          ? (isMobile ? { x: '100%' } : { opacity: 0 })
-          : (isMobile ? { x: 0 } : { opacity: 1 })
-      }
-      transition={
-        isMobile
-          ? (isClosing
-              ? { duration: 0.16, ease: [0.32, 0, 0.67, 0] }
-              : { duration: 0.22, ease: [0.16, 1, 0.3, 1] })
-          : { duration: 0.2, ease: [0.16, 1, 0.3, 1] }
-      }
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isClosing ? 0 : 1 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
       onAnimationComplete={() => {
         if (isClosing) onClose();
       }}
+      style={{ willChange: 'opacity' }}
     >
       <motion.div
         className="jd-signup-modal-card"
-        style={{ transformOrigin: isMobile ? '50% 50%' : transformOrigin }}
+        style={{
+          transformOrigin: isMobile ? '50% 50%' : transformOrigin,
+          willChange: 'transform, opacity',
+        }}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="signup-modal-title"
-        initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.15 }}
+        initial={isMobile ? { opacity: 0, scale: 0.97 } : { opacity: 0, scale: 0.15 }}
         animate={{
-          opacity: isClosing ? (isMobile ? 1 : 0) : 1,
-          scale: isClosing ? (isMobile ? 1 : 0.15) : 1
+          opacity: isClosing ? 0 : 1,
+          scale: isClosing ? (isMobile ? 0.97 : 0.15) : 1,
         }}
         transition={
           isMobile
-            ? { duration: 0 }
+            ? { duration: 0.18, ease: 'easeOut' }
             : (isClosing
                 ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
                 : {
