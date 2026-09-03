@@ -19,7 +19,7 @@ export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBa
 
       {/* Top Right Graphic */}
       <div className="ob2-top-right-graphic">
-        <DoubleLoveIcon size={38} color="#0048B3" />
+        <DoubleLoveIcon size={46} color="#0048B3" />
       </div>
 
       {/* Main content area */}

@@ -37,14 +37,14 @@ export default function App() {
   }, [location.pathname]);
 
 
-  const navigateTo = (path, e) => {
+  const navigateTo = (path, e, extraState = {}) => {
     if (e && (e.clientX || e.currentTarget)) {
       const rect = e.currentTarget?.getBoundingClientRect();
       const originX = rect ? rect.left + rect.width / 2 : e.clientX;
       const originY = rect ? rect.top + rect.height / 2 : e.clientY;
-      navigate(path, { state: { origin: { x: originX, y: originY } } });
+      navigate(path, { state: { origin: { x: originX, y: originY }, ...extraState } });
     } else {
-      navigate(path);
+      navigate(path, { state: extraState });
     }
     if (path !== '/signup') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -188,7 +188,7 @@ export default function App() {
 
             <button
               className="nav-login-btn"
-              onClick={() => navigateTo('/onboarding')}
+              onClick={(e) => navigateTo('/onboarding', e, { initialStep: 'signin' })}
             >
               Log in
             </button>

@@ -27,21 +27,26 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
 
   // Sync with browser history popstate so using the browser back button steps backward inside onboarding instead of navigating to home page
   useEffect(() => {
+    const defaultStep = initialStep === 'signin' ? 'auth' : 'role';
+    if (initialStep === 'signin') {
+      setStep('auth');
+      setAuthMode('signin');
+    }
     if (!window.history.state || !window.history.state.onboardingStep) {
-      window.history.replaceState({ onboardingStep: 'role' }, '');
+      window.history.replaceState({ ...window.history.state, onboardingStep: defaultStep }, '');
     }
 
     const handlePopState = (event) => {
       if (event.state && event.state.onboardingStep) {
         setStep(event.state.onboardingStep);
       } else {
-        setStep('role');
+        setStep(defaultStep);
       }
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [initialStep]);
 
   const goToStep = (newStep) => {
     if (window.history.state?.onboardingStep !== newStep) {
