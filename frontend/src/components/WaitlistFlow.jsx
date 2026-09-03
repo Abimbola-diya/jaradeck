@@ -109,7 +109,7 @@ function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
                       color: '#F87171',
                       fontSize: '0.85rem',
                       marginTop: '0.35rem',
-                      fontFamily: "'PP Neue Montreal', var(--font-family)",
+                      fontFamily: "var(--font-family)",
                       fontWeight: 500
                     }}>
                       {errorMsg}

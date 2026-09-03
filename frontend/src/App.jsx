@@ -40,7 +40,9 @@ export default function App() {
     } else {
       navigate(path);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (path !== '/signup') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   // Refs for navigation containers and buttons

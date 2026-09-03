@@ -178,7 +178,7 @@ export default function SignupModalCard({
 
   // Compute CSS transform-origin relative to the modal card
   const transformOrigin = (() => {
-    if (!triggerOrigin) return '85% 0px';
+    if (!triggerOrigin) return '85% 20px';
     const modalWidth = Math.min(530, window.innerWidth - 32);
     const modalHeight = 560; // approximate height of modal
     const modalLeft = (window.innerWidth - modalWidth) / 2;
@@ -192,7 +192,7 @@ export default function SignupModalCard({
     setIsClosing(true);
     setTimeout(() => {
       onClose();
-    }, 180);
+    }, isMobile ? 220 : 180);
   };
 
   const handleSubmit = async (e) => {
@@ -249,9 +249,19 @@ export default function SignupModalCard({
     <motion.div
       className="jd-signup-modal-overlay"
       onClick={handleClose}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isClosing ? 0 : 1 }}
-      transition={{ duration: 0.18, ease: 'easeOut' }}
+      initial={isMobile ? { y: '100%', opacity: 1 } : { opacity: 0 }}
+      animate={
+        isClosing
+          ? (isMobile ? { y: '100%', opacity: 1 } : { opacity: 0 })
+          : (isMobile ? { y: 0, opacity: 1 } : { opacity: 1 })
+      }
+      transition={
+        isMobile
+          ? (isClosing
+              ? { duration: 0.22, ease: [0.32, 0, 0.67, 0] }
+              : { type: 'spring', damping: 32, stiffness: 350, mass: 0.7 })
+          : { duration: 0.2, ease: [0.16, 1, 0.3, 1] }
+      }
     >
       <motion.div
         className="jd-signup-modal-card"
@@ -260,21 +270,21 @@ export default function SignupModalCard({
         role="dialog"
         aria-modal="true"
         aria-labelledby="signup-modal-title"
-        initial={isMobile ? { opacity: 0, y: '100%' } : { opacity: 0, scale: 0.05 }}
+        initial={isMobile ? undefined : { opacity: 0, scale: 0.15 }}
         animate={
           isClosing
-            ? (isMobile ? { opacity: 0, y: '100%' } : { opacity: 0, scale: 0.05 })
-            : (isMobile ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1 })
+            ? (isMobile ? undefined : { opacity: 0, scale: 0.15 })
+            : (isMobile ? undefined : { opacity: 1, scale: 1 })
         }
         transition={
-          isClosing
-            ? (isMobile ? { duration: 0.22, ease: [0.32, 0, 0.67, 0] } : { duration: 0.16, ease: [0.4, 0, 1, 1] })
-            : (isMobile
-                ? { type: 'spring', damping: 28, stiffness: 320, mass: 0.7 }
+          isMobile
+            ? undefined
+            : (isClosing
+                ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
                 : {
                     type: 'spring',
-                    stiffness: 420,
-                    damping: 30,
+                    stiffness: 380,
+                    damping: 26,
                     mass: 0.5,
                   })
         }

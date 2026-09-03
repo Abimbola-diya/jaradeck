@@ -7672,12 +7672,6 @@ a:active .hugeicons-animated-arrow-left {
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 640px) {
-  .jd-signup-standalone-page {
-    background-color: #FFFFFF !important;
-  }
-}
-
 .jd-otp-fullscreen-wrapper {
   position: fixed;
   inset: 0;

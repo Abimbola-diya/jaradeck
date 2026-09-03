@@ -11,35 +11,17 @@ export default function SignupPage() {
   const location = useLocation();
   const triggerOrigin = location.state?.origin;
 
-  // Lock html & body scroll & set white background ONLY on mobile screens
+  // Lock html & body scroll while signup modal/page is active
   React.useEffect(() => {
     const isMobile = window.innerWidth <= 640;
-
-    const origHtmlOverflow = document.documentElement.style.overflow;
     const origBodyOverflow = document.body.style.overflow;
-    const origHtmlHeight = document.documentElement.style.height;
-    const origBodyHeight = document.body.style.height;
-    const origHtmlBg = document.documentElement.style.backgroundColor;
-    const origBodyBg = document.body.style.backgroundColor;
 
-    if (isMobile) {
-      document.documentElement.style.overflow = 'hidden';
+    if (!isMobile) {
       document.body.style.overflow = 'hidden';
-      document.documentElement.style.height = '100vh';
-      document.body.style.height = '100vh';
-      document.documentElement.style.backgroundColor = '#FFFFFF';
-      document.body.style.backgroundColor = '#FFFFFF';
     }
 
     return () => {
-      if (isMobile) {
-        document.documentElement.style.overflow = origHtmlOverflow;
-        document.body.style.overflow = origBodyOverflow;
-        document.documentElement.style.height = origHtmlHeight;
-        document.body.style.height = origBodyHeight;
-        document.documentElement.style.backgroundColor = origHtmlBg;
-        document.body.style.backgroundColor = origBodyBg;
-      }
+      document.body.style.overflow = origBodyOverflow;
     };
   }, []);
 

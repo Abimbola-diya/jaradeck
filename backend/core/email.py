@@ -47,7 +47,7 @@ async def send_otp_email(
     <!DOCTYPE html>
     <html lang="en">
     <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-    <body style="margin:0;padding:0;background:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+    <body style="margin:0;padding:0;background:#f5f5f5;font-family:'PP Neue Montreal',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td align="center" style="padding:40px 16px">
