@@ -25,6 +25,7 @@ export default function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
   return (
     <OBShell isSignIn={true} onAuthSwitch={onSwitchToSignUp} onBack={onBack}>
       <h1 className="ob2-title">Welcome back!</h1>
+      <p className="ob2-subtitle">Good to see you again. Let's get to it.</p>
 
       <div style={{ width: '100%' }}>
         <GooglePillButton

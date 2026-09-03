@@ -3668,11 +3668,11 @@ textarea {
 .ob2-subtitle {
   font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 14.5px;
   line-height: 140%;
-  color: #64748B;
-  margin: 0 0 24px 0;
+  color: #1E293B;
+  margin: 6px 0 24px 0;
   text-align: center;
 }
 
@@ -7604,7 +7604,7 @@ a:active .hugeicons-animated-arrow-left {
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 22px 0 22px 0;
+  margin: 30px 0 30px 0;
   gap: 12px;
 }
 
@@ -7619,8 +7619,10 @@ a:active .hugeicons-animated-arrow-left {
 
 .ob2-or-line {
   flex: 1;
-  height: 1px;
-  background-color: #E2E8F0;
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M0 5.5 L2.5 1.5 L5 5.5 L7.5 1.5 L10 5.5' fill='none' stroke='%230048B3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
 }
 
 .ob2-role-signup-text {
