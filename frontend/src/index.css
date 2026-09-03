@@ -8106,13 +8106,26 @@ a:active .hugeicons-animated-arrow-left {
 
 /* ===== Mobile Full-Page Signup View (max-width: 640px) ===== */
 @media (max-width: 640px) {
+  .jd-signup-standalone-page {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 99999;
+    background-color: #FFFFFF !important;
+    overflow: hidden !important;
+    touch-action: none;
+  }
+
   .jd-signup-modal-overlay {
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
     z-index: 10000;
     background-color: #FFFFFF !important;
     backdrop-filter: none;
@@ -8121,35 +8134,27 @@ a:active .hugeicons-animated-arrow-left {
     margin: 0;
     align-items: flex-start;
     justify-content: flex-start;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden !important;
+    touch-action: none;
   }
 
   .jd-signup-modal-card {
     position: relative;
     width: 100%;
     max-width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
     border-radius: 0;
     box-shadow: none;
     background-color: #FFFFFF !important;
-    padding: 3.75rem 1.5rem 4rem 1.5rem;
+    padding: 3rem 1.5rem calc(2rem + env(safe-area-inset-bottom, 0px)) 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
+    overflow: hidden !important;
+    touch-action: none;
     flex: 1;
-  }
-
-  .jd-signup-modal-card::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 200vh;
-    background-color: #FFFFFF !important;
-    pointer-events: none;
   }
 
   .jd-signup-close-btn {
