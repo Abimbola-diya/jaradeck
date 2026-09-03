@@ -3551,23 +3551,6 @@ textarea {
   transform: scale(1.05);
 }
 
-.ob2-top-left-graphic {
-  position: absolute;
-  top: 6.2rem;
-  left: 6.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20;
-  pointer-events: none;
-  transition: top 0.2s ease, left 0.2s ease, transform 0.2s ease;
-}
-
-.ob2-top-left-graphic.ob2-has-back {
-  top: 6.2rem;
-  left: 6.8rem;
-}
-
 .ob2-top-right-graphic {
   position: absolute;
   top: 3.3rem;
@@ -3579,7 +3562,7 @@ textarea {
   pointer-events: none;
 }
 
-.ob2-page>*:not(.ob2-back-btn):not(.ob2-top-right-graphic):not(.ob2-top-left-graphic) {
+.ob2-page>*:not(.ob2-back-btn):not(.ob2-top-right-graphic) {
   width: 100%;
   max-width: 480px;
   /* Restrict width on desktop */
@@ -3679,6 +3662,24 @@ textarea {
 
 .ob2-page--left .ob2-bottom-bar {
   justify-content: center;
+}
+
+.ob2-title-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.ob2-title-crown {
+  position: absolute;
+  top: -34px;
+  left: calc(50% - 138px);
+  transform: rotate(-10deg);
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* Title — large, bold, matches design */

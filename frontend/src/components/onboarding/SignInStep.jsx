@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import GooglePillButton from './GooglePillButton';
 import OBShell from './OBShell';
 import ArrowRight02Icon from '../ArrowRight02Icon';
+import CrownIcon from '../CrownIcon';
 import { validateEmail } from '../../utils/validation';
 
 import { API_BASE_URL } from '../../lib/api';
@@ -24,7 +25,10 @@ export default function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
   return (
     <OBShell isSignIn={true} onAuthSwitch={onSwitchToSignUp} onBack={onBack}>
-      <h1 className="ob2-title">Welcome back!</h1>
+      <div className="ob2-title-wrapper">
+        <CrownIcon size={50} color="#0048B3" className="ob2-title-crown" />
+        <h1 className="ob2-title">Welcome back!</h1>
+      </div>
       <p className="ob2-subtitle">Good to see you again. Let's get to it.</p>
 
       <div style={{ width: '100%' }}>

@@ -2,7 +2,6 @@ import React from 'react';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
 import BrandLogo from '../BrandLogo';
 import DoubleLoveIcon from '../DoubleLoveIcon';
-import SmileyFaceIcon from '../SmileyFaceIcon';
 
 export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, hideAuthSwitch = false, align = 'left', isCropActive = false }) {
   const hasBack = !hideBack && Boolean(onBack);
@@ -15,11 +14,6 @@ export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBa
           <ArrowLeft02Icon size={20} />
         </button>
       )}
-
-      {/* Top Left Graphic — Smiley face icon positioned on the left side */}
-      <div className={`ob2-top-left-graphic${hasBack ? ' ob2-has-back' : ''}`}>
-        <SmileyFaceIcon size={46} color="#0048B3" />
-      </div>
 
       {/* Logo — centered at top */}
       <div className="ob2-logo-wrap ob2-anim-logo">
