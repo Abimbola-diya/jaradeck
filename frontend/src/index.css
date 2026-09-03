@@ -8115,45 +8115,41 @@ a:active .hugeicons-animated-arrow-left {
     height: 100dvh;
     z-index: 99999;
     background-color: #FFFFFF !important;
-    overflow: hidden !important;
-    touch-action: none;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .jd-signup-modal-overlay {
-    position: fixed;
-    inset: 0;
+    position: relative;
     width: 100vw;
-    height: 100%;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     z-index: 10000;
     background-color: #FFFFFF !important;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     padding: 0;
     margin: 0;
-    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     justify-content: flex-start;
-    overflow: hidden !important;
-    touch-action: none;
   }
 
   .jd-signup-modal-card {
     position: relative;
     width: 100%;
     max-width: 100%;
-    height: 100%;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     border-radius: 0;
     box-shadow: none;
     background-color: #FFFFFF !important;
-    padding: 3rem 1.5rem calc(2rem + env(safe-area-inset-bottom, 0px)) 1.5rem;
+    padding: 2.5rem 1.5rem calc(2rem + env(safe-area-inset-bottom, 0px)) 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden !important;
-    touch-action: none;
+    box-sizing: border-box;
     flex: 1;
   }
 
