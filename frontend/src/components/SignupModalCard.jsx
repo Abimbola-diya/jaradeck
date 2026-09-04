@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 import BrandLogo from './BrandLogo';
 import CrownIcon from './CrownIcon';
-import SmileyFaceIcon from './SmileyFaceIcon';
 import { Cancel01Icon } from './ui/cancel-01';
 import ArrowRight02Icon from './ArrowRight02Icon';
 
@@ -301,18 +300,16 @@ export default function SignupModalCard({
           <div className="jd-signup-logo-wrapper">
             <BrandLogo width={36} tone="blue" />
           </div>
-          <div className="jd-signup-title-wrapper">
-            <CrownIcon size={50} color="#0048B3" className="jd-signup-title-crown" />
-            <h2 id="signup-modal-title" className="jd-signup-title">
-              Welcome to Jaradeck
-            </h2>
-          </div>
+          <h2 id="signup-modal-title" className="jd-signup-title">
+            <span className="jd-title-w-anchor">
+              W
+              <CrownIcon size={50} color="#0048B3" className="jd-signup-title-crown-inline" />
+            </span>
+            elcome to Jaradeck
+          </h2>
           <p className="jd-signup-subtitle">
             Let's get the formalities out of the way
           </p>
-          <div className="jd-signup-smiley-wrapper">
-            <SmileyFaceIcon size={32} color="#0048B3" className="jd-signup-smiley" />
-          </div>
         </div>
 
         {/* Google SSO Button */}

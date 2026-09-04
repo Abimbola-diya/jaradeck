@@ -11,6 +11,7 @@ import AdminViewPage from './pages/AdminViewPage';
 import ApplyPage from './pages/ApplyPage';
 import ApplySuccessPage from './pages/ApplySuccessPage';
 import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
 
 export default function App() {
   const location = useLocation();
@@ -20,7 +21,7 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(location.pathname === '/waitlist' ? 'join' : 'why');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const isProductRoute = ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
+  const isProductRoute = ['/onboarding', '/login', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
   const isSignupRoute = location.pathname === '/signup';
 
   if (!isSignupRoute) {
@@ -188,7 +189,7 @@ export default function App() {
 
             <button
               className="nav-login-btn"
-              onClick={(e) => navigateTo('/onboarding', e, { initialStep: 'signin' })}
+              onClick={(e) => navigateTo('/login', e)}
             >
               Log in
             </button>
@@ -290,6 +291,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/waitlist" element={<WaitlistPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin_view" element={<AdminViewPage />} />
         <Route path="/apply" element={<ApplyPage />} />

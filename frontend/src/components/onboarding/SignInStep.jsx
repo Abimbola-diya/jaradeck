@@ -25,10 +25,13 @@ export default function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
 
   return (
     <OBShell isSignIn={true} onAuthSwitch={onSwitchToSignUp} onBack={onBack}>
-      <div className="ob2-title-wrapper">
-        <CrownIcon size={50} color="#0048B3" className="ob2-title-crown" />
-        <h1 className="ob2-title">Welcome back!</h1>
-      </div>
+      <h1 className="ob2-title">
+        <span className="jd-title-w-anchor">
+          W
+          <CrownIcon size={50} color="#0048B3" className="jd-title-crown-inline" />
+        </span>
+        elcome back!
+      </h1>
       <p className="ob2-subtitle">Good to see you again. Let's get to it.</p>
 
       <div style={{ width: '100%' }}>

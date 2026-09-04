@@ -7460,6 +7460,20 @@ a:active .hugeicons-animated-arrow-left {
   margin: 0;
 }
 
+.ob2-role-name-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ob2-role-smiley-inline {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  transform: translateY(-1px);
+}
+
 .ob2-role-subtitle {
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 400;
@@ -7787,19 +7801,24 @@ a:active .hugeicons-animated-arrow-left {
   margin-bottom: 0;
 }
 
-.jd-signup-title-wrapper {
+.jd-title-w-anchor {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  display: inline-block;
 }
 
-.jd-signup-title-crown {
+.jd-title-crown-inline {
   position: absolute;
-  top: -36px;
-  left: calc(50% - 96px);
+  top: -44px;
+  left: -42px;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.jd-signup-title-crown-inline {
+  position: absolute;
+  top: -42px;
+  left: -40px;
   transform: rotate(-10deg);
   pointer-events: none;
   z-index: 5;

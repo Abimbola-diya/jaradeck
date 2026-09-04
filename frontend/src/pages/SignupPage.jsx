@@ -45,7 +45,7 @@ export default function SignupPage() {
   };
 
   const handleSwitchToLogin = () => {
-    navigate('/onboarding', { state: { initialStep: 'signin' } });
+    navigate('/login');
   };
 
   const handleGoogleSuccess = (data) => {
