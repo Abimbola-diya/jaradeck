@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Briefcase01Icon, UserAccountIcon } from 'hugeicons-react';
 import { GoogleLogin } from '@react-oauth/google';
 import ArrowLeft02Icon from './ArrowLeft02Icon';
@@ -7,6 +7,8 @@ import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
 import successTickImage from '../assets/success tick.svg';
 import PropTypes from "prop-types";
+
+// ─── TYPES ──────────────────────────────────────────────────────
 
 OBShell.propTypes = {
   children: PropTypes.node,
@@ -55,6 +57,7 @@ OnboardingPage.propTypes = {
   onNavigateHome: PropTypes.func,
   onNavigateDashboard: PropTypes.func,
 };
+// ─── TYPES ──────────────────────────────────────────────────────
 
 function EyeIcon( visible ) {
   return visible ? (
@@ -231,7 +234,7 @@ function SignInStep({ onNext, onSwitchToSignUp, onBack }) {
       localStorage.setItem('jaradeck_user', JSON.stringify(data.user));
       onNext(data.user);
     } catch (err) {
-      setError('Could not connect to backend authentication server.');
+      if (err) setError('Could not connect to backend authentication server.');
     }
   };
 
@@ -400,13 +403,13 @@ function ProfileStep({ role, onNext, onSignIn, onBack }) {
       localStorage.setItem('jaradeck_user', JSON.stringify(data.user));
       onNext(data.user);
     } catch (err) {
-      setError('Could not connect to backend authentication server.');
+      if (err) setError('Could not connect to backend authentication server.');
     }
   };
 
   return (
     <OBShell isSignIn={false} onAuthSwitch={onSignIn} onBack={onBack}>
-      <h1 className="ob2-title">Let's set up your profile</h1>
+      <h1 className="ob2-title">Let&apos;s set up your profile</h1>
       <p className="ob2-subtitle">
         Enter a few details so we can manage your projects and send updates.
       </p>
@@ -594,7 +597,7 @@ function OTPStep({ role, onNext, onSignIn, onBack }) {
         {error && <p className="ob2-error" style={{ textAlign: 'center' }}>{error}</p>}
 
         <p className="ob2-resend-text">
-          Didn't receive a code?{' '}
+          Didn&apos;t receive a code?{' '}
           <button type="button" className="ob2-link-btn">Resend code</button>
         </p>
 

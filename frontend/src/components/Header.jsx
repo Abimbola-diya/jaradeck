@@ -21,10 +21,17 @@ export default function Header() {
     }
   }, [location.pathname]);
 
-  const navigateTo = (path) => {
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    const navigateTo = (path, e) => {
+      if (e && (e.clientX || e.currentTarget)) {
+        const rect = e.currentTarget?.getBoundingClientRect();
+        const originX = rect ? rect.left + rect.width / 2 : e.clientX;
+        const originY = rect ? rect.top + rect.height / 2 : e.clientY;
+        navigate(path, { state: { origin: { x: originX, y: originY } } });
+      } else {
+        navigate(path);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
   // Refs for navigation elements
   const mainPillRef = useRef(null);
