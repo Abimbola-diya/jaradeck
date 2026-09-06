@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ArrowIcon from '../components/ArrowIcon';
+// import ArrowIcon from '../components/ArrowIcon';
 import StadiumIllustration from '../components/StadiumIllustration';
 import NeedItDoneAnimation from '../components/NeedItDoneAnimation';
 import ComparisonCards from '../components/ComparisonCards';
@@ -8,6 +8,8 @@ import FeatureCards from '../components/FeatureCards';
 import RealImpactSection from '../components/RealImpactSection';
 import FaqSection from '../components/FaqSection';
 import NewsletterSection from '../components/NewsletterSection';
+import HugeAnimatedEye from '../components/HugeAnimatedEye';
+import MarqueeTicker from '../components/MarqueeTicker';
 
 const HEADLINES = [
   [
@@ -43,36 +45,59 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
-  const goToOnboarding = () => {
-    navigate('/waitlist');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+ const goToOnboarding = (e) => {
+   e?.preventDefault();
+   navigate("/waitlist");
+   window.scrollTo({ top: 0, behavior: "smooth" });
+ };
 
   return (
     <>
       <main className="hero-main">
         <div className="hero-content">
           <div className="hero-headline-wrapper">
-            <h1 key={headlineIndex} className="hero-headline hero-headline-animated">
+            <h1
+              key={headlineIndex}
+              className="hero-headline hero-headline-animated"
+            >
               {HEADLINES[headlineIndex].map((part, index) =>
                 part.action ? (
-                  <span key={index} className="action-word">{part.text}</span>
+                  <span key={index} className="action-word">
+                    {part.text}
+                  </span>
                 ) : (
                   <span key={index}>{part.text}</span>
                 ),
               )}
             </h1>
+
+            <p className="hero-subtitle">
+              Jaradeck is the easiest way to get work done without sifting
+              through endless profiles and fake reviews. Give us the grunt work.
+            </p>
           </div>
 
-          <p className="hero-subtitle">
-            Jaradeck is the easiest way to get work done without sifting through endless profiles and fake reviews. Give us the grunt work.
-          </p>
-
-          <button className="hero-cta-btn" onClick={goToOnboarding}>
-            <span>Use Jaradeck</span>
-            <ArrowIcon size={14} strokeWidth={2} className="arrow-icon" />
-          </button>
+          <form className="hero-chatbox-wrapper" onSubmit={goToOnboarding}>
+            <textarea
+              className="hero-chatbox-input"
+              placeholder="How can we help you?"
+              rows={3}
+            />
+            <div className="hero-chatbox-footer">
+              <button type="submit" className="hero-chatbox-btn">
+                <HugeAnimatedEye size={17} color="#0048b3" />
+                <span>Let&apos;s go</span>
+              </button>
+            </div>
+          </form>
         </div>
+        {/* Chowdeck-Style Glassmorphic Marquee Ticker */}
+        <MarqueeTicker
+          onSelectPhrase={() => {
+            navigate("/waitlist");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
 
         <div className="stadium-section">
           <StadiumIllustration />
