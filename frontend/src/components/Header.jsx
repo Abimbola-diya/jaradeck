@@ -10,7 +10,7 @@ export default function Header() {
   const [activeTab, setActiveTab] = useState(
     location.pathname === "/waitlist" ? "join" : "why",
   );
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
+//   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   // Sync activeTab with current route
   useEffect(() => {
@@ -32,8 +32,8 @@ export default function Header() {
   const howRef = useRef(null);
   const whyRef = useRef(null);
   const joinRef = useRef(null);
-  const morePillRef = useRef(null);
-  const dropdownRef = useRef(null);
+//   const morePillRef = useRef(null);
+//   const dropdownRef = useRef(null);
 
   // Sliding pill indicator position state
   const [indicatorStyle, setIndicatorStyle] = useState({
@@ -79,20 +79,20 @@ export default function Header() {
   }, [activeTab]);
 
   // Handle click outside for dropdowns
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        morePillRef.current &&
-        !morePillRef.current.contains(e.target)
-      ) {
-        setIsMoreOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+//   useEffect(() => {
+    // const handleClickOutside = (e) => {
+    //   if (
+    //     dropdownRef.current &&
+    //     !dropdownRef.current.contains(e.target) &&
+    //     morePillRef.current &&
+    //     !morePillRef.current.contains(e.target)
+    //   ) {
+    //     setIsMoreOpen(false);
+    //   }
+    // };
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => document.removeEventListener("mousedown", handleClickOutside);
+//   }, []);
 
   return (
     <>
@@ -117,7 +117,7 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "hire" && location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("hire");
-                setIsMoreOpen(false);
+                // setIsMoreOpen(false);
                 navigateTo("/");
               }}
             >
@@ -129,7 +129,7 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "how" && location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("how");
-                setIsMoreOpen(false);
+                // setIsMoreOpen(false);
                 navigateTo("/");
               }}
             >
@@ -141,7 +141,7 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "why" && location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("why");
-                setIsMoreOpen(false);
+                // setIsMoreOpen(false);
                 navigateTo("/");
               }}
             >
@@ -153,7 +153,7 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "join" || location.pathname === "/waitlist" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("join");
-                setIsMoreOpen(false);
+                // setIsMoreOpen(false);
                 navigateTo("/waitlist");
               }}
             >

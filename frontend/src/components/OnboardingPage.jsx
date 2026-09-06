@@ -6,8 +6,57 @@ import ArrowIcon from './ArrowIcon';
 import BrandLogo from './BrandLogo';
 import confettiImage from '../assets/coffette.svg';
 import successTickImage from '../assets/success tick.svg';
+import PropTypes from "prop-types";
 
-function EyeIcon({ visible }) {
+OBShell.propTypes = {
+  children: PropTypes.node,
+  isSignIn: PropTypes.bool,
+  onAuthSwitch: PropTypes.func,
+  onBack: PropTypes.func,
+  hideBack: PropTypes.bool,
+};
+
+RoleSelectionStep.propTypes = {
+  onSelect: PropTypes.func.isRequired,
+  onNavigateHome: PropTypes.func,
+};
+
+SignInStep.propTypes = {
+  onNext: PropTypes.func.isRequired,
+  onSwitchToSignUp: PropTypes.func,
+  onBack: PropTypes.func,
+};
+
+SignUpStep.propTypes = {
+  onNext: PropTypes.func.isRequired,
+  onSwitchToSignIn: PropTypes.func,
+  onBack: PropTypes.func,
+};
+
+ProfileStep.propTypes = {
+  role: PropTypes.string,
+  onNext: PropTypes.func.isRequired,
+  onSignIn: PropTypes.func,
+  onBack: PropTypes.func,
+};
+
+OTPStep.propTypes = {
+  role: PropTypes.string,
+  onNext: PropTypes.func.isRequired,
+  onSignIn: PropTypes.func,
+  onBack: PropTypes.func,
+};
+
+SuccessStep.propTypes = {
+  onNavigateDashboard: PropTypes.func.isRequired,
+};
+
+OnboardingPage.propTypes = {
+  onNavigateHome: PropTypes.func,
+  onNavigateDashboard: PropTypes.func,
+};
+
+function EyeIcon( visible ) {
   return visible ? (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
