@@ -488,7 +488,7 @@ textarea {
 }
 
 @media (max-width: 820px) {
-  .nav-login-btn {
+  .nav-signup-btn {
     display: none !important;
   }
 
