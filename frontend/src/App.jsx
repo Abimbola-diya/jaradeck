@@ -10,12 +10,13 @@ import AdminViewPage from './pages/AdminViewPage';
 import ApplyPage from './pages/ApplyPage';
 import ApplySuccessPage from './pages/ApplySuccessPage';
 import Header from './components/Header';
+import SignupPage from './pages/SignupPage';
 
 export default function App() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname === '/waitlist' ? 'join' : 'why');
   // const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const isProductRoute = ['/onboarding', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
+  const isProductRoute = ['/onboarding', '/admin_view', "/login", '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
  const isSignupRoute = location.pathname === "/signup";
  const routesLocation = isSignupRoute
    ? { ...location, pathname: "/" }
@@ -127,7 +128,10 @@ export default function App() {
           element={<DashboardTabPage tab="settings" />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
+
+        
       </Routes>
+              {isSignupRoute && <SignupPage />}
     </div>
   );
 }
