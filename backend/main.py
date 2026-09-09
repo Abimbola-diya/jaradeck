@@ -4,8 +4,8 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional, Dict, Any
 import random
 
-from core.config import settings
-from db.database import init_db, supabase
+from app.core.database import init_db, supabase
+from app.core.config import settings
 from routers.auth import router as auth_router
 
 app = FastAPI(
