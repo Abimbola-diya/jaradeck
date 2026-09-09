@@ -9,7 +9,6 @@ import ArrowRight02Icon from "./ArrowRight02Icon";
 
 import { API_BASE_URL } from "../lib/api";
 
-// Decode a Google JWT (ID token) without verifying signature — frontend-only display use
 function decodeJwt(token) {
   try {
     const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
@@ -48,29 +47,24 @@ function formatErrorMessage(
   return fallback;
 }
 
-export default function SignupModalCard({
+export default function LoginModalCard({
   onClose,
-  onSwitchToLogin,
+  onSwitchToSignUp,
   onGoogleSuccess,
   onOTPRequired,
   triggerOrigin,
 }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isClosing, setIsClosing] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Google account hint — populated either from localStorage (previous sign-in)
-  // or from One Tap silent detection
   const [googleHint, setGoogleHint] = useState(() => {
     try {
       const raw = localStorage.getItem("jaradeck_user");
       if (!raw) return null;
       const parsed = JSON.parse(raw);
-      // Only trust records with a real backend ID from Google auth
       if (!parsed?.id || parsed?.auth_provider !== "google") {
         localStorage.removeItem("jaradeck_user");
         return null;
@@ -87,7 +81,6 @@ export default function SignupModalCard({
     }
   });
 
-  // One Tap: silently detect signed-in Google account to pre-fill the pill
   useGoogleOneTapLogin({
     onSuccess: (credentialResponse) => {
       const payload = decodeJwt(credentialResponse.credential);
@@ -101,11 +94,9 @@ export default function SignupModalCard({
         });
       }
     },
-    onError: () => {
-      // Silently ignore — One Tap failure just means no hint available
-    },
+    onError: () => {},
     cancel_on_tap_outside: true,
-    disabled: Boolean(googleHint?.fromBackend), // skip if we already have backend data
+    disabled: Boolean(googleHint?.fromBackend),
   });
 
   const hasSavedUser = Boolean(
@@ -114,7 +105,6 @@ export default function SignupModalCard({
   const displayName = googleHint?.name || "";
   const hintFirstName = displayName ? displayName.split(" ")[0] : "";
   const displayEmail = googleHint?.email || "";
-  // Only allow https:// picture URLs to prevent javascript: or data: injection
   const rawPicture = googleHint?.picture || null;
   const displayPicture =
     rawPicture && rawPicture.startsWith("https://") ? rawPicture : null;
@@ -131,7 +121,6 @@ export default function SignupModalCard({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Authenticate with backend using either access_token (popup) or credential (One Tap JWT)
   const authenticateWithBackend = async ({ access_token, credential }) => {
     const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
       method: "POST",
@@ -146,7 +135,6 @@ export default function SignupModalCard({
     return data;
   };
 
-  // Shared helper — saves auth data and updates Google hint state after any Google auth path
   const finalizeGoogleAuth = (data) => {
     localStorage.setItem("jaradeck_token", data.access_token);
     localStorage.setItem("jaradeck_user", JSON.stringify(data.user));
@@ -183,7 +171,6 @@ export default function SignupModalCard({
   });
 
   const handleGoogleButtonClick = async () => {
-    // If the hint came from One Tap (we have the credential), use it directly
     if (googleHint && !googleHint.fromBackend && googleHint.credential) {
       setIsGoogleLoading(true);
       setError("");
@@ -201,15 +188,13 @@ export default function SignupModalCard({
       }
       return;
     }
-    // Otherwise open the Google popup
     googleLogin();
   };
 
-  // Compute CSS transform-origin relative to the modal card
   const transformOrigin = (() => {
     if (!triggerOrigin) return "85% 20px";
     const modalWidth = Math.min(530, window.innerWidth - 32);
-    const modalHeight = 560; // approximate height of modal
+    const modalHeight = 560;
     const modalLeft = (window.innerWidth - modalWidth) / 2;
     const modalTop = Math.max(20, (window.innerHeight - modalHeight) / 2);
     const originX = triggerOrigin.x - modalLeft;
@@ -223,14 +208,6 @@ export default function SignupModalCard({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!firstName.trim()) {
-      setError("Please enter your first name");
-      return;
-    }
-    if (!lastName.trim()) {
-      setError("Please enter your last name");
-      return;
-    }
     if (!email.trim() || !email.includes("@")) {
       setError("Please enter a valid email address");
       return;
@@ -240,16 +217,10 @@ export default function SignupModalCard({
     setIsSubmitting(true);
 
     try {
-      const combinedFullName = `${firstName.trim()} ${lastName.trim()}`;
-      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          first_name: firstName.trim(),
-          last_name: lastName.trim(),
-          full_name: combinedFullName,
-          email: email.trim().toLowerCase(),
-        }),
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
       });
       const data = await res.json();
       console.log(data)
@@ -258,13 +229,12 @@ export default function SignupModalCard({
         setError(
           formatErrorMessage(
             data.detail,
-            "Registration failed. Please try again.",
+            "Could not send code. Please try again.",
           ),
         );
         return;
       }
 
-      // Success — hand off to OTP step
       if (onOTPRequired) {
         onOTPRequired(email.trim().toLowerCase());
       }
@@ -275,9 +245,7 @@ export default function SignupModalCard({
     }
   };
 
-  const isFormValid = Boolean(
-    firstName.trim() && lastName.trim() && email.trim(),
-  );
+  const isFormValid = Boolean(email.trim());
 
   return (
     <motion.div
@@ -300,7 +268,7 @@ export default function SignupModalCard({
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="signup-modal-title"
+        aria-labelledby="login-modal-title"
         initial={
           isMobile ? { opacity: 0, scale: 0.97 } : { opacity: 0, scale: 0.15 }
         }
@@ -321,7 +289,6 @@ export default function SignupModalCard({
                 }
         }
       >
-        {/* Close Button */}
         <button
           type="button"
           className="jd-signup-close-btn"
@@ -331,12 +298,11 @@ export default function SignupModalCard({
           <Cancel01Icon size={20} />
         </button>
 
-        {/* Top-Centered Logo & Title */}
         <div className="jd-signup-header-container">
           <div className="jd-signup-logo-wrapper">
             <BrandLogo width={36} tone="blue" />
           </div>
-          <h2 id="signup-modal-title" className="jd-signup-title">
+          <h2 id="login-modal-title" className="jd-signup-title">
             <span className="jd-title-w-anchor">
               W
               <CrownIcon
@@ -345,14 +311,13 @@ export default function SignupModalCard({
                 className="jd-signup-title-crown-inline"
               />
             </span>
-            elcome to Jaradeck
+            elcome back!
           </h2>
           <p className="jd-signup-subtitle">
-            Let&apos;s get the formalities out of the way
+            Good to see you again. We&apos;ll send a code to your email.
           </p>
         </div>
 
-        {/* Google SSO Button */}
         {hasSavedUser ? (
           <button
             type="button"
@@ -373,7 +338,6 @@ export default function SignupModalCard({
                 </div>
               )}
             </div>
-
             <div className="jd-google-btn-info">
               <span className="jd-google-btn-title">
                 {isGoogleLoading
@@ -399,7 +363,6 @@ export default function SignupModalCard({
                 </div>
               )}
             </div>
-
             <div className="jd-google-btn-logo">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path
@@ -452,50 +415,15 @@ export default function SignupModalCard({
           </button>
         )}
 
-        {/* Divider */}
         <div className="jd-signup-divider">
           <span className="jd-signup-divider-line"></span>
           <span className="jd-signup-divider-text">
-            {isMobile ? "or" : "or sign up below"}
+            {isMobile ? "or" : "or sign in below"}
           </span>
           <span className="jd-signup-divider-line"></span>
         </div>
 
-        {/* Form Fields */}
         <form className="jd-signup-form" onSubmit={handleSubmit} noValidate>
-          <div className="jd-signup-name-row">
-            <div className="jd-signup-field">
-              {isMobile && (
-                <label className="jd-signup-label">First Name</label>
-              )}
-              <input
-                type="text"
-                className="jd-signup-input"
-                placeholder={isMobile ? "Lagbaja" : "First name e.g Lagbaja"}
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                  setError("");
-                }}
-                required
-              />
-            </div>
-            <div className="jd-signup-field">
-              {isMobile && <label className="jd-signup-label">Last Name</label>}
-              <input
-                type="text"
-                className="jd-signup-input"
-                placeholder={isMobile ? "Tamedo" : "Last name e.g Tamedo"}
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                  setError("");
-                }}
-                required
-              />
-            </div>
-          </div>
-
           <div className="jd-signup-field">
             {isMobile && (
               <label className="jd-signup-label">Email Address</label>
@@ -509,33 +437,31 @@ export default function SignupModalCard({
                 setEmail(e.target.value);
                 setError("");
               }}
-              autoComplete="off"
+              autoComplete="email"
               required
             />
           </div>
 
           {error && <div className="jd-signup-error-msg">{error}</div>}
 
-          {/* Sign up CTA Button */}
           <button
             type="submit"
             className="jd-signup-continue-btn"
             disabled={!isFormValid || isSubmitting}
           >
-            <span>{isSubmitting ? "Sending code…" : "Sign up"}</span>
+            <span>{isSubmitting ? "Sending code…" : "Log in"}</span>
             {!isSubmitting && <ArrowRight02Icon size={18} />}
           </button>
         </form>
 
-        {/* Footer Login Link */}
         <div className="jd-signup-footer">
-          Already using Jaradeck?{" "}
+          New to Jaradeck?{" "}
           <button
             type="button"
             className="jd-signup-login-link"
-            onClick={onSwitchToLogin}
+            onClick={onSwitchToSignUp}
           >
-            Log in
+            Sign up
           </button>
         </div>
       </motion.div>
@@ -543,9 +469,9 @@ export default function SignupModalCard({
   );
 }
 
-SignupModalCard.propTypes = {
+LoginModalCard.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSwitchToLogin: PropTypes.func.isRequired,
+  onSwitchToSignUp: PropTypes.func.isRequired,
   onGoogleSuccess: PropTypes.func,
   onOTPRequired: PropTypes.func.isRequired,
   triggerOrigin: PropTypes.shape({

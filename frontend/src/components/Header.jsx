@@ -10,9 +10,7 @@ export default function Header() {
   const [activeTab, setActiveTab] = useState(
     location.pathname === "/waitlist" ? "join" : "why",
   );
-//   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
-  // Sync activeTab with current route
   useEffect(() => {
     if (location.pathname === "/waitlist") {
       setActiveTab((prev) => (prev !== "join" ? "join" : prev));
@@ -21,28 +19,26 @@ export default function Header() {
     }
   }, [location.pathname]);
 
-    const navigateTo = (path, e) => {
-      if (e && (e.clientX || e.currentTarget)) {
-        const rect = e.currentTarget?.getBoundingClientRect();
-        const originX = rect ? rect.left + rect.width / 2 : e.clientX;
-        const originY = rect ? rect.top + rect.height / 2 : e.clientY;
-        navigate(path, { state: { origin: { x: originX, y: originY } } });
-      } else {
-        navigate(path);
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+  const navigateTo = (path, e, extraState) => {
+    if (e && (e.clientX || e.currentTarget)) {
+      const rect = e.currentTarget?.getBoundingClientRect();
+      const originX = rect ? rect.left + rect.width / 2 : e.clientX;
+      const originY = rect ? rect.top + rect.height / 2 : e.clientY;
+      navigate(path, {
+        state: { origin: { x: originX, y: originY }, ...extraState },
+      });
+    } else {
+      navigate(path, { state: extraState });
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  // Refs for navigation elements
   const mainPillRef = useRef(null);
   const hireRef = useRef(null);
   const howRef = useRef(null);
   const whyRef = useRef(null);
   const joinRef = useRef(null);
-//   const morePillRef = useRef(null);
-//   const dropdownRef = useRef(null);
 
-  // Sliding pill indicator position state
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     width: 0,
@@ -50,7 +46,6 @@ export default function Header() {
     opacity: 0,
   });
 
-  // Calculate sliding indicator coordinates
   useEffect(() => {
     const updateIndicator = () => {
       const activeRef = {
@@ -85,27 +80,10 @@ export default function Header() {
     return () => window.removeEventListener("resize", updateIndicator);
   }, [activeTab]);
 
-  // Handle click outside for dropdowns
-//   useEffect(() => {
-    // const handleClickOutside = (e) => {
-    //   if (
-    //     dropdownRef.current &&
-    //     !dropdownRef.current.contains(e.target) &&
-    //     morePillRef.current &&
-    //     !morePillRef.current.contains(e.target)
-    //   ) {
-    //     setIsMoreOpen(false);
-    //   }
-    // };
-    // document.addEventListener("mousedown", handleClickOutside);
-    // return () => document.removeEventListener("mousedown", handleClickOutside);
-//   }, []);
-
   return (
     <>
       <header className="nav-header">
         <div className="nav-header-wrapper">
-          {/* Logo */}
           <div
             className="nav-logo"
             title="Jaradeck"
@@ -115,7 +93,6 @@ export default function Header() {
             <BrandLogo width={41} />
           </div>
 
-          {/* Center Main Pill Navigation */}
           <nav className="nav-main-pill" ref={mainPillRef}>
             <div className="nav-active-indicator" style={indicatorStyle}></div>
 
@@ -124,7 +101,6 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "hire" && location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("hire");
-                // setIsMoreOpen(false);
                 navigateTo("/");
               }}
             >
@@ -136,7 +112,6 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "how" && location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("how");
-                // setIsMoreOpen(false);
                 navigateTo("/");
               }}
             >
@@ -148,7 +123,6 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "why" && location.pathname === "/" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("why");
-                // setIsMoreOpen(false);
                 navigateTo("/");
               }}
             >
@@ -160,7 +134,6 @@ export default function Header() {
               className={`nav-link-btn ${activeTab === "join" || location.pathname === "/waitlist" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("join");
-                // setIsMoreOpen(false);
                 navigateTo("/waitlist");
               }}
             >
@@ -168,7 +141,6 @@ export default function Header() {
             </button>
           </nav>
 
-          {/* Right Action Controls */}
           <div className="nav-header-right">
             <button
               className="nav-signup-btn"
@@ -176,14 +148,12 @@ export default function Header() {
             >
               Sign up
             </button>
-
             <button
               className="nav-login-btn"
-              onClick={() => navigateTo("/onboarding")}
+              onClick={() => navigateTo("/login")}
             >
               Log in
             </button>
-
             <button
               className="nav-hamburger"
               onClick={() => setIsMobileMenuOpen(true)}
@@ -197,7 +167,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
           <div className="mobile-menu-header">
@@ -212,7 +181,6 @@ export default function Header() {
               >
                 <BrandLogo width={22} tone="blue" />
               </button>
-
               <button
                 className="mobile-menu-close"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -266,27 +234,6 @@ export default function Header() {
               }}
             >
               <span className="mobile-row-text">Use Jaradeck</span>
-            </button>
-
-            <button
-              className="mobile-nav-row"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <span className="mobile-row-text">Contact Us</span>
-            </button>
-
-            <button
-              className="mobile-nav-row"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <span className="mobile-row-text">FAQs</span>
-            </button>
-
-            <button
-              className="mobile-nav-row"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <span className="mobile-row-text">Blog</span>
             </button>
           </div>
         </div>

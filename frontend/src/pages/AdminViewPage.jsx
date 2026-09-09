@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackgroundGrid from '../components/BackgroundGrid';
 import BrandLogo from '../components/BrandLogo';
 import { useNavigate } from 'react-router-dom';

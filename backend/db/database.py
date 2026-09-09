@@ -1,13 +1,15 @@
+import psycopg2
 from supabase import create_client, Client
 from core.config import settings
-import psycopg2
 
-if not settings.SUPABASE_URL or not settings.SUPABASE_ANON_KEY:
+# Enforce required environment variables for administrative access
+if not settings.SUPABASE_URL or not settings.SUPABASE_KEY:
     raise RuntimeError(
-        "Missing required environment variables: SUPABASE_URL and SUPABASE_ANON_KEY must be set."
+        "Missing required environment variables: SUPABASE_URL and SUPABASE_KEY must be set."
     )
 
-supabase: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_ANON_KEY)
+# Use SUPABASE_KEY (service_role secret key) to bypass Row-Level Security
+supabase: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
 
 def init_db():
     db_url = settings.DATABASE_URL
@@ -22,7 +24,7 @@ def init_db():
             db_url += "?sslmode=require"
             
     try:
-        print(f"Connecting to Supabase PostgreSQL...")
+        print("Connecting to Supabase PostgreSQL...")
         conn = psycopg2.connect(db_url, sslmode="require", connect_timeout=15)
         cur = conn.cursor()
         cur.execute("""
@@ -62,9 +64,10 @@ def init_db():
                 email TEXT UNIQUE NOT NULL,
                 password_hash TEXT,
                 full_name TEXT NOT NULL,
-                role TEXT NOT NULL,
+                role TEXT NOT NULL DEFAULT 'pending',
                 country TEXT,
                 phone TEXT,
+                is_onboarded BOOLEAN DEFAULT FALSE,
                 auth_provider TEXT DEFAULT 'local',
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
             );

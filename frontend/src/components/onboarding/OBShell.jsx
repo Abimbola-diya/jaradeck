@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
 import BrandLogo from '../BrandLogo';
 
@@ -43,3 +44,14 @@ export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBa
     </div>
   );
 }
+
+OBShell.propTypes = {
+  children: PropTypes.node.isRequired,
+  isSignIn: PropTypes.bool,
+  onAuthSwitch: PropTypes.func,
+  onBack: PropTypes.func,
+  hideBack: PropTypes.bool,
+  hideAuthSwitch: PropTypes.bool,
+  align: PropTypes.string,
+  isCropActive: PropTypes.bool,
+};

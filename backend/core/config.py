@@ -11,6 +11,7 @@ class Settings:
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
     SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "")
     DATABASE_URL: str = os.getenv("DATABASE_URL") or os.getenv("DIRECT_URL") or ""
+    SUPABASE_KEY: str = os.getenv("SUPABASE_KEY", "")  # <--- Add this field so settings.SUPABASE_KEY works
     
     SECRET_KEY: str = os.getenv("SECRET_KEY", "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7")
     ALGORITHM: str = "HS256"

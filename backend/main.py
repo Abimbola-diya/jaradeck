@@ -1,3 +1,5 @@
+import os
+os.environ["HTTPX_DISABLE_HTTP2"] = "1"
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field

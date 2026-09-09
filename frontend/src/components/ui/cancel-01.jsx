@@ -1,4 +1,5 @@
 'use client';;
+import PropTypes from 'prop-types';
 import { motion, useAnimation } from 'motion/react';
 import { forwardRef } from 'react';
 import { useIconAnimation } from '../../lib/use-icon-animation';
@@ -209,6 +210,13 @@ const Cancel01Icon = forwardRef(({ onMouseEnter, onMouseLeave, className, size =
     </div>
   );
 });
+
+Cancel01Icon.propTypes = {
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  className: PropTypes.string,
+  size: PropTypes.number,
+};
 
 Cancel01Icon.displayName = 'Cancel01Icon';
 

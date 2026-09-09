@@ -1,14 +1,119 @@
+import uuid
+import random
+import resend
+from datetime import datetime, timedelta, timezone
+
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
+
 from db.database import supabase
 from core.security import verify_password, get_password_hash, create_access_token, verify_google_token
 from core.config import settings
-from db.models import UserRegister, UserLogin, GoogleLogin, Token, UserResponse
-from datetime import timedelta
+from db.models import (
+    UserRegister,
+    UserLogin,
+    GoogleLogin,
+    Token,
+    UserResponse,
+    OnboardingCompletion,
+    SendOTPRequest,
+    VerifyOTPRequest,
+    AuthTokenResponse,
+)
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+
+OTP_EXPIRATION_MINUTES = 10
+
+
+def generate_otp() -> str:
+    return f"{random.randint(0, 999999):06d}"
+
+async def send_otp_email(email: str, code: str):
+    html_content = f"""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Your Verification Code</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #f4f6f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+        <tr>
+          <td align="center" style="padding: 40px 10px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); text-align: center;">
+              
+              <!-- Header Brand Banner -->
+              <tr>
+                <td style="padding: 32px 32px 16px 32px; text-align: center;">
+                  <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #0048B3; letter-spacing: -0.5px;">
+                    Jaradeck
+                  </h1>
+                </td>
+              </tr>
+
+              <!-- Body Content -->
+              <tr>
+                <td style="padding: 0 32px 24px 32px; text-align: center;">
+                  <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600; color: #111827;">
+                    Your verification code
+                  </h2>
+                  <p style="margin: 0; font-size: 14px; color: #6B7280; line-height: 1.5;">
+                    Use the 6-digit code below to log in to your account. This code is valid for 10 minutes.
+                  </p>
+                </td>
+              </tr>
+
+              <!-- OTP Code Box -->
+              <tr>
+                <td align="center" style="padding: 0 32px 24px 32px;">
+                  <div style="background-color: #F0F5FF; border: 1px dashed #0048B3; border-radius: 8px; padding: 20px; text-align: center;">
+                    <span style="font-family: 'Courier New', Courier, monospace; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #0048B3; display: inline-block;">
+                      {code}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Direct Paste / Action Helper -->
+              <tr>
+                <td align="center" style="padding: 0 32px 32px 32px;">
+                  <p style="margin: 0 0 12px 0; font-size: 12px; color: #9CA3AF;">
+                    Tap or double-click the code block above to select and copy.
+                  </p>
+                </td>
+              </tr>
+
+              <!-- Footer -->
+              <tr>
+                <td style="background-color: #F9FAFB; padding: 20px 32px; border-top: 1px solid #E5E7EB; text-align: center;">
+                  <p style="margin: 0; font-size: 12px; color: #9CA3AF; line-height: 1.4;">
+                    If you didn't request this code, you can safely ignore this email.
+                  </p>
+                </td>
+              </tr>
+
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+    """
+
+    try:
+        resend.Emails.send({
+            "from": "Jaradeck <onboarding@resend.dev>",
+            "to": email,
+            "subject": f"{code} is your Jaradeck verification code",
+            "html": html_content
+        })
+    except Exception as e:
+        print(f"Error sending email via Resend: {str(e)}")
+
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
@@ -29,37 +134,183 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
     return response.data[0]
 
+
+# ==========================
+# OTP ENDPOINTS (Shared Flow)
+# ==========================
+
+@router.post("/send-otp", status_code=status.HTTP_200_OK)
+async def send_otp(payload: SendOTPRequest):
+    """
+    Unified endpoint to generate and send an OTP code to any email address.
+    Used during signup, login, and manual resends.
+    """
+    email = payload.email.lower().strip()
+    code = generate_otp()
+    expires_at = (datetime.now(timezone.utc) + timedelta(minutes=OTP_EXPIRATION_MINUTES)).isoformat()
+
+    # Invalidate previous unverified OTP records for this email
+    try:
+        supabase.table("otp_codes").delete().eq("email", email).execute()
+    except Exception:
+        pass
+
+    # Save new OTP entry
+    try:
+        supabase.table("otp_codes").insert({
+            "email": email,
+            "code": code,
+            "expires_at": expires_at,
+            "is_used": False
+        }).execute()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
+    await send_otp_email(email, code)
+
+    # Check user existence to return helpful metadata for frontend routing
+    user_res = supabase.table("users").select("id").eq("email", email).execute()
+    is_registered = bool(user_res.data)
+
+    return {
+        "message": "OTP code sent successfully.",
+        "is_registered": is_registered
+    }
+
+
+@router.post("/resend-otp", status_code=status.HTTP_200_OK)
+async def resend_otp(payload: SendOTPRequest):
+    """Alias for /send-otp to handle manual re-requests."""
+    return await send_otp(payload)
+
+
+@router.post("/verify-otp", response_model=AuthTokenResponse)
+async def verify_otp(payload: VerifyOTPRequest):
+    """
+    Unified verification endpoint. Validates code, marks email verified,
+    and returns session token + user onboarding state.
+    """
+    email = payload.email.lower().strip()
+    code = payload.code.strip()
+
+    # Fetch matching valid code
+    res = supabase.table("otp_codes").select("*").eq("email", email).eq("code", code).eq("is_used", False).execute()
+    if not res.data:
+        raise HTTPException(status_code=400, detail="Invalid verification code.")
+
+    otp_record = res.data[0]
+    expires_at = datetime.fromisoformat(otp_record["expires_at"].replace("Z", "+00:00"))
+
+    if datetime.now(timezone.utc) > expires_at:
+        raise HTTPException(status_code=400, detail="Verification code has expired. Please request a new one.")
+
+    # Invalidate used code
+    supabase.table("otp_codes").update({"is_used": True}).eq("id", otp_record["id"]).execute()
+
+    # Retrieve user
+    user_res = supabase.table("users").select("*").eq("email", email).execute()
+    if not user_res.data:
+        raise HTTPException(status_code=404, detail="User account not found. Please sign up first.")
+
+    user = user_res.data[0]
+    
+    # Update verification status
+    # supabase.table("users").update({"is_verified": True}).eq("id", user["id"]).execute()
+    # user["is_verified"] = True
+
+    expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(data={"sub": str(user["id"])}, expires_delta=expires)
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user,
+    }
+
+
+# ==========================
+# AUTHENTICATION ENDPOINTS
+# ==========================
+
+@router.post("/login/send-otp", status_code=status.HTTP_200_OK)
+async def login_send_otp(payload: SendOTPRequest):
+    """
+    Initiates email-only login flow. Verifies user exists prior to sending OTP.
+    """
+    email = payload.email.lower().strip()
+    user_res = supabase.table("users").select("id").eq("email", email).execute()
+    if not user_res.data:
+        raise HTTPException(status_code=404, detail="No account found with this email. Please register.")
+
+    return await send_otp(payload)
+
+
 @router.post("/register", response_model=Token)
 async def register(user: UserRegister):
-    # Check if user already exists
     response = supabase.table("users").select("id").eq("email", user.email).execute()
     if response.data:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    hashed_password = get_password_hash(user.password)
-    
+    password_hash = get_password_hash(user.password) if user.password else None
+
     new_user_data = {
-        "email": user.email,
-        "password_hash": hashed_password,
+        "id": str(uuid.uuid4()),
+        "email": user.email.lower().strip(),
+        "password_hash": password_hash,
         "full_name": user.full_name,
-        "role": user.role,
+        "role": user.role if user.role in ["customer", "worker"] else "customer",
+        "is_onboarded": False,
+        "is_verified": False,
         "country": user.country,
         "phone": user.phone,
         "auth_provider": "local"
     }
-    
+
     try:
         result = supabase.table("users").insert(new_user_data).execute()
         new_user = result.data[0]
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
-    access_token = create_access_token(data={"sub": str(new_user["id"])})
+    # Automatically dispatch registration OTP
+    await send_otp(SendOTPRequest(email=new_user["email"]))
+
+    expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(data={"sub": str(new_user["id"])}, expires_delta=expires)
+    
     return {"access_token": access_token, "token_type": "bearer", "user": new_user}
+
+
+@router.post("/complete-onboarding", response_model=UserResponse)
+async def complete_onboarding(
+    payload: OnboardingCompletion, 
+    current_user: dict = Depends(get_current_user)
+):
+    update_data = {
+        "role": payload.role,
+        "is_onboarded": True,
+    }
+    if payload.country:
+        update_data["country"] = payload.country
+    if payload.phone:
+        update_data["phone"] = payload.phone
+
+    try:
+        result = (
+            supabase.table("users")
+            .update(update_data)
+            .eq("id", current_user["id"])
+            .execute()
+        )
+        return result.data[0]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update onboarding info: {str(e)}")
+
 
 @router.post("/login", response_model=Token)
 async def login(user_credentials: UserLogin):
-    response = supabase.table("users").select("*").eq("email", user_credentials.email).execute()
+    """Password-based login fallback."""
+    response = supabase.table("users").select("*").eq("email", user_credentials.email.lower().strip()).execute()
     if not response.data:
         raise HTTPException(status_code=401, detail="Invalid email or password")
         
@@ -73,13 +324,14 @@ async def login(user_credentials: UserLogin):
     access_token = create_access_token(data={"sub": str(user["id"])})
     return {"access_token": access_token, "token_type": "bearer", "user": user}
 
+
 @router.post("/google", response_model=Token)
 async def google_login(google_login: GoogleLogin):
     idinfo = verify_google_token(google_login.credential)
     if not idinfo:
         raise HTTPException(status_code=400, detail="Invalid Google token")
         
-    email = idinfo.get("email")
+    email = idinfo.get("email", "").lower().strip()
     full_name = idinfo.get("name", "Google User")
     
     if not email:
@@ -88,12 +340,10 @@ async def google_login(google_login: GoogleLogin):
     response = supabase.table("users").select("*").eq("email", email).execute()
     
     if response.data:
-        # User exists, login
         user = response.data[0]
         access_token = create_access_token(data={"sub": str(user["id"])})
         return {"access_token": access_token, "token_type": "bearer", "user": user}
     else:
-        # User does not exist, create
         if not google_login.role:
             raise HTTPException(
                 status_code=428, 
@@ -104,6 +354,8 @@ async def google_login(google_login: GoogleLogin):
             "email": email,
             "full_name": full_name,
             "role": google_login.role,
+            "is_verified": True,
+            "is_onboarded": False,
             "auth_provider": "google"
         }
         
@@ -115,6 +367,7 @@ async def google_login(google_login: GoogleLogin):
             
         access_token = create_access_token(data={"sub": str(user["id"])})
         return {"access_token": access_token, "token_type": "bearer", "user": user}
+
 
 @router.get("/me", response_model=UserResponse)
 async def read_users_me(current_user: dict = Depends(get_current_user)):

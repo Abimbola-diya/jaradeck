@@ -628,7 +628,7 @@ export default function ApplyPage() {
     try {
       new URL(string.trim());
       return true;
-    } catch (_) {
+    } catch {
       return false;
     }
   };
@@ -1123,7 +1123,7 @@ export default function ApplyPage() {
                 }}
                 style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', width: 'auto', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
               >
-                Let's find out <ArrowRight02Icon size={18} />
+                 Let&apos;s find out <ArrowRight02Icon size={18} />
               </button>
             </div>
           </div>
@@ -2037,7 +2037,7 @@ export default function ApplyPage() {
             maxWidth: '800px',
             margin: 0
           }}>
-            Hang tight... we're trying not to fumble your application.
+            Hang tight... we&apos;re trying not to fumble your application.
           </h2>
         </div>
 

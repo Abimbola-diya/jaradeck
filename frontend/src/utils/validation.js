@@ -13,7 +13,7 @@ export function validatePhone(phone) {
   }
 
   const raw = phone.trim();
-  const cleaned = raw.replace(/[\s\-\(\)]/g, '');
+  const cleaned = raw.replace(/[\s\-()]/g, '');
 
   // Must contain only digits and optional leading +
   if (!/^\+?\d+$/.test(cleaned)) {

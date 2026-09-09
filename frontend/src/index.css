@@ -3957,6 +3957,45 @@ textarea {
   line-height: 1;
 }
 
+/* ===== Centralized OTP Layout Rules ===== */
+.ob2-otp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ob2-otp-title,
+.ob2-otp-subtitle {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.ob2-otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* .ob2-otp-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+  width: 100%;
+} */
+
+.ob2-resend-text {
+  text-align: center;
+  width: 100%;
+}
+
 /* ── OTP: 6 individual digit boxes ── */
 .ob2-otp-row {
   display: flex;
@@ -4331,6 +4370,485 @@ textarea {
 
 .ob2-dashboard-cta {
   margin-top: 3.1rem;
+}
+
+/* ── Profile & Crop Sheet Styles ── */
+.ob2-profile-header-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.ob2-title-centered {
+  text-align: center !important;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 34px !important;
+  font-weight: 500 !important;
+  color: #0A0A0A !important;
+  margin-bottom: 8px !important;
+  letter-spacing: -0.02em !important;
+}
+
+.ob2-subtitle-centered {
+  text-align: center !important;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px !important;
+  color: #64748B !important;
+  margin-bottom: 0 !important;
+}
+
+.ob2-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.ob2-hidden-file-input {
+  display: none;
+}
+
+.ob2-avatar-circle {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #F1F4F9;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.ob2-avatar-circle.has-image {
+  border-color: #0048cc;
+  overflow: visible;
+}
+
+.ob2-avatar-circle:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.ob2-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.ob2-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F1F4F9;
+}
+
+.ob2-avatar-remove-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #EF4444;
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: transform 0.15s ease;
+}
+
+.ob2-avatar-remove-badge:hover {
+  transform: scale(1.1);
+}
+
+.ob2-upload-pill-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #EFF6FF 0%, #E0ECFF 50%, #FFFFFF 50%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  border: 1.5px solid #2D3748;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+  cursor: pointer;
+  z-index: 1;
+  transition: background-position 2.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 2.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 2.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.4s ease,
+    box-shadow 2.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ob2-upload-pill-btn:hover {
+  background-position: 0% 0;
+  border-color: #0048B3;
+  color: #0048B3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(0, 72, 179, 0.16);
+}
+
+.ob2-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ob2-char-counter {
+  font-size: 12px;
+  color: #71717A;
+  font-weight: 500;
+}
+
+.ob2-textarea {
+  width: 100%;
+  background: #FAFAFA;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1.5px solid transparent;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+  line-height: 140%;
+  color: #0A0A0A;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.ob2-textarea:focus {
+  background: #FAFAFA;
+  border-color: #A3BFDE;
+  box-shadow: 0 0 0 1px #A3BFDE;
+}
+
+.ob2-textarea::placeholder {
+  color: #71717A;
+  opacity: 0.85;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+}
+
+.ob2-field-helper {
+  font-size: 12px;
+  color: #71717A;
+  margin-top: 6px;
+  margin-bottom: 0;
+  line-height: 130%;
+}
+
+.ob2-back-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151 !important;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 18px auto 0 auto;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.ob2-back-link-arrow {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+}
+
+.ob2-back-link-btn:hover {
+  color: #111827 !important;
+  text-decoration: underline;
+}
+
+/* ── Bottom Sheet Drawer Image Crop Modal ── */
+.ob2-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: ob2SheetFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ob2-page.ob2-crop-active {
+  justify-content: flex-start !important;
+  padding-top: 1.5rem !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.ob2-page.ob2-crop-active .ob2-logo-wrap {
+  margin-bottom: 6px !important;
+}
+
+.ob2-page.ob2-crop-active .ob2-profile-header-wrap {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+  z-index: 1;
+  position: relative;
+}
+
+.ob2-page.ob2-crop-active .ob2-title-centered {
+  font-size: 24px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  color: #0A0A0A !important;
+}
+
+.ob2-page.ob2-crop-active .ob2-subtitle-centered {
+  font-size: 13px !important;
+}
+
+.ob2-sheet-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 85vh;
+  background: #FFFFFF;
+  border-top-left-radius: 28px !important;
+  border-top-right-radius: 28px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  padding: 10px 20px 16px 20px;
+  box-shadow: 0 -12px 36px rgba(0, 0, 0, 0), 0 -1px 3px rgba(0, 0, 0, 0.08) !important;
+  border-top: 1.5px solid #E2E8F0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  margin: 0 !important;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+  animation: ob2SheetSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ob2-sheet-card::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+@keyframes ob2SheetFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ob2SheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.ob2-sheet-handle-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+  padding-bottom: 12px;
+  cursor: grab;
+}
+
+.ob2-sheet-handle {
+  width: 38px;
+  height: 4px;
+  border-radius: 9999px;
+  background: #2563EB;
+  transition: background-color 0.2s ease;
+}
+
+.ob2-sheet-handle-wrap:hover .ob2-sheet-handle {
+  background: #1D4ED8;
+}
+
+.ob2-sheet-header {
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.ob2-sheet-title {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  color: #1E293B !important;
+  margin: 0 0 6px 0 !important;
+  letter-spacing: -0.01em;
+}
+
+.ob2-sheet-subtitle {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.45 !important;
+  color: #64748B !important;
+  max-width: 100% !important;
+  width: 100%;
+  margin: 0 0 8px 0 !important;
+  text-align: left !important;
+}
+
+.ob2-sheet-cropper-frame {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  height: 280px;
+  border-radius: 24px;
+  overflow: hidden;
+  margin: 0 0 12px 0;
+  flex-shrink: 0;
+  background-color: #FFFFFF;
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
+.ob2-sheet-zoom-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 210px;
+  margin-bottom: 16px;
+}
+
+.ob2-sheet-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 1.5px;
+  background: #E5E7EB;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ob2-sheet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.ob2-sheet-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+  border-color: #9CA3AF;
+}
+
+.ob2-sheet-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid #D1D5DB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.ob2-sheet-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 8px;
+  padding-bottom: 4px;
+}
+
+.ob2-sheet-cancel-btn {
+  background: transparent;
+  border: none;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E293B;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ob2-sheet-cancel-btn:hover {
+  background-color: #F1F5F9;
+  color: #0F172A;
+}
+
+.ob2-sheet-save-btn {
+  background: #0048B3;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 32px;
+  min-width: 96px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35);
+}
+
+.ob2-sheet-save-btn:hover {
+  background: #003B99;
+  transform: translateY(-1px);
+}
+
+.ob2-sheet-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ── Worker dashboard ── */
@@ -6578,4 +7096,642 @@ a:active .hugeicons-animated-arrow-left {
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+/* ===== Standalone Jaradeck Sign Up Modal & Page ===== */
+.jd-signup-page-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--blue-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.jd-signup-standalone-page {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: transparent;
+  z-index: 99999;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.jd-otp-fullscreen-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #ffffff !important;
+  overflow-y: auto;
+}
+
+.jd-signup-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 10, 30, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  will-change: opacity;
+}
+
+.jd-signup-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 530px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 1.75rem 2.25rem 1.5rem 2.25rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  color: #0A0A0A;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  will-change: transform, opacity;
+}
+
+.jd-signup-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E293B;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.jd-signup-close-btn:hover {
+  background-color: #F1F5F9;
+}
+
+.jd-signup-close-btn:active {
+  transform: scale(0.92);
+}
+
+.jd-signup-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.6rem;
+}
+
+.jd-signup-logo-wrapper {
+  margin-bottom: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jd-signup-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.85rem;
+}
+
+.jd-signup-title-container .jd-signup-title {
+  margin-bottom: 0;
+}
+
+.jd-title-w-anchor {
+  position: relative;
+  display: inline-block;
+}
+
+.jd-title-crown-inline {
+  position: absolute;
+  top: -44px;
+  left: -42px;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.jd-signup-title-crown-inline {
+  position: absolute;
+  top: -42px;
+  left: -40px;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.jd-signup-title {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 28px;
+  font-weight: 500;
+  color: #0A0A0A;
+  text-align: center;
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
+}
+
+.jd-signup-subtitle {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #1E293B;
+  text-align: center;
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.jd-signup-smiley-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+/* Dribbble-Style Google Button */
+.jd-google-dribbble-btn {
+  width: 100%;
+  height: 54px;
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  border-radius: 9999px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.15s ease;
+}
+
+.jd-google-dribbble-btn:hover {
+  background: #F8F9FA;
+  border-color: #D2E3FC;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
+}
+
+.jd-google-dribbble-btn:active {
+  transform: scale(0.995);
+}
+
+.jd-google-btn-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jd-google-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jd-google-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #1A73E8;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jd-google-btn-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 12px;
+  margin-right: 8px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.jd-google-btn-title {
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #3C4043;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.jd-google-btn-email-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #5F6368;
+  font-size: 13.5px;
+  line-height: 1.3;
+  margin-top: 1px;
+}
+
+.jd-google-btn-email {
+  font-family: 'PP Neue Montreal', var(--font-family), -apple-system, sans-serif !important;
+  color: #5F6368;
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 260px;
+}
+
+.jd-google-chevron {
+  flex-shrink: 0;
+  stroke: #5F6368;
+}
+
+.jd-google-btn-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Google SSO Button fallback */
+.jd-google-blue-btn {
+  width: 100%;
+  height: 48px;
+  background: #F4F4F6;
+  color: #0A0A0A;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.jd-google-blue-btn:hover {
+  background: #EBEBEF;
+  transform: translateY(-1px);
+}
+
+.jd-google-blue-btn:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Divider */
+.jd-signup-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 1.15rem 0;
+  gap: 1rem;
+}
+
+.jd-signup-divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #E2E8F0;
+}
+
+.jd-signup-divider-text {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 13px;
+  font-weight: 400;
+  color: #94A3B8;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+/* Form Fields */
+.jd-signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.jd-signup-field {
+  position: relative;
+  width: 100%;
+}
+
+.jd-signup-label {
+  font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0A0A0A;
+  margin-bottom: 6px;
+  display: block;
+  text-align: left;
+}
+
+.jd-signup-name-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.jd-signup-name-row .jd-signup-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.jd-signup-input-row {
+  position: relative;
+  width: 100%;
+}
+
+.jd-signup-input {
+  width: 100%;
+  height: 46px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 0 1.25rem;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 400;
+  font-size: 15px;
+  color: #0F172A;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.jd-signup-input::placeholder {
+  color: #71717A;
+  opacity: 0.85;
+}
+
+.jd-signup-input:focus {
+  background-color: #FFFFFF;
+  border-color: #0048cc;
+  box-shadow: 0 0 0 3px rgba(0, 72, 204, 0.12);
+}
+
+.jd-signup-input-pw {
+  padding-right: 3rem;
+}
+
+.jd-signup-eye-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.jd-signup-eye-btn:hover {
+  color: #0F172A;
+}
+
+.jd-signup-error-msg {
+  font-family: var(--font-family);
+  font-size: 13px;
+  color: #EF4444;
+  text-align: center;
+  margin-top: -0.25rem;
+}
+
+/* Continue/Sign up Button */
+.jd-signup-continue-btn {
+  width: 100%;
+  height: 48px;
+  background: #0048B3;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.35), 0 4px 14px rgba(0, 72, 179, 0.3);
+  transition: all 0.2s ease;
+  margin-top: 0.25rem;
+}
+
+.jd-signup-continue-btn:hover:not(:disabled) {
+  background: #003b99;
+  transform: translateY(-1px);
+  box-shadow: inset 0px -2px 4px rgba(255, 255, 255, 0.35), inset 2px 2px 4px rgba(255, 255, 255, 0.4), 0 6px 18px rgba(0, 72, 179, 0.4);
+}
+
+.jd-signup-continue-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+}
+
+.jd-signup-continue-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Footer */
+.jd-signup-footer {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-size: 14px;
+  color: #64748B;
+  text-align: center;
+  margin-top: 1.15rem;
+}
+
+.jd-signup-login-link {
+  font-family: 'PP Neue Montreal', sans-serif !important;
+  font-weight: 500;
+  color: #0048cc;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.jd-signup-login-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Mobile Full-Page Signup View (max-width: 640px) ===== */
+@media (max-width: 640px) {
+  .jd-signup-standalone-page {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 99999;
+    background-color: #FFFFFF !important;
+    overflow: hidden !important;
+  }
+
+  .jd-signup-modal-overlay {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    z-index: 10000;
+    background-color: #FFFFFF !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .jd-signup-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: #FFFFFF !important;
+    padding: 2.5rem 1.5rem calc(2rem + env(safe-area-inset-bottom, 0px)) 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    flex: 1;
+  }
+
+  .jd-signup-close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    z-index: 10;
+  }
+
+  .jd-signup-close-btn:hover {
+    background-color: #F1F5F9;
+  }
+
+  .jd-signup-header-container {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .jd-signup-logo-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  .jd-signup-title {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .jd-signup-subtitle {
+    margin-top: 0.5rem;
+    font-size: 14.5px;
+  }
+
+  .jd-google-dribbble-btn {
+    height: 54px;
+    margin-top: 0.25rem;
+  }
+
+  .jd-signup-divider {
+    margin: 1.65rem 0;
+  }
+
+  .jd-signup-form {
+    gap: 1.35rem;
+  }
+
+  .jd-signup-label {
+    margin-bottom: 8px;
+  }
+
+  .jd-signup-input {
+    height: 50px;
+    font-size: 16px;
+    border-radius: 14px;
+  }
+
+  .jd-signup-continue-btn {
+    height: 50px;
+    font-size: 16px;
+    margin-top: 2.25rem;
+  }
+
+  .jd-signup-footer {
+    margin-top: 1.75rem;
+    padding-bottom: 1.5rem;
+    font-size: 15px;
+  }
+}
+
+@keyframes jdFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes jdSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes jdSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

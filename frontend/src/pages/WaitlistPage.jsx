@@ -14,12 +14,12 @@ export default function WaitlistPage() {
           <div className="hero-headline-wrapper">
             <h1 className="hero-headline">
               Your competitors are using Jaradeck.
-              <span className="hero-subheadline">why aren't you?</span>
+              <span className="hero-subheadline">why aren&apos;t you?</span>
             </h1>
           </div>
 
           <p className="hero-subtitle">
-            Whatever's sitting on your to-do list, there's probably someone on Jaradeck who can do it better, faster and for less than you'd expect.
+            Whatever&apos;s sitting on your to-do list, there&apos;s probably someone on Jaradeck who can do it better, faster and for less than you&apos;d expect.
           </p>
 
           {/* Reserve Spot CTA */}

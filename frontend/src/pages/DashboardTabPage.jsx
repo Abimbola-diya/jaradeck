@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import WorkerBottomNav from '../components/WorkerBottomNav';
 
 const tabCopy = {
@@ -19,3 +20,7 @@ export default function DashboardTabPage({ tab }) {
     </main>
   );
 }
+
+DashboardTabPage.propTypes = {
+  tab: PropTypes.string.isRequired,
+};
