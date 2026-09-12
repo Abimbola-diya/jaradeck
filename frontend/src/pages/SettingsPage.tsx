@@ -2,10 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ChevronRight, Trash2 } from "lucide-react";
 import WorkerBottomNav from "../components/WorkerBottomNav";
 
+interface SettingsItem {
+  label: string;
+  path: string;
+}
+
 export default function SettingsPage() {
   const navigate = useNavigate();
 
-  const settingsItems = [
+  const settingsItems: SettingsItem[] = [
     {
       label: "Profile & Portfolio",
       path: "/dashboard/settings/profile-portfolio",
@@ -23,6 +28,7 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <button
+          type="button"
           onClick={() => navigate(-1)}
           className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors"
         >
@@ -59,12 +65,16 @@ export default function SettingsPage() {
 
       <div className="space-y-3">
         <button
+          type="button"
           onClick={() => navigate("/login")}
           className="w-full py-3.5 bg-white border border-rose-500 text-rose-600 font-semibold text-xs rounded-full hover:bg-rose-50 transition-colors"
         >
           Sign out
         </button>
-        <button className="w-full py-3.5 bg-rose-700 hover:bg-rose-800 text-white font-semibold text-xs rounded-full flex items-center justify-center gap-2 transition-colors">
+        <button
+          type="button"
+          className="w-full py-3.5 bg-rose-700 hover:bg-rose-800 text-white font-semibold text-xs rounded-full flex items-center justify-center gap-2 transition-colors"
+        >
           Delete account <Trash2 className="w-4 h-4" />
         </button>
       </div>

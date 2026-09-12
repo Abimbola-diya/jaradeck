@@ -1,55 +1,61 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import ArrowIcon from '../components/ArrowIcon';
-import StadiumIllustration from '../components/StadiumIllustration';
-import NeedItDoneAnimation from '../components/NeedItDoneAnimation';
-import ComparisonCards from '../components/ComparisonCards';
-import FeatureCards from '../components/FeatureCards';
-import RealImpactSection from '../components/RealImpactSection';
-import FaqSection from '../components/FaqSection';
-import NewsletterSection from '../components/NewsletterSection';
-import HugeAnimatedEye from '../components/HugeAnimatedEye';
-import MarqueeTicker from '../components/MarqueeTicker';
+import { useEffect, useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import StadiumIllustration from "../components/StadiumIllustration";
+import NeedItDoneAnimation from "../components/NeedItDoneAnimation";
+import ComparisonCards from "../components/ComparisonCards";
+import FeatureCards from "../components/FeatureCards";
+import RealImpactSection from "../components/RealImpactSection";
+import FaqSection from "../components/FaqSection";
+import NewsletterSection from "../components/NewsletterSection";
+import HugeAnimatedEye from "../components/HugeAnimatedEye";
+import MarqueeTicker from "../components/MarqueeTicker";
 
-const HEADLINES = [
+interface HeadlinePart {
+  text: string;
+  action: boolean;
+}
+
+const HEADLINES: HeadlinePart[][] = [
   [
     { text: "Your to-do list isn't ", action: false },
-    { text: 'getting shorter.', action: true },
+    { text: "getting shorter.", action: true },
   ],
   [
-    { text: 'Outsource', action: true },
-    { text: ' the grind, let us do the ', action: false },
-    { text: 'sweating.', action: true },
+    { text: "Outsource", action: true },
+    { text: " the grind, let us do the ", action: false },
+    { text: "sweating.", action: true },
   ],
   [
     { text: "You can't do ", action: false },
-    { text: 'everything yourself.', action: true },
+    { text: "everything yourself.", action: true },
   ],
   [
-    { text: 'Keep', action: true },
-    { text: ' your sanity, ', action: false },
-    { text: 'give', action: true },
-    { text: ' us the grunt work.', action: false },
+    { text: "Keep", action: true },
+    { text: " your sanity, ", action: false },
+    { text: "give", action: true },
+    { text: " us the grunt work.", action: false },
   ],
 ];
 
 export default function HomePage() {
-  const [headlineIndex, setHeadlineIndex] = useState(0);
+  const [headlineIndex, setHeadlineIndex] = useState<number>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setHeadlineIndex((previousIndex) => (previousIndex + 1) % HEADLINES.length);
+      setHeadlineIndex(
+        (previousIndex) => (previousIndex + 1) % HEADLINES.length,
+      );
     }, 5000);
 
     return () => clearInterval(timer);
   }, []);
 
- const goToOnboarding = (e) => {
-   e?.preventDefault();
-   navigate("/waitlist");
-   window.scrollTo({ top: 0, behavior: "smooth" });
- };
+  const goToOnboarding = (e?: FormEvent) => {
+    e?.preventDefault();
+    navigate("/waitlist");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <>
@@ -91,7 +97,7 @@ export default function HomePage() {
             </div>
           </form>
         </div>
-        {/* Chowdeck-Style Glassmorphic Marquee Ticker */}
+
         <MarqueeTicker
           onSelectPhrase={() => {
             navigate("/waitlist");

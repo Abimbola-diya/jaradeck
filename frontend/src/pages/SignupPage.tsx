@@ -5,16 +5,30 @@ import SignupModalCard from '../components/SignupModalCard';
 import LoginModalCard from '../components/LoginModalCard';
 import OTPStep from '../components/onboarding/OTPStep';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID =
+  (import.meta.env.VITE_GOOGLE_CLIENT_ID as string) ||
+  "1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com";
+
+type Step = 'form' | 'otp';
+
+interface LocationState {
+  origin?: string;
+}
+
+interface AuthData {
+  user: any;
+  access_token: string;
+}
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const triggerOrigin = location.state?.origin;
+  const state = (location.state as LocationState) || {};
+  const triggerOrigin = state.origin;
   const isLogin = location.pathname === '/login';
 
-  const [step, setStep] = useState('form');
-  const [pendingEmail, setPendingEmail] = useState('');
+  const [step, setStep] = useState<Step>('form');
+  const [pendingEmail, setPendingEmail] = useState<string>('');
 
   const handleClose = () => {
     navigate('/');
@@ -28,16 +42,16 @@ export default function SignupPage() {
     navigate('/signup');
   };
 
-  const handleGoogleSuccess = (data) => {
+  const handleGoogleSuccess = (data?: { user?: any }) => {
     navigate('/onboarding', { state: { googleAuth: true, user: data?.user } });
   };
 
-  const handleOTPRequired = (email) => {
+  const handleOTPRequired = (email: string) => {
     setPendingEmail(email);
     setStep('otp');
   };
 
-  const handleOTPVerified = (authData) => {
+  const handleOTPVerified = (authData: AuthData) => {
     navigate('/onboarding', {
       state: {
         verifiedUser: authData.user,

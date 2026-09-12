@@ -19,6 +19,7 @@ import LocalBankWithdrawScreen from "../pages/LocalBankWithdrawScreen";
 import ConfirmWithdrawScreen from "../pages/ConfirmWithdrawScreen";
 import EnterPinScreen from "../pages/EnterPinScreen";
 import WithdrawSuccessScreen from "../pages/WithdrawSuccessScreen";
+import WorkerChatScreen from "../pages/WorkerChatScreen";
 
 export const AppRoutes = () => {
   return (
@@ -139,6 +140,12 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/withdraw-success"
         element={<WithdrawSuccessScreen />}
       />
+
+      {/* Worker Chat Routes */}
+<Route path="/dashboard/chat" element={<WorkerChatScreen />} />
+<Route path="/dashboard/customer/chat" element={<WorkerChatScreen />} />
+<Route path="/dashboard/freelancer/chat" element={<WorkerChatScreen />} />
+
       {/* Admin */}
       <Route path="/admin" element={<AdminViewPage />} />
 

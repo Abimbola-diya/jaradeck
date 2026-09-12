@@ -3,11 +3,20 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import OnboardingFlow from '../components/OnboardingPage';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID =
+  (import.meta.env.VITE_GOOGLE_CLIENT_ID as string) ||
+  '1006224396906-d5ppio1t9hkkpj586idvc9uqrm3b503e.apps.googleusercontent.com';
+
+interface LocationState {
+  verifiedUser?: any;
+  accessToken?: string;
+  initialStep?: string | number;
+}
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const state = (location.state as LocationState) || {};
 
   // White background on mobile during onboarding
   useEffect(() => {
@@ -27,12 +36,12 @@ export default function OnboardingPage() {
   }, []);
 
   // Passed from SignupPage after OTP verification
-  const verifiedUser = location.state?.verifiedUser || null;
-  const accessToken  = location.state?.accessToken  || null;
-  const initialStep  = location.state?.initialStep  || null;
+  const verifiedUser = state.verifiedUser || null;
+  const accessToken = state.accessToken || null;
+  const initialStep = state.initialStep || null;
 
   // Route to the correct dashboard based on role
-  const handleNavigateDashboard = (role) => {
+  const handleNavigateDashboard = (role: string) => {
     if (role === 'customer') {
       navigate('/dashboard/customer');
     } else {

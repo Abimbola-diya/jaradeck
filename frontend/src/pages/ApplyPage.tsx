@@ -4,13 +4,23 @@ import BrandLogo from '../components/BrandLogo';
 import ArrowRight02Icon from '../components/ArrowRight02Icon';
 import ArrowLeft02Icon from '../components/ArrowLeft02Icon';
 import Tick02Icon from '../components/Tick02Icon';
-import MagicWand01Icon from '../components/MagicWand01Icon';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 
-function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
-  const gridRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [maxScroll, setMaxScroll] = useState(0);
+interface SubSkillsCategoryProps {
+  data: {
+    title: string;
+    emoji: string;
+    intro: string;
+    items: string[];
+  };
+  selectedSubSkills: string[];
+  toggleSubSkill: (item: string) => void;
+}
+
+function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }: SubSkillsCategoryProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [maxScroll, setMaxScroll] = useState<number>(0);
 
   const updateScroll = () => {
     if (gridRef.current) {
@@ -31,7 +41,7 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
     return () => window.removeEventListener('resize', updateScroll);
   }, [data]);
 
-  const scrollByAmount = (direction) => {
+  const scrollByAmount = (direction: 'left' | 'right') => {
     if (gridRef.current) {
       const amount = direction === 'left' ? -220 : 220;
       gridRef.current.scrollBy({ left: amount, behavior: 'smooth' });
@@ -55,7 +65,6 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
         </span>
       </div>
 
-      {/* Multi-column grid layout */}
       <div
         ref={gridRef}
         onScroll={updateScroll}
@@ -92,7 +101,6 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
         })}
       </div>
 
-      {/* Custom sliding pill button scrollbar */}
       {maxScroll > 5 && (
         <div style={{
           display: 'flex',
@@ -121,7 +129,6 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
             ◀
           </button>
 
-          {/* Track Bar */}
           <div
             onClick={(e) => {
               const rect = e.currentTarget.getBoundingClientRect();
@@ -143,7 +150,6 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
               cursor: 'pointer',
             }}
           >
-            {/* Sliding Pill Button */}
             <div style={{
               width: '28%',
               height: '100%',
@@ -180,84 +186,52 @@ function SubSkillsCategory({ data, selectedSubSkills, toggleSubSkill }) {
   );
 }
 
-function VerticalScrollIndicator({ containerRef }) {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [maxScroll, setMaxScroll] = useState(0);
+interface FormData {
+  name: string;
+  university: string;
+  level: string;
+  phone: string;
+  email: string;
+}
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+interface Question {
+  id: keyof FormData;
+  placeholder: string;
+  type: string;
+}
 
-    const handleScroll = () => {
-      const max = el.scrollHeight - el.clientHeight;
-      setMaxScroll(max);
-      if (max > 10) {
-        setScrollProgress(el.scrollTop / max);
-      } else {
-        setScrollProgress(0);
-      }
-    };
+interface MainSkill {
+  id: string;
+  title: string;
+  desc: string;
+}
 
-    handleScroll();
-    el.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll);
-    const observer = new MutationObserver(handleScroll);
-    observer.observe(el, { childList: true, subtree: true, attributes: true });
+interface SubSkillCategory {
+  title: string;
+  emoji: string;
+  intro: string;
+  items: string[];
+}
 
-    return () => {
-      el.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-      observer.disconnect();
-    };
-  }, [containerRef]);
-
-  if (maxScroll <= 10) return null;
-
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        right: '12px',
-        top: '100px',
-        bottom: '40px',
-        width: '6px',
-        background: 'rgba(255, 255, 255, 0.18)',
-        borderRadius: '9999px',
-        zIndex: 99,
-        pointerEvents: 'none',
-      }}
-    >
-      {/* Sliding White Pill Button */}
-      <div
-        style={{
-          width: '100%',
-          height: '50px',
-          background: 'rgba(255, 255, 255, 0.85)',
-          borderRadius: '9999px',
-          position: 'absolute',
-          left: 0,
-          top: `calc(${scrollProgress * 100}% - ${scrollProgress * 50}px)`,
-          transition: 'top 0.1s ease-out',
-        }}
-      />
-    </div>
-  );
+interface ProofPlatform {
+  id: string;
+  label: string;
+  placeholder: string;
 }
 
 export default function ApplyPage() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState<number>(0);
 
-  const step2Ref = useRef(null);
-  const step3Ref = useRef(null);
-  const step4Ref = useRef(null);
-  const step5Ref = useRef(null);
-  const step6Ref = useRef(null);
+  const step2Ref = useRef<HTMLDivElement>(null);
+  const step3Ref = useRef<HTMLDivElement>(null);
+  const step4Ref = useRef<HTMLDivElement>(null);
+  const step5Ref = useRef<HTMLDivElement>(null);
+  const step6Ref = useRef<HTMLDivElement>(null);
 
-  const [fitAnswer, setFitAnswer] = useState('');
-
-  const [payingExperience, setPayingExperience] = useState('');
-  const payingOptions = [
+  const [fitAnswer, setFitAnswer] = useState<string>('');
+  const [payingExperience, setPayingExperience] = useState<string>('');
+  const payingOptions: string[] = [
     'Still waiting for my first paid gig.',
     '1–5 paying clients.',
     '6–20 paying clients.',
@@ -265,8 +239,7 @@ export default function ApplyPage() {
     'This is my full-time thing.',
   ];
 
-  // Form state
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     university: '',
     level: '',
@@ -274,11 +247,10 @@ export default function ApplyPage() {
     email: '',
   });
 
-  const [currentQIndex, setCurrentQIndex] = useState(0);
+  const [currentQIndex, setCurrentQIndex] = useState<number>(0);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
-  const [selectedSkills, setSelectedSkills] = useState([]);
-
-  const mainSkills = [
+  const mainSkills: MainSkill[] = [
     {
       id: 'content_creation',
       title: 'Content Creation',
@@ -326,7 +298,7 @@ export default function ApplyPage() {
     }
   ];
 
-  const questions = [
+  const questions: Question[] = [
     { id: 'name', placeholder: 'Name', type: 'text' },
     { id: 'university', placeholder: 'University', type: 'text' },
     { id: 'level', placeholder: 'Level (e.g. 100L)', type: 'text' },
@@ -334,15 +306,14 @@ export default function ApplyPage() {
     { id: 'email', placeholder: 'Email address', type: 'email' },
   ];
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const currentVal = formData[questions[currentQIndex].id];
   const currentFieldId = questions[currentQIndex].id;
 
-  // Per-field validators — return error string or null if valid
-  const validators = {
+  const validators: Record<keyof FormData, (v: string) => string | null> = {
     name: (v) => v.trim().length >= 2 ? null : 'Please enter your full name.',
     university: (v) => v.trim().length >= 2 ? null : 'Please enter your university name.',
     level: (v) => {
@@ -362,13 +333,11 @@ export default function ApplyPage() {
     },
   };
 
-  // Live computed — recalculates every render as user types
   const currentError = validators[currentFieldId] ? validators[currentFieldId](currentVal) : null;
   const isCurrentValid = currentVal.trim() !== '' && currentError === null;
-  // Only show the error once the user has started typing something
   const showLiveError = currentVal.trim().length > 0 && currentError !== null;
 
-  const toggleSkill = (id) => {
+  const toggleSkill = (id: string) => {
     setSelectedSkills(prev =>
       prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     );
@@ -383,9 +352,9 @@ export default function ApplyPage() {
     }
   };
 
-  const [selectedSubSkills, setSelectedSubSkills] = useState([]);
+  const [selectedSubSkills, setSelectedSubSkills] = useState<string[]>([]);
 
-  const subSkillsData = {
+  const subSkillsData: Record<string, SubSkillCategory> = {
     content_creation: {
       title: "Content Creation",
       emoji: "🎥",
@@ -616,15 +585,15 @@ export default function ApplyPage() {
     }
   };
 
-  const toggleSubSkill = (item) => {
+  const toggleSubSkill = (item: string) => {
     setSelectedSubSkills(prev =>
       prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
     );
   };
 
-  const [proofLinks, setProofLinks] = useState({});
+  const [proofLinks, setProofLinks] = useState<Record<string, string>>({});
 
-  const isValidUrl = (string) => {
+  const isValidUrl = (string: string) => {
     try {
       new URL(string.trim());
       return true;
@@ -637,7 +606,7 @@ export default function ApplyPage() {
   const hasInvalidLinks = Object.values(proofLinks).some(v => v && v.trim() !== '' && !isValidUrl(v));
   const canProceedStep4 = hasAnyLink && !hasInvalidLinks;
 
-  const proofPlatforms = [
+  const proofPlatforms: ProofPlatform[] = [
     { id: 'behance', label: 'Behance', placeholder: 'https://behance.net/lagbaja' },
     { id: 'dribbble', label: 'Dribbble', placeholder: 'https://dribbble.com/lagbaja' },
     { id: 'github', label: 'GitHub', placeholder: 'https://github.com/lagbajatamedo' },
@@ -647,7 +616,7 @@ export default function ApplyPage() {
     { id: 'gdrive', label: 'Google Drive link', placeholder: 'https://drive.google.com/drive/folders/lagbaja' },
   ];
 
-  const toggleProofPlatform = (id) => {
+  const toggleProofPlatform = (id: string) => {
     setProofLinks(prev => {
       const copy = { ...prev };
       if (Object.prototype.hasOwnProperty.call(copy, id)) {
@@ -659,7 +628,7 @@ export default function ApplyPage() {
     });
   };
 
-  const updateProofLink = (id, value) => {
+  const updateProofLink = (id: string, value: string) => {
     setProofLinks(prev => ({
       ...prev,
       [id]: value
@@ -688,11 +657,10 @@ export default function ApplyPage() {
     }
   };
 
-  // Step 5: "Be honest... how long have people been paying you for this?" reading animation
   const step5PrefixWords = ["Be", "honest..."];
   const step5MainWords = ["how", "long", "have", "people", "been", "paying", "you", "for", "this?"];
   const totalStep5Words = step5PrefixWords.length + step5MainWords.length;
-  const [activeStep5WordCount, setActiveStep5WordCount] = useState(0);
+  const [activeStep5WordCount, setActiveStep5WordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 5) {
@@ -722,11 +690,10 @@ export default function ApplyPage() {
     }
   };
 
-  // Step 6: "Why do you think you're a good fit for Jaradeck?" reading animation
   const step6MainWords = ["Why", "do", "you", "think", "you're", "a", "good", "fit", "for", "Jaradeck?"];
   const step6NoteWords = ["Be", "authentic.", "We've", "seen", "enough", "AI", "slop", "already."];
   const totalStep6Words = step6MainWords.length + step6NoteWords.length;
-  const [activeStep6WordCount, setActiveStep6WordCount] = useState(0);
+  const [activeStep6WordCount, setActiveStep6WordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 6) {
@@ -756,22 +723,20 @@ export default function ApplyPage() {
     }
   };
 
-  // Helper to format name to Title Case
-  const formatName = (name) => {
+  const formatName = (name: string) => {
     if (!name) return '';
     const trimmed = name.trim();
     if (!trimmed) return '';
     return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
   };
 
-  // Step 4: "Show us something that makes us believe you." reading animation
   const step4NameStr = formData.name ? formatName(formData.name.split(' ')[0]) + ',' : 'Ayo,';
   const step4SkillsStr = selectedSkills.map(id => subSkillsData[id]?.title || id).join(' & ') || 'Design';
   const step4Line1Words = [step4NameStr, "you", "said", "you're", "ridiculously", "good", "at", step4SkillsStr + "."];
   const step4Line2Words = ["Show", "us", "something", "that", "makes", "us", "believe", "you."];
   const totalStep4Words = step4Line1Words.length + step4Line2Words.length;
 
-  const [activeStep4WordCount, setActiveStep4WordCount] = useState(0);
+  const [activeStep4WordCount, setActiveStep4WordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 4) {
@@ -801,11 +766,10 @@ export default function ApplyPage() {
     }
   };
 
-  // Step 3: "Alright... let's narrow it down." reading animation
   const step3Prefix = "Alright...";
   const step3Words = ["let's", "narrow", "it", "down."];
   const totalStep3Words = 1 + step3Words.length;
-  const [activeStep3WordCount, setActiveStep3WordCount] = useState(0);
+  const [activeStep3WordCount, setActiveStep3WordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 3) {
@@ -835,12 +799,11 @@ export default function ApplyPage() {
     }
   };
 
-  // Step 2: "What do you do ridiculously well?" reading animation
   const step2TitleWordsLine1 = ["What", "do", "you", "do", "ridiculously"];
   const step2TitleWordsLine2 = ["well?"];
   const step2SubWords = ["(p.s:", "if", "you'd", "hesitate", "to", "stake", "your", "reputation", "on", "it,", "don't", "pick", "it.)"];
   const totalStep2Words = step2TitleWordsLine1.length + step2TitleWordsLine2.length + step2SubWords.length;
-  const [activeStep2WordCount, setActiveStep2WordCount] = useState(0);
+  const [activeStep2WordCount, setActiveStep2WordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 2) {
@@ -868,10 +831,9 @@ export default function ApplyPage() {
     }
   };
 
-  // Step 1: "Let's start with the basics..." reading animation
   const basicsWords = ["Let's", "start", "with", "the", "basics..."];
   const totalBasicsWords = basicsWords.length;
-  const [activeBasicsWordCount, setActiveBasicsWordCount] = useState(0);
+  const [activeBasicsWordCount, setActiveBasicsWordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 1) {
@@ -899,12 +861,11 @@ export default function ApplyPage() {
     }
   };
 
-  // Hero Greeting: line 1 is static white, line 2 has word-by-word reading animation starting from "Rumour"
   const heroLine1 = "Well, well... 👋";
   const animWords = ["Rumour", "has", "it", "you're", "good", "at", "what", "you", "do.", "We'd", "like", "to", "see", "for", "ourselves."];
   const totalAnimWords = animWords.length;
 
-  const [activeWordCount, setActiveWordCount] = useState(0);
+  const [activeWordCount, setActiveWordCount] = useState<number>(0);
 
   useEffect(() => {
     if (step !== 0) {
@@ -940,7 +901,6 @@ export default function ApplyPage() {
     <div className="hero-page" style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
       <BackgroundGrid />
 
-      {/* Top Bar */}
       {step < 7 && (
         <div style={{
           position: 'absolute',
@@ -954,7 +914,6 @@ export default function ApplyPage() {
           padding: '1.5rem 2rem',
           zIndex: 50,
         }}>
-          {/* Back Button */}
           <button
             onClick={handleBack}
             style={{
@@ -978,7 +937,6 @@ export default function ApplyPage() {
             <ArrowLeft02Icon size={16} /> Back
           </button>
 
-          {/* Brand Logo */}
           <div
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
@@ -988,10 +946,7 @@ export default function ApplyPage() {
         </div>
       )}
 
-      {/* Container for steps to handle absolute positioning crossfade */}
       <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-
-        {/* Thinking illustration — steps 1 to 3 & step 6 */}
         <img
           src="/thinking.svg?v=2"
           alt=""
@@ -1003,7 +958,6 @@ export default function ApplyPage() {
           }}
         />
 
-        {/* Hands on chin illustration — step 4 */}
         <img
           src="/hands_chin.svg?v=2"
           alt=""
@@ -1015,7 +969,6 @@ export default function ApplyPage() {
           }}
         />
 
-        {/* Hirer illustration — step 5 */}
         <img
           src="/hirer.svg?v=2"
           alt=""
@@ -1047,7 +1000,6 @@ export default function ApplyPage() {
         }}
           className="apply-hero-layout"
         >
-          {/* Left — Reading animation text */}
           <div style={{
             flex: '1 1 50%',
             display: 'flex',
@@ -1059,7 +1011,6 @@ export default function ApplyPage() {
             className="apply-text-col"
             onClick={handleSkipReading}
           >
-            {/* Line 1: Static white header */}
             <h1
               style={{
                 fontFamily: "var(--font-family)",
@@ -1076,7 +1027,6 @@ export default function ApplyPage() {
               {heroLine1}
             </h1>
 
-            {/* Line 2: Reading animated words */}
             <h1
               style={{
                 fontFamily: "var(--font-family)",
@@ -1123,12 +1073,11 @@ export default function ApplyPage() {
                 }}
                 style={{ padding: '0.8rem 2rem', fontSize: '1.1rem', width: 'auto', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
               >
-                 Let&apos;s find out <ArrowRight02Icon size={18} />
+                Let&apos;s find out <ArrowRight02Icon size={18} />
               </button>
             </div>
           </div>
 
-          {/* Right — Hirer SVG */}
           <div
             style={{
               flex: '1 1 45%',
@@ -1238,7 +1187,6 @@ export default function ApplyPage() {
               </div>
             </div>
 
-            {/* Live validation error message — shows instantly as user types */}
             {showLiveError && (
               <p style={{
                 color: '#ff6b6b',
@@ -1593,7 +1541,6 @@ export default function ApplyPage() {
               </h2>
             </div>
 
-            {/* Proof platforms list */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: '100%', maxWidth: '650px' }}>
               {proofPlatforms.map((platform) => {
                 const isChecked = Object.prototype.hasOwnProperty.call(proofLinks, platform.id);
@@ -1646,7 +1593,6 @@ export default function ApplyPage() {
                       </span>
                     </button>
 
-                    {/* Collapsible input field for link */}
                     {isChecked && (
                       <div style={{ marginLeft: '2.3rem', marginTop: '0.2rem', marginBottom: '1.2rem', animation: 'wfSlideIn 0.3s ease forwards' }}>
                         <input
@@ -1697,7 +1643,6 @@ export default function ApplyPage() {
               </p>
             )}
 
-            {/* Next Button */}
             <button
               className="wf-next-btn"
               onClick={() => setStep(5)}
@@ -1842,7 +1787,6 @@ export default function ApplyPage() {
               })}
             </div>
 
-            {/* Next Button */}
             <button
               className="wf-next-btn"
               onClick={() => setStep(6)}
@@ -1889,7 +1833,7 @@ export default function ApplyPage() {
         >
           <div className="wf-step" style={{ width: '100%', maxWidth: '1050px' }}>
             <div onClick={handleSkipStep6Reading} style={{ cursor: activeStep6WordCount < totalStep6Words ? 'pointer' : 'default' }}>
-              <h2 className="wf-question" style={{ marginBottom: '0.4rem', maxWidth: '750px' }}>
+              <h2 className="wf-question" style={{ marginBottom: '1rem', maxWidth: '750px' }}>
                 {step6MainWords.map((word, wIdx) => {
                   const isActive = wIdx < activeStep6WordCount;
 
@@ -1908,7 +1852,8 @@ export default function ApplyPage() {
                   );
                 })}
               </h2>
-              <p className="wf-note" style={{ fontSize: '1.15rem', marginBottom: '2.5rem', fontWeight: 400 }}>
+
+              <p className="wf-note" style={{ fontSize: '1.15rem', marginBottom: '2.5rem', fontWeight: 500 }}>
                 {step6NoteWords.map((word, wIdx) => {
                   const globalIdx = step6MainWords.length + wIdx;
                   const isActive = globalIdx < activeStep6WordCount;
@@ -1919,7 +1864,7 @@ export default function ApplyPage() {
                       style={{
                         display: 'inline-block',
                         marginRight: wIdx === step6NoteWords.length - 1 ? 0 : '0.28em',
-                        color: isActive ? 'rgba(255, 255, 255, 0.73)' : 'rgba(255, 255, 255, 0.25)',
+                        color: isActive ? 'rgba(255, 255, 255, 0.73)' : 'rgba(255, 255, 255, 0.35)',
                         transition: 'color 0.2s ease',
                       }}
                     >
@@ -1930,123 +1875,51 @@ export default function ApplyPage() {
               </p>
             </div>
 
-            <div style={{ width: '100%', maxWidth: '700px' }}>
-              <textarea
-                className="wf-textarea"
-                value={fitAnswer}
-                onChange={(e) => {
-                  setFitAnswer(e.target.value);
-                  e.target.style.height = 'auto';
-                  e.target.style.height = Math.min(e.target.scrollHeight, 300) + 'px';
-                }}
-                placeholder="Type your response here..."
-                rows={3}
-                style={{
-                  width: '100%',
-                  minHeight: '130px',
-                  maxHeight: '300px',
-                  padding: '1.1rem 1.25rem',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '16px',
-                  color: '#ffffff',
-                  fontFamily: 'var(--font-family)',
-                  fontSize: '1.15rem',
-                  fontWeight: 600,
-                  lineHeight: 1.6,
-                  outline: 'none',
-                  resize: 'none',
-                  overflowY: fitAnswer.length > 200 ? 'auto' : 'hidden',
-                  boxSizing: 'border-box',
-                  transition: 'border-color 0.2s ease',
-                }}
-                onFocus={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.65)'}
-                onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.25)'}
-              />
-            </div>
+            <textarea
+              className="wf-input"
+              placeholder="Tell us why you're a good fit..."
+              value={fitAnswer}
+              onChange={(e) => setFitAnswer(e.target.value)}
+              rows={4}
+              style={{
+                width: '100%',
+                maxWidth: '650px',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+                borderRadius: '0px',
+                color: '#ffffff',
+                fontFamily: 'var(--font-family)',
+                fontSize: '1.2rem',
+                lineHeight: '1.6',
+                resize: 'none',
+                outline: 'none',
+                padding: '0.5rem 0',
+              }}
+            />
 
-            {/* Submit Button */}
             <button
               className="wf-next-btn"
-              onClick={async () => {
-                setStep(7);
-                try {
-                  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-                  const res = await fetch(`${apiUrl}/api/apply`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ formData, selectedSkills, selectedSubSkills, proofLinks, payingExperience, fitAnswer }),
-                  });
-                  const data = await res.json();
-
-                  if (!res.ok) {
-                    throw new Error(data.detail || data.message || 'Submission failed');
-                  }
-
-                  // Navigate to success page when backend responds successfully
-                  navigate('/apply/success');
-                } catch (err) {
-                  console.error('Submission failed:', err);
-                  alert('Submission failed: ' + err.message);
-                  setStep(6); // Revert to previous step on failure
-                }
-              }}
-              disabled={!fitAnswer || fitAnswer.trim() === ''}
+              onClick={() => navigate('/apply/success')}
+              disabled={fitAnswer.trim().length === 0}
               style={{
                 marginTop: '3.5rem',
                 marginBottom: '4rem',
                 width: 'auto',
                 padding: '1.1rem 2.75rem',
                 fontSize: '1.1rem',
-                opacity: fitAnswer && fitAnswer.trim() !== '' ? 1 : 0.35,
-                cursor: fitAnswer && fitAnswer.trim() !== '' ? 'pointer' : 'not-allowed',
+                opacity: fitAnswer.trim().length > 0 ? 1 : 0.35,
+                cursor: fitAnswer.trim().length > 0 ? 'pointer' : 'not-allowed',
                 transition: 'all 0.4s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.4rem',
               }}
             >
-              Submit <ArrowRight02Icon size={18} />
+              Submit Application <ArrowRight02Icon size={18} />
             </button>
           </div>
         </div>
-
-        {/* Step 7: Loading/Submitted State */}
-        <div style={{
-          position: 'absolute',
-          top: 0, left: 0, right: 0, bottom: 0,
-          zIndex: step === 7 ? 100 : 1,
-          opacity: step === 7 ? 1 : 0,
-          pointerEvents: step === 7 ? 'auto' : 'none',
-          transition: 'opacity 0.6s ease',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          padding: '2rem',
-          textAlign: 'center'
-        }}>
-          <MagicWand01Icon loop size={120} style={{ color: '#ffffff', marginBottom: '2.5rem' }} />
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            fontWeight: '700',
-            color: '#ffffff',
-            fontFamily: 'var(--font-family)',
-            lineHeight: 1.2,
-            maxWidth: '800px',
-            margin: 0
-          }}>
-            Hang tight... we&apos;re trying not to fumble your application.
-          </h2>
-        </div>
-
-        {/* Fixed Stationary Vertical Scroll Indicators */}
-        {step === 2 && <VerticalScrollIndicator containerRef={step2Ref} />}
-        {step === 3 && <VerticalScrollIndicator containerRef={step3Ref} />}
-        {step === 4 && <VerticalScrollIndicator containerRef={step4Ref} />}
-        {step === 5 && <VerticalScrollIndicator containerRef={step5Ref} />}
-        {step === 6 && <VerticalScrollIndicator containerRef={step6Ref} />}
       </div>
     </div>
   );
