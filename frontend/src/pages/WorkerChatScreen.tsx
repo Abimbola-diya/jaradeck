@@ -74,7 +74,7 @@ export const WorkerChatScreen: React.FC = () => {
   );
 
   return (
-    <div className="w-full max-w-[390px] min-h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[100px] mx-auto relative overflow-x-hidden">
+    <div className="w-full max-w-[390px] min-h-[844px] bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[100px] mx-auto relative overflow-hidden">
       {/* Content Container (358px width) */}
       <div className="w-full max-w-[358px] flex flex-col items-center h-full min-h-[660px]">
         {/* Header Stack */}
@@ -140,17 +140,17 @@ export const WorkerChatScreen: React.FC = () => {
               <div
                 key={item.id}
                 onClick={() => {
-                  let basePath = "/dashboard/chat";
+                  let prefix = "/dashboard";
                   if (location.pathname.includes("/freelancer")) {
-                    basePath = "/dashboard/freelancer";
+                    prefix = "/dashboard/freelancer";
                   } else if (location.pathname.includes("/customer")) {
-                    basePath = "/dashboard/customer";
+                    prefix = "/dashboard/customer";
                   }
 
-                  const targetPath =
-                    item.id === "2"
-                      ? `${basePath}/fresh-chat`
-                      : `${basePath}/chat-thread`;
+                  // System matches go to fresh-chat, user chats go to chat-thread/:id
+                  const targetPath = item.isSystem
+                    ? `${prefix}/fresh-chat`
+                    : `${prefix}/chat-thread/${item.id}`;
 
                   navigate(`${targetPath}${roleQuery}`);
                 }}
@@ -158,7 +158,6 @@ export const WorkerChatScreen: React.FC = () => {
               >
                 {/* Left: Avatar + Text */}
                 <div className="flex items-center gap-[12px] min-w-0 pr-[8px]">
-                  {/* Avatar with optional online green dot */}
                   <div className="relative w-[48px] h-[48px] shrink-0">
                     <img
                       src={item.avatar}
@@ -172,7 +171,6 @@ export const WorkerChatScreen: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Name and Last Message */}
                   <div className="flex flex-col items-start min-w-0 flex-1">
                     <span className="text-[14px] font-medium leading-[18px] text-[#111827] truncate w-full">
                       {item.name}
@@ -187,7 +185,7 @@ export const WorkerChatScreen: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Right: Timestamp + Unread Blue Dot */}
+                {/* Right: Timestamp + Unread Indicator */}
                 <div className="flex flex-col items-end gap-[6px] shrink-0">
                   <span className="text-[11px] font-normal leading-[14px] text-[#9CA3AF]">
                     {item.timestamp}

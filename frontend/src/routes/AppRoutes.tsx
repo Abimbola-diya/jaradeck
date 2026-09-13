@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Pages
@@ -12,14 +11,19 @@ import ApplySuccessPage from "../pages/ApplySuccessPage";
 import WaitlistPage from "../pages/WaitlistPage";
 import AdminViewPage from "../pages/AdminViewPage";
 import ProfilePortfolioPage from "../pages/ProfilePortfolio";
-import DashboardTabPage from "../pages/DashboardTabPage";
-import WorkerWalletScreen from "../pages/WorkerWalletPage"; // <-- Added import
+import WorkerWalletScreen from "../pages/WorkerWalletPage";
 import WithdrawOptionsScreen from "../pages/WithdrawOptionPage";
 import LocalBankWithdrawScreen from "../pages/LocalBankWithdrawScreen";
 import ConfirmWithdrawScreen from "../pages/ConfirmWithdrawScreen";
 import EnterPinScreen from "../pages/EnterPinScreen";
 import WithdrawSuccessScreen from "../pages/WithdrawSuccessScreen";
-import WorkerChatScreen from "../pages/WorkerChatScreen";
+
+// Chat Pages
+import WorkerChatScreen, {  } from "../pages/WorkerChatScreen";
+// import ChatThreadScreen from "../pages/ChatThreadScreen";
+import ActiveChatThreadScreen, {
+  ChatThreadScreen,
+} from "../pages/ActiveChatThreadScreen";
 
 export const AppRoutes = () => {
   return (
@@ -54,15 +58,43 @@ export const AppRoutes = () => {
         element={<WorkerWalletScreen />}
       />
 
-      {/* Chat Routes */}
-      <Route path="/dashboard/chat" element={<DashboardTabPage tab="chat" />} />
+      {/* Worker Chat Routes */}
+      <Route path="/dashboard/chat" element={<WorkerChatScreen />} />
+      <Route path="/dashboard/customer/chat" element={<WorkerChatScreen />} />
+      <Route path="/dashboard/freelancer/chat" element={<WorkerChatScreen />} />
+
+      {/* Standard Individual Thread Routes */}
+      <Route path="/dashboard/chat-thread" element={<ChatThreadScreen />} />
+      <Route path="/dashboard/chat-thread/:id" element={<ChatThreadScreen />} />
       <Route
-        path="/dashboard/customer/chat"
-        element={<DashboardTabPage tab="chat" />}
+        path="/dashboard/freelancer/chat-thread"
+        element={<ChatThreadScreen />}
       />
       <Route
-        path="/dashboard/freelancer/chat"
-        element={<DashboardTabPage tab="chat" />}
+        path="/dashboard/freelancer/chat-thread/:id"
+        element={<ChatThreadScreen />}
+      />
+      <Route
+        path="/dashboard/customer/chat-thread"
+        element={<ChatThreadScreen />}
+      />
+      <Route
+        path="/dashboard/customer/chat-thread/:id"
+        element={<ChatThreadScreen />}
+      />
+
+      {/* Active System / Fresh Match Thread Routes */}
+      <Route
+        path="/dashboard/fresh-chat"
+        element={<ActiveChatThreadScreen />}
+      />
+      <Route
+        path="/dashboard/freelancer/fresh-chat"
+        element={<ActiveChatThreadScreen />}
+      />
+      <Route
+        path="/dashboard/customer/fresh-chat"
+        element={<ActiveChatThreadScreen />}
       />
 
       {/* Settings & Profile Routes */}
@@ -140,11 +172,6 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/withdraw-success"
         element={<WithdrawSuccessScreen />}
       />
-
-      {/* Worker Chat Routes */}
-<Route path="/dashboard/chat" element={<WorkerChatScreen />} />
-<Route path="/dashboard/customer/chat" element={<WorkerChatScreen />} />
-<Route path="/dashboard/freelancer/chat" element={<WorkerChatScreen />} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminViewPage />} />
