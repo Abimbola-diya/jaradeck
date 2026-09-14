@@ -4,7 +4,13 @@ import { motion, useAnimation, useReducedMotion } from 'motion/react';
 // Exact component from @hugeicons-animated/arrow-right-02 registry
 // Source: https://hugeicons-animated.com/r/arrow-right-02.json
 
-function useIconAnimation({ controls, loops = false, onMouseEnter, onMouseLeave, ref }) {
+function useIconAnimation({ controls, loops = false, onMouseEnter, onMouseLeave, ref } : {
+  controls: any;
+  loops?: boolean;
+  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  ref: React.Ref<any>;
+}) {
   const shouldReduceMotion = useReducedMotion();
   const isControlledRef = useRef(false);
   const isPlayingRef = useRef(false);
@@ -37,7 +43,7 @@ function useIconAnimation({ controls, loops = false, onMouseEnter, onMouseLeave,
   );
 
   const handleMouseEnter = useCallback(
-    (event) => {
+    (event : React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       onMouseEnter?.(event);
       if (!isControlledRef.current) startAnimation();
     },
@@ -45,11 +51,11 @@ function useIconAnimation({ controls, loops = false, onMouseEnter, onMouseLeave,
   );
 
   const handleMouseLeave = useCallback(
-    (event) => {
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       onMouseLeave?.(event);
       if (!isControlledRef.current) stopAnimation();
     },
-    [onMouseLeave, stopAnimation]
+    [onMouseLeave, stopAnimation],
   );
 
   return { handleMouseEnter, handleMouseLeave };
@@ -65,12 +71,17 @@ const arrowVariants = {
       'translateX(0.45px) scaleY(0.99)',
       'translateX(0px) scaleY(1)',
     ],
-    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const},
   },
 };
 
 const ArrowRight02Icon = forwardRef(
-  ({ onMouseEnter, onMouseLeave, className, size = 28, style, ...props }, ref) => {
+  ({ onMouseEnter, onMouseLeave, className, size = 28, style, ...props } : {onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    className?: string;
+    size?: number;
+    style?: React.CSSProperties;
+    [key: string]: any;}, ref : React.Ref<any> ) => {
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,

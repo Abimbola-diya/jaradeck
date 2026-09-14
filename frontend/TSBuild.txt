@@ -1,0 +1,477 @@
+
+> frontend@0.0.0 build
+> tsc --noEmit && vite build
+
+src/components/ComparisonCards.tsx(32,5): error TS2322: Type 'number' is not assignable to type 'string'.
+src/components/ComparisonCards.tsx(53,7): error TS2322: Type 'number' is not assignable to type 'HTMLDivElement'.
+src/components/ComparisonCards.tsx(68,48): error TS2345: Argument of type 'HTMLDivElement' is not assignable to parameter of type 'number'.
+src/components/CrownIcon.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/CrownIcon.tsx(3,48): error TS7031: Binding element 'width' implicitly has an 'any' type.
+src/components/CrownIcon.tsx(3,55): error TS7031: Binding element 'height' implicitly has an 'any' type.
+src/components/FaqSection.tsx(42,22): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/components/FeatureCards.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/Header.tsx(22,23): error TS7006: Parameter 'path' implicitly has an 'any' type.
+src/components/Header.tsx(22,29): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/Header.tsx(22,32): error TS7006: Parameter 'extraState' implicitly has an 'any' type.
+src/components/Header.tsx(59,46): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/Header.tsx(60,38): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/Header.tsx(90,28): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(104,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(115,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(126,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(137,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(147,30): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(153,30): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(179,19): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(200,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(211,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(222,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/Header.tsx(233,17): error TS2554: Expected 3 arguments, but got 1.
+src/components/HowItWorks.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/HugeAnimatedEye.tsx(188,15): error TS2322: Type '{ normal: { height: number; y: number; }; animate: { height: number[]; y: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ height: number[]; y: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ height: number[]; y: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ height: number[]; y: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/HugeAnimatedEye.tsx(199,11): error TS2322: Type '{ normal: { translateY: number; }; animate: { translateY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ translateY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ translateY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ translateY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/HugeAnimatedEye.tsx(207,11): error TS2322: Type '{ normal: { scaleX: number; scaleY: number; }; animate: { scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/HugeAnimatedEye.tsx(216,11): error TS2322: Type '{ normal: { translateX: number; scaleX: number; scaleY: number; }; animate: { translateX: number[]; scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ translateX: number[]; scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ translateX: number[]; scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ translateX: number[]; scaleX: number[]; scaleY: number[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/HugeAnimatedEye.tsx(223,11): error TS2322: Type '{ normal: { visibility: string; transform: string; transition: { duration: number; }; }; animate: { visibility: string[]; transform: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ visibility: string[]; transform: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ visibility: string[]; transform: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ visibility: string[]; transform: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/HugeAnimatedEye.tsx(234,13): error TS2322: Type '{ normal: { d: string; pathLength: number; }; animate: { d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/HugeAnimatedEye.tsx(244,13): error TS2322: Type '{ normal: { d: string; pathLength: number; }; animate: { d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'Variant'.
+      Type '{ d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ d: string[]; transition: { duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; repeat: number; repeatDelay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/LoginModalCard.tsx(7,30): error TS7016: Could not find a declaration file for module './ui/cancel-01'. '/home/abdullah/projects/jaradeck/frontend/src/components/ui/cancel-01.jsx' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(10,30): error TS7016: Could not find a declaration file for module '../lib/api'. '/home/abdullah/projects/jaradeck/frontend/src/lib/api.js' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(12,20): error TS7006: Parameter 'token' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(28,3): error TS7006: Parameter 'detail' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(51,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(52,3): error TS7031: Binding element 'onSwitchToSignUp' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(53,3): error TS7031: Binding element 'onGoogleSuccess' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(54,3): error TS7031: Binding element 'onOTPRequired' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(55,3): error TS7031: Binding element 'triggerOrigin' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(93,11): error TS2353: Object literal may only specify known properties, and 'credential' does not exist in type '((prevState: { name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; } | null) => { name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; } | null) | { ...; }'.
+src/components/LoginModalCard.tsx(124,44): error TS7031: Binding element 'access_token' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(124,58): error TS7031: Binding element 'credential' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(138,31): error TS7006: Parameter 'data' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(158,52): error TS2741: Property 'credential' is missing in type '{ access_token: string; }' but required in type '{ access_token: any; credential: any; }'.
+src/components/LoginModalCard.tsx(164,11): error TS18046: 'err' is of type 'unknown'.
+src/components/LoginModalCard.tsx(174,61): error TS2339: Property 'credential' does not exist on type '{ name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; }'.
+src/components/LoginModalCard.tsx(178,52): error TS2741: Property 'access_token' is missing in type '{ credential: any; }' but required in type '{ access_token: any; credential: any; }'.
+src/components/LoginModalCard.tsx(179,34): error TS2339: Property 'credential' does not exist on type '{ name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; }'.
+src/components/LoginModalCard.tsx(184,11): error TS18046: 'err' is of type 'unknown'.
+src/components/LoginModalCard.tsx(209,31): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/LoginModalCard.tsx(308,16): error TS2739: Type '{ size: number; color: string; className: string; }' is missing the following properties from type '{ className?: string | undefined; color?: string | undefined; height: any; size?: number | undefined; style?: {} | undefined; width: any; }': height, width
+src/components/MagicWand01Icon.tsx(7,29): error TS7031: Binding element 'controls' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(7,54): error TS7031: Binding element 'onMouseEnter' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(7,68): error TS7031: Binding element 'onMouseLeave' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(7,82): error TS7031: Binding element 'ref' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(40,6): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(48,6): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(87,13): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(101,13): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/components/MagicWand01Icon.tsx(119,6): error TS2339: Property 'onMouseEnter' does not exist on type '{}'.
+src/components/MagicWand01Icon.tsx(119,20): error TS2339: Property 'onMouseLeave' does not exist on type '{}'.
+src/components/MagicWand01Icon.tsx(119,34): error TS2339: Property 'className' does not exist on type '{}'.
+src/components/MagicWand01Icon.tsx(119,45): error TS2339: Property 'size' does not exist on type '{}'.
+src/components/MagicWand01Icon.tsx(119,56): error TS2339: Property 'loop' does not exist on type '{}'.
+src/components/MagicWand01Icon.tsx(160,13): error TS2322: Type '{ normal: { rotate: number; transition: { duration: number; }; }; animate: { rotate: number[]; transition: { duration: number; ease: string; times: number[]; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ rotate: number[]; transition: { duration: number; ease: string; times: number[]; }; }' is not assignable to type 'Variant'.
+      Type '{ rotate: number[]; transition: { duration: number; ease: string; times: number[]; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ rotate: number[]; transition: { duration: number; ease: string; times: number[]; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; times: number[]; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; times: number[]; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; times: number[]; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/MagicWand01Icon.tsx(170,13): error TS2322: Type '{ normal: { scale: number; rotate: number; transition: { duration: number; }; }; animate: (i: any) => { scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '(i: any) => { scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'Variant'.
+      Type '(i: any) => { scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetResolver'.
+        Type '{ scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'string | TargetAndTransition'.
+          Type '{ scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetAndTransition'.
+            Type '{ scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+              Types of property 'transition' are incompatible.
+                Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'Transition<any> | undefined'.
+                  Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                    Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                      Types of property 'ease' are incompatible.
+                        Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/MagicWand01Icon.tsx(181,13): error TS2322: Type '{ normal: { scale: number; rotate: number; transition: { duration: number; }; }; animate: (i: any) => { scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '(i: any) => { scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'Variant'.
+      Type '(i: any) => { scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetResolver'.
+        Type '{ scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'string | TargetAndTransition'.
+          Type '{ scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetAndTransition'.
+            Type '{ scale: number[]; rotate: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+              Types of property 'transition' are incompatible.
+                Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'Transition<any> | undefined'.
+                  Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                    Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                      Types of property 'ease' are incompatible.
+                        Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/MagicWand01Icon.tsx(197,15): error TS2322: Type '{ normal: { visibility: string; transition: { duration: number; }; }; animate: (i: any) => { visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '(i: any) => { visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'Variant'.
+      Type '(i: any) => { visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetResolver'.
+        Type '{ visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'string | TargetAndTransition'.
+          Type '{ visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetAndTransition'.
+            Type '{ visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+              Types of property 'transition' are incompatible.
+                Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'Transition<any> | undefined'.
+                  Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                    Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                      Types of property 'ease' are incompatible.
+                        Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/MagicWand01Icon.tsx(208,15): error TS2322: Type '{ normal: { visibility: string; transition: { duration: number; }; }; animate: (i: any) => { visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '(i: any) => { visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'Variant'.
+      Type '(i: any) => { visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetResolver'.
+        Type '{ visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'string | TargetAndTransition'.
+          Type '{ visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type 'TargetAndTransition'.
+            Type '{ visibility: string[]; scale: number[]; transition: { duration: number; ease: string; repeat: number; delay: number; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+              Types of property 'transition' are incompatible.
+                Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'Transition<any> | undefined'.
+                  Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                    Type '{ duration: number; ease: string; repeat: number; delay: number; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                      Types of property 'ease' are incompatible.
+                        Type 'string' is not assignable to type 'Easing[] | Easing | undefined'.
+src/components/MarqueeTicker.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/MarqueeTicker.tsx(110,24): error TS7031: Binding element 'shape' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(110,31): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(164,37): error TS7006: Parameter 'phrases' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(164,46): error TS7006: Parameter 'totalCount' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(164,58): error TS7006: Parameter 'prefix' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(190,41): error TS7031: Binding element 'onSelectPhrase' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(210,46): error TS2339: Property 'lastElementChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(217,22): error TS7006: Parameter 'time' implicitly has an 'any' type.
+src/components/MarqueeTicker.tsx(221,42): error TS18047: 'lastTimeRef.current' is possibly 'null'.
+src/components/MarqueeTicker.tsx(228,56): error TS2339: Property 'firstElementChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(229,49): error TS2339: Property 'firstElementChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(234,32): error TS2339: Property 'appendChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(236,30): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(241,56): error TS2339: Property 'lastElementChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(243,50): error TS2339: Property 'lastElementChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(246,32): error TS2339: Property 'insertBefore' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(246,77): error TS2339: Property 'firstElementChild' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(248,30): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/MarqueeTicker.tsx(251,7): error TS2322: Type 'number' is not assignable to type 'null'.
+src/components/MarqueeTicker.tsx(254,5): error TS2322: Type 'number' is not assignable to type 'null'.
+src/components/MarqueeTicker.tsx(255,39): error TS2345: Argument of type 'null' is not assignable to parameter of type 'number'.
+src/components/NeedItDoneAnimation.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/NeedItDoneAnimation.tsx(39,26): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(48,13): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(49,13): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(55,20): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(56,20): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(57,20): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(58,19): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(59,19): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(61,20): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(62,20): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(63,20): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(64,19): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(65,19): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(73,16): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(74,16): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/NeedItDoneAnimation.tsx(82,7): error TS2322: Type 'number' is not assignable to type 'null'.
+src/components/NeedItDoneAnimation.tsx(105,27): error TS2322: Type 'HTMLDivElement | null' is not assignable to type 'never'.
+  Type 'null' is not assignable to type 'never'.
+src/components/NeedItDoneAnimation.tsx(110,31): error TS2322: Type 'HTMLDivElement | null' is not assignable to type 'never'.
+  Type 'null' is not assignable to type 'never'.
+src/components/NeedItDoneAnimation.tsx(114,33): error TS2322: Type 'SVGSVGElement | null' is not assignable to type 'never'.
+  Type 'null' is not assignable to type 'never'.
+src/components/NeedItDoneAnimation.tsx(132,33): error TS2322: Type 'HTMLDivElement | null' is not assignable to type 'never'.
+  Type 'null' is not assignable to type 'never'.
+src/components/NewsletterSection.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/NewsletterSection.tsx(4,31): error TS7016: Could not find a declaration file for module '../utils/validation'. '/home/abdullah/projects/jaradeck/frontend/src/utils/validation.js' implicitly has an 'any' type.
+src/components/NewsletterSection.tsx(11,31): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/NewsletterSection.tsx(19,34): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/components/OnboardingPage.tsx(6,27): error TS2307: Cannot find module '../assets/coffette.svg' or its corresponding type declarations.
+src/components/OnboardingPage.tsx(7,30): error TS2307: Cannot find module '../assets/success tick.svg' or its corresponding type declarations.
+src/components/OnboardingPage.tsx(8,24): error TS7016: Could not find a declaration file for module './onboarding/SignInStep'. '/home/abdullah/projects/jaradeck/frontend/src/components/onboarding/SignInStep.jsx' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(9,24): error TS7016: Could not find a declaration file for module './onboarding/SignUpStep'. '/home/abdullah/projects/jaradeck/frontend/src/components/onboarding/SignUpStep.jsx' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(10,25): error TS7016: Could not find a declaration file for module './onboarding/ProfileStep'. '/home/abdullah/projects/jaradeck/frontend/src/components/onboarding/ProfileStep.jsx' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(11,30): error TS7016: Could not find a declaration file for module '../lib/api'. '/home/abdullah/projects/jaradeck/frontend/src/lib/api.js' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(14,30): error TS7031: Binding element 'onSelect' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(14,40): error TS7031: Binding element 'onNavigateHome' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(80,24): error TS7031: Binding element 'onNavigateDashboard' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(111,3): error TS7031: Binding element 'onNavigateHome' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(112,3): error TS7031: Binding element 'onNavigateDashboard' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(124,10): error TS6133: 'verifiedUser' is declared but its value is never read.
+src/components/OnboardingPage.tsx(132,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(140,21): error TS7006: Parameter 'newStep' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(148,27): error TS7006: Parameter 'authData' implicitly has an 'any' type.
+src/components/OnboardingPage.tsx(167,35): error TS7006: Parameter 'selected' implicitly has an 'any' type.
+src/components/RealImpactSection.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/RealImpactSection.tsx(11,58): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/RealImpactSection.tsx(12,54): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/RealImpactSection.tsx(19,30): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/RealImpactSection.tsx(52,31): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/RealImpactSection.tsx(57,29): error TS2339: Property 'style' does not exist on type 'never'.
+src/components/RealImpactSection.tsx(71,27): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/RealImpactSection.tsx(75,28): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/RealImpactSection.tsx(94,27): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/RealImpactSection.tsx(98,28): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/SignupModalCard.tsx(7,30): error TS7016: Could not find a declaration file for module './ui/cancel-01'. '/home/abdullah/projects/jaradeck/frontend/src/components/ui/cancel-01.jsx' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(10,30): error TS7016: Could not find a declaration file for module '../lib/api'. '/home/abdullah/projects/jaradeck/frontend/src/lib/api.js' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(13,20): error TS7006: Parameter 'token' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(29,3): error TS7006: Parameter 'detail' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(52,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(53,3): error TS7031: Binding element 'onSwitchToLogin' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(54,3): error TS7031: Binding element 'onGoogleSuccess' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(55,3): error TS7031: Binding element 'onOTPRequired' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(56,3): error TS7031: Binding element 'triggerOrigin' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(100,11): error TS2353: Object literal may only specify known properties, and 'credential' does not exist in type '((prevState: { name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; } | null) => { name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; } | null) | { ...; }'.
+src/components/SignupModalCard.tsx(135,44): error TS7031: Binding element 'access_token' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(135,58): error TS7031: Binding element 'credential' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(150,31): error TS7006: Parameter 'data' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(170,52): error TS2741: Property 'credential' is missing in type '{ access_token: string; }' but required in type '{ access_token: any; credential: any; }'.
+src/components/SignupModalCard.tsx(176,11): error TS18046: 'err' is of type 'unknown'.
+src/components/SignupModalCard.tsx(187,61): error TS2339: Property 'credential' does not exist on type '{ name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; }'.
+src/components/SignupModalCard.tsx(191,52): error TS2741: Property 'access_token' is missing in type '{ credential: any; }' but required in type '{ access_token: any; credential: any; }'.
+src/components/SignupModalCard.tsx(192,34): error TS2339: Property 'credential' does not exist on type '{ name: any; email: any; picture: any; fromBackend: boolean; backendUser: any; }'.
+src/components/SignupModalCard.tsx(197,11): error TS18046: 'err' is of type 'unknown'.
+src/components/SignupModalCard.tsx(224,31): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/SignupModalCard.tsx(342,16): error TS2739: Type '{ size: number; color: string; className: string; }' is missing the following properties from type '{ className?: string | undefined; color?: string | undefined; height: any; size?: number | undefined; style?: {} | undefined; width: any; }': height, width
+src/components/Tick02Icon.tsx(7,29): error TS7031: Binding element 'controls' implicitly has an 'any' type.
+src/components/Tick02Icon.tsx(7,54): error TS7031: Binding element 'onMouseEnter' implicitly has an 'any' type.
+src/components/Tick02Icon.tsx(7,68): error TS7031: Binding element 'onMouseLeave' implicitly has an 'any' type.
+src/components/Tick02Icon.tsx(7,82): error TS7031: Binding element 'ref' implicitly has an 'any' type.
+src/components/Tick02Icon.tsx(40,6): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/components/Tick02Icon.tsx(48,6): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/components/Tick02Icon.tsx(141,6): error TS2339: Property 'onMouseEnter' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,20): error TS2339: Property 'onMouseLeave' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,34): error TS2339: Property 'className' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,45): error TS2339: Property 'size' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,56): error TS2339: Property 'color' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,63): error TS2339: Property 'strokeWidth' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,82): error TS2339: Property 'autoPlay' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(141,100): error TS2339: Property 'style' does not exist on type '{}'.
+src/components/Tick02Icon.tsx(173,11): error TS2322: Type '{ normal: { transform: string; }; animate: { transform: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ transform: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type 'Variant'.
+      Type '{ transform: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ transform: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type '(string | number[])[]' is not assignable to type 'Easing[] | Easing | undefined'.
+                      Type '(string | number[])[]' is not assignable to type 'Easing[] | EasingFunction'.
+                        Type '(string | number[])[]' is not assignable to type 'Easing[]'.
+                          Type 'string | number[]' is not assignable to type 'Easing'.
+                            Type 'string' is not assignable to type 'Easing'.
+src/components/Tick02Icon.tsx(184,13): error TS2322: Type '{ normal: { pathLength: number; pathOffset: number; visibility: string; }; animate: { pathLength: number[]; pathOffset: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ pathLength: number[]; pathOffset: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type 'Variant'.
+      Type '{ pathLength: number[]; pathOffset: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ pathLength: number[]; pathOffset: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type '(string | number[])[]' is not assignable to type 'Easing[] | Easing | undefined'.
+                      Type '(string | number[])[]' is not assignable to type 'Easing[] | EasingFunction'.
+                        Type '(string | number[])[]' is not assignable to type 'Easing[]'.
+                          Type 'string | number[]' is not assignable to type 'Easing'.
+                            Type 'string' is not assignable to type 'Easing'.
+src/components/Tick02Icon.tsx(199,15): error TS2322: Type '{ normal: { pathLength: number; opacity: number; visibility: string; }; animate: { pathLength: number[]; opacity: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }; }' is not assignable to type 'Variants'.
+  Property 'animate' is incompatible with index signature.
+    Type '{ pathLength: number[]; opacity: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type 'Variant'.
+      Type '{ pathLength: number[]; opacity: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ pathLength: number[]; opacity: number[]; visibility: string[]; transition: { duration: number; ease: (string | number[])[]; times: number[]; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: (string | number[])[]; times: number[]; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type '(string | number[])[]' is not assignable to type 'Easing[] | Easing | undefined'.
+                      Type '(string | number[])[]' is not assignable to type 'Easing[] | EasingFunction'.
+                        Type '(string | number[])[]' is not assignable to type 'Easing[]'.
+                          Type 'string | number[]' is not assignable to type 'Easing'.
+                            Type 'string' is not assignable to type 'Easing'.
+src/components/TodoAnimation.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/TodoAnimation.tsx(22,27): error TS7031: Binding element 'width' implicitly has an 'any' type.
+src/components/TodoAnimation.tsx(22,34): error TS7031: Binding element 'active' implicitly has an 'any' type.
+src/components/TodoAnimation.tsx(60,41): error TS7031: Binding element 'onCtaClick' implicitly has an 'any' type.
+src/components/TodoAnimation.tsx(72,61): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/TodoAnimation.tsx(84,9): error TS7034: Variable 'rafId' implicitly has type 'any' in some locations where its type cannot be determined.
+src/components/TodoAnimation.tsx(86,11): error TS7005: Variable 'rafId' implicitly has an 'any' type.
+src/components/TodoAnimation.tsx(91,43): error TS2339: Property 'getBoundingClientRect' does not exist on type 'never'.
+src/components/TodoAnimation.tsx(116,11): error TS7005: Variable 'rafId' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(3,46): error TS7016: Could not find a declaration file for module '../utils/validation'. '/home/abdullah/projects/jaradeck/frontend/src/utils/validation.js' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(16,26): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(16,30): error TS7006: Parameter 'val' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(31,21): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(31,28): error TS7031: Binding element 'onChange' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(31,38): error TS7031: Binding element 'onNext' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(33,39): error TS2339: Property 'focus' does not exist on type 'never'.
+src/components/WaitlistFlow.tsx(58,24): error TS7031: Binding element 'selected' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(58,34): error TS7031: Binding element 'contacts' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(58,44): error TS7031: Binding element 'onToggle' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(58,54): error TS7031: Binding element 'onContact' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(58,65): error TS7031: Binding element 'onNext' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(60,71): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(142,21): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(142,28): error TS7031: Binding element 'otherText' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(142,39): error TS7031: Binding element 'onChange' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(142,49): error TS7031: Binding element 'onOtherText' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(142,62): error TS7031: Binding element 'onNext' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(146,46): error TS2339: Property 'focus' does not exist on type 'never'.
+src/components/WaitlistFlow.tsx(206,22): error TS7031: Binding element 'selected' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(206,32): error TS7031: Binding element 'otherText' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(206,43): error TS7031: Binding element 'onToggle' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(206,53): error TS7031: Binding element 'onOtherText' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(206,66): error TS7031: Binding element 'onNext' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(266,26): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(266,33): error TS7031: Binding element 'onChange' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(266,43): error TS7031: Binding element 'onSubmit' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(266,53): error TS7031: Binding element 'isSubmitting' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(334,24): error TS7031: Binding element 'name' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(334,30): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(377,25): error TS7031: Binding element 'current' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(377,34): error TS7031: Binding element 'total' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(389,40): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(418,28): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(443,26): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(444,13): error TS2345: Argument of type '(d: { name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }) => { name: string; contacts: {}; role: string; ... 4 more ...; contactSelected: any[]; }' is not assignable to parameter of type 'SetStateAction<{ name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }>'.
+  Type '(d: { name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }) => { name: string; contacts: {}; role: string; ... 4 more ...; contactSelected: any[]; }' is not assignable to type '(prevState: { name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }) => { name: string; contactSelected: never[]; ... 5 more ...; frequency: string; }'.
+    Type '{ name: string; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; contactSelected: any[]; }' is not assignable to type '{ name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }'.
+      Types of property 'contactSelected' are incompatible.
+        Type 'any[]' is not assignable to type 'never[]'.
+          Type 'any' is not assignable to type 'never'.
+src/components/WaitlistFlow.tsx(445,50): error TS2345: Argument of type 'any' is not assignable to parameter of type 'never'.
+src/components/WaitlistFlow.tsx(455,23): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(455,27): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(459,23): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(460,13): error TS2345: Argument of type '(d: { name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }) => { name: string; contactSelected: never[]; ... 5 more ...; tasksSelected: any[]; }' is not assignable to parameter of type 'SetStateAction<{ name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }>'.
+  Type '(d: { name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }) => { name: string; contactSelected: never[]; ... 5 more ...; tasksSelected: any[]; }' is not assignable to type '(prevState: { name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }) => { name: string; contactSelected: never[]; ... 5 more ...; frequency: string; }'.
+    Type '{ name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksOther: string; frequency: string; tasksSelected: any[]; }' is not assignable to type '{ name: string; contactSelected: never[]; contacts: {}; role: string; roleOther: string; tasksSelected: never[]; tasksOther: string; frequency: string; }'.
+      Types of property 'tasksSelected' are incompatible.
+        Type 'any[]' is not assignable to type 'never[]'.
+          Type 'any' is not assignable to type 'never'.
+src/components/WaitlistFlow.tsx(461,48): error TS2345: Argument of type 'any' is not assignable to parameter of type 'never'.
+src/components/WaitlistFlow.tsx(476,34): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/components/WaitlistFlow.tsx(520,30): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(537,30): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(538,33): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(547,33): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/components/WaitlistFlow.tsx(554,30): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/components/WaitlistPage.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/WaitlistPage.tsx(9,25): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/WorkerBottomNav.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/WorkerBottomNav.tsx(4,20): error TS7031: Binding element 'type' implicitly has an 'any' type.
+src/components/WorkerBottomNav.tsx(4,26): error TS7031: Binding element 'isActive' implicitly has an 'any' type.
+src/components/WorkerBottomNav.tsx(46,8): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ projects: Element; wallet: Element; chat: Element; settings: Element; }'.
+src/components/WorkerBottomNav.tsx(64,25): error TS7006: Parameter 'path' implicitly has an 'any' type.
+src/components/project/ProjectDetailsModal.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/ActiveChatThreadScreen.tsx(11,25): error TS2307: Cannot find module '../assets/client_avatar.png' or its corresponding type declarations.
+src/pages/ActiveChatThreadScreen.tsx(12,21): error TS2307: Cannot find module '../assets/pdf_icon.png' or its corresponding type declarations.
+src/pages/ActiveChatThreadScreen.tsx(13,27): error TS2307: Cannot find module '../assets/verified_badge.png' or its corresponding type declarations.
+src/pages/ApplyPage.tsx(7,39): error TS6133: 'FormEvent' is declared but its value is never read.
+src/pages/ApplyPage.tsx(89,43): error TS2322: Type '{ size: number; color: string; strokeWidth: number; autoPlay: true; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<unknown>'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & RefAttributes<unknown>'.
+src/pages/ApplyPage.tsx(1340,49): error TS2322: Type '{ size: number; color: string; strokeWidth: number; autoPlay: true; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<unknown>'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & RefAttributes<unknown>'.
+src/pages/ApplyPage.tsx(1585,51): error TS2322: Type '{ size: number; color: string; strokeWidth: number; autoPlay: true; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<unknown>'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & RefAttributes<unknown>'.
+src/pages/ApplyPage.tsx(1775,47): error TS2322: Type '{ size: number; color: string; strokeWidth: number; autoPlay: true; }' is not assignable to type 'IntrinsicAttributes & RefAttributes<unknown>'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & RefAttributes<unknown>'.
+src/pages/FreshChatScreen.tsx(11,25): error TS2307: Cannot find module '../assets/client_avatar.png' or its corresponding type declarations.
+src/pages/LocalBankWithdrawScreen.tsx(8,28): error TS2307: Cannot find module '../assets/zenith_bank_logo.png' or its corresponding type declarations.
+src/pages/OnboardingPage.tsx(7,16): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/pages/OnboardingPage.tsx(58,9): error TS2322: Type 'string | null' is not assignable to type 'null | undefined'.
+  Type 'string' is not assignable to type 'null | undefined'.
+src/pages/OnboardingPage.tsx(59,9): error TS2322: Type 'string | number | null' is not assignable to type 'null | undefined'.
+  Type 'string' is not assignable to type 'null | undefined'.
+src/pages/ProfilePortfolio.tsx(37,30): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/pages/ProfilePortfolio.tsx(37,37): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/pages/SignupPage.tsx(6,21): error TS7016: Could not find a declaration file for module '../components/onboarding/OTPStep'. '/home/abdullah/projects/jaradeck/frontend/src/components/onboarding/OTPStep.jsx' implicitly has an 'any' type.
+src/pages/SignupPage.tsx(9,16): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/pages/WithdrawOptionPage.tsx(4,29): error TS2307: Cannot find module '../assets/withdraw_bank_icon.png' or its corresponding type declarations.
+src/pages/WithdrawOptionPage.tsx(5,36): error TS2307: Cannot find module '../assets/withdraw_stablecoins_icon.png' or its corresponding type declarations.
+src/pages/WithdrawSuccessScreen.tsx(5,27): error TS2307: Cannot find module '../assets/verified_badge.png' or its corresponding type declarations.
+src/pages/WorkerChatScreen.tsx(8,25): error TS2307: Cannot find module '../assets/client_avatar.png' or its corresponding type declarations.
+src/pages/WorkerChatScreen.tsx(9,26): error TS2307: Cannot find module '../assets/marcus_avatar.svg' or its corresponding type declarations.
+src/pages/WorkerDashboardPage.tsx(4,37): error TS7016: Could not find a declaration file for module '../components/project/UploadDeliverablesModal'. '/home/abdullah/projects/jaradeck/frontend/src/components/project/UploadDeliverablesModal.jsx' implicitly has an 'any' type.
+src/pages/WorkerDashboardPage.tsx(5,29): error TS2307: Cannot find module '../assets/emmanuel.png' or its corresponding type declarations.
+src/pages/WorkerDashboardPage.tsx(6,23): error TS2307: Cannot find module '../assets/Jake Taiwo.png' or its corresponding type declarations.
+src/pages/WorkerDashboardPage.tsx(50,3): error TS6133: 'role' is declared but its value is never read.
+src/pages/WorkerWalletPage.tsx(9,21): error TS2307: Cannot find module '../assets/logo_i.svg' or its corresponding type declarations.
+src/pages/WorkerWithdraw.tsx(3,29): error TS2307: Cannot find module '../assets/withdraw_bank_icon.png' or its corresponding type declarations.
+src/pages/WorkerWithdraw.tsx(4,36): error TS2307: Cannot find module '../assets/withdraw_stablecoins_icon.png' or its corresponding type declarations.
+src/pages/WorkerWithdraw.tsx(8,26): error TS2304: Cannot find name 'useApp'.
+src/routes/AppRoutes.tsx(10,30): error TS7016: Could not find a declaration file for module '../pages/ApplySuccessPage'. '/home/abdullah/projects/jaradeck/frontend/src/pages/ApplySuccessPage.jsx' implicitly has an 'any' type.
+src/routes/AppRoutes.tsx(11,26): error TS7016: Could not find a declaration file for module '../pages/WaitlistPage'. '/home/abdullah/projects/jaradeck/frontend/src/pages/WaitlistPage.jsx' implicitly has an 'any' type.
+src/routes/AppRoutes.tsx(12,27): error TS7016: Could not find a declaration file for module '../pages/AdminViewPage'. '/home/abdullah/projects/jaradeck/frontend/src/pages/AdminViewPage.jsx' implicitly has an 'any' type.
+src/routes/AppRoutes.tsx(25,3): error TS2614: Module '"../pages/ActiveChatThreadScreen"' has no exported member 'ChatThreadScreen'. Did you mean to use 'import ChatThreadScreen from "../pages/ActiveChatThreadScreen"' instead?
+src/routes/AppRoutes.tsx(25,3): error TS6133: 'ChatThreadScreen' is declared but its value is never read.

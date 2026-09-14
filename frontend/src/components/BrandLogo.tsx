@@ -1,4 +1,10 @@
-export default function BrandLogo({ width = 34, height, tone = 'light', className, ariaHidden = true }) {
+export default function BrandLogo({ width = 34, height, tone = 'light', className, ariaHidden = true } : {
+  width?: number;
+  height?: number;
+  tone?: 'light' | 'blue';
+  className?: string;
+  ariaHidden?: boolean;
+}) {
   if (tone === 'blue') {
     const logoHeight = height ?? width * (25 / 34);
     return (

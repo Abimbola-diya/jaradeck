@@ -7,6 +7,7 @@ import {
 } from "hugeicons-react";
 import sarahAvatar from "../assets/client_avatar.png";
 import marcusAvatar from "../assets/marcus_avatar.svg";
+import WorkerBottomNav from "../components/WorkerBottomNav";
 
 interface ChatConversation {
   id: string;
@@ -74,7 +75,7 @@ export const WorkerChatScreen: React.FC = () => {
   );
 
   return (
-    <div className="w-full max-w-[390px] min-h-[844px] bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[100px] mx-auto relative overflow-hidden">
+    <div className="w-full max-w-[390px] min-h-[844px] h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[100px] mx-auto relative overflow-hidden">
       {/* Content Container (358px width) */}
       <div className="w-full max-w-[358px] flex flex-col items-center h-full min-h-[660px]">
         {/* Header Stack */}
@@ -201,6 +202,8 @@ export const WorkerChatScreen: React.FC = () => {
           })}
         </div>
       </div>
+      {/* Worker Bottom Navigation */}
+      <WorkerBottomNav />
     </div>
   );
 };

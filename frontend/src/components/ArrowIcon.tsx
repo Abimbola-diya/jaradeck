@@ -1,4 +1,4 @@
-export default function ArrowIcon({ direction = 'right', size = 16, strokeWidth = 2.5, className }) {
+export default function ArrowIcon({ direction = 'right', size = 16, strokeWidth = 2.5, className }:{className?: string, direction?: 'left' | 'right', size?: number, strokeWidth?: number}) {
   const isLeft = direction === 'left';
 
   return (

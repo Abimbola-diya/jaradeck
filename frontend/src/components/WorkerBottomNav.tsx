@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-function NavIcon({ type, isActive }) {
+function NavIcon({ type, isActive } : { type: "projects" | "wallet" | "chat" | "settings" ; isActive: boolean }) {
   const icons = {
     projects: (
       <>
@@ -61,12 +61,12 @@ export default function WorkerBottomNav() {
   if (isCustomerPath) basePath = "/dashboard/customer";
   else if (isFreelancerPath) basePath = "/dashboard/freelancer";
 
-  const getTargetUrl = (path) => {
+  const getTargetUrl = (path : string) => {
     const fullPath = path === "/dashboard" ? basePath : `/dashboard${path}`;
     return currentRole ? `${fullPath}?role=${currentRole}` : fullPath;
   };
 
-  const TABS = [
+  const TABS : { label: string; to: string; icon: "projects" | "wallet" | "chat" | "settings"; end?: boolean }[] = [
     {
       label: "Projects",
       to: getTargetUrl("/dashboard"),

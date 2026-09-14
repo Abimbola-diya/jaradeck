@@ -24,6 +24,8 @@ import WorkerChatScreen, {  } from "../pages/WorkerChatScreen";
 import ActiveChatThreadScreen, {
   ChatThreadScreen,
 } from "../pages/ActiveChatThreadScreen";
+import FreshChatScreen from "../pages/FreshChatScreen";
+import { ProtectedRoute } from "../components/ProtectedRoutes";
 
 export const AppRoutes = () => {
   return (
@@ -58,44 +60,75 @@ export const AppRoutes = () => {
         element={<WorkerWalletScreen />}
       />
 
-      {/* Worker Chat Routes */}
+      {/* Chat List Routes */}
       <Route path="/dashboard/chat" element={<WorkerChatScreen />} />
       <Route path="/dashboard/customer/chat" element={<WorkerChatScreen />} />
       <Route path="/dashboard/freelancer/chat" element={<WorkerChatScreen />} />
 
       {/* Standard Individual Thread Routes */}
-      <Route path="/dashboard/chat-thread" element={<ChatThreadScreen />} />
-      <Route path="/dashboard/chat-thread/:id" element={<ChatThreadScreen />} />
+      <Route
+        path="/dashboard/chat-thread"
+        element={<ActiveChatThreadScreen />}
+      />
+      <Route
+        path="/dashboard/chat-thread/:id"
+        element={<ActiveChatThreadScreen />}
+      />
       <Route
         path="/dashboard/freelancer/chat-thread"
-        element={<ChatThreadScreen />}
+        element={<ActiveChatThreadScreen />}
       />
       <Route
         path="/dashboard/freelancer/chat-thread/:id"
-        element={<ChatThreadScreen />}
+        element={<ActiveChatThreadScreen />}
       />
       <Route
         path="/dashboard/customer/chat-thread"
-        element={<ChatThreadScreen />}
+        element={<ActiveChatThreadScreen />}
       />
       <Route
         path="/dashboard/customer/chat-thread/:id"
-        element={<ChatThreadScreen />}
+        element={<ActiveChatThreadScreen />}
       />
 
-      {/* Active System / Fresh Match Thread Routes */}
-      <Route
-        path="/dashboard/fresh-chat"
-        element={<ActiveChatThreadScreen />}
-      />
+      {/* Empty / Initial Match Chat Routes */}
+      <Route path="/dashboard/fresh-chat" element={<FreshChatScreen />} />
       <Route
         path="/dashboard/freelancer/fresh-chat"
-        element={<ActiveChatThreadScreen />}
+        element={<FreshChatScreen />}
       />
       <Route
         path="/dashboard/customer/fresh-chat"
+        element={<FreshChatScreen />}
+      />
+
+      {/* Active Project / Milestone Chat Routes */}
+      <Route
+        path="/dashboard/active-chat"
         element={<ActiveChatThreadScreen />}
       />
+      <Route
+        path="/dashboard/freelancer/active-chat"
+        element={<ActiveChatThreadScreen />}
+      />
+      <Route
+        path="/dashboard/customer/active-chat"
+        element={<ActiveChatThreadScreen />}
+      />
+
+      {/* Worker Only Routes */}
+      <Route element={<ProtectedRoute allowedRoles={["worker"]} />}>
+        <Route path="/dashboard/worker" element={<WorkerDashboardPage />} />
+        <Route path="/dashboard/worker/chat" element={<WorkerChatScreen />} />
+        <Route
+          path="/dashboard/worker/fresh-chat"
+          element={<FreshChatScreen />}
+        />
+        <Route
+          path="/dashboard/worker/chat-thread/:id"
+          element={<ActiveChatThreadScreen />}
+        />
+      </Route>
 
       {/* Settings & Profile Routes */}
       <Route path="/dashboard/settings" element={<SettingsPage />} />

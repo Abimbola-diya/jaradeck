@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 export default function ComparisonCards() {
-  const sectionRef = useRef(null);
-  const stageRef = useRef(null);
-  const cardRef = useRef(null);
-  const rafRef = useRef(null);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<HTMLDivElement | null>(null);
 
   const updateCard = useCallback(() => {
     if (!sectionRef.current || !cardRef.current) return;
