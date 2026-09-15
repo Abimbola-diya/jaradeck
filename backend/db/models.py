@@ -1,12 +1,13 @@
+# models.py
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List, Dict
+from typing import Optional
 
 class UserRegister(BaseModel):
     email: EmailStr
     full_name: str
     first_name: Optional[str] = None
     last_name: Optional[str] = None
-    password: Optional[str] = None  # Optional Since using OTP
+    password: Optional[str] = None
     role: str = Field(default="pending", pattern="^(pending|customer|worker)$")
     country: Optional[str] = None
     phone: Optional[str] = None
@@ -22,7 +23,7 @@ class UserLogin(BaseModel):
 
 class GoogleLogin(BaseModel):
     credential: str
-    role: Optional[str] = None  # Required only if it's a new user and we need their role
+    role: Optional[str] = None
 
 class Token(BaseModel):
     access_token: str
@@ -32,26 +33,34 @@ class Token(BaseModel):
 class UserResponse(BaseModel):
     id: str
     email: EmailStr
-    full_name: str
+    full_name: Optional[str] = None
     role: str
     is_onboarded: bool
     country: Optional[str] = None
     phone: Optional[str] = None
+    one_liner: Optional[str] = None
+    avatar_url: Optional[str] = None
     auth_provider: str
-
-from pydantic import BaseModel, EmailStr, Field
-
 
 class SendOTPRequest(BaseModel):
     email: EmailStr
-
 
 class VerifyOTPRequest(BaseModel):
     email: EmailStr
     code: str = Field(..., min_length=6, max_length=6)
 
-
 class AuthTokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: dict
+
+class RoleUpdate(BaseModel):
+    role: str = Field(..., pattern="^(customer|worker)$")
+
+class ProfileUpdate(BaseModel):
+    full_name: Optional[str] = None
+    one_liner: Optional[str] = None
+    avatar_url: Optional[str] = None
+    phone: Optional[str] = None
+    country: Optional[str] = None
+    is_onboarded: Optional[bool] = None

@@ -34,8 +34,9 @@ def init_db():
                 name TEXT NOT NULL,
                 contact_selected JSONB NOT NULL,
                 contacts JSONB NOT NULL,
-                role TEXT NOT NULL,
-                role_other TEXT,
+                role TEXT NOT NULL DEFAULT 'pending',
+                one_liner TEXT,
+                avatar_url TEXT,
                 tasks_selected JSONB NOT NULL,
                 tasks_other TEXT,
                 frequency TEXT NOT NULL

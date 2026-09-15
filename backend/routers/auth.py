@@ -21,6 +21,7 @@ from db.models import (
     VerifyOTPRequest,
     AuthTokenResponse,
 )
+from db.models import RoleUpdate
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
@@ -372,3 +373,23 @@ async def google_login(google_login: GoogleLogin):
 @router.get("/me", response_model=UserResponse)
 async def read_users_me(current_user: dict = Depends(get_current_user)):
     return current_user
+
+
+@router.post("/set-role")
+async def set_user_role(
+    payload: RoleUpdate,
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        res = (
+            supabase.table("users")
+            .update({"role": payload.role})
+            .eq("id", current_user["id"])
+            .execute()
+        )
+        if not res.data:
+            raise HTTPException(status_code=404, detail="User record not found")
+            
+        return {"message": "Role set successfully", "user": res.data[0]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
