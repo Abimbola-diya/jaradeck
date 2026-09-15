@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import WorkerBottomNav from "../components/WorkerBottomNav";
 import ProjectDetailsModal from "../components/project/ProjectDetailsModal";
 import UploadDeliverablesModal from "../components/project/UploadDeliverablesModal";
-import emmanuelProfile from "../assets/emmanuel.png";
 import jakeTaiwo from "../assets/Jake Taiwo.png";
+import { useAuthStore } from "../context/AuthContext";
 
 function BellIcon() {
   return (
@@ -42,16 +42,38 @@ function ProjectPerson() {
   );
 }
 
-interface WorkerDashboardPageProps {
-  role?: "customer" | "freelancer";
-}
-
-export default function WorkerDashboardPage({
-  role = "freelancer",
-}: WorkerDashboardPageProps) {
+export default function WorkerDashboardPage() {
+  const { user } = useAuthStore();
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [hasProjects, setHasProjects] = useState(true);
+  const [hasProjects, setHasProjects] = useState(false);
+
+  // 1. Time-based Greeting
+  const { greeting, subtext } = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      return { greeting: "Good morning", subtext: "How are you doing today" };
+    } else if (hour < 17) {
+      return { greeting: "Good afternoon", subtext: "How is your day going" };
+    } else {
+      return {
+        greeting: "Good evening",
+        subtext: "How are you doing this evening",
+      };
+    }
+  }, []);
+
+  // 2. Name & Initials
+  const fullName = user?.full_name || "User";
+  const firstName = fullName.split(" ")[0];
+
+  const initials = useMemo(() => {
+    const parts = fullName.trim().split(" ").filter(Boolean);
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return parts[0] ? parts[0][0].toUpperCase() : "U";
+  }, [fullName]);
 
   const activeProject = {
     title: "Social Media\nManagement",
@@ -60,41 +82,39 @@ export default function WorkerDashboardPage({
     budget: "$1,200 Total",
   };
 
-  const handleOpenUploadFromDetails = () => {
-    setIsDetailsModalOpen(false);
-    setIsUploadModalOpen(true);
-  };
-
-  const handleBackToDetails = () => {
-    setIsUploadModalOpen(false);
-    setIsDetailsModalOpen(true);
-  };
-
   return (
     <div className="w-full max-w-[390px] min-h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[110px] mx-auto relative">
       {/* Header */}
       <header className="w-full max-w-[358px] flex items-center justify-between">
         <div className="flex flex-col gap-[2px] items-start text-left min-w-0">
-          <h1 className="text-[17px] font-medium leading-[22px] tracking-[-0.01em] text-[#272931] whitespace-nowrap">
-            Good morning Emmanuel
+          <h1 className="text-[17px] font-medium leading-[22px] tracking-[-0.01em] text-[#272931] truncate">
+            {greeting} {firstName}
           </h1>
-          <p className="text-[13px] font-normal leading-[16px] text-[#272931]/50 whitespace-nowrap">
-            How are you doing today
+          <p className="text-[13px] font-normal leading-[16px] text-[#272931]/50 truncate">
+            {subtext}
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             type="button"
-            className="w-10 h-10 rounded-full bg-[#F3F4F5] flex items-center justify-center hover:bg-[#E5E7EB] transition-colors outline-none"
+            className="w-10 h-10 rounded-full bg-[#F3F4F5] flex items-center justify-center hover:bg-[#E5E7EB] transition-colors outline-none cursor-pointer"
           >
             <BellIcon />
           </button>
-          <img
-            src={emmanuelProfile}
-            alt="Emmanuel profile"
-            className="w-10 h-10 rounded-full object-cover shrink-0"
-          />
+
+          {/* User Avatar / Initials */}
+          {user?.avatar_url ? (
+            <img
+              src={user.avatar_url}
+              alt={fullName}
+              className="w-10 h-10 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-[#0048B3] text-white font-semibold text-[14px] flex items-center justify-center shrink-0 shadow-sm">
+              {initials}
+            </div>
+          )}
         </div>
       </header>
 
@@ -102,22 +122,32 @@ export default function WorkerDashboardPage({
       <div className="w-full max-w-[358px] text-right mt-2">
         <button
           onClick={() => setHasProjects(!hasProjects)}
-          className="text-[11px] font-normal text-slate-400 hover:text-slate-600 outline-none"
+          className="text-[11px] font-normal text-slate-400 hover:text-slate-600 outline-none cursor-pointer"
         >
-          Toggle Demo State ({hasProjects ? "Active" : "Empty"})
+          Toggle State ({hasProjects ? "Active" : "Empty"})
         </button>
       </div>
 
       {/* Main Content */}
       <div className="w-full max-w-[358px] flex flex-col gap-[24px] mt-[16px]">
         {!hasProjects ? (
-          <section className="w-full bg-[#FCFCFC] border border-[#E5E7EB] rounded-[16px] p-6 text-center">
+          <section className="w-full bg-[#FCFCFC] border border-[#E5E7EB] rounded-[16px] p-8 text-center flex flex-col items-center justify-center min-h-[260px]">
+            {/* Playful Dancing / Bouncing Icon */}
+            <div className="w-16 h-16 mb-4 rounded-full bg-[#F0F5FF] flex items-center justify-center animate-bounce">
+              <span
+                className="text-3xl animate-spin"
+                style={{ animationDuration: "3s" }}
+              >
+                🎉
+              </span>
+            </div>
+
             <h2 className="text-[16px] font-medium leading-[19px] text-[#272931] mb-2">
               No Active Projects Yet
             </h2>
-            <p className="text-[13px] font-normal leading-[18px] text-[#272931]/50">
-              You haven't been assigned any projects. Once you start working,
-              your active tasks will appear here.
+            <p className="text-[13px] font-normal leading-[18px] text-[#272931]/50 max-w-[260px]">
+              You haven&apos;t been assigned any projects yet. Once you start
+              working, your active tasks will appear here.
             </p>
           </section>
         ) : (
@@ -131,11 +161,10 @@ export default function WorkerDashboardPage({
 
                 <ProjectPerson />
 
-                {/* Primary Button Styling */}
                 <button
                   type="button"
                   onClick={() => setIsDetailsModalOpen(true)}
-                  className="w-full h-[41px] rounded-[21px] bg-[#0048B3] shadow-button-inset  flex items-center justify-center text-white text-[12px] font-medium leading-[15px] hover:opacity-95 active:scale-[0.99] transition-all outline-none cursor-pointer"
+                  className="w-full h-[41px] rounded-[21px] bg-[#0048B3] shadow-button-inset flex items-center justify-center text-white text-[12px] font-medium leading-[15px] hover:opacity-95 active:scale-[0.99] transition-all outline-none cursor-pointer"
                 >
                   View Project Details
                 </button>
@@ -152,7 +181,6 @@ export default function WorkerDashboardPage({
                   </p>
                 </div>
 
-                {/* Secondary Button Styling */}
                 <button
                   type="button"
                   className="w-full h-[41px] border border-[#0048B3] rounded-[21px] text-[#0048B3] text-[12px] font-medium leading-[15px] flex items-center justify-center hover:bg-[#0048B3]/5 active:scale-[0.99] transition-all outline-none cursor-pointer"
@@ -188,18 +216,23 @@ export default function WorkerDashboardPage({
 
       <WorkerBottomNav />
 
-      {/* Modals */}
       <ProjectDetailsModal
         isOpen={isDetailsModalOpen}
         onClose={() => setIsDetailsModalOpen(false)}
-        onOpenUpload={handleOpenUploadFromDetails}
+        onOpenUpload={() => {
+          setIsDetailsModalOpen(false);
+          setIsUploadModalOpen(true);
+        }}
         project={activeProject}
       />
 
       <UploadDeliverablesModal
         isOpen={isUploadModalOpen}
         onClose={() => setIsUploadModalOpen(false)}
-        onBack={handleBackToDetails}
+        onBack={() => {
+          setIsUploadModalOpen(false);
+          setIsDetailsModalOpen(true);
+        }}
       />
     </div>
   );

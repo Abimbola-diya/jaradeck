@@ -33,11 +33,11 @@ export const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<SignupPage />} /> {/* <--- ADD THIS */}
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/apply" element={<ApplyPage />} />
       <Route path="/apply-success" element={<ApplySuccessPage />} />
       <Route path="/waitlist" element={<WaitlistPage />} />
-
       {/* Role Dashboard Routes */}
       <Route path="/dashboard" element={<WorkerDashboardPage />} />
       <Route
@@ -48,7 +48,6 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer"
         element={<WorkerDashboardPage role="freelancer" />}
       />
-
       {/* Wallet Routes */}
       <Route path="/dashboard/wallet" element={<WorkerWalletScreen />} />
       <Route
@@ -59,12 +58,10 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/wallet"
         element={<WorkerWalletScreen />}
       />
-
       {/* Chat List Routes */}
       <Route path="/dashboard/chat" element={<WorkerChatScreen />} />
       <Route path="/dashboard/customer/chat" element={<WorkerChatScreen />} />
       <Route path="/dashboard/freelancer/chat" element={<WorkerChatScreen />} />
-
       {/* Standard Individual Thread Routes */}
       <Route
         path="/dashboard/chat-thread"
@@ -90,7 +87,6 @@ export const AppRoutes = () => {
         path="/dashboard/customer/chat-thread/:id"
         element={<ActiveChatThreadScreen />}
       />
-
       {/* Empty / Initial Match Chat Routes */}
       <Route path="/dashboard/fresh-chat" element={<FreshChatScreen />} />
       <Route
@@ -101,7 +97,6 @@ export const AppRoutes = () => {
         path="/dashboard/customer/fresh-chat"
         element={<FreshChatScreen />}
       />
-
       {/* Active Project / Milestone Chat Routes */}
       <Route
         path="/dashboard/active-chat"
@@ -115,7 +110,6 @@ export const AppRoutes = () => {
         path="/dashboard/customer/active-chat"
         element={<ActiveChatThreadScreen />}
       />
-
       {/* Worker Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={["worker"]} />}>
         <Route path="/dashboard/worker" element={<WorkerDashboardPage />} />
@@ -129,7 +123,6 @@ export const AppRoutes = () => {
           element={<ActiveChatThreadScreen />}
         />
       </Route>
-
       {/* Settings & Profile Routes */}
       <Route path="/dashboard/settings" element={<SettingsPage />} />
       <Route path="/dashboard/customer/settings" element={<SettingsPage />} />
@@ -138,7 +131,6 @@ export const AppRoutes = () => {
         path="/dashboard/settings/profile-portfolio"
         element={<ProfilePortfolioPage />}
       />
-
       {/* Withdraw Routes */}
       <Route
         path="/dashboard/wallet/withdraw"
@@ -152,7 +144,6 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/withdraw"
         element={<WithdrawOptionsScreen />}
       />
-
       {/* Local Bank Withdrawal Routes */}
       <Route
         path="/dashboard/wallet/withdraw-bank"
@@ -166,7 +157,6 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/withdraw-bank"
         element={<LocalBankWithdrawScreen />}
       />
-
       {/* Confirm Withdrawal Routes */}
       <Route
         path="/dashboard/wallet/confirm-withdraw"
@@ -180,7 +170,6 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/confirm-withdraw"
         element={<ConfirmWithdrawScreen />}
       />
-
       {/* Security PIN Authorization Routes */}
       <Route path="/dashboard/wallet/enter-pin" element={<EnterPinScreen />} />
       <Route
@@ -191,7 +180,6 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/enter-pin"
         element={<EnterPinScreen />}
       />
-
       {/* Withdrawal Success Routes */}
       <Route
         path="/dashboard/wallet/withdraw-success"
@@ -205,10 +193,8 @@ export const AppRoutes = () => {
         path="/dashboard/freelancer/withdraw-success"
         element={<WithdrawSuccessScreen />}
       />
-
       {/* Admin */}
       <Route path="/admin" element={<AdminViewPage />} />
-
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

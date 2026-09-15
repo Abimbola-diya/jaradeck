@@ -7,13 +7,13 @@ import {
   Add01Icon,
   Mic01Icon,
   ArrowUp02Icon,
-  Cancel01Icon,
-  CheckmarkCircle01Icon,
 } from "hugeicons-react";
 import sarahAvatar from "../assets/client_avatar.png";
 import pdfIcon from "../assets/pdf_icon.png";
 import verifiedBadge from "../assets/verified_badge.png";
 import WorkerBottomNav from "../components/WorkerBottomNav";
+import ProjectDetailsModal from "../components/project/ProjectDetailsModal";
+import UploadDeliverablesModal from "../components/project/UploadDeliverablesModal";
 
 interface Message {
   id: string;
@@ -35,7 +35,19 @@ export const ActiveChatThreadScreen: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
   const [isTyping, setIsTyping] = useState<boolean>(true);
   const [extraMessages, setExtraMessages] = useState<Message[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // Modal controls
+  const [isDetailsModalOpen,setIsDetailsModalOpen] = useState<boolean>(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+
+  const activeProject = {
+    title: "Instagram\nManagement",
+    clientName: "Sarah Jenkins",
+    duration: "Oct 12 - Nov 30",
+    budget: "$1,200 Total",
+    description:
+      "Complete overhaul of the client's Instagram presence, including a new visual strategy, content calendar for 6 weeks, and community engagement protocols.",
+  };
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const replyIndexRef = useRef<number>(0);
@@ -102,17 +114,19 @@ export const ActiveChatThreadScreen: React.FC = () => {
     navigate(`${targetPath}${roleQuery}`);
   };
 
-  const handleOpenMilestoneDetails = () => {
-    setIsModalOpen(true);
+  const handleOpenUploadFromDetails = () => {
+    setIsDetailsModalOpen(false);
+    setIsUploadModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleBackToDetails = () => {
+    setIsUploadModalOpen(false);
+    setIsDetailsModalOpen(true);
   };
 
   return (
     <div className="w-full max-w-[390px] min-h-[1010px] h-full bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[120px] mx-auto relative overflow-y-auto">
-      {/* Content Container (358px width) */}
+      {/* Content Container */}
       <div className="w-full max-w-[358px] flex flex-col items-center gap-[20px]">
         {/* Header Stack */}
         <div className="w-full flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-md z-20 py-2">
@@ -182,7 +196,7 @@ export const ActiveChatThreadScreen: React.FC = () => {
           </span>
         </div>
 
-        {/* Incoming Message: Sarah Jenkins (10:42 AM) */}
+        {/* Incoming Message */}
         <div className="w-full flex flex-col items-start gap-[6px]">
           <div className="flex items-center gap-[6px]">
             <span className="text-[13px] font-medium text-[#111827]">
@@ -193,7 +207,6 @@ export const ActiveChatThreadScreen: React.FC = () => {
             </span>
           </div>
 
-          {/* Text Bubble */}
           <div className="max-w-[290px] bg-[#F9FAFB] border border-[#F3F4F6] rounded-[16px] rounded-tl-[4px] p-[14px] text-left">
             <p className="text-[13px] font-normal leading-[18px] text-[#272931]">
               Hi! I&apos;ve put together some initial wireframes for the IG
@@ -202,7 +215,7 @@ export const ActiveChatThreadScreen: React.FC = () => {
             </p>
           </div>
 
-          {/* Attachment Card: PDF */}
+          {/* Attachment Card */}
           <div className="w-full max-w-[290px] bg-white border border-[#E5E7EB] rounded-[14px] p-[12px] flex items-center justify-between mt-[4px] shadow-sm hover:border-[#0048B3]/40 transition-all cursor-pointer">
             <div className="flex items-center gap-[10px] min-w-0 flex-1 pr-[8px]">
               <div className="w-[36px] h-[36px] rounded-[8px] bg-[#FEE2E2] flex items-center justify-center shrink-0">
@@ -233,7 +246,7 @@ export const ActiveChatThreadScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Outgoing Message: You (11:15 AM) */}
+        {/* Outgoing Message */}
         <div className="w-full flex flex-col items-end gap-[6px] mt-[8px]">
           <div className="flex items-center gap-[6px]">
             <span className="text-[11px] font-normal text-[#9CA3AF]">
@@ -242,7 +255,6 @@ export const ActiveChatThreadScreen: React.FC = () => {
             <span className="text-[13px] font-medium text-[#111827]">You</span>
           </div>
 
-          {/* Blue Outgoing Bubble */}
           <div className="max-w-[290px] bg-[#0048B3] rounded-[16px] rounded-tr-[4px] p-[14px] text-left shadow-button-inset">
             <p className="text-[13px] font-normal leading-[18px] text-white">
               These look incredible, Sarah. The minimalist approach really fits
@@ -251,7 +263,7 @@ export const ActiveChatThreadScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Dynamically Sent & Received Messages */}
+        {/* Dynamic Messages */}
         {extraMessages.map((msg) => {
           const isUser = msg.sender === "You";
           return (
@@ -297,15 +309,6 @@ export const ActiveChatThreadScreen: React.FC = () => {
 
         {/* Milestone 1 Completed Card */}
         <div className="w-full bg-[#FCFCFC] border border-[#E5E7EB] rounded-[20px] p-[24px_16px_20px_16px] flex flex-col items-center gap-[12px] mt-[12px] relative overflow-hidden shadow-sm">
-          {/* Gold Confetti Ribbon Background Overlay */}
-          <div
-            className="absolute inset-0 opacity-40 pointer-events-none bg-cover bg-center"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='358' height='180' viewBox='0 0 358 180' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 40C45 20 60 50 75 30' stroke='%23F59E0B' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M290 35C305 55 320 25 335 45' stroke='%23D97706' stroke-width='3' stroke-linecap='round'/%3E%3Crect x='45' y='80' width='10' height='10' rx='2' transform='rotate(25 45 80)' fill='%23FBBF24'/%3E%3Crect x='310' y='90' width='12' height='8' rx='2' transform='rotate(-30 310 90)' fill='%23F59E0B'/%3E%3Crect x='90' y='25' width='8' height='8' rx='2' transform='rotate(45 90 25)' fill='%23FCD34D'/%3E%3Crect x='260' y='30' width='10' height='10' rx='2' transform='rotate(15 260 30)' fill='%23FBBF24'/%3E%3Cpath d='M60 120C70 110 80 130 90 115' stroke='%23B45309' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M280 125C290 140 300 120 310 135' stroke='%23F59E0B' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")`,
-            }}
-          />
-
-          {/* 3D Rosette Badge */}
           <div className="w-[52px] h-[52px] flex items-center justify-center relative z-10">
             <img
               src={verifiedBadge}
@@ -326,16 +329,17 @@ export const ActiveChatThreadScreen: React.FC = () => {
             </p>
           </div>
 
+          {/* Trigger Full Project Details Sheet */}
           <button
             type="button"
-            onClick={handleOpenMilestoneDetails}
+            onClick={() => setIsDetailsModalOpen(true)}
             className="h-[38px] px-[22px] rounded-[19px] bg-[#0048B3] text-white text-[13px] font-medium shadow-button-inset flex items-center justify-center hover:opacity-95 active:scale-[0.99] transition-all cursor-pointer outline-none mt-[4px] relative z-10"
           >
             View Milestone Details
           </button>
         </div>
 
-        {/* Animated Typing Indicator */}
+        {/* Typing Indicator */}
         {isTyping && (
           <div className="w-full flex items-center justify-start mt-[4px] transition-all">
             <div className="bg-[#F9FAFB] border border-[#F3F4F6] rounded-full px-[14px] py-[8px] flex items-center gap-[4px]">
@@ -346,12 +350,10 @@ export const ActiveChatThreadScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Scroll Anchor */}
         <div ref={messagesEndRef} className="h-[2px] w-full" />
 
-        {/* Message Text Input Bar */}
+        {/* Input Bar */}
         <div className="w-full flex items-center gap-[8px] mt-[12px]">
-          {/* Plus / Attachment Button */}
           <button
             type="button"
             onClick={() => {
@@ -376,7 +378,6 @@ export const ActiveChatThreadScreen: React.FC = () => {
             />
           </button>
 
-          {/* Input Capsule with Mic Icon */}
           <div className="flex-1 h-[44px] bg-[#F9FAFB] border border-[#F3F4F6] rounded-[22px] px-[14px] flex items-center gap-[8px] focus-within:border-[#0048B3]/40 focus-within:bg-white transition-all">
             <input
               type="text"
@@ -413,7 +414,6 @@ export const ActiveChatThreadScreen: React.FC = () => {
             </button>
           </div>
 
-          {/* Send Button */}
           <button
             type="button"
             onClick={handleSendMessage}
@@ -429,88 +429,23 @@ export const ActiveChatThreadScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Project / Milestone Details Modal Overlay */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn">
-          <div className="w-full max-w-[358px] bg-white rounded-[24px] p-[20px] shadow-2xl border border-gray-100 flex flex-col gap-[16px] max-h-[85vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-              <h2 className="text-[16px] font-semibold text-[#111827]">
-                Milestone Details
-              </h2>
-              <button
-                type="button"
-                onClick={handleCloseModal}
-                className="w-[32px] h-[32px] rounded-full bg-[#F9FAFB] flex items-center justify-center text-[#6B7280] hover:text-[#111827] hover:bg-gray-200 transition-colors cursor-pointer"
-              >
-                <Cancel01Icon size={18} />
-              </button>
-            </div>
-
-            {/* Modal Body Info */}
-            <div className="flex flex-col gap-[12px] text-left">
-              <div className="flex items-center justify-between bg-[#F9FAFB] p-3 rounded-[14px]">
-                <span className="text-[12px] font-medium text-[#6B7280]">
-                  Status
-                </span>
-                <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-emerald-600">
-                  <CheckmarkCircle01Icon size={14} /> Released
-                </span>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <span className="text-[11px] text-[#9CA3AF] uppercase tracking-wider font-semibold">
-                  Milestone Name
-                </span>
-                <p className="text-[14px] font-medium text-[#111827]">
-                  Milestone 1: Wireframe Delivery
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <span className="text-[11px] text-[#9CA3AF] uppercase tracking-wider font-semibold">
-                  Description
-                </span>
-                <p className="text-[13px] text-[#4B5563] leading-[18px]">
-                  Deliver initial wireframes for the Instagram campaign brief.
-                  Includes client feedback revisions and design assets.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100">
-                <div className="flex flex-col">
-                  <span className="text-[11px] text-[#9CA3AF]">
-                    Payout Amount
-                  </span>
-                  <span className="text-[14px] font-semibold text-[#111827]">
-                    $250.00
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[11px] text-[#9CA3AF]">
-                    Approved On
-                  </span>
-                  <span className="text-[14px] font-semibold text-[#111827]">
-                    Today
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <button
-              type="button"
-              onClick={handleCloseModal}
-              className="w-full h-[40px] rounded-[20px] bg-[#0048B3] text-white text-[13px] font-medium shadow-button-inset hover:opacity-95 transition-all mt-2 cursor-pointer"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Worker Bottom Navigation */}
       <WorkerBottomNav />
+
+      {/* Shared Dashboard Modals */}
+      <ProjectDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        onOpenUpload={handleOpenUploadFromDetails}
+        project={activeProject}
+      />
+
+      <UploadDeliverablesModal
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+        onBack={handleBackToDetails}
+        projectTitle={activeProject.title.replace("\n", " ")}
+        clientName={activeProject.clientName}
+      />
     </div>
   );
 };

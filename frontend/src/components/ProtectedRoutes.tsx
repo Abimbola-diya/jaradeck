@@ -1,26 +1,31 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../context/AuthContext";
-import { UserRole } from "../context/auth.types";
 
 interface ProtectedRouteProps {
-  allowedRoles?: UserRole[];
+  allowedRoles?: string[];
+  redirectPath?: string;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   allowedRoles,
+  redirectPath = "/onboarding",
 }) => {
-  const { user, isAuthenticated } = useAuthStore();
-  const location = useLocation();
+  const { user, isAuthenticated, isLoading } = useAuthStore();
 
-  // 1. Unauthenticated check: Redirect to home or login page
-  if (!isAuthenticated || !user) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+  if (isLoading) {
+    return <div className="loading-spinner">Loading session...</div>;
   }
 
-  // 2. Authorization check: Redirect if role is not allowed
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/unauthorized" replace />;
+  if (!isAuthenticated || !user) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  if (allowedRoles && allowedRoles.length > 0) {
+    const hasRole = user.role && allowedRoles.includes(user.role);
+    if (!hasRole) {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
 
   return <Outlet />;
