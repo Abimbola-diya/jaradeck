@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import BackgroundGrid from './components/BackgroundGrid';
 import BrandLogo from './components/BrandLogo';
+import WorkerDashboardLayout from './components/WorkerDashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import DashboardTabPage from './pages/DashboardTabPage';
 import HomePage from './pages/HomePage';
@@ -284,13 +285,15 @@ export default function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin_view" element={<AdminViewPage />} />
         <Route path="/apply" element={<ApplyPage />} />
         <Route path="/apply/success" element={<ApplySuccessPage />} />
-        <Route path="/dashboard/wallet" element={<DashboardTabPage tab="wallet" />} />
-        <Route path="/dashboard/chat" element={<DashboardTabPage tab="chat" />} />
-        <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />
+        <Route path="/dashboard" element={<WorkerDashboardLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="wallet" element={<DashboardTabPage tab="wallet" />} />
+          <Route path="chat" element={<DashboardTabPage tab="chat" />} />
+          <Route path="settings" element={<DashboardTabPage tab="settings" />} />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -65,22 +66,30 @@ export default function WorkerBottomNav() {
         >
           {({ isActive }) => (
             <>
+              {isActive && (
+                <motion.div
+                  layoutId="activeWorkerTabPill"
+                  className="dashboard-nav-active-pill"
+                  initial={false}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 380,
+                    damping: 26,
+                    mass: 0.65,
+                  }}
+                />
+              )}
               <motion.div
-                key={isActive ? `${tab.icon}-active` : `${tab.icon}-inactive`}
-                initial={isActive ? { scale: 0.88, scaleY: 0.85, scaleX: 1.08 } : false}
-                animate={{ scale: 1, scaleY: 1, scaleX: 1 }}
-                whileTap={{ scale: 0.92, scaleY: 0.90, scaleX: 1.06 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 420,
-                  damping: 16,
-                  mass: 0.5,
-                }}
-                className="dashboard-nav-icon-wrapper"
+                className="dashboard-nav-content"
+                whileTap={{ scale: 0.93 }}
+                animate={isActive ? { scale: [0.95, 1.05, 1] } : { scale: 1 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25, duration: 0.2 }}
               >
-                <NavIcon type={tab.icon} />
+                <span className="dashboard-nav-icon-wrapper">
+                  <NavIcon type={tab.icon} />
+                </span>
+                <span className="dashboard-nav-label">{tab.label}</span>
               </motion.div>
-              <span>{tab.label}</span>
             </>
           )}
         </NavLink>

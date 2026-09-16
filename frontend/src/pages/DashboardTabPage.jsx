@@ -1,5 +1,3 @@
-import WorkerBottomNav from '../components/WorkerBottomNav';
-
 const tabCopy = {
   wallet: ['Wallet', 'Your balance and payouts will appear here.'],
   chat: ['Chat', 'Your project conversations will appear here.'],
@@ -15,7 +13,6 @@ export default function DashboardTabPage({ tab }) {
         <h1>{title}</h1>
         <p>{description}</p>
       </section>
-      <WorkerBottomNav />
     </main>
   );
 }
