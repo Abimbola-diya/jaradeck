@@ -13,7 +13,7 @@ export default function GooglePillButton({ role, text = 'Sign in with Google', o
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             access_token: tokenResponse.access_token,
-            role: role || 'customer'
+            role: role || undefined
           })
         });
         const data = await res.json();

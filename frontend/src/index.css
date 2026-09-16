@@ -5384,6 +5384,15 @@ textarea {
     sans-serif;
 }
 
+/* Home dashboard: fixed viewport, no scroll, content clips under blur */
+.worker-dashboard.worker-dashboard--home {
+  height: 100dvh;
+  min-height: unset;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+
 .dashboard-header {
   display: flex;
   align-items: center;
@@ -5501,8 +5510,14 @@ textarea {
 }
 
 .dashboard-card h2 {
-  margin-left: 0;
-  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #272931;
 }
 
 .dashboard-active-project .dashboard-person {
@@ -5578,7 +5593,14 @@ textarea {
 }
 
 .dashboard-section-title h2 {
-  font-size: 1rem;
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #272931;
 }
 
 .dashboard-section-title button {
@@ -5597,24 +5619,22 @@ textarea {
 
 .dashboard-bottom-nav {
   position: fixed;
-  bottom: 24px;
+  bottom: 18px;
   left: 50%;
-  z-index: 100;
+  z-index: 110;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 350px;
-  height: 66px;
+  height: 58px;
   padding: 5px;
-  gap: 4px;
+  gap: 16px;
   box-sizing: border-box;
   border-radius: 44px;
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  background: #FAFAFA;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   transform: translateX(-50%);
 }
 
@@ -5774,41 +5794,305 @@ textarea {
   border-radius: 999px;
   background: #064db9;
   color: #fff;
+  font-family: 'PP Neue Montreal', sans-serif;
   font-size: 11px;
   font-weight: 600;
   vertical-align: middle;
   line-height: 1;
 }
 
-/* Project card tweaks */
-.db-project-card {
-  margin-bottom: 0.75rem;
+/* ── Figma Dashboard exact specifications ────────────────────────────────── */
+
+.db-figma-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 39px;
+  width: 100%;
 }
 
-.db-card-top-row {
+.db-cards-stack {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
+  padding: 0;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Card Container (Active Project & Overall Activity) */
+.db-figma-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14.51px 10.36px;
+  gap: 14.51px;
+  width: 100%;
+  background: #FCFCFC;
+  border: 1.036px solid #FFFFFF;
+  border-radius: 15.55px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+/* Header Row inside Card ("Active Project" left, "See all" right) */
+.db-card-header-row {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+.db-card-header-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.01em;
+  color: #272931;
+}
+
+.db-see-all-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: -0.01em;
+  color: #9E9E9E;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.db-see-all-btn:hover {
+  color: #272931;
+}
+
+.db-active-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: #0048B3;
+  color: #ffffff;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Inner row: Avatar + Text */
+.db-card-inner-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  gap: 11.4px;
+  width: 100%;
+}
+
+.db-card-text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 6.22px;
+  flex: 1;
+  min-width: 0;
 }
 
 .db-project-title {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #12131a;
   margin: 0;
-  flex: 1;
+  width: 100%;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #272931;
 }
 
-.db-project-category {
-  font-size: 0.75rem;
-  color: #929297;
-  margin: 0 0 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.db-client-name-sub {
+  margin: 0;
+  width: 100%;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(39, 41, 49, 0.5);
 }
+
+/* Subtext in Overall Activity card */
+.db-activity-subtext {
+  margin: 0;
+  width: 100%;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(39, 41, 49, 0.5);
+}
+
+/* Primary Filled Blue Button (Button 2) */
+.db-btn-primary-blue {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12.44px;
+  gap: 10.36px;
+  width: 100%;
+  height: 41.46px;
+  background: #0048B3;
+  border-radius: 20.73px;
+  border: none;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12.44px;
+  line-height: 15px;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.db-btn-primary-blue:hover {
+  background: #00378b;
+}
+
+/* Outline Blue Button (Button 2 outline) */
+.db-btn-outline-blue {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12.44px;
+  gap: 10.36px;
+  width: 100%;
+  height: 41.46px;
+  background: transparent;
+  border: 1px solid #0048B3;
+  border-radius: 20.73px;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12.44px;
+  line-height: 15px;
+  text-align: center;
+  color: #0048B3;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.db-btn-outline-blue:hover {
+  background: rgba(0, 72, 179, 0.05);
+}
+
+/* Completed Project Section (Frame 4372) */
+.db-completed-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 16px;
+  width: 100%;
+}
+
+.db-completed-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  gap: 16px;
+  width: 100%;
+  height: 19px;
+}
+
+.db-completed-header h2 {
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.01em;
+  color: #0D0D0D;
+}
+
+.db-completed-header button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: -0.01em;
+  color: #9E9E9E;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.db-completed-header button:hover {
+  color: #272931;
+}
+
+.db-completed-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 16px;
+  width: 100%;
+}
+
+.db-completed-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  gap: 11.4px;
+  width: 100%;
+  height: 62.19px;
+  flex-shrink: 0;
+}
+
+/* Bottom Blur / Fade Overlay (Figma Ellipse 4 spec) */
+.db-bottom-blur-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 549px;
+  max-width: 100vw;
+  height: 201px;
+  background: radial-gradient(ellipse at center bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 40%, rgba(255, 255, 255, 0.7) 65%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 99;
+}
+
 
 .db-project-desc {
   font-size: 0.82rem;
@@ -8722,4 +9006,254 @@ a:active .hugeicons-animated-arrow-left {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* ── Project Details Modal & Active Projects Subpage ──────────────────────── */
+.db-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.db-modal-content {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  animation: dbModalSlideIn 0.25s ease-out forwards;
+}
+
+@keyframes dbModalSlideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.db-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.db-modal-header h2 {
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: #272931;
+}
+
+.db-modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #929297;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.db-modal-client-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.db-modal-client-row h3 {
+  margin: 0 0 2px 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #272931;
+}
+
+.db-modal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background: #FAFAFA;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.db-modal-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.db-modal-label {
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 11px;
+  color: rgba(39, 41, 49, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.db-modal-value {
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #272931;
+}
+
+.db-badge-pill {
+  text-transform: capitalize;
+  color: #0048B3;
+}
+
+.db-modal-section h4 {
+  margin: 0 0 4px 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #272931;
+}
+
+.db-modal-desc {
+  margin: 0 0 1.25rem 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(39, 41, 49, 0.7);
+}
+
+.db-subpage-container {
+  padding-bottom: 90px;
+}
+
+.db-subpage-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.db-subpage-header h1 {
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #272931;
+}
+
+.db-back-btn {
+  background: none;
+  border: none;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0048B3;
+  cursor: pointer;
+  padding: 0;
+}
+
+.db-projects-list-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ── Jaradeck 3D Animated Logo Keyframe Animations ──────────────────────── */
+@keyframes deckFloatTop {
+  0%, 100% { transform: translate(0px, 0px); }
+  50% { transform: translate(1.5px, -6px); }
+}
+
+@keyframes deckFloatMiddle {
+  0%, 100% { transform: translate(0px, 0px); }
+  50% { transform: translate(0.8px, -3px); }
+}
+
+@keyframes deckEntranceBottom {
+  0% { transform: translate(0px, 12px); opacity: 0; }
+  100% { transform: translate(0px, 0px); opacity: 1; }
+}
+
+@keyframes deckEntranceMiddle {
+  0% { transform: translate(0px, 18px); opacity: 0; }
+  100% { transform: translate(0px, 0px); opacity: 1; }
+}
+
+@keyframes deckEntranceTop {
+  0% { transform: translate(0px, 24px); opacity: 0; }
+  100% { transform: translate(0px, 0px); opacity: 1; }
+}
+
+.animate-deck-float-top {
+  animation: deckFloatTop 3.2s ease-in-out infinite;
+}
+
+.animate-deck-float-middle {
+  animation: deckFloatMiddle 3.2s ease-in-out infinite 0.2s;
+}
+
+.animate-deck-entrance-bottom {
+  animation: deckEntranceBottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-deck-entrance-middle {
+  animation: deckEntranceMiddle 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-deck-entrance-top {
+  animation: deckEntranceTop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── Deck Shuffle Spinner Keyframe Animations ────────────────────────────── */
+
+/* Middle deck: slides RIGHT in first half, stays still in second half */
+@keyframes deckShuffleMiddle {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(22px); }
+  35%  { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Top & Bottom decks: stay still in first half, slide LEFT in second half */
+@keyframes deckShuffleOuter {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(0); }
+  65%  { transform: translateX(-22px); }
+  85%  { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+.animate-deck-shuffle-top {
+  animation: deckShuffleOuter 1.8s ease-in-out infinite;
+}
+
+.animate-deck-shuffle-middle {
+  animation: deckShuffleMiddle 1.8s ease-in-out infinite;
+}
+
+.animate-deck-shuffle-bottom {
+  animation: deckShuffleOuter 1.8s ease-in-out infinite;
+}
+
+.db-jaradeck-spinner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 2.5rem 1rem;
+}
+
+.db-spinner-label {
+  margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #272931;
 }

@@ -73,25 +73,32 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
     }
     setRole(selected);
 
-    // If user arrived from OTP verification (normal signup), save their role
-    // via API before proceeding to profile/done
-    if (isFromSignup && verifiedUser && accessToken) {
-      try {
+    // Save selected role to backend DB & sync to local storage
+    try {
+      const storedToken = accessToken || localStorage.getItem('jaradeck_token');
+      if (storedToken) {
         await fetch(
           `${API_BASE_URL}/api/auth/set-role`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${accessToken}`,
+              'Authorization': `Bearer ${storedToken}`,
             },
             body: JSON.stringify({ role: selected }),
           }
         );
-      } catch (e) {
-        // Non-fatal: role will be set on first dashboard load or profile step
-        console.warn('[OB] Failed to set role:', e);
       }
+      const rawUser = localStorage.getItem('jaradeck_user');
+      if (rawUser) {
+        const parsed = JSON.parse(rawUser);
+        parsed.role = selected;
+        localStorage.setItem('jaradeck_user', JSON.stringify(parsed));
+      } else if (verifiedUser) {
+        localStorage.setItem('jaradeck_user', JSON.stringify({ ...verifiedUser, role: selected }));
+      }
+    } catch (e) {
+      console.warn('[OB] Failed to set role:', e);
     }
 
     if (selected === 'worker') {

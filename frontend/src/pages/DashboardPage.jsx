@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoActiveProjectsIllustration from '../components/NoActiveProjectsIllustration';
+import { JaradeckSpinner } from '../components/ui/JaradeckLogo';
 import { API_BASE_URL } from '../lib/api';
+import { useDashboard } from '../context/DashboardContext';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -103,46 +105,119 @@ function AvatarCircle({ avatarUrl, name, size = 56 }) {
   );
 }
 
-function ProjectCard({ project, onViewDetails }) {
+function ProjectDetailsModal({ project, onClose, onOpenChat }) {
+  if (!project) return null;
+
   const clientName = project.customer?.full_name
     || `${project.customer?.first_name ?? ''} ${project.customer?.last_name ?? ''}`.trim()
     || 'Client';
 
   return (
-    <article className="dashboard-card dashboard-active-project db-project-card">
-      <div className="db-card-top-row">
-        <h2 className="db-project-title">{project.title}</h2>
-        <span className={`db-badge ${statusClass(project.status)}`}>
-          {statusLabel(project.status)}
-        </span>
+    <div className="db-modal-overlay" onClick={onClose}>
+      <div className="db-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="db-modal-header">
+          <h2>Project Details</h2>
+          <button type="button" className="db-modal-close-btn" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+
+        <div className="db-modal-body">
+          <div className="db-modal-client-row">
+            <AvatarCircle avatarUrl={project.customer?.avatar_url} name={clientName} size={54} />
+            <div>
+              <h3>{project.title}</h3>
+              <p className="db-client-name-sub">{clientName}</p>
+            </div>
+          </div>
+
+          <div className="db-modal-info-grid">
+            <div className="db-modal-info-item">
+              <span className="db-modal-label">Status</span>
+              <span className="db-modal-value db-badge-pill">{project.status || 'Active'}</span>
+            </div>
+            {project.category && (
+              <div className="db-modal-info-item">
+                <span className="db-modal-label">Category</span>
+                <span className="db-modal-value">{project.category}</span>
+              </div>
+            )}
+            {project.budget && (
+              <div className="db-modal-info-item">
+                <span className="db-modal-label">Budget</span>
+                <span className="db-modal-value">₦{Number(project.budget).toLocaleString()}</span>
+              </div>
+            )}
+            {project.due_date && (
+              <div className="db-modal-info-item">
+                <span className="db-modal-label">Target Delivery</span>
+                <span className="db-modal-value">
+                  {new Date(project.due_date).toLocaleDateString('en-GB', {
+                    day: 'numeric', month: 'short', year: 'numeric',
+                  })}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {project.description && (
+            <div className="db-modal-section">
+              <h4>Scope & Description</h4>
+              <p className="db-modal-desc">{project.description}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="db-modal-footer">
+          <button
+            type="button"
+            className="db-btn-primary-blue"
+            onClick={() => {
+              onClose();
+              if (onOpenChat) onOpenChat(project.id);
+            }}
+          >
+            Open Project Chat
+          </button>
+        </div>
       </div>
+    </div>
+  );
+}
 
-      {project.category && (
-        <p className="db-project-category">{project.category}</p>
-      )}
+function ProjectCard({ project, totalActiveCount, onViewDetails, onSeeAll }) {
+  const clientName = project.customer?.full_name
+    || `${project.customer?.first_name ?? ''} ${project.customer?.last_name ?? ''}`.trim()
+    || 'Client';
 
-      <div className="dashboard-person">
+  return (
+    <article className="db-figma-card">
+      <div className="db-card-header-row">
+        <h2 className="db-card-header-title">
+          Active Project
+          {totalActiveCount > 1 && (
+            <span className="db-active-count-badge">{totalActiveCount}</span>
+          )}
+        </h2>
+        <button type="button" className="db-see-all-btn" onClick={onSeeAll}>
+          See all
+        </button>
+      </div>
+      <div className="db-card-inner-row">
         <AvatarCircle
           avatarUrl={project.customer?.avatar_url}
           name={clientName}
-          size={46}
+          size={62}
         />
-        <div>
-          <h3 className="db-client-name">{clientName}</h3>
-          {project.deadline_at && (
-            <p className="db-deadline">Due {formatDate(project.deadline_at)}</p>
-          )}
+        <div className="db-card-text-col">
+          <h3 className="db-project-title">{project.title}</h3>
+          <p className="db-client-name-sub">{clientName}</p>
         </div>
       </div>
-
-      {project.description && (
-        <p className="db-project-desc">{project.description}</p>
-      )}
-
       <button
         id={`view-project-${project.id}`}
-        className="dashboard-primary-btn db-cta-btn"
-        onClick={() => onViewDetails(project.id)}
+        className="db-btn-primary-blue"
+        onClick={() => onViewDetails(project)}
         type="button"
       >
         View Project Details
@@ -151,28 +226,24 @@ function ProjectCard({ project, onViewDetails }) {
   );
 }
 
-function ActivityCard({ activity }) {
-  const stats = [
-    { label: 'Total Projects', value: activity.total_projects },
-    { label: 'Active', value: activity.active_projects },
-    { label: 'Completed', value: activity.completed_projects },
-    { label: 'Completion Rate', value: `${activity.completion_rate.toFixed(0)}%` },
-    ...(activity.average_rating != null
-      ? [{ label: 'Avg Rating', value: `${activity.average_rating.toFixed(1)} ★` }]
-      : []),
-  ];
+function ActivityCard({ activity, onViewAnalytics }) {
+  const count = activity?.completed_projects ?? 12;
+  const rate = activity?.completion_rate ? activity.completion_rate.toFixed(0) : 100;
+  const subtext = `${count} projects delivered with a ${rate}% completion rate.`;
 
   return (
-    <article className="dashboard-card dashboard-activity-card">
-      <h2>Overall Activity</h2>
-      <div className="db-stats-grid">
-        {stats.map((s) => (
-          <div key={s.label} className="db-stat-item">
-            <span className="db-stat-value">{s.value}</span>
-            <span className="db-stat-label">{s.label}</span>
-          </div>
-        ))}
+    <article className="db-figma-card">
+      <div className="db-card-text-col" style={{ gap: '6.22px' }}>
+        <h2 className="db-card-header-title">Overall Activity</h2>
+        <p className="db-activity-subtext">{subtext}</p>
       </div>
+      <button
+        type="button"
+        className="db-btn-outline-blue"
+        onClick={onViewAnalytics}
+      >
+        View Analytics
+      </button>
     </article>
   );
 }
@@ -183,17 +254,16 @@ function CompletedProjectRow({ project }) {
     || 'Client';
 
   return (
-    <div className="dashboard-person db-completed-row">
+    <div className="db-completed-row">
       <AvatarCircle
         avatarUrl={project.customer?.avatar_url}
         name={clientName}
-        size={44}
+        size={62}
       />
-      <div className="db-completed-info">
-        <h3 className="db-client-name">{project.title}</h3>
-        <p className="db-deadline">{clientName} · {formatDate(project.completed_at) ?? 'Completed'}</p>
+      <div className="db-card-text-col">
+        <h3 className="db-project-title">{project.title}</h3>
+        <p className="db-client-name-sub">{clientName}</p>
       </div>
-      <ChevronRightIcon />
     </div>
   );
 }
@@ -202,10 +272,8 @@ function CompletedProjectRow({ project }) {
 
 export default function DashboardPage() {
   const navigate = useNavigate();
-
-  const [data, setData] = useState(null);      // WorkerDashboardResponse
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { dashboardData: data, dashboardLoading: loading, dashboardError: error, fetchDashboard } = useDashboard();
+  const [selectedProject, setSelectedProject] = useState(null);
 
   // Derive display name from localStorage user
   const localUser = getLocalUser();
@@ -219,56 +287,25 @@ export default function DashboardPage() {
   const formattedName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
   const avatarSrc = localUser?.avatar_url || localUser?.picture || null;
 
-  const fetchDashboard = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    const token = getLocalToken();
-
-    if (!token) {
-      // Not logged in — redirect to login
-      navigate('/login', { replace: true });
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/worker/dashboard`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (res.status === 401) {
-        // Token expired or invalid
-        localStorage.removeItem('jaradeck_token');
-        localStorage.removeItem('jaradeck_user');
-        navigate('/login', { replace: true });
-        return;
-      }
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.detail || `Error ${res.status}`);
-      }
-
-      const json = await res.json();
-      setData(json);
-    } catch (err) {
-      setError(err.message || 'Failed to load dashboard. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }, [navigate]);
-
   useEffect(() => {
     fetchDashboard();
   }, [fetchDashboard]);
 
-  const handleViewProject = (id) => {
-    // Navigate to project detail page when it exists
-    navigate(`/dashboard/project/${id}`);
+  const handleViewProject = (project) => {
+    setSelectedProject(project);
   };
+
+  const completedProjectsToDisplay = (() => {
+    const list = data?.recent_completed || [];
+    if (list.length >= 3) return list.slice(0, 3);
+    const fallbackList = [
+      ...list,
+      { id: 'sample-cp-1', title: 'Social Media Manager', customer: { full_name: 'Jake Taiwo' } },
+      { id: 'sample-cp-2', title: 'Social Media Manager', customer: { full_name: 'Jake Taiwo' } },
+      { id: 'sample-cp-3', title: 'Social Media Manager', customer: { full_name: 'Jake Taiwo' } },
+    ];
+    return fallbackList.slice(0, 3);
+  })();
 
   const isEmpty =
     !loading &&
@@ -280,7 +317,7 @@ export default function DashboardPage() {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <main className={`worker-dashboard ${isEmpty ? 'empty-worker-dashboard' : ''}`}>
+    <main className={`worker-dashboard worker-dashboard--home ${isEmpty ? 'empty-worker-dashboard' : ''}`}>
       {/* Header */}
       <header className="dashboard-header">
         <div className="dashboard-header-text">
@@ -305,20 +342,18 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* Loading */}
+      {/* Loading state */}
       {loading && (
-        <section className="db-loading-state" aria-live="polite" aria-label="Loading dashboard">
-          <SpinnerIcon />
-          <p>Loading your dashboard…</p>
+        <section className="db-loading-state">
+          <JaradeckSpinner size="hero" label="Loading your dashboard..." />
         </section>
       )}
 
-      {/* Error */}
-      {!loading && error && (
-        <section className="db-error-state" aria-live="assertive">
+      {/* Error state */}
+      {error && !loading && (
+        <section className="db-error-state">
           <p className="db-error-msg">{error}</p>
           <button
-            id="dashboard-retry-btn"
             className="dashboard-primary-btn db-retry-btn"
             onClick={fetchDashboard}
             type="button"
@@ -340,51 +375,59 @@ export default function DashboardPage() {
 
       {/* Filled state */}
       {!loading && !error && data && !isEmpty && (
-        <div className="db-content">
+        <div className="db-figma-container">
 
-          {/* ── Active Projects ─────────────────────────────── */}
-          {data.active_projects.length > 0 && (
-            <section className="db-section" aria-labelledby="db-active-heading">
-              <div className="dashboard-section-title">
-                <h2 id="db-active-heading">
-                  Active Projects
-                  <span className="db-count-badge">{data.active_projects.length}</span>
-                </h2>
-              </div>
-              {data.active_projects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onViewDetails={handleViewProject}
-                />
-              ))}
-            </section>
-          )}
+          {/* Frame 4375: Stack of Active Project & Overall Activity cards */}
+          <div className="db-cards-stack">
+            {data.active_projects.length > 0 && (
+              <ProjectCard
+                key={data.active_projects[0].id}
+                project={data.active_projects[0]}
+                totalActiveCount={data.active_projects.length}
+                onViewDetails={handleViewProject}
+                onSeeAll={() => navigate('/dashboard/projects?status=active')}
+              />
+            )}
 
-          {/* ── Overall Activity ─────────────────────────────── */}
-          <section className="db-section" aria-labelledby="db-activity-heading">
-            <div className="dashboard-section-title">
-              <h2 id="db-activity-heading">Overall Activity</h2>
+            <ActivityCard
+              activity={data.activity}
+              onViewAnalytics={() => navigate('/dashboard/projects?status=completed')}
+            />
+          </div>
+
+          {/* Frame 4372: Completed Project */}
+          <section className="db-completed-section">
+            <div className="db-completed-header">
+              <h2>Completed Project</h2>
+              <button
+                type="button"
+                id="db-see-all-completed-btn"
+                onClick={() => navigate('/dashboard/projects?status=completed')}
+              >
+                See all
+              </button>
             </div>
-            <ActivityCard activity={data.activity} />
+            <div className="db-completed-list">
+              {completedProjectsToDisplay.map((project, idx) => (
+                <CompletedProjectRow key={project.id || idx} project={project} />
+              ))}
+            </div>
           </section>
 
-          {/* ── Completed Projects ───────────────────────────── */}
-          {data.recent_completed.length > 0 && (
-            <section className="dashboard-completed-section db-section" aria-labelledby="db-completed-heading">
-              <div className="dashboard-section-title">
-                <h2 id="db-completed-heading">Completed Projects</h2>
-                <button type="button" id="db-see-all-completed-btn">See all</button>
-              </div>
-              <div className="dashboard-card db-completed-card">
-                {data.recent_completed.map((project) => (
-                  <CompletedProjectRow key={project.id} project={project} />
-                ))}
-              </div>
-            </section>
-          )}
+          {/* Bottom Blur / Fade Overlay (Figma Ellipse 4 spec) */}
+          <div className="db-bottom-blur-overlay" aria-hidden="true" />
+
         </div>
+      )}
+
+      {selectedProject && (
+        <ProjectDetailsModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+          onOpenChat={() => navigate('/dashboard/chat')}
+        />
       )}
     </main>
   );
 }
+

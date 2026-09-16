@@ -29,10 +29,25 @@ export default function OnboardingPage() {
 
   // When coming from SignupPage after OTP verification, we receive the verified
   // user object and access token so the flow can jump straight to role selection.
-  const verifiedUser = location.state?.verifiedUser || null;
+  const verifiedUser = location.state?.verifiedUser || location.state?.user || null;
   const accessToken = location.state?.accessToken || null;
   const fromSignup = location.state?.fromSignup || false;
   const initialStep = location.state?.initialStep || null;
+
+  // Smart Guard: If user has already selected a role in the database / local storage,
+  // bypass onboarding role selection and go directly to dashboard.
+  useEffect(() => {
+    let currentUser = verifiedUser;
+    if (!currentUser) {
+      try {
+        const stored = localStorage.getItem('jaradeck_user');
+        if (stored) currentUser = JSON.parse(stored);
+      } catch {}
+    }
+    if (currentUser?.role) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [verifiedUser, navigate]);
 
   const flowContent = (
     <OnboardingFlow

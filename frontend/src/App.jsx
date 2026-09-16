@@ -5,6 +5,8 @@ import BrandLogo from './components/BrandLogo';
 import WorkerDashboardLayout from './components/WorkerDashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import DashboardTabPage from './pages/DashboardTabPage';
+import ActiveProjectsPage from './pages/ActiveProjectsPage';
+import LoaderTestPage from './pages/LoaderTestPage';
 import HomePage from './pages/HomePage';
 import OnboardingPage from './pages/OnboardingPage';
 import WaitlistPage from './pages/WaitlistPage';
@@ -288,8 +290,10 @@ export default function App() {
         <Route path="/admin_view" element={<AdminViewPage />} />
         <Route path="/apply" element={<ApplyPage />} />
         <Route path="/apply/success" element={<ApplySuccessPage />} />
+        <Route path="/loader-test" element={<LoaderTestPage />} />
         <Route path="/dashboard" element={<WorkerDashboardLayout />}>
           <Route index element={<DashboardPage />} />
+          <Route path="projects" element={<ActiveProjectsPage />} />
           <Route path="wallet" element={<DashboardTabPage tab="wallet" />} />
           <Route path="chat" element={<DashboardTabPage tab="chat" />} />
           <Route path="settings" element={<DashboardTabPage tab="settings" />} />

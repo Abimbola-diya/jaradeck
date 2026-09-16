@@ -25,7 +25,14 @@ export default function LoginPage() {
   }, []);
 
   const handleNext = (userData) => {
-    navigate('/dashboard', { state: { user: userData } });
+    const user = userData?.user || userData;
+    if (user?.role) {
+      // User has selected a role -> send straight to dashboard!
+      navigate('/dashboard', { state: { user } });
+    } else {
+      // User has no role set yet -> send to onboarding role selection
+      navigate('/onboarding', { state: { verifiedUser: user, accessToken: userData?.access_token } });
+    }
   };
 
   const handleSwitchToSignUp = () => {

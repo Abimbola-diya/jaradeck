@@ -30,8 +30,21 @@ export default function SignupPage() {
   };
 
   const handleGoogleSuccess = (data) => {
-    // Google users are already verified — go straight to onboarding (role selection)
-    navigate('/onboarding', { state: { googleAuth: true, user: data?.user } });
+    const user = data?.user;
+    if (user?.role) {
+      // Returning user with a role set in DB -> Go straight to dashboard!
+      navigate('/dashboard', { state: { user } });
+    } else {
+      // New user without a role -> send to role selection
+      navigate('/onboarding', {
+        state: {
+          googleAuth: true,
+          verifiedUser: user,
+          accessToken: data?.access_token,
+          fromSignup: true,
+        },
+      });
+    }
   };
 
   // Called by SignupModalCard when /register returns 202
@@ -42,14 +55,20 @@ export default function SignupPage() {
 
   // Called by OTPStep when /verify-otp returns 200 + JWT
   const handleOTPVerified = (authData) => {
-    // User is verified but has no role yet → send to role selection
-    navigate('/onboarding', {
-      state: {
-        verifiedUser: authData.user,
-        accessToken: authData.access_token,
-        fromSignup: true,
-      },
-    });
+    const user = authData?.user;
+    if (user?.role) {
+      // User already has a role -> send straight to dashboard
+      navigate('/dashboard', { state: { user } });
+    } else {
+      // User has no role yet → send to role selection
+      navigate('/onboarding', {
+        state: {
+          verifiedUser: user,
+          accessToken: authData?.access_token,
+          fromSignup: true,
+        },
+      });
+    }
   };
 
   const handleOTPBack = () => {

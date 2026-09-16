@@ -394,7 +394,7 @@ async def google_login(google_login: GoogleLogin):
         access_token = create_access_token(data={"sub": str(user["id"])})
         return {"access_token": access_token, "token_type": "bearer", "user": strip_sensitive_fields(user)}
     else:
-        role = google_login.role or "customer"
+        role = google_login.role
         new_user_data = {
             "email": email,
             "first_name": first_name,

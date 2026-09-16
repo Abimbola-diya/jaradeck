@@ -121,7 +121,7 @@ export default function SignupModalCard({
     const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ access_token, credential, role: 'customer' }),
+      body: JSON.stringify({ access_token, credential }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Google Sign-In failed. Please try again.');
