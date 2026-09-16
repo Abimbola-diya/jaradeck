@@ -5384,12 +5384,9 @@ textarea {
     sans-serif;
 }
 
-/* Home dashboard: fixed viewport, no scroll, content clips under blur */
+/* Home dashboard: allow natural vertical scroll while keeping bottom nav fixed */
 .worker-dashboard.worker-dashboard--home {
-  height: 100dvh;
-  min-height: unset;
-  padding-bottom: 0;
-  overflow: hidden;
+  padding-bottom: 7rem;
 }
 
 

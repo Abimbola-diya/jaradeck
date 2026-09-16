@@ -102,7 +102,13 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
     }
 
     if (selected === 'worker') {
-      onNavigateDashboard();
+      // If user already had a role configured previously, send straight to dashboard
+      if (verifiedUser?.role || profileData?.role) {
+        onNavigateDashboard();
+        return;
+      }
+      // First-time worker role selection -> show "You're all set!" success screen
+      goToStep('done');
       return;
     }
 
