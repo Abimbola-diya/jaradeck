@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Briefcase01Icon, UserAccountIcon } from 'hugeicons-react';
 import GooglePillButton from './GooglePillButton';
 import ArrowRight02Icon from '../ArrowRight02Icon';
-import DoubleLoveIcon from '../DoubleLoveIcon';
 
 export default function RoleSelectionStep({ user, onSelect }) {
   const [selectedRole, setSelectedRole] = useState('customer');
@@ -53,14 +52,10 @@ export default function RoleSelectionStep({ user, onSelect }) {
                     <br />
                     <span className="ob2-role-name-wrap">
                       {formattedFirstName}?
-                      <DoubleLoveIcon size={38} color="#0048B3" className="ob2-role-smiley-inline" />
                     </span>
                   </>
                 ) : (
-                  <>
-                    How can we help you?
-                    <DoubleLoveIcon size={38} color="#0048B3" className="ob2-role-smiley-inline" />
-                  </>
+                  <>How can we help you?</>
                 )}
               </h1>
               <p className="ob2-role-subtitle">Choose how you would like to use Jaradeck</p>

@@ -94,7 +94,12 @@ export default function OnboardingPage({ onNavigateHome, onNavigateDashboard, in
       }
     }
 
-    goToStep('profile');   // Customer & worker go directly to "Let's set up your profile"
+    if (selected === 'worker') {
+      onNavigateDashboard();
+      return;
+    }
+
+    goToStep('profile');   // Customer goes to profile setup
   };
 
   // ── Google Auth Success ─────────────────────────────────────────

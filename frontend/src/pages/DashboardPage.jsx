@@ -1,65 +1,53 @@
+import React from 'react';
+import WorkerBottomNav from '../components/WorkerBottomNav';
+import NoActiveProjectsIllustration from '../components/NoActiveProjectsIllustration';
+import emmanuelProfile from '../assets/emmanuel.png';
+
 function BellIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
-      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M15.5 18C15.5 19.933 13.933 21.5 12 21.5C10.067 21.5 8.5 19.933 8.5 18" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M19.2311 18H4.76887C3.79195 18 3 17.208 3 16.2311C3 15.762 3.18636 15.3121 3.51809 14.9803L4.12132 14.3771C4.68393 13.8145 5 13.0514 5 12.2558V9.5C5 5.63401 8.13401 2.5 12 2.5C15.866 2.5 19 5.634 19 9.5V12.2558C19 13.0514 19.3161 13.8145 19.8787 14.3771L20.4819 14.9803C20.8136 15.3121 21 15.762 21 16.2311C21 17.208 20.208 18 19.2311 18Z" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 }
 
-import WorkerBottomNav from '../components/WorkerBottomNav';
-import emmanuelProfile from '../assets/emmanuel.png';
-import jakeTaiwo from '../assets/Jake Taiwo.png';
-
-function ProjectPerson() {
-  return (
-    <div className="dashboard-person">
-      <img src={jakeTaiwo} alt="Jake Taiwo" className="dashboard-person-avatar" />
-      <div>
-        <h3>Social Media Manager</h3>
-        <p>Jake Taiwo</p>
-      </div>
-    </div>
-  );
-}
-
 export default function DashboardPage() {
+  const firstName = (() => {
+    try {
+      const raw = localStorage.getItem('jaradeck_user');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.first_name) return parsed.first_name;
+        if (parsed.full_name) return parsed.full_name.trim().split(' ')[0];
+        if (parsed.name) return parsed.name.trim().split(' ')[0];
+      }
+    } catch {}
+    return 'Emmanuel';
+  })();
+
+  const formattedName = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'Emmanuel';
+
   return (
-    <main className="worker-dashboard">
+    <main className="worker-dashboard empty-worker-dashboard">
       <header className="dashboard-header">
-        <div>
-          <h1>Good morning Emmanuel</h1>
+        <div className="dashboard-header-text">
+          <h1>Good morning {formattedName}</h1>
           <p>How are you doing today</p>
         </div>
         <div className="dashboard-header-actions">
-          <button className="dashboard-icon-btn" aria-label="Notifications"><BellIcon /></button>
-          <img src={emmanuelProfile} alt="Emmanuel" className="dashboard-profile-avatar" />
+          <button className="dashboard-icon-btn" aria-label="Notifications">
+            <BellIcon />
+          </button>
+          <img src={emmanuelProfile} alt={formattedName} className="dashboard-profile-avatar" />
         </div>
       </header>
 
-      <section className="dashboard-card dashboard-active-project">
-        <h2>Active Project</h2>
-        <ProjectPerson />
-        <button className="dashboard-primary-btn">View Project Details</button>
-      </section>
-
-      <section className="dashboard-card dashboard-activity-card">
-        <h2>Overall Activity</h2>
-        <p>12 projects delivered with a 100% completion rate.</p>
-        <button className="dashboard-outline-btn">View Analytics</button>
-      </section>
-
-      <section className="dashboard-completed-section">
-        <div className="dashboard-section-title">
-          <h2>Completed Project</h2>
-          <button>See all</button>
+      <section className="worker-empty-state-container">
+        <div className="worker-empty-illustration-slot">
+          <NoActiveProjectsIllustration width={204} height={192} />
         </div>
-        <ProjectPerson />
-        <ProjectPerson />
-        <ProjectPerson />
-        <ProjectPerson />
-        <ProjectPerson />
-        <ProjectPerson />
+        <p className="worker-empty-state-text">No active projects yet</p>
       </section>
 
       <WorkerBottomNav />

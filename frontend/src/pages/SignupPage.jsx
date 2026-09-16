@@ -1,38 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SignupModalCard from '../components/SignupModalCard';
 import OTPStep from '../components/onboarding/OTPStep';
 
 
 export default function SignupPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const triggerOrigin = location.state?.origin;
 
-  // Lock scroll and set solid white background ONLY on mobile screens to cover bottom safe area
-  React.useEffect(() => {
-    const isMobile = window.innerWidth <= 640;
-
+  // Lock body scroll when signup page is open
+  useEffect(() => {
     const origOverflow = document.body.style.overflow;
-    const origHtmlBg = document.documentElement.style.backgroundColor;
-    const origBodyBg = document.body.style.backgroundColor;
-
-    if (isMobile) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.backgroundColor = '#FFFFFF';
-      document.body.style.backgroundColor = '#FFFFFF';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
+    document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = origOverflow;
-      if (isMobile) {
-        document.documentElement.style.overflow = '';
-        document.documentElement.style.backgroundColor = origHtmlBg;
-        document.body.style.backgroundColor = origBodyBg;
-      }
     };
   }, []);
 
@@ -77,15 +58,15 @@ export default function SignupPage() {
     setPendingEmail('');
   };
 
-  const mainContent = (
-    <>
+  return (
+    <div className="jd-signup-standalone-page">
       {step === 'form' && (
         <SignupModalCard
           onClose={handleClose}
           onSwitchToLogin={handleSwitchToLogin}
           onGoogleSuccess={handleGoogleSuccess}
           onOTPRequired={handleOTPRequired}
-          triggerOrigin={triggerOrigin}
+          triggerOrigin={null}
         />
       )}
 
@@ -99,12 +80,6 @@ export default function SignupPage() {
           />
         </div>
       )}
-    </>
-  );
-
-  return (
-    <div className="jd-signup-standalone-page">
-      {mainContent}
     </div>
   );
 }

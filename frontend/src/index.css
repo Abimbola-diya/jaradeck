@@ -5388,55 +5388,109 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 0 1.75rem 0.2rem;
+  margin: 0 0 1.75rem 0;
+  width: 100%;
 }
 
-.dashboard-header h1,
-.dashboard-card h2,
-.dashboard-section-title h2,
-.dashboard-person h3 {
+.dashboard-header-text h1 {
   margin: 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
   font-weight: 500;
-  letter-spacing: -0.04em;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #272931;
 }
 
-.dashboard-header h1 {
-  font-size: 1.22rem;
-}
-
-.dashboard-header p {
-  margin: 0.28rem 0 0;
-  color: #a5a5aa;
-  font-size: 0.8rem;
+.dashboard-header-text p {
+  margin: 4px 0 0 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(39, 41, 49, 0.5);
 }
 
 .dashboard-header-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: flex-end;
+  gap: 4px;
+  isolation: isolate;
+  flex-shrink: 0;
 }
 
 .dashboard-icon-btn {
-  width: 2rem;
-  height: 2rem;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 0;
   background: transparent;
-  color: #141829;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.15s ease;
+}
+
+.dashboard-icon-btn:hover {
+  background-color: #f5f5f5;
 }
 
 .dashboard-icon-btn svg {
-  width: 100%;
-  height: 100%;
+  width: 24px;
+  height: 24px;
 }
 
 .dashboard-profile-avatar {
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
   object-fit: cover;
-  border: 2px solid #e6e6e6;
+  object-position: top center;
+  background: #FCFCFC;
+  flex-shrink: 0;
+}
+
+/* Empty Worker Dashboard layout */
+.empty-worker-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100dvh;
+  position: relative;
+}
+
+.worker-empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: auto 0;
+  padding: 2rem 0;
+}
+
+.worker-empty-illustration-slot {
+  width: 210.51px;
+  height: 210.78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.worker-empty-state-text {
+  margin: 1.25rem 0 0 0;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #272931;
 }
 
 .dashboard-card {
@@ -5543,18 +5597,20 @@ textarea {
 
 .dashboard-bottom-nav {
   position: fixed;
-  bottom: 2.3rem;
+  bottom: 24px;
   left: 50%;
   z-index: 20;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  width: min(calc(100% - 2.5rem), 350px);
-  height: 3.5rem;
-  padding: 0.28rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 350px;
+  height: 58px;
+  padding: 5px;
+  gap: 16px;
   box-sizing: border-box;
-  border-radius: 999px;
-  background: #fafafa;
-  box-shadow: 0 -2.6rem 2.4rem rgba(255, 255, 255, 0.92);
+  border-radius: 44px;
+  background: #FAFAFA;
   transform: translateX(-50%);
 }
 
@@ -5563,24 +5619,55 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.17rem;
+  gap: 2px;
+  padding: 8px;
+  width: 73px;
+  height: 48px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 34px;
   background: transparent;
-  color: #61636a;
-  font: inherit;
-  font-size: 0.63rem;
+  color: #6E6E6E;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 100%;
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.dashboard-nav-item:active {
+  transform: scale(0.92);
+}
+
+.dashboard-nav-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
 }
 
 .dashboard-nav-item svg {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 20px;
+  height: 20px;
+}
+
+.dashboard-nav-item svg path {
+  stroke: #6E6E6E;
+  transition: stroke 0.2s ease;
 }
 
 .dashboard-nav-active {
-  color: #161923;
-  background: #ececef;
+  background: #E7E7E7;
+  color: #0A0A0A;
+}
+
+.dashboard-nav-active svg path {
+  stroke: #141B34;
 }
 
 .dashboard-tab-page {
@@ -8188,17 +8275,21 @@ a:active .hugeicons-animated-arrow-left {
     height: 100vh;
     height: 100dvh;
     z-index: 99999;
-    background-color: #FFFFFF !important;
+    background-color: transparent;
     overflow: hidden !important;
   }
 
   .jd-signup-modal-overlay {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
     z-index: 10000;
-    background-color: #FFFFFF !important;
+    background-color: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     padding: 0;
@@ -8207,6 +8298,7 @@ a:active .hugeicons-animated-arrow-left {
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
+    overflow-y: auto;
   }
 
   .jd-signup-modal-card {

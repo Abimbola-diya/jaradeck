@@ -181,18 +181,18 @@ export default function SignupModalCard({
 
   // Compute CSS transform-origin relative to the modal card
   const transformOrigin = (() => {
-    if (!triggerOrigin) return '85% 20px';
-    const modalWidth = Math.min(530, window.innerWidth - 32);
-    const modalHeight = 560; // approximate height of modal
-    const modalLeft = (window.innerWidth - modalWidth) / 2;
-    const modalTop = Math.max(20, (window.innerHeight - modalHeight) / 2);
+    if (!triggerOrigin) return isMobile ? '85% 40px' : '85% 20px';
+    const modalWidth = isMobile ? window.innerWidth : Math.min(530, window.innerWidth - 32);
+    const modalHeight = isMobile ? window.innerHeight : 560; // approximate height of modal
+    const modalLeft = isMobile ? 0 : (window.innerWidth - modalWidth) / 2;
+    const modalTop = isMobile ? 0 : Math.max(20, (window.innerHeight - modalHeight) / 2);
     const originX = triggerOrigin.x - modalLeft;
     const originY = triggerOrigin.y - modalTop;
     return `${originX}px ${originY}px`;
   })();
 
   const handleClose = () => {
-    setIsClosing(true);
+    onClose();
   };
 
   const handleSubmit = async (e) => {
@@ -260,29 +260,27 @@ export default function SignupModalCard({
       <motion.div
         className="jd-signup-modal-card"
         style={{
-          transformOrigin: isMobile ? '50% 50%' : transformOrigin,
+          transformOrigin: transformOrigin,
           willChange: 'transform, opacity',
         }}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="signup-modal-title"
-        initial={isMobile ? { opacity: 0, scale: 0.97 } : { opacity: 0, scale: 0.15 }}
+        initial={isMobile ? { opacity: 0, scale: 0.82 } : { opacity: 0, scale: 0.15 }}
         animate={{
           opacity: isClosing ? 0 : 1,
-          scale: isClosing ? (isMobile ? 0.97 : 0.15) : 1,
+          scale: isClosing ? (isMobile ? 0.85 : 0.15) : 1,
         }}
         transition={
-          isMobile
-            ? { duration: 0.18, ease: 'easeOut' }
-            : (isClosing
-                ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
-                : {
-                    type: 'spring',
-                    stiffness: 380,
-                    damping: 26,
-                    mass: 0.5,
-                  })
+          isClosing
+            ? { duration: 0.16, ease: [0.4, 0, 1, 1] }
+            : {
+              type: 'spring',
+              stiffness: isMobile ? 400 : 380,
+              damping: isMobile ? 28 : 26,
+              mass: 0.5,
+            }
         }
       >
         {/* Close Button */}

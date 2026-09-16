@@ -16,23 +16,16 @@ import LoginPage from './pages/LoginPage';
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const previousLocation = useRef(location);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(location.pathname === '/waitlist' ? 'join' : 'why');
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const isProductRoute = ['/onboarding', '/login', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
-  const isSignupRoute = location.pathname === '/signup';
-
-  if (!isSignupRoute) {
-    previousLocation.current = location;
-  }
-  const routesLocation = isSignupRoute ? previousLocation.current : location;
+  const isProductRoute = ['/onboarding', '/login', '/signup', '/admin_view', '/apply', '/apply/success'].includes(location.pathname) || location.pathname.startsWith('/dashboard');
 
   useEffect(() => {
     if (location.pathname === '/waitlist') {
       setActiveTab((prev) => prev !== 'join' ? 'join' : prev);
-    } else if (location.pathname === '/' || location.pathname === '/signup') {
+    } else if (location.pathname === '/') {
       setActiveTab((prev) => prev === 'join' ? 'why' : prev);
     }
   }, [location.pathname]);
@@ -47,9 +40,7 @@ export default function App() {
     } else {
       navigate(path, { state: extraState });
     }
-    if (path !== '/signup') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Refs for navigation containers and buttons
@@ -287,11 +278,12 @@ export default function App() {
         </div>
       )}
 
-      <Routes location={routesLocation}>
+      <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/waitlist" element={<WaitlistPage />} />
-        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin_view" element={<AdminViewPage />} />
         <Route path="/apply" element={<ApplyPage />} />
@@ -301,8 +293,6 @@ export default function App() {
         <Route path="/dashboard/settings" element={<DashboardTabPage tab="settings" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-
-      {isSignupRoute && <SignupPage />}
     </div>
   );
 }
