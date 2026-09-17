@@ -297,6 +297,9 @@ export default function App() {
           <Route path="wallet" element={<DashboardTabPage tab="wallet" />} />
           <Route path="withdraw-options" element={<DashboardTabPage tab="withdraw-options" />} />
           <Route path="withdraw-bank" element={<DashboardTabPage tab="withdraw-bank" />} />
+          <Route path="confirm-withdraw" element={<DashboardTabPage tab="confirm-withdraw" />} />
+          <Route path="enter-pin" element={<DashboardTabPage tab="enter-pin" />} />
+          <Route path="withdraw-success" element={<DashboardTabPage tab="withdraw-success" />} />
           <Route path="chat" element={<DashboardTabPage tab="chat" />} />
           <Route path="settings" element={<DashboardTabPage tab="settings" />} />
         </Route>

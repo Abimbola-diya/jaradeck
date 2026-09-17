@@ -101,6 +101,8 @@ export const AppProvider = ({ children }) => {
     return 'empty';
   })();
 
+  const [withdrawalAmount, setWithdrawalAmount] = useState(20000);
+
   const navigateTo = (path, extraState = {}) => {
     if (!path) return;
     const routeMap = {
@@ -111,6 +113,9 @@ export const AppProvider = ({ children }) => {
       'freelancer/project-details': '/dashboard/projects',
       'freelancer/withdraw-options': '/dashboard/withdraw-options',
       'freelancer/withdraw-bank': '/dashboard/withdraw-bank',
+      'freelancer/confirm-withdraw': '/dashboard/confirm-withdraw',
+      'freelancer/enter-pin': '/dashboard/enter-pin',
+      'freelancer/withdraw-success': '/dashboard/withdraw-success',
       'freelancer/wallet': '/dashboard/wallet',
     };
     const targetPath = routeMap[path] || (path.startsWith('/') ? path : `/${path}`);
@@ -131,6 +136,8 @@ export const AppProvider = ({ children }) => {
         toggleChecklistItem,
         resetChecklist,
         currentFreelancerStage,
+        withdrawalAmount,
+        setWithdrawalAmount,
       }}
     >
       {children}

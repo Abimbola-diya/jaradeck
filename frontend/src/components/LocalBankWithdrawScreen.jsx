@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft02Icon,
   ArrowUpDownIcon,
@@ -14,6 +14,7 @@ export const LocalBankWithdrawScreen = () => {
   const { navigateTo } = useApp();
   const [amountStr, setAmountStr] = useState('');
   const [isAvailableVisible, setIsAvailableVisible] = useState(true);
+  const [isKeypadOpen, setIsKeypadOpen] = useState(true);
 
   // Hardcoded for frontend visualization per design specs
   const availableBalance = 19000;
@@ -47,7 +48,11 @@ export const LocalBankWithdrawScreen = () => {
 
   const handleConfirm = () => {
     if (!isValidAmount) return;
-    navigateTo('freelancer/confirm-withdraw', { amount: numericValue });
+    if (isKeypadOpen) {
+      setIsKeypadOpen(false);
+    } else {
+      navigateTo('freelancer/confirm-withdraw', { amount: numericValue });
+    }
   };
 
   return (
@@ -60,7 +65,7 @@ export const LocalBankWithdrawScreen = () => {
         initial={{ opacity: 0, y: 20, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-        className="w-full max-w-[358px] flex flex-col items-center justify-between min-h-[700px]"
+        className="w-full max-w-[358px] flex flex-col items-center"
       >
         {/* Upper Stack (Header + Directional Flow + Bank Card + Available Balance) */}
         <div className="w-full flex flex-col items-center gap-[14px]">
@@ -104,7 +109,7 @@ export const LocalBankWithdrawScreen = () => {
           </div>
 
           {/* Available Balance Sub-card / Tag */}
-          <div className="bg-[#F8F9FA] rounded-full px-[14px] py-[6px] flex items-center gap-[6px] mt-[4px] mb-[8px]">
+          <div className="bg-[#F8F9FA] rounded-full px-[14px] py-[6px] flex items-center gap-[6px] mt-[4px]">
             <span className="text-[11px] font-normal text-[#8E8E93]">Available Balance</span>
             <span className="text-[13px] font-medium text-[#272931]">
               {isAvailableVisible ? `₦${availableBalance.toLocaleString()}` : '••••••••'}
@@ -125,7 +130,17 @@ export const LocalBankWithdrawScreen = () => {
         </div>
 
         {/* Center Amount Input Display */}
-        <div className="w-full flex flex-col items-center justify-center my-[16px] min-h-[64px]">
+        <div
+          onClick={() => !isKeypadOpen && setIsKeypadOpen(true)}
+          className={`w-full flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${
+            isKeypadOpen ? 'mt-[16px] mb-[16px] min-h-[64px]' : 'mt-[36px] mb-[48px]'
+          }`}
+        >
+          {!isKeypadOpen && (
+            <span className="text-[13px] font-normal text-[#8E8E93] text-center mb-[4px]">
+              Amount
+            </span>
+          )}
           {amountStr === '' ? (
             <span className="text-[34px] font-normal leading-[40px] text-[#8E8E93] animate-pulse">
               |
@@ -144,7 +159,7 @@ export const LocalBankWithdrawScreen = () => {
           )}
         </div>
 
-        {/* Action Button & Persistent Numeric Keypad Grid */}
+        {/* Action Button & Numeric Keypad Grid */}
         <div className="w-full flex flex-col gap-[24px] items-center">
           {/* Confirm Button */}
           <button
@@ -160,41 +175,51 @@ export const LocalBankWithdrawScreen = () => {
             Confirm
           </button>
 
-          {/* Numeric Keypad Grid (Always Visible per Figma Standard) */}
-          <div className="w-full max-w-[280px] grid grid-cols-3 gap-x-[24px] gap-y-[14px]">
-            {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((digit) => (
-              <button
-                key={digit}
-                type="button"
-                onClick={() => handleKeyPress(digit)}
-                className="w-[76px] h-[52px] rounded-[12px] flex items-center justify-center text-[22px] font-medium text-[#0D0D0D] cursor-pointer hover:bg-[#F4F4F6] active:scale-95 transition-all outline-none border-none bg-transparent"
+          {/* Numeric Keypad Grid */}
+          <AnimatePresence>
+            {isKeypadOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, scale: 0.95 }}
+                animate={{ opacity: 1, height: 'auto', scale: 1 }}
+                exit={{ opacity: 0, height: 0, scale: 0.95 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                className="w-full max-w-[280px] grid grid-cols-3 gap-x-[24px] gap-y-[14px] overflow-hidden"
               >
-                {digit}
-              </button>
-            ))}
+                {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((digit) => (
+                  <button
+                    key={digit}
+                    type="button"
+                    onClick={() => handleKeyPress(digit)}
+                    className="w-[76px] h-[52px] rounded-[12px] flex items-center justify-center text-[25px] font-medium text-[#0D0D0D] cursor-pointer hover:bg-[#F4F4F6] active:scale-95 transition-all outline-none border-none bg-transparent"
+                  >
+                    {digit}
+                  </button>
+                ))}
 
-            {/* Empty Spacer */}
-            <div className="w-[76px] h-[52px]" />
+                {/* Empty Spacer */}
+                <div className="w-[76px] h-[52px]" />
 
-            {/* Zero Digit */}
-            <button
-              type="button"
-              onClick={() => handleKeyPress('0')}
-              className="w-[76px] h-[52px] rounded-[12px] flex items-center justify-center text-[22px] font-medium text-[#0D0D0D] cursor-pointer hover:bg-[#F4F4F6] active:scale-95 transition-all outline-none border-none bg-transparent"
-            >
-              0
-            </button>
+                {/* Zero Digit */}
+                <button
+                  type="button"
+                  onClick={() => handleKeyPress('0')}
+                  className="w-[76px] h-[52px] rounded-[12px] flex items-center justify-center text-[25px] font-medium text-[#0D0D0D] cursor-pointer hover:bg-[#F4F4F6] active:scale-95 transition-all outline-none border-none bg-transparent"
+                >
+                  0
+                </button>
 
-            {/* Backspace / Delete Key */}
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="w-[76px] h-[52px] rounded-[12px] flex items-center justify-center cursor-pointer hover:bg-[#F4F4F6] active:scale-95 transition-all outline-none border-none bg-transparent"
-              aria-label="Delete last digit"
-            >
-              <img src={cancelButtonSvg} alt="Delete" className="w-[54px] h-[44px] object-contain" />
-            </button>
-          </div>
+                {/* Backspace / Delete Key */}
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="w-[76px] h-[52px] rounded-[12px] flex items-center justify-center cursor-pointer hover:bg-[#F4F4F6] active:scale-95 transition-all outline-none border-none bg-transparent"
+                  aria-label="Delete last digit"
+                >
+                  <img src={cancelButtonSvg} alt="Delete" className="w-[58px] h-[46px] object-contain" />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
     </div>
