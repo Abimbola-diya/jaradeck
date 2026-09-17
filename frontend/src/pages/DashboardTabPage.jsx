@@ -1,11 +1,16 @@
+import { WorkerWalletScreen } from '../components/WorkerWalletScreen';
+
 const tabCopy = {
-  wallet: ['Wallet', 'Your balance and payouts will appear here.'],
   chat: ['Chat', 'Your project conversations will appear here.'],
   settings: ['Settings', 'Manage your worker profile and availability.'],
 };
 
 export default function DashboardTabPage({ tab }) {
-  const [title, description] = tabCopy[tab];
+  if (tab === 'wallet') {
+    return <WorkerWalletScreen />;
+  }
+
+  const [title, description] = tabCopy[tab] || ['Unknown Tab', ''];
 
   return (
     <main className="worker-dashboard dashboard-tab-page">
