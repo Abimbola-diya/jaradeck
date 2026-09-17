@@ -1,6 +1,6 @@
 import React from 'react';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
-import BrandLogo from '../BrandLogo';
+import { JaradeckLogo } from '../ui/JaradeckLogo';
 
 export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, hideAuthSwitch = false, align = 'left', isCropActive = false }) {
   const hasBack = !hideBack && Boolean(onBack);
@@ -16,7 +16,7 @@ export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBa
 
       {/* Logo — centered at top */}
       <div className="ob2-logo-wrap ob2-anim-logo">
-        <BrandLogo width={34} height={25} tone="blue" />
+        <JaradeckLogo size="md" interactive={false} enableFloating={true} enableTilt={false} />
       </div>
 
       {/* Main content area */}

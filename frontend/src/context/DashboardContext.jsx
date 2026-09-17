@@ -12,7 +12,7 @@ function getLocalToken() {
 export function DashboardProvider({ children }) {
   // Dashboard data cache
   const [dashboardData, setDashboardData] = useState(null);
-  const [dashboardLoading, setDashboardLoading] = useState(true);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
   const [dashboardError, setDashboardError] = useState(null);
   const [isDashboardRevalidating, setIsDashboardRevalidating] = useState(false);
   const dashboardLastFetchedRef = useRef(0);
@@ -29,18 +29,19 @@ export function DashboardProvider({ children }) {
   const fetchDashboard = useCallback(async (options = {}) => {
     const { force = false, silent = false } = options;
     const token = getLocalToken();
-    if (!token) return null;
+    if (!token) {
+      setDashboardLoading(false);
+      return null;
+    }
 
     const now = Date.now();
     const isStale = now - dashboardLastFetchedRef.current > CACHE_TTL_MS;
 
-    // If we have cached data and not forced/stale, don't show loader, return cache
     if (dashboardData && !force && !isStale) {
       setDashboardLoading(false);
       return dashboardData;
     }
 
-    // If we already have data, revalidate silently without setting loading=true
     const isInitialFetch = !dashboardData;
     if (isInitialFetch && !silent) {
       setDashboardLoading(true);
@@ -145,9 +146,6 @@ export function DashboardProvider({ children }) {
     }
   }, [projectsCache]);
 
-  /**
-   * Optimistically update project in state
-   */
   const updateProjectInCache = useCallback((updatedProject) => {
     if (!updatedProject?.id) return;
 
@@ -180,7 +178,7 @@ export function DashboardProvider({ children }) {
 
   const clearCache = useCallback(() => {
     setDashboardData(null);
-    setDashboardLoading(true);
+    setDashboardLoading(false);
     setProjectsCache({});
     dashboardLastFetchedRef.current = 0;
   }, []);
@@ -199,17 +197,13 @@ export function DashboardProvider({ children }) {
     clearCache,
   };
 
-  return (
-    <DashboardContext.Provider value={value}>
-      {children}
-    </DashboardContext.Provider>
-  );
+  return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;
 }
 
 export function useDashboard() {
-  const ctx = useContext(DashboardContext);
-  if (!ctx) {
+  const context = useContext(DashboardContext);
+  if (!context) {
     throw new Error('useDashboard must be used within a DashboardProvider');
   }
-  return ctx;
+  return context;
 }
