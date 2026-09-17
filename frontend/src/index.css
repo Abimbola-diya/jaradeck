@@ -35,13 +35,14 @@
 
 html,
 body {
-  background-color: var(--blue-bg);
+  background-color: #ffffff;
   color: var(--white);
   font-family: var(--font-family);
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
   overflow-x: clip;
+  overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -58,6 +59,7 @@ textarea {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overscroll-behavior: none;
 }
 
 /* ===== Hero Page Wrapper ===== */
@@ -8288,21 +8290,23 @@ a:active .hugeicons-animated-arrow-left {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 12px 24px;
+  padding: 14px 24px;
   gap: 10px;
   width: 100%;
-  height: 50px;
+  min-height: 52px;
   background: #FFFFFF;
   border-radius: 9999px;
   border: 1px solid #DADCE0;
   font-family: 'PP Neue Montreal', sans-serif !important;
   font-weight: 500;
   font-size: 15px;
-  line-height: 110%;
+  line-height: 1.2;
   color: #3C4043;
   cursor: pointer;
   box-sizing: border-box;
   transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .ob2-google-btn:hover {
