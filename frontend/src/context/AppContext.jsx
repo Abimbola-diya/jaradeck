@@ -109,9 +109,15 @@ export const AppProvider = ({ children }) => {
       'shared/payouts': '/dashboard/wallet',
       'shared/availability': '/dashboard/settings',
       'freelancer/project-details': '/dashboard/projects',
+      'freelancer/withdraw-options': '/dashboard/withdraw-options',
+      'freelancer/withdraw-bank': '/dashboard/withdraw-bank',
+      'freelancer/wallet': '/dashboard/wallet',
     };
     const targetPath = routeMap[path] || (path.startsWith('/') ? path : `/${path}`);
-    navigate(targetPath, { state: extraState });
+    const safeState = extraState && (extraState.nativeEvent || extraState.preventDefault || extraState._reactName)
+      ? {}
+      : extraState;
+    navigate(targetPath, { state: safeState });
   };
 
   return (

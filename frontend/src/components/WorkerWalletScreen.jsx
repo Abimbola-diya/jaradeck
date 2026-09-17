@@ -44,7 +44,14 @@ export const WorkerWalletScreen = () => {
       id: '4',
       title: 'UI/UX Design Review',
       clientName: 'Jake Taiwo',
-      status: 'pending',
+      status: 'completed',
+      avatar: jakeTaiwoImg,
+    },
+    {
+      id: '5',
+      title: 'Brand Identity & Strategy',
+      clientName: 'Jake Taiwo',
+      status: 'completed',
       avatar: jakeTaiwoImg,
     },
   ];
@@ -65,7 +72,7 @@ export const WorkerWalletScreen = () => {
       {/* Content Container (358px width) */}
       <div className="w-full max-w-[358px] flex flex-col min-h-[704px]">
         {/* Header Navigation */}
-        <div className="w-full flex items-center gap-[14px]">
+        <div className="w-full flex flex-col items-start gap-[16px]">
           <button
             type="button"
             onClick={handleBack}
@@ -76,7 +83,7 @@ export const WorkerWalletScreen = () => {
           </button>
 
           <div className="flex flex-col gap-[2px] items-start text-left">
-            <h1 className="text-[17px] font-medium leading-[22px] tracking-[-0.01em] text-[#0D0D0D]">
+            <h1 className="text-[20px] font-medium leading-[26px] tracking-[-0.015em] text-[#0D0D0D]">
               Your Wallet
             </h1>
             <p className="text-[13px] font-normal leading-[16px] text-[#8E8E93]">
@@ -88,7 +95,7 @@ export const WorkerWalletScreen = () => {
         {hasBalance ? (
           <>
             {/* Total Balance & Withdraw Block */}
-            <div className="w-full flex flex-col items-center gap-[24px] pt-[72px] pb-[60px]">
+            <div className="w-full flex flex-col items-center gap-[24px] pt-[64px] pb-[60px]">
               {/* Balance Text & Amount */}
               <div className="flex flex-col items-center gap-[8px]">
                 <span className="text-[15px] font-normal leading-[19px] text-[#6E6E6E]">
@@ -96,7 +103,7 @@ export const WorkerWalletScreen = () => {
                 </span>
 
                 <div className="flex items-center justify-center gap-[8px]">
-                  <span className="text-[36px] font-medium leading-[36px] tracking-[-0.01em] text-[#0D0D0D]">
+                  <span className="text-[38px] font-medium leading-[38px] tracking-[-0.015em] text-[#0D0D0D]">
                     {isBalanceVisible ? `₦${walletBalance.toLocaleString()}` : '••••••••'}
                   </span>
                   <button
@@ -118,7 +125,7 @@ export const WorkerWalletScreen = () => {
               <button
                 type="button"
                 onClick={() => navigateTo('freelancer/withdraw-options')}
-                className="h-[38px] px-[18px] rounded-full bg-[#0048B3] flex items-center justify-center gap-[8px] text-white text-[14px] font-medium leading-none cursor-pointer hover:bg-[#003EA3] active:scale-[0.98] transition-all outline-none border-none shadow-sm"
+                className="h-[38px] px-[18px] rounded-full bg-[#0048B3] flex items-center justify-center gap-[8px] text-white text-[14px] font-medium leading-none cursor-pointer hover:bg-[#003EA3] active:scale-[0.96] transition-all outline-none border-none shadow-sm"
               >
                 <span className="leading-none flex items-center">Withdraw</span>
                 <img src={jetImg} alt="Withdraw" className="w-[14px] h-[14px] shrink-0" />
@@ -126,7 +133,7 @@ export const WorkerWalletScreen = () => {
             </div>
 
             {/* Transaction History Section */}
-            <div className="w-full flex flex-col gap-[20px]">
+            <div className="w-full flex flex-col gap-[18px]">
               {/* Header Row: Title & Filter Tabs */}
               <div className="w-full flex items-center justify-between">
                 <h2 className="text-[16px] font-medium leading-[20px] tracking-[-0.01em] text-[#0D0D0D]">
@@ -162,27 +169,32 @@ export const WorkerWalletScreen = () => {
 
               {/* List or Empty State */}
               {filteredTransactions.length > 0 ? (
-                <div className="w-full flex flex-col gap-[16px] text-left mt-[4px]">
-                  {filteredTransactions.map((tx) => (
-                    <div
-                      key={tx.id}
-                      className="w-full flex items-center gap-[12px] py-[2px] cursor-pointer hover:opacity-80 transition-opacity"
-                    >
-                      <img
-                        src={tx.avatar || jakeTaiwoImg}
-                        alt={tx.clientName}
-                        className="w-[44px] h-[44px] rounded-full object-cover shrink-0"
-                      />
-                      <div className="flex flex-col gap-[2px] items-start text-left">
-                        <span className="text-[15px] font-medium leading-[20px] text-[#0D0D0D]">
-                          {tx.title}
-                        </span>
-                        <span className="text-[13px] font-normal leading-[16px] text-[#8E8E93]">
-                          {tx.clientName}
-                        </span>
+                <div className="relative w-full">
+                  <div className="w-full flex flex-col gap-[16px] text-left mt-[4px] max-h-[285px] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-[52px]">
+                    {filteredTransactions.map((tx) => (
+                      <div
+                        key={tx.id}
+                        className="w-full flex items-center gap-[14px] py-[2px] cursor-pointer hover:opacity-80 transition-opacity shrink-0"
+                      >
+                        <img
+                          src={tx.avatar || jakeTaiwoImg}
+                          alt={tx.clientName}
+                          className="w-[50px] h-[50px] rounded-full object-cover shrink-0"
+                        />
+                        <div className="flex flex-col gap-[2px] items-start text-left">
+                          <span className="text-[15.5px] font-medium leading-[21px] text-[#0D0D0D]">
+                            {tx.title}
+                          </span>
+                          <span className="text-[13px] font-normal leading-[16px] text-[#8E8E93]">
+                            {tx.clientName}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+
+                  {/* Smooth Bottom Gradient Fade Mask */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[64px] bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none z-10" />
                 </div>
               ) : (
                 /* Empty Tab State */

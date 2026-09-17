@@ -1,4 +1,6 @@
 import { WorkerWalletScreen } from '../components/WorkerWalletScreen';
+import { WithdrawOptionsScreen } from '../components/WithdrawOptionsScreen';
+import { LocalBankWithdrawScreen } from '../components/LocalBankWithdrawScreen';
 
 const tabCopy = {
   chat: ['Chat', 'Your project conversations will appear here.'],
@@ -8,6 +10,14 @@ const tabCopy = {
 export default function DashboardTabPage({ tab }) {
   if (tab === 'wallet') {
     return <WorkerWalletScreen />;
+  }
+
+  if (tab === 'withdraw-options') {
+    return <WithdrawOptionsScreen />;
+  }
+
+  if (tab === 'withdraw-bank') {
+    return <LocalBankWithdrawScreen />;
   }
 
   const [title, description] = tabCopy[tab] || ['Unknown Tab', ''];

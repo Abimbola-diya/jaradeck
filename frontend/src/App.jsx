@@ -295,6 +295,8 @@ export default function App() {
           <Route index element={<DashboardPage />} />
           <Route path="projects" element={<ActiveProjectsPage />} />
           <Route path="wallet" element={<DashboardTabPage tab="wallet" />} />
+          <Route path="withdraw-options" element={<DashboardTabPage tab="withdraw-options" />} />
+          <Route path="withdraw-bank" element={<DashboardTabPage tab="withdraw-bank" />} />
           <Route path="chat" element={<DashboardTabPage tab="chat" />} />
           <Route path="settings" element={<DashboardTabPage tab="settings" />} />
         </Route>
