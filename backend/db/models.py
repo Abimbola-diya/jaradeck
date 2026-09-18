@@ -39,6 +39,8 @@ class UserResponse(BaseModel):
     country: Optional[str] = None
     phone: Optional[str] = None
     one_liner: Optional[str] = None
+    primary_skill: Optional[str] = None
+    portfolio_url: Optional[str] = None
     avatar_url: Optional[str] = None
     auth_provider: str
 
@@ -60,6 +62,8 @@ class RoleUpdate(BaseModel):
 class ProfileUpdate(BaseModel):
     full_name: Optional[str] = None
     one_liner: Optional[str] = None
+    primary_skill: Optional[str] = None
+    portfolio_url: Optional[str] = None
     avatar_url: Optional[str] = None
     phone: Optional[str] = None
     country: Optional[str] = None

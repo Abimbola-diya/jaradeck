@@ -26,6 +26,7 @@ import ActiveChatThreadScreen, {
 } from "../pages/ActiveChatThreadScreen";
 import FreshChatScreen from "../pages/FreshChatScreen";
 import { ProtectedRoute } from "../components/ProtectedRoutes";
+import { AvailabilityScreen } from "../pages/AvailabilityScreen";
 
 export const AppRoutes = () => {
   return (
@@ -122,7 +123,6 @@ export const AppRoutes = () => {
           path="/dashboard/worker/chat-thread/:id"
           element={<ActiveChatThreadScreen />}
         />
-      </Route>
       {/* Settings & Profile Routes */}
       <Route path="/dashboard/settings" element={<SettingsPage />} />
       <Route path="/dashboard/customer/settings" element={<SettingsPage />} />
@@ -192,7 +192,17 @@ export const AppRoutes = () => {
       <Route
         path="/dashboard/freelancer/withdraw-success"
         element={<WithdrawSuccessScreen />}
+
+        />
+        <Route
+          path="/dashboard/settings/availability"
+          element={<AvailabilityScreen />}
+        />
+        <Route
+          path="/dashboard/freelancer/settings/availability"
+          element={<AvailabilityScreen />}
       />
+      </Route>
       {/* Admin */}
       <Route path="/admin" element={<AdminViewPage />} />
       {/* Fallback */}
