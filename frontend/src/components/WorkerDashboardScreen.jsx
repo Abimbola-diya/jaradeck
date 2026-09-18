@@ -161,7 +161,7 @@ export const WorkerDashboardScreen = ({
   return (
     <div
       id="worker-dashboard"
-      className="w-full max-w-[390px] min-h-[844px] bg-white flex flex-col items-center px-[21px] pt-[60px] pb-[100px] relative overflow-hidden select-none mx-auto"
+      className="w-full max-w-[430px] min-h-[844px] bg-white flex flex-col items-center px-[21px] pt-[60px] pb-[100px] relative overflow-hidden select-none mx-auto"
       style={{
         fontFamily: "'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       }}

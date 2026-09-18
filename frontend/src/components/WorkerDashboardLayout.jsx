@@ -6,7 +6,7 @@ import { DashboardProvider } from '../context/DashboardContext';
 export default function WorkerDashboardLayout() {
   return (
     <DashboardProvider>
-      <div className="worker-dashboard-container">
+      <div className="worker-dashboard-container w-full min-h-screen bg-white flex flex-col items-center">
         <Outlet />
         <WorkerBottomNav />
       </div>

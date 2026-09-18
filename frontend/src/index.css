@@ -5370,7 +5370,7 @@ textarea {
 /* ── Worker dashboard ── */
 .worker-dashboard {
   width: 100%;
-  max-width: 390px;
+  max-width: 430px;
   min-height: 100dvh;
   margin: 0 auto;
   padding: 5.45rem 1.25rem 7rem;
@@ -6260,10 +6260,16 @@ textarea {
   font-size: 0.9rem;
 }
 
+.product-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background: #ffffff;
+}
+
 @media (min-width: 600px) {
   .product-page {
-    min-height: 100dvh;
-    background: #f3f3f3;
+    background: #f8f9fa;
   }
 
   .worker-dashboard {

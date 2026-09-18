@@ -34,7 +34,7 @@ export const EnterPinScreen = () => {
 
   return (
     <div
-      className="w-full max-w-[390px] min-h-[844px] bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[100px] relative overflow-hidden mx-auto"
+      className="w-full max-w-[430px] min-h-[844px] bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[100px] relative overflow-hidden mx-auto"
       style={{ fontFamily: "'PP Neue Montreal', sans-serif" }}
     >
       {/* Physics Entrance Transition */}
