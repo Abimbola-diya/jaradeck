@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import WorkerBottomNav from "../WorkerBottomNav";
 import ProjectDetailsModal from "..//project/ProjectDetailsModal";
 import UploadDeliverablesModal from "..//project/UploadDeliverablesModal";
-import jakeTaiwo from "/assets/Jake Taiwo.png";
+import jakeTaiwo from "../../assets/Jake Taiwo.png";
 import { useAuthStore } from "../../context/AuthContext";
 
 function BellIcon() {

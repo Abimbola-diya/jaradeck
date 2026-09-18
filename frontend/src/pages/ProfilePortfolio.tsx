@@ -1,260 +1,310 @@
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { BottomSheetModal } from "../components/ui/BottomSheetModal";
+import { ArrowLeft02Icon, ArrowDown01Icon, Edit02Icon } from "hugeicons-react";
+import { useAuthStore } from "../context/AuthContext";
+import profileSuccessBadgeImg from "../assets/profile_success_badge.png";
+import profileAvatarImg from "../assets/profile_avatar_user.png";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ChevronDown, Edit2, X } from "lucide-react";
 
-export default function ProfilePortfolioPage({ onBack }: { onBack?: () => void }) {
+export const ProfilePortfolioScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { user, updateUser, token } = useAuthStore() as any;
 
-  // Dynamic back navigation handler
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else {
-      navigate(-1);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const [name, setName] = useState<string>("");
+  const [about, setAbout] = useState<string>("");
+  const [primarySkill, setPrimarySkill] = useState<string>("");
+  const [portfolioLink, setPortfolioLink] = useState<string>("");
+
+  const [isSkillDropdownOpen, setIsSkillDropdownOpen] =
+    useState<boolean>(false);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  // Sync state with logged-in user profile[cite: 25]
+  useEffect(() => {
+    if (user) {
+      setName(user.full_name || "");
+      setAbout(user.one_liner || "");
+      setPrimarySkill((user as any).primary_skill || "");
+      setPortfolioLink((user as any).portfolio_url || "");
+    }
+  }, [user]);
+
+  // Determine if any field has changed from current user data
+  const isFormDirty = Boolean(
+    name.trim() !== (user?.full_name || "") ||
+    about.trim() !== (user?.one_liner || "") ||
+    primarySkill !== ((user as any)?.primary_skill || "") ||
+    portfolioLink.trim() !== ((user as any)?.portfolio_url || ""),
+  );
+
+  const handleUpdateProfile = async () => {
+    if (!isFormDirty || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    // Build payload with only updated fields
+    const payload: Record<string, string> = {};
+    if (name.trim() !== (user?.full_name || ""))
+      payload.full_name = name.trim();
+    if (about.trim() !== (user?.one_liner || ""))
+      payload.one_liner = about.trim();
+    if (primarySkill !== ((user as any)?.primary_skill || ""))
+      payload.primary_skill = primarySkill;
+    if (portfolioLink.trim() !== ((user as any)?.portfolio_url || ""))
+      payload.portfolio_url = portfolioLink.trim();
+
+    try {
+      const response = await fetch("/api/users/profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        credentials: "include",
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        let errorDetail = "Failed to update profile.";
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorDetail = errorJson.detail || errorDetail;
+        } catch {
+          errorDetail = errorText || errorDetail;
+        }
+        throw new Error(errorDetail);
+      }
+
+      const responseText = await response.text();
+      const updatedUserData = responseText
+        ? JSON.parse(responseText)
+        : { ...user, ...payload };
+
+      updateUser(updatedUserData);
+      setShowSuccessModal(true);
+    } catch (err: any) {
+      console.error("Profile update error:", err);
+      setErrorMessage(err.message || "An unexpected error occurred.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // Mode states: 'view' (done) | 'edit' (empty/active)
-  const [isEditing, setIsEditing] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  // Profile Form Data
-  const [formData, setFormData] = useState({
-    name: "Mayowa Ali",
-    about:
-      "I am a passionate social media strategist with 6 years of experience, leading the line at various companies like Rise.",
-    primarySkill: "Product Design",
-    portfolio: "www.ayooluwabamideke.vercel.app",
-  });
-
-  const skillOptions = [
+  const skillsList = [
     "Product Design",
     "Software Development",
     "Content Creation",
+    "UI/UX Design",
+    "Frontend Development",
+    "Backend Development",
+    "Full Stack Development",
+    "Mobile App Development",
+    "Product Management",
+    "Brand & Visual Identity",
+    "Copywriting & Content Strategy",
+    "Digital Marketing & Growth",
+    "Motion Graphics & Video Editing",
+    "Data Analytics & BI",
+    "DevOps & Cloud Engineering",
   ];
 
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSave = () => {
-    setIsEditing(false);
-    setShowSuccessModal(true);
-  };
-
   return (
-    <div className="relative min-h-screen bg-slate-50 pb-28 text-slate-800 font-sans">
-      {/* Top Header */}
-      <div className="flex items-center gap-4 px-6 pt-6 pb-4 bg-white">
+    <div
+      id="profile-portfolio-screen"
+      className="w-full max-w-[390px] min-h-screen bg-white mx-auto flex flex-col items-center px-[20px] pt-[40px] pb-[100px] relative text-left"
+    >
+      {/* 1. Header Bar */}
+      <div className="w-[350px] h-[40px] flex items-center gap-[24px] mb-[32px]">
         <button
-          onClick={handleBack}
-          className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition-colors"
+          type="button"
+          onClick={() => navigate(-1)}
+          className="w-[40px] h-[40px] rounded-full bg-white flex items-center justify-center cursor-pointer shrink-0"
+          aria-label="Go back"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft02Icon size={20} color="#272931" />
         </button>
-        <h1 className="text-xl font-bold text-slate-900">
+
+        <h1 className="text-[20px] font-medium leading-[24px] text-[#272931]">
           Profile & Portfolio
         </h1>
       </div>
 
-      <div className="max-w-md mx-auto px-6 pt-4">
-        {/* Profile Avatar & Name */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-4 ring-4 ring-white shadow-md">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
-              alt="Profile"
-              className="w-full h-full object-cover"
+      {/* Error Alert */}
+      {errorMessage && (
+        <div className="w-[350px] mb-4 p-3 bg-red-50 border border-red-200 rounded-[12px] text-red-600 text-[13px]">
+          {errorMessage}
+        </div>
+      )}
+
+      {/* 2. Avatar & Name Section */}
+      <div className="w-[350px] flex flex-col items-center gap-[16px] mb-[16px]">
+        <div className="w-[80px] h-[80px] rounded-full overflow-hidden shrink-0">
+          <img
+            src={user?.avatar_url || profileAvatarImg}
+            alt="User profile avatar"
+            className="w-[80px] h-[80px] object-cover"
+          />
+        </div>
+
+        <label
+          htmlFor="profile-name-input"
+          className="h-[48px] bg-[#FDFDFD] rounded-[20px] px-[16px] inline-flex items-center gap-[6px] cursor-text max-w-[350px]"
+        >
+          <div className="inline-grid items-center">
+            <span className="invisible col-start-1 row-start-1 whitespace-pre text-[14px] font-medium leading-[30px]">
+              {name || "What’s your name"}
+            </span>
+            <input
+              id="profile-name-input"
+              ref={nameInputRef}
+              size={1}
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="What’s your name"
+              className="col-start-1 row-start-1 w-full min-w-0 bg-transparent outline-none text-[14px] font-medium leading-[30px] text-[#0D0D0D] placeholder:text-[#7B7B7B]"
+            />
+          </div>
+          <Edit02Icon
+            size={14}
+            color="#7B7B7B"
+            className="shrink-0 pointer-events-none"
+          />
+        </label>
+      </div>
+
+      {/* 3. "About you" Section */}
+      <div className="w-[350px] flex flex-col gap-[8px] mb-[16px]">
+        <label className="text-[14px] font-medium leading-[30px] text-[#7B7B7B] select-none">
+          About you
+        </label>
+        <div className="w-[350px] h-[90px] bg-[#FDFDFD] rounded-[20px] p-[16px]">
+          <textarea
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+            placeholder="Tell us about yourself"
+            className="w-full h-full bg-transparent resize-none outline-none text-[14px] font-medium leading-[18px] text-[#0D0D0D] placeholder:text-[#7B7B7B]"
+          />
+        </div>
+      </div>
+
+      {/* 4. "Primary Skill" Section */}
+      <div className="w-[350px] flex flex-col gap-[8px] mb-[16px]">
+        <label className="text-[14px] font-medium leading-[30px] text-[#7B7B7B] select-none">
+          Primary Skill
+        </label>
+
+        <div className="w-[350px] flex flex-col gap-[4px]">
+          <div
+            onClick={() => setIsSkillDropdownOpen((prev) => !prev)}
+            className="w-[350px] h-[48px] bg-[#FDFDFD] rounded-[20px] px-[16px] flex items-center justify-between cursor-pointer select-none"
+          >
+            <span
+              className={`text-[14px] font-medium truncate ${
+                primarySkill ? "text-[#0D0D0D]" : "text-[#7B7B7B]"
+              }`}
+            >
+              {primarySkill || "Select your primary skill"}
+            </span>
+            <ArrowDown01Icon
+              size={18}
+              color="#7B7B7B"
+              className={`shrink-0 transition-transform duration-200 ${
+                isSkillDropdownOpen ? "rotate-180" : ""
+              }`}
             />
           </div>
 
-          {isEditing ? (
-            <div className="relative flex items-center bg-slate-100/70 border border-slate-200 rounded-2xl px-4 py-2 w-full max-w-xs">
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                placeholder="What's your name"
-                className="bg-transparent w-full text-center text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none"
-              />
-              <Edit2 className="w-3.5 h-3.5 text-slate-400 absolute right-3 pointer-events-none" />
-            </div>
-          ) : (
-            <div className="bg-slate-100/70 border border-slate-100 rounded-2xl px-6 py-2.5">
-              <span className="font-semibold text-sm text-slate-900">
-                {formData.name || "What's your name"}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Form Fields */}
-        <div className="space-y-6">
-          {/* About You */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-2">
-              About you
-            </label>
-            {isEditing ? (
-              <textarea
-                rows={4}
-                value={formData.about}
-                onChange={(e) => handleInputChange("about", e.target.value)}
-                placeholder="Tell us about you"
-                className="w-full p-4 rounded-2xl bg-white border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all shadow-sm resize-none"
-              />
-            ) : (
-              <div className="p-4 rounded-2xl bg-white border border-slate-100 text-sm text-slate-800 leading-relaxed shadow-sm">
-                {formData.about || "Tell us about you"}
-              </div>
-            )}
-          </div>
-
-          {/* Primary Skill */}
-          <div className="relative">
-            <label className="block text-xs font-semibold text-slate-500 mb-2">
-              Primary Skill
-            </label>
-            {isEditing ? (
-              <div>
+          {isSkillDropdownOpen && (
+            <div className="w-[350px] max-h-[210px] overflow-y-auto bg-[#FDFDFD] rounded-[20px] p-[16px] flex flex-col gap-[16px] items-start text-left select-none z-10">
+              {skillsList.map((skill) => (
                 <button
+                  key={skill}
                   type="button"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full p-4 rounded-2xl bg-white border border-slate-200 text-sm flex items-center justify-between text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-sm"
+                  onClick={() => {
+                    setPrimarySkill(skill);
+                    setIsSkillDropdownOpen(false);
+                  }}
+                  className="w-full text-left text-[14px] font-medium leading-[30px] text-[#7B7B7B] hover:text-[#0D0D0D] cursor-pointer transition-colors shrink-0"
                 >
-                  <span
-                    className={
-                      formData.primarySkill
-                        ? "text-slate-900 font-medium"
-                        : "text-slate-400"
-                    }
-                  >
-                    {formData.primarySkill || "What's your strongest skill"}
-                  </span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-slate-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
-                  />
+                  {skill}
                 </button>
-
-                {/* Dropdown Options */}
-                {isDropdownOpen && (
-                  <div className="mt-2 bg-white border border-slate-100 rounded-2xl p-2 shadow-xl space-y-1">
-                    {skillOptions.map((skill) => (
-                      <button
-                        key={skill}
-                        onClick={() => {
-                          handleInputChange("primarySkill", skill);
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-colors ${
-                          formData.primarySkill === skill
-                            ? "bg-slate-100 font-semibold text-slate-900"
-                            : "text-slate-600 hover:bg-slate-50"
-                        }`}
-                      >
-                        {skill}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="p-4 rounded-2xl bg-white border border-slate-100 text-sm font-medium text-slate-900 shadow-sm flex items-center justify-between">
-                <span>
-                  {formData.primarySkill || "What's your strongest skill"}
-                </span>
-                <ChevronDown className="w-4 h-4 text-slate-400" />
-              </div>
-            )}
-          </div>
-
-          {/* Portfolio */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-2">
-              Portfolio
-            </label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={formData.portfolio}
-                onChange={(e) => handleInputChange("portfolio", e.target.value)}
-                placeholder="Your custom or portfolio link"
-                className="w-full p-4 rounded-2xl bg-white border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all shadow-sm"
-              />
-            ) : (
-              <div className="p-4 rounded-2xl bg-white border border-slate-100 text-sm font-medium text-slate-800 shadow-sm">
-                {formData.portfolio || "Your custom or portfolio link"}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Action Button */}
-        <div className="mt-10">
-          {isEditing ? (
-            <button
-              onClick={handleSave}
-              className="w-full py-4 bg-[#0052CC] hover:bg-blue-700 text-white font-semibold text-sm rounded-full shadow-md transition-colors"
-            >
-              Update your profile
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="w-full py-4 bg-[#0052CC] hover:bg-blue-700 text-white font-semibold text-sm rounded-full shadow-md transition-colors"
-            >
-              Edit your profile
-            </button>
+              ))}
+            </div>
           )}
         </div>
       </div>
 
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-xs bg-white rounded-3xl p-6 text-center shadow-2xl border border-slate-100">
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+      {/* 5. "Portfolio" Section */}
+      <div className="w-[350px] flex flex-col gap-[8px] mb-[32px]">
+        <label className="text-[14px] font-medium leading-[30px] text-[#7B7B7B] select-none">
+          Portfolio
+        </label>
+        <div className="w-[350px] h-[48px] bg-[#FDFDFD] rounded-[20px] px-[16px] flex items-center">
+          <input
+            type="text"
+            value={portfolioLink}
+            onChange={(e) => setPortfolioLink(e.target.value)}
+            placeholder="e.g. https://behance.net/yourprofile"
+            className="w-full bg-transparent outline-none text-[14px] font-medium text-[#0D0D0D] placeholder:text-[#7B7B7B]"
+          />
+        </div>
+      </div>
 
-            {/* Blue Verified Icon */}
-            <div className="my-4 flex justify-center">
-              <div className="relative w-16 h-16 flex items-center justify-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-16 h-16 text-blue-600 fill-current"
-                >
-                  <path d="M12 2L15.09 3.26L18.36 2.76L19.82 5.76L22.95 6.91L22.5 10.24L24 13.16L22.09 15.89L22.14 19.23L18.91 20.07L16.82 22.68L13.56 21.96L10.84 23.95L8.33 21.73L5.04 22.25L3.81 19.14L0.86 17.78L1.57 14.49L0 11.45L2.12 8.87L2.34 5.53L5.64 4.95L7.91 2.52L11.13 3.51L12 2Z" />
-                </svg>
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-8 h-8 text-white absolute stroke-current"
-                  strokeWidth="3"
-                  fill="none"
-                >
-                  <path
-                    d="M5 13l4 4L19 7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </div>
+      {/* 6. CTA Button */}
+      <button
+        type="button"
+        disabled={!isFormDirty || isSubmitting}
+        onClick={handleUpdateProfile}
+        className={`w-[350px] h-[44px] rounded-[22px] flex items-center justify-center shadow-[inset_2px_2px_4px_0px_rgba(255,255,255,0.35),_inset_0px_-2px_4px_0px_rgba(255,255,255,0.3)] transition-all mb-8 ${
+          isFormDirty && !isSubmitting
+            ? "bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.99] cursor-pointer"
+            : "bg-[#6B7280] cursor-not-allowed opacity-70"
+        }`}
+      >
+        <span className="text-[14px] font-medium text-white text-center leading-[15px]">
+          {isSubmitting ? "Updating..." : "Update your profile"}
+        </span>
+      </button>
 
-            <h2 className="text-xl font-bold text-slate-900 mb-2">
-              Succesful!
-            </h2>
-            <p className="text-xs text-slate-500 leading-relaxed mb-4">
+      {/* 7. Success Bottom Sheet Modal */}
+      <BottomSheetModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+      >
+        <div className="w-full flex flex-col items-center gap-[20px] py-[4px] text-center">
+          <img
+            src={profileSuccessBadgeImg}
+            alt="Profile updated successful"
+            className="w-[88px] h-[90px] object-contain animate-badge-pop"
+          />
+
+          <div className="w-full flex flex-col items-center gap-[8px] text-center">
+            <h3 className="text-[24px] font-medium leading-[29px] text-[#0A0A0A] tracking-[-0.01em]">
+              Successful!
+            </h3>
+            <p className="text-[14px] font-normal leading-[20px] text-[#7B7B7B] max-w-[280px]">
               Your profile has been updated successfully. Your profile is
-              visible to customers now
+              visible to customers now.
             </p>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setShowSuccessModal(false)}
+            className="w-full h-[44px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.99] rounded-[22px] shadow-button-inset flex items-center justify-center text-white text-[14px] font-medium leading-[15px] cursor-pointer transition-all outline-none"
+          >
+            <span>Done</span>
+          </button>
         </div>
-      )}
+      </BottomSheetModal>
     </div>
   );
-}
+};
+
+export default ProfilePortfolioScreen;

@@ -22,6 +22,23 @@ function BellIcon() {
   );
 }
 
+function EmptyFolderIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="w-12 h-12 text-[#0048B3]"
+    >
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+      <line x1="9" y1="13" x2="15" y2="13" />
+    </svg>
+  );
+}
+
 function ProjectPerson() {
   return (
     <div className="w-full h-[62px] flex items-center gap-[12px]">
@@ -48,7 +65,6 @@ export default function WorkerDashboardPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [hasProjects, setHasProjects] = useState(false);
 
-  // 1. Time-based Greeting
   const { greeting, subtext } = useMemo(() => {
     const hour = new Date().getHours();
     if (hour < 12) {
@@ -63,7 +79,6 @@ export default function WorkerDashboardPage() {
     }
   }, []);
 
-  // 2. Name & Initials
   const fullName = user?.full_name || "User";
   const firstName = fullName.split(" ")[0];
 
@@ -83,7 +98,31 @@ export default function WorkerDashboardPage() {
   };
 
   return (
-    <div className="w-full max-w-[390px] min-h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[110px] mx-auto relative">
+    <div className="w-full max-w-[390px] min-h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[110px] mx-auto relative overflow-x-hidden">
+      {/* Inline Keyframe Animation for Floating Motion across the Page */}
+      <style>{`
+        @keyframes floatAround {
+          0% {
+            transform: translate(0px, 0px) rotate(0deg);
+          }
+          25% {
+            transform: translate(25px, -35px) rotate(8deg);
+          }
+          50% {
+            transform: translate(-20px, -60px) rotate(-6deg);
+          }
+          75% {
+            transform: translate(-30px, -20px) rotate(5deg);
+          }
+          100% {
+            transform: translate(0px, 0px) rotate(0deg);
+          }
+        }
+        .animate-float-around {
+          animation: floatAround 8s ease-in-out infinite;
+        }
+      `}</style>
+
       {/* Header */}
       <header className="w-full max-w-[358px] flex items-center justify-between">
         <div className="flex flex-col gap-[2px] items-start text-left min-w-0">
@@ -103,7 +142,6 @@ export default function WorkerDashboardPage() {
             <BellIcon />
           </button>
 
-          {/* User Avatar / Initials */}
           {user?.avatar_url ? (
             <img
               src={user.avatar_url}
@@ -129,24 +167,19 @@ export default function WorkerDashboardPage() {
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-[358px] flex flex-col gap-[24px] mt-[16px]">
+      <div className="w-full max-w-[358px] flex flex-col items-center justify-center flex-1 gap-[24px] mt-[16px]">
         {!hasProjects ? (
-          <section className="w-full bg-[#FCFCFC] border border-[#E5E7EB] rounded-[16px] p-8 text-center flex flex-col items-center justify-center min-h-[260px]">
-            {/* Playful Dancing / Bouncing Icon */}
-            <div className="w-16 h-16 mb-4 rounded-full bg-[#F0F5FF] flex items-center justify-center animate-bounce">
-              <span
-                className="text-3xl animate-spin"
-                style={{ animationDuration: "3s" }}
-              >
-                🎉
-              </span>
+          <section className="w-full flex flex-col items-center justify-center text-center my-auto py-12">
+            {/* Unconstrained Floating Vector Icon */}
+            <div className="animate-float-around mb-6 p-4 rounded-full bg-[#F0F5FF]">
+              <EmptyFolderIcon />
             </div>
 
-            <h2 className="text-[16px] font-medium leading-[19px] text-[#272931] mb-2">
+            <h2 className="text-[17px] font-medium leading-[20px] text-[#272931] mb-2">
               No Active Projects Yet
             </h2>
-            <p className="text-[13px] font-normal leading-[18px] text-[#272931]/50 max-w-[260px]">
-              You haven&apos;t been assigned any projects yet. Once you start
+            <p className="text-[13px] font-normal leading-[18px] text-[#272931]/50 max-w-[260px] text-center">
+              You haven't been assigned any projects yet. Once you start
               working, your active tasks will appear here.
             </p>
           </section>
@@ -196,12 +229,7 @@ export default function WorkerDashboardPage() {
                 <h2 className="text-[16px] font-medium leading-[19px] text-[#0D0D0D]">
                   Completed Project
                 </h2>
-                <button
-                  type="button"
-                  className="text-[12px] font-medium leading-[14px] text-[#9E9E9E] hover:text-[#0A0A0A] transition-colors outline-none cursor-pointer"
-                >
-                  See all
-                </button>
+        
               </div>
 
               <div className="w-full flex flex-col gap-[16px]">
