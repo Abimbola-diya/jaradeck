@@ -7,7 +7,7 @@
  * @param {string} phone 
  * @returns {{ isValid: boolean, error?: string }}
  */
-export function validatePhone(phone) {
+export function validatePhone(phone: string) {
   if (!phone || !phone.trim()) {
     return { isValid: false, error: 'Phone number is required.' };
   }
@@ -67,7 +67,7 @@ export function validatePhone(phone) {
  * @param {string} email 
  * @returns {{ isValid: boolean, error?: string }}
  */
-export function validateEmail(email) {
+export function validateEmail(email: string) {
   if (!email || !email.trim()) {
     return { isValid: false, error: 'Email address is required.' };
   }

@@ -382,3 +382,14 @@ async def set_user_role(
         return {"message": "Role set successfully", "user": res.data[0]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+    
+
+# Add to auth.py
+
+@router.post("/logout", status_code=status.HTTP_200_OK)
+async def logout(current_user: dict = Depends(get_current_user)):
+    """
+    Logs out the current user session.
+    Stateless JWT tokens are invalidated on the client side.
+    """
+    return {"message": "Successfully logged out"}

@@ -81,7 +81,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem("jaradeck_user", JSON.stringify(userData));
   };
 
-  const logout = () => {
+  // AuthContext.tsx
+
+  const logout = async () => {
+    if (token) {
+      try {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (err) {
+        console.error("Failed to notify backend on logout", err);
+      }
+    }
+
+    // Clear local auth state and storage
     setUser(null);
     setToken(null);
     localStorage.removeItem("jaradeck_token");
@@ -115,7 +132,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       {children}
     </AuthContext.Provider>
   );
-};;;
+};;;;
 
 export const useAuthStore = (): AuthContextType => {
   const context = useContext(AuthContext);

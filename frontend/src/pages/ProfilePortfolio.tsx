@@ -5,6 +5,7 @@ import { useAuthStore } from "../context/AuthContext";
 import profileSuccessBadgeImg from "../assets/profile_success_badge.png";
 import profileAvatarImg from "../assets/profile_avatar_user.png";
 import { useNavigate } from "react-router-dom";
+import WorkerBottomNav from "../components/WorkerBottomNav";
 
 export const ProfilePortfolioScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -303,6 +304,7 @@ export const ProfilePortfolioScreen: React.FC = () => {
           </button>
         </div>
       </BottomSheetModal>
+      <WorkerBottomNav />
     </div>
   );
 };

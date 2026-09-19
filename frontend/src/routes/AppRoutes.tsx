@@ -25,6 +25,7 @@ import FreshChatScreen from "../pages/FreshChatScreen";
 
 import { ProtectedRoute } from "../components/ProtectedRoutes";
 import { AvailabilityScreen } from "../pages/AvailabilityScreen";
+import { PayoutsScreen } from "../pages/PayoutsScreen";
 
 export const AppRoutes = () => {
   return (
@@ -198,6 +199,24 @@ export const AppRoutes = () => {
         <Route
           path="/dashboard/freelancer/settings/availability"
           element={<AvailabilityScreen />}
+        />
+        <Route
+          path="/dashboard/freelancer/settings/payout"
+          element={<PayoutsScreen />}
+        />
+        
+      
+        <Route
+          path="/dashboard/freelancer/settings/profile-portfolio"
+          element={<ProfilePortfolioPage />}
+        />
+        <Route
+          path="/dashboard/freelancer/settings/availability"
+          element={<AvailabilityScreen />}
+        />
+        <Route
+          path="/dashboard/freelancer/settings/payout"
+          element={<PayoutsScreen />}
         />
 
         {/* Worker-Specific Nested Sub-routes (Role Guarded) */}

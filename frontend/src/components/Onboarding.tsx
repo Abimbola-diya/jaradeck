@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Briefcase01Icon, UserAccountIcon } from "hugeicons-react";
 import ArrowLeft02Icon from "./ArrowLeft02Icon";
 import ArrowIcon from "./ArrowIcon";
@@ -8,6 +7,7 @@ import confettiImage from "../assets/coffette.svg";
 import successTickImage from "../assets/success tick.svg";
 import ProfileStep from "./onboarding/ProfileStep";
 import { API_BASE_URL } from "../lib/api";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../context/AuthContext";
 
 type OnboardingStep = "role" | "profile" | "done";
@@ -25,6 +25,27 @@ function RoleSelectionStep({
   const [selectedRole, setSelectedRole] = useState<"customer" | "worker">(
     "customer",
   );
+  const { user, isAuthenticated, isLoading } = useAuthStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading) {
+      // If not logged in at all -> Go to login
+      if (!isAuthenticated) {
+        navigate("/login", { replace: true });
+        return;
+      }
+
+      // If user is already onboarded -> Go to dashboard / home
+      if (user?.onboarding_completed) {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, isLoading, navigate]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="ob2-page">
