@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { motion } from "motion/react";
 import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
@@ -9,8 +9,33 @@ import ArrowRight02Icon from "./ArrowRight02Icon";
 
 import { API_BASE_URL } from "../lib/api";
 
+interface GoogleHint {
+  name: string;
+  email: string;
+  picture: string | null;
+  fromBackend: boolean;
+  backendUser?: any;
+  credential?: string;
+}
+
+interface JwtPayload {
+  name?: string;
+  email?: string;
+  picture?: string;
+  [key: string]: any;
+}
+
+interface SignupModalCardProps {
+  onClose: () => void;
+  onSwitchToLogin: () => void;
+  onGoogleSuccess?: (data: any) => void;
+  onOTPRequired?: (email: string) => void;
+  triggerOrigin?: { x: number; y: number } | null | undefined;
+}
+
 // Decode a Google JWT (ID token) without verifying signature — frontend-only display use
-function decodeJwt(token) {
+function decodeJwt(token: string | undefined): JwtPayload | null {
+  if (!token) return null;
   try {
     const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
     const json = decodeURIComponent(
@@ -26,9 +51,9 @@ function decodeJwt(token) {
 }
 
 function formatErrorMessage(
-  detail,
+  detail: any,
   fallback = "An unexpected error occurred. Please try again.",
-) {
+): string {
   if (!detail) return fallback;
   if (typeof detail === "string") {
     if (
@@ -54,18 +79,18 @@ export default function SignupModalCard({
   onGoogleSuccess,
   onOTPRequired,
   triggerOrigin,
-}) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [isClosing, setIsClosing] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+}: SignupModalCardProps) {
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isClosing, setIsClosing] = useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Google account hint — populated either from localStorage (previous sign-in)
   // or from One Tap silent detection
-  const [googleHint, setGoogleHint] = useState(() => {
+  const [googleHint, setGoogleHint] = useState<GoogleHint | null>(() => {
     try {
       const raw = localStorage.getItem("jaradeck_user");
       if (!raw) return null;
@@ -119,7 +144,7 @@ export default function SignupModalCard({
   const displayPicture =
     rawPicture && rawPicture.startsWith("https://") ? rawPicture : null;
 
-  const [isMobile, setIsMobile] = useState(
+  const [isMobile, setIsMobile] = useState<boolean>(
     () => typeof window !== "undefined" && window.innerWidth <= 640,
   );
 
@@ -132,7 +157,13 @@ export default function SignupModalCard({
   }, []);
 
   // Authenticate with backend using either access_token (popup) or credential (One Tap JWT)
-  const authenticateWithBackend = async ({ access_token, credential }) => {
+  const authenticateWithBackend = async ({
+    access_token,
+    credential,
+  }: {
+    access_token?: string;
+    credential?: string;
+  }) => {
     const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -147,7 +178,7 @@ export default function SignupModalCard({
   };
 
   // Shared helper — saves auth data and updates Google hint state after any Google auth path
-  const finalizeGoogleAuth = (data) => {
+  const finalizeGoogleAuth = (data: any) => {
     localStorage.setItem("jaradeck_token", data.access_token);
     localStorage.setItem("jaradeck_user", JSON.stringify(data.user));
     setGoogleHint({
@@ -171,7 +202,7 @@ export default function SignupModalCard({
           access_token: tokenResponse.access_token,
         });
         finalizeGoogleAuth(data);
-      } catch (err) {
+      } catch (err: any) {
         setError(
           err.message || "Network error connecting to authentication server.",
         );
@@ -192,7 +223,7 @@ export default function SignupModalCard({
           credential: googleHint.credential,
         });
         finalizeGoogleAuth(data);
-      } catch (err) {
+      } catch (err: any) {
         setError(
           err.message || "Network error connecting to authentication server.",
         );
@@ -221,8 +252,10 @@ export default function SignupModalCard({
     setIsClosing(true);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     if (!firstName.trim()) {
       setError("Please enter your first name");
       return;
@@ -252,7 +285,6 @@ export default function SignupModalCard({
         }),
       });
       const data = await res.json();
-      console.log(data)
 
       if (!res.ok) {
         setError(
@@ -340,7 +372,8 @@ export default function SignupModalCard({
             <span className="jd-title-w-anchor">
               W
               <CrownIcon
-                size={50}
+                width={50}
+                height={50}
                 color="#0048B3"
                 className="jd-signup-title-crown-inline"
               />
@@ -523,7 +556,7 @@ export default function SignupModalCard({
             disabled={!isFormValid || isSubmitting}
           >
             <span>{isSubmitting ? "Sending code…" : "Sign up"}</span>
-            {!isSubmitting && <ArrowRight02Icon size={18} />}
+            {!isSubmitting && <ArrowRight02Icon width={18} height={18} />}
           </button>
         </form>
 

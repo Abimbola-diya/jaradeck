@@ -141,7 +141,7 @@ const secondStrikeVariants = {
   },
 };
 
-const Cancel01Icon = forwardRef(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+const Cancel01Icon = forwardRef(({ onMouseEnter, onMouseLeave, className, size = 28, ...props } : { onMouseEnter?: () => void; onMouseLeave?: () => void; className?: string; size?: number }, ref : React.Ref<HTMLDivElement>) => {
   const controls = useAnimation();
   const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
     controls,

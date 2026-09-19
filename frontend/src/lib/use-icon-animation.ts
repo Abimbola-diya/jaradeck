@@ -8,6 +8,12 @@ export function useIconAnimation({
   onMouseEnter,
   onMouseLeave,
   ref
+} : {
+  controls: any;
+  loops?: boolean;
+  onMouseEnter?: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void; 
+  ref?: any;
 }) {
   const shouldReduceMotion = useReducedMotion();
   const isControlledRef = useRef(false);
@@ -38,12 +44,12 @@ export function useIconAnimation({
     return { startAnimation, stopAnimation };
   }, [startAnimation, stopAnimation]);
 
-  const handleMouseEnter = useCallback((event) => {
+  const handleMouseEnter = useCallback((event : React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     onMouseEnter?.(event);
     if (!isControlledRef.current) startAnimation();
   }, [onMouseEnter, startAnimation]);
 
-  const handleMouseLeave = useCallback((event) => {
+  const handleMouseLeave = useCallback((event : React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     onMouseLeave?.(event);
     if (!isControlledRef.current) stopAnimation();
   }, [onMouseLeave, stopAnimation]);

@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import ArrowLeft02Icon from '../ArrowLeft02Icon';
 import BrandLogo from '../BrandLogo';
 
-export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, hideAuthSwitch = false, align = 'left', isCropActive = false }) {
+export default function OBShell({ children, isSignIn = false, onAuthSwitch, onBack, hideBack = false, hideAuthSwitch = false, align = 'left', isCropActive = false } : {
+  children: React.ReactNode;
+  isSignIn?: boolean;
+  onAuthSwitch?: () => void;
+  onBack?: () => void;
+  hideBack?: boolean;
+  hideAuthSwitch?: boolean;
+  align?: 'left' | 'center';
+  isCropActive?: boolean;
+}) {
   const hasBack = !hideBack && Boolean(onBack);
 
   return (

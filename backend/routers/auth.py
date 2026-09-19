@@ -142,21 +142,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 @router.post("/send-otp", status_code=status.HTTP_200_OK)
 async def send_otp(payload: SendOTPRequest):
-    """
-    Unified endpoint to generate and send an OTP code to any email address.
-    Used during signup, login, and manual resends.
-    """
     email = payload.email.lower().strip()
     code = generate_otp()
     expires_at = (datetime.now(timezone.utc) + timedelta(minutes=OTP_EXPIRATION_MINUTES)).isoformat()
 
-    # Invalidate previous unverified OTP records for this email
     try:
         supabase.table("otp_codes").delete().eq("email", email).execute()
     except Exception:
         pass
 
-    # Save new OTP entry
     try:
         supabase.table("otp_codes").insert({
             "email": email,
@@ -167,17 +161,14 @@ async def send_otp(payload: SendOTPRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
+    # Send email ONCE here
     await send_otp_email(email, code)
 
-    # Check user existence to return helpful metadata for frontend routing
     user_res = supabase.table("users").select("id").eq("email", email).execute()
-    is_registered = bool(user_res.data)
-
     return {
         "message": "OTP code sent successfully.",
-        "is_registered": is_registered
+        "is_registered": bool(user_res.data)
     }
-
 
 @router.post("/resend-otp", status_code=status.HTTP_200_OK)
 async def resend_otp(payload: SendOTPRequest):
@@ -235,14 +226,12 @@ async def verify_otp(payload: VerifyOTPRequest):
 
 @router.post("/login/send-otp", status_code=status.HTTP_200_OK)
 async def login_send_otp(payload: SendOTPRequest):
-    """
-    Initiates email-only login flow. Verifies user exists prior to sending OTP.
-    """
     email = payload.email.lower().strip()
     user_res = supabase.table("users").select("id").eq("email", email).execute()
     if not user_res.data:
         raise HTTPException(status_code=404, detail="No account found with this email. Please register.")
 
+    # Call send_otp logic directly or reuse handler
     return await send_otp(payload)
 
 
@@ -274,7 +263,7 @@ async def register(user: UserRegister):
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
     # Automatically dispatch registration OTP
-    await send_otp(SendOTPRequest(email=new_user["email"]))
+    # await send_otp(SendOTPRequest(email=new_user["email"]))
 
     expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": str(new_user["id"])}, expires_delta=expires)

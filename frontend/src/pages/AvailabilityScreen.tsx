@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft02Icon, ArrowDown01Icon } from "hugeicons-react";
-import ellipse8Svg from "../assets/ellipse_8.svg"
+import ellipse8Svg from "../assets/ellipse_8.svg";
 import ellipseLimitedSvg from "../assets/ellipse_limited.svg";
 import ellipseBookedSvg from "../assets/ellipse_booked.svg";
 import calendarIconSvg from "../assets/calendar_icon.svg";
+import WorkerBottomNav from "../components/WorkerBottomNav";
 
 export interface StatusOption {
   id: string;
@@ -46,63 +47,103 @@ export const RESPONSE_EXPECTATION_OPTIONS = [
   "Within 24 hours",
 ];
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export const AvailabilityScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  // Check if preview-1462 is requested via hash or window search
-  const [isPreview1462, setIsPreview1462] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return (
-        window.location.hash.includes("preview-1462") ||
-        window.location.search.includes("preview-1462")
-      );
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      setIsPreview1462(
-        window.location.hash.includes("preview-1462") ||
-          window.location.search.includes("preview-1462"),
-      );
-    };
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
-
-  // Form State
   const [selectedStatus, setSelectedStatus] = useState<StatusOption>(
     STATUS_OPTIONS[0],
   );
-  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(isPreview1462);
+  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
 
   const [startDate, setStartDate] = useState<string>("");
   const [specificDate, setSpecificDate] = useState<string>("");
-  const [isStartDateOpen, setIsStartDateOpen] =
-    useState<boolean>(isPreview1462);
+  const [isStartDateOpen, setIsStartDateOpen] = useState<boolean>(false);
 
   const [responseExpectation, setResponseExpectation] = useState<string>("");
-  const [isResponseOpen, setIsResponseOpen] = useState<boolean>(isPreview1462);
+  const [isResponseOpen, setIsResponseOpen] = useState<boolean>(false);
 
   const [showSavedToast, setShowSavedToast] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
-  // Synchronize when isPreview1462 toggles
+  // 1. Fetch user availability state on component mount
   useEffect(() => {
-    if (isPreview1462) {
-      setIsStatusOpen(true);
-      setIsStartDateOpen(true);
-      setIsResponseOpen(true);
-    }
-  }, [isPreview1462]);
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  const handleSave = () => {
-    setShowSavedToast(true);
-    setTimeout(() => {
-      setShowSavedToast(false);
-      navigate("/dashboard/settings");
-    }, 800);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.availability_status) {
+            const matched = STATUS_OPTIONS.find(
+              (opt) => opt.id === data.availability_status,
+            );
+            if (matched) setSelectedStatus(matched);
+          }
+          if (data.earliest_start_date) setStartDate(data.earliest_start_date);
+          if (data.specific_start_date)
+            setSpecificDate(data.specific_start_date);
+          if (data.response_expectation)
+            setResponseExpectation(data.response_expectation);
+        }
+      } catch (err) {
+        console.error("Failed to load availability preferences", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  // 2. Save availability update via PATCH /api/users/profile
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          availability_status: selectedStatus.id,
+          earliest_start_date: startDate,
+          specific_start_date:
+            startDate === "Specific date" ? specificDate : "",
+          response_expectation: responseExpectation,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to save preferences");
+
+      setShowSavedToast(true);
+      setTimeout(() => {
+        setShowSavedToast(false);
+        navigate("/dashboard/settings");
+      }, 800);
+    } catch (err) {
+      console.error("Save error:", err);
+    } finally {
+      setIsSaving(false);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-[390px] min-h-screen bg-white mx-auto flex items-center justify-center text-slate-500 text-sm">
+        Loading availability...
+      </div>
+    );
+  }
 
   return (
     <div
@@ -113,7 +154,6 @@ export const AvailabilityScreen: React.FC = () => {
       <div className="w-[350px] flex flex-col items-start">
         {/* Header Bar */}
         <div className="w-[350px] h-[44px] flex items-center gap-[24px] mb-[32px]">
-          {/* Back Button */}
           <button
             type="button"
             onClick={() => navigate("/dashboard/settings")}
@@ -172,7 +212,7 @@ export const AvailabilityScreen: React.FC = () => {
                     type="button"
                     onClick={() => {
                       setSelectedStatus(opt);
-                      if (!isPreview1462) setIsStatusOpen(false);
+                      setIsStatusOpen(false);
                     }}
                     className="flex items-center gap-[8px] text-left cursor-pointer group"
                   >
@@ -227,9 +267,7 @@ export const AvailabilityScreen: React.FC = () => {
                       type="button"
                       onClick={() => {
                         setStartDate(opt);
-                        if (opt !== "Specific date" && !isPreview1462) {
-                          setIsStartDateOpen(false);
-                        }
+                        if (opt !== "Specific date") setIsStartDateOpen(false);
                       }}
                       className={`text-left text-[14px] font-medium leading-[30px] cursor-pointer transition-colors ${
                         startDate === opt
@@ -301,7 +339,7 @@ export const AvailabilityScreen: React.FC = () => {
                       type="button"
                       onClick={() => {
                         setResponseExpectation(opt);
-                        if (!isPreview1462) setIsResponseOpen(false);
+                        setIsResponseOpen(false);
                       }}
                       className={`text-left text-[14px] font-medium leading-[30px] cursor-pointer transition-colors ${
                         responseExpectation === opt
@@ -330,11 +368,13 @@ export const AvailabilityScreen: React.FC = () => {
         <button
           type="button"
           onClick={handleSave}
-          className="w-[350px] h-[44px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.99] rounded-[22px] shadow-button-inset flex items-center justify-center text-white text-[14px] font-medium leading-[15px] cursor-pointer transition-all outline-none"
+          disabled={isSaving}
+          className="w-[350px] h-[44px] bg-[#0048B3] hover:bg-[#003A91] disabled:opacity-50 active:scale-[0.99] rounded-[22px] shadow-button-inset flex items-center justify-center text-white text-[14px] font-medium leading-[15px] cursor-pointer transition-all outline-none"
         >
-          <span>Save</span>
+          <span>{isSaving ? "Saving..." : "Save"}</span>
         </button>
       </div>
+      <WorkerBottomNav />
     </div>
   );
 };

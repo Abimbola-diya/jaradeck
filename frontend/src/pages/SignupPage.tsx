@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import SignupModalCard from '../components/SignupModalCard';
 import LoginModalCard from '../components/LoginModalCard';
 import OTPStep from '../components/onboarding/OTPStep';
+import { useAuthStore } from '../context/AuthContext'; // Or your AuthContext hook path
 
 const GOOGLE_CLIENT_ID =
   (import.meta.env.VITE_GOOGLE_CLIENT_ID as string) ||
@@ -12,7 +13,7 @@ const GOOGLE_CLIENT_ID =
 type Step = 'form' | 'otp';
 
 interface LocationState {
-  origin?: string;
+  origin?: { x: number; y: number } | null;
 }
 
 interface AuthData {
@@ -22,6 +23,7 @@ interface AuthData {
 
 export default function SignupPage() {
   const navigate = useNavigate();
+  const { login } = useAuthStore();
   const location = useLocation();
   const state = (location.state as LocationState) || {};
   const triggerOrigin = state.origin;
@@ -42,24 +44,46 @@ export default function SignupPage() {
     navigate('/signup');
   };
 
-  const handleGoogleSuccess = (data?: { user?: any }) => {
-    navigate('/onboarding', { state: { googleAuth: true, user: data?.user } });
-  };
+const handleGoogleSuccess = (data?: { user?: any; access_token?: string }) => {
+  if (data?.user && data?.access_token) {
+    login(data.user, data.access_token);
+  }
+
+  if (data?.user?.is_onboarded) {
+    navigate("/", { replace: true });
+  } else {
+    navigate("/onboarding", {
+      replace: true,
+      state: { googleAuth: true, user: data?.user },
+    });
+  }
+};
 
   const handleOTPRequired = (email: string) => {
     setPendingEmail(email);
     setStep('otp');
   };
 
-  const handleOTPVerified = (authData: AuthData) => {
-    navigate('/onboarding', {
-      state: {
-        verifiedUser: authData.user,
-        accessToken: authData.access_token,
-        fromSignup: !isLogin,
-      },
-    });
-  };
+ const handleOTPVerified = (authData: AuthData) => {
+   // 1. Sync session into AuthContext
+   login(authData.user, authData.access_token);
+
+   // 2. Check onboarding status
+   if (authData.user?.is_onboarded) {
+     // User is already onboarded -> Send to main application / dashboard
+     navigate("/", { replace: true });
+   } else {
+     // User needs onboarding -> Send to onboarding flow
+     navigate("/onboarding", {
+       replace: true,
+       state: {
+         verifiedUser: authData.user,
+         accessToken: authData.access_token,
+         fromSignup: !isLogin,
+       },
+     });
+   }
+ };
 
   const handleOTPBack = () => {
     setStep('form');

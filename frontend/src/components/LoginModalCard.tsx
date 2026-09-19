@@ -9,9 +9,10 @@ import ArrowRight02Icon from "./ArrowRight02Icon";
 
 import { API_BASE_URL } from "../lib/api";
 
-function decodeJwt(token) {
+function decodeJwt(token : string | undefined) {
   try {
-    const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    if (!token) return null;
+    const base64 = token?.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
     const json = decodeURIComponent(
       atob(base64)
         .split("")
@@ -25,7 +26,7 @@ function decodeJwt(token) {
 }
 
 function formatErrorMessage(
-  detail,
+  detail : any,
   fallback = "An unexpected error occurred. Please try again.",
 ) {
   if (!detail) return fallback;
@@ -47,42 +48,61 @@ function formatErrorMessage(
   return fallback;
 }
 
+interface LoginModalCardProps {
+  onClose: () => void;
+  onSwitchToSignUp: () => void;
+  onGoogleSuccess?: (data: any) => void;
+  onOTPRequired?: (email: string) => void;
+  triggerOrigin?: { x: number; y: number } | null | undefined;
+}
+
+interface GoogleHint {
+  name: string;
+  email: string;
+  picture: string | null;
+  fromBackend: boolean;
+  backendUser?: any;
+  credential?: string;
+}
+
 export default function LoginModalCard({
   onClose,
   onSwitchToSignUp,
   onGoogleSuccess,
   onOTPRequired,
   triggerOrigin,
-}) {
+}: LoginModalCardProps) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isClosing, setIsClosing] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [googleHint, setGoogleHint] = useState(() => {
-    try {
-      const raw = localStorage.getItem("jaradeck_user");
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      if (!parsed?.id || parsed?.auth_provider !== "google") {
-        localStorage.removeItem("jaradeck_user");
-        return null;
-      }
-      return {
-        name: parsed.full_name || parsed.name || "",
-        email: parsed.email || "",
-        picture: parsed.picture || parsed.avatar_url || null,
-        fromBackend: true,
-        backendUser: parsed,
-      };
-    } catch {
+const [googleHint, setGoogleHint] = useState<GoogleHint | null>(() => {
+  try {
+    const raw = localStorage.getItem("jaradeck_user");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed?.id || parsed?.auth_provider !== "google") {
+      localStorage.removeItem("jaradeck_user");
       return null;
     }
-  });
+    return {
+      name: parsed.full_name || parsed.name || "",
+      email: parsed.email || "",
+      picture: parsed.picture || parsed.avatar_url || null,
+      fromBackend: true,
+      backendUser: parsed,
+    };
+  } catch {
+    return null;
+  }
+});
 
   useGoogleOneTapLogin({
     onSuccess: (credentialResponse) => {
+      if (!credentialResponse.credential) return; // Guard clause
+      
       const payload = decodeJwt(credentialResponse.credential);
       if (payload && !googleHint?.fromBackend) {
         setGoogleHint({
@@ -121,7 +141,13 @@ export default function LoginModalCard({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const authenticateWithBackend = async ({ access_token, credential }) => {
+  const authenticateWithBackend = async ({
+    access_token,
+    credential,
+  }: {
+    access_token?: string;
+    credential?: string;
+  }) => {
     const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -135,7 +161,7 @@ export default function LoginModalCard({
     return data;
   };
 
-  const finalizeGoogleAuth = (data) => {
+  const finalizeGoogleAuth = (data: any) => {
     localStorage.setItem("jaradeck_token", data.access_token);
     localStorage.setItem("jaradeck_user", JSON.stringify(data.user));
     setGoogleHint({
@@ -159,7 +185,7 @@ export default function LoginModalCard({
           access_token: tokenResponse.access_token,
         });
         finalizeGoogleAuth(data);
-      } catch (err) {
+      } catch (err: any) {
         setError(
           err.message || "Network error connecting to authentication server.",
         );
@@ -179,7 +205,7 @@ export default function LoginModalCard({
           credential: googleHint.credential,
         });
         finalizeGoogleAuth(data);
-      } catch (err) {
+      } catch (err: any) {
         setError(
           err.message || "Network error connecting to authentication server.",
         );
@@ -206,7 +232,7 @@ export default function LoginModalCard({
     setIsClosing(true);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !email.includes("@")) {
       setError("Please enter a valid email address");
@@ -223,7 +249,7 @@ export default function LoginModalCard({
         body: JSON.stringify({ email: email.trim().toLowerCase() }),
       });
       const data = await res.json();
-      console.log(data)
+      console.log(data);
 
       if (!res.ok) {
         setError(
@@ -306,7 +332,8 @@ export default function LoginModalCard({
             <span className="jd-title-w-anchor">
               W
               <CrownIcon
-                size={50}
+                width={50}
+                height={50}
                 color="#0048B3"
                 className="jd-signup-title-crown-inline"
               />

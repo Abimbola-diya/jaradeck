@@ -29,7 +29,7 @@ function formatErrorMessage(
   return fallback;
 }
 
-function maskEmail(email) {
+function maskEmail(email : string) {
   if (!email) return "";
   const [local, domain] = email.split("@");
   if (!domain) return email;
@@ -37,7 +37,12 @@ function maskEmail(email) {
   return `${local[0]}***${local[local.length - 1]}@${domain}`;
 }
 
-export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
+export default function OTPStep({ email, onVerified, onSignIn, onBack } : {
+  email: string;
+  onVerified: (data: any) => void;
+  onSignIn: () => void;
+  onBack: () => void;
+}) {
   const [digits, setDigits] = useState(Array(6).fill(""));
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -104,7 +109,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
     return () => clearInterval(timer);
   }, [resendCooldown]);
 
-  const handleChange = (idx, val) => {
+  const handleChange = (idx : number, val : string) => {
     if (!/^\d?$/.test(val)) return;
     const next = [...digits];
     next[idx] = val;
@@ -115,7 +120,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
     }
   };
 
-  const handleKeyDown = (idx, e) => {
+  const handleKeyDown = (idx : number, e : React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && !digits[idx] && idx > 0) {
       inputRefs.current[idx - 1]?.focus();
     }
@@ -129,7 +134,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack }) {
       .slice(0, 6);
     if (!pasted) return;
     const next = [...digits];
-    pasted.split("").forEach((ch, i) => {
+    pasted.split("").forEach((ch : string, i : number) => {
       next[i] = ch;
     });
     setDigits(next);

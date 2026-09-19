@@ -43,6 +43,11 @@ class UserResponse(BaseModel):
     portfolio_url: Optional[str] = None
     avatar_url: Optional[str] = None
     auth_provider: str
+    # Availability fields
+    availability_status: Optional[str] = "available"
+    earliest_start_date: Optional[str] = None
+    specific_start_date: Optional[str] = None
+    response_expectation: Optional[str] = None
 
 class SendOTPRequest(BaseModel):
     email: EmailStr
@@ -68,3 +73,8 @@ class ProfileUpdate(BaseModel):
     phone: Optional[str] = None
     country: Optional[str] = None
     is_onboarded: Optional[bool] = None
+    # Availability fields
+    availability_status: Optional[str] = None      # 'available' | 'limited' | 'booked'
+    earliest_start_date: Optional[str] = None      # 'Immediately' | 'In the next two weeks' | 'Specific date'
+    specific_start_date: Optional[str] = None      # Custom date string
+    response_expectation: Optional[str] = None     # 'Under two hours' | 'Within 24 hours'
