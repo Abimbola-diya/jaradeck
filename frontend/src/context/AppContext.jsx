@@ -125,12 +125,69 @@ export const AppProvider = ({ children }) => {
     navigate(targetPath, { state: safeState });
   };
 
+  // Conversations state matching Figma chat screens
+  const INITIAL_CONVERSATIONS = [
+    {
+      id: '1',
+      name: 'Sarah Jenkins',
+      lastMessage: 'Are you available for a quick sync?',
+      timestamp: '10:20AM',
+      unreadCount: 1,
+      isOnline: true,
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+    },
+    {
+      id: '2',
+      name: 'Match: E-commerce build',
+      lastMessage: 'System: You have been matched with Alex',
+      timestamp: '10:20AM',
+      unreadCount: 1,
+      isOnline: false,
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80',
+    },
+    {
+      id: '3',
+      name: 'Marcus Chen',
+      lastMessage: 'Thanks for the update. Talk soon!',
+      timestamp: '10:20AM',
+      unreadCount: 0,
+      isOnline: false,
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+    },
+  ];
+
+  const [conversations, setConversations] = useState(INITIAL_CONVERSATIONS);
+  const [role, setRole] = useState('freelancer');
+
+  const clearConversations = () => {
+    setConversations([]);
+  };
+
+  const restoreConversations = () => {
+    setConversations(INITIAL_CONVERSATIONS);
+  };
+
+  const goBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
         user,
         setUser,
         navigateTo,
+        goBack,
+        role,
+        setRole,
+        conversations,
+        setConversations,
+        clearConversations,
+        restoreConversations,
         freelancerState,
         updateFreelancerState,
         toggleChecklistItem,

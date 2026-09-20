@@ -4,13 +4,18 @@ import { LocalBankWithdrawScreen } from '../components/LocalBankWithdrawScreen';
 import { ConfirmWithdrawScreen } from '../components/ConfirmWithdrawScreen';
 import { EnterPinScreen } from '../components/EnterPinScreen';
 import { WithdrawSuccessScreen } from '../components/WithdrawSuccessScreen';
+import { WorkerChatScreen } from '../components/WorkerChatScreen';
+import { FreshChatScreen } from '../components/FreshChatScreen';
 
 const tabCopy = {
-  chat: ['Chat', 'Your project conversations will appear here.'],
   settings: ['Settings', 'Manage your worker profile and availability.'],
 };
 
 export default function DashboardTabPage({ tab }) {
+  if (tab === 'chat' || tab === 'fresh-chat' || tab === 'chat-thread') {
+    return <FreshChatScreen />;
+  }
+
   if (tab === 'wallet') {
     return <WorkerWalletScreen />;
   }

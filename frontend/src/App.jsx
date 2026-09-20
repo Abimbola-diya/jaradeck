@@ -301,6 +301,8 @@ export default function App() {
           <Route path="enter-pin" element={<DashboardTabPage tab="enter-pin" />} />
           <Route path="withdraw-success" element={<DashboardTabPage tab="withdraw-success" />} />
           <Route path="chat" element={<DashboardTabPage tab="chat" />} />
+          <Route path="fresh-chat" element={<DashboardTabPage tab="fresh-chat" />} />
+          <Route path="chat-thread" element={<DashboardTabPage tab="chat-thread" />} />
           <Route path="settings" element={<DashboardTabPage tab="settings" />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

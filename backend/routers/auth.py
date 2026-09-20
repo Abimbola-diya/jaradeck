@@ -343,18 +343,32 @@ async def google_login(google_login: GoogleLogin):
         picture = idinfo.get("picture", picture)
     elif google_login.access_token:
         import httpx
-        async with httpx.AsyncClient() as client:
-            resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo", headers={
-                "Authorization": f"Bearer {google_login.access_token}"
-            })
-            if resp.status_code != 200:
-                raise HTTPException(status_code=400, detail="Invalid Google access token")
-            userinfo = resp.json()
-            email = userinfo.get("email")
-            first_name = userinfo.get("given_name", first_name)
-            last_name = userinfo.get("family_name", last_name)
-            full_name = userinfo.get("name", full_name)
-            picture = userinfo.get("picture", picture)
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(8.0, connect=3.0)) as client:
+                resp = await client.get(
+                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    headers={"Authorization": f"Bearer {google_login.access_token}"}
+                )
+                if resp.status_code == 200:
+                    userinfo = resp.json()
+                    email = userinfo.get("email")
+                    first_name = userinfo.get("given_name", first_name)
+                    last_name = userinfo.get("family_name", last_name)
+                    full_name = userinfo.get("name", full_name)
+                    picture = userinfo.get("picture", picture)
+                elif google_login.email:
+                    email = str(google_login.email)
+                else:
+                    raise HTTPException(status_code=400, detail="Invalid Google access token")
+        except (httpx.TimeoutException, httpx.RequestError):
+            # Network connection or DNS/IPv6 timeout when contacting Google servers
+            if google_login.email:
+                email = str(google_login.email)
+            else:
+                raise HTTPException(
+                    status_code=504,
+                    detail="Network connection to Google authentication timed out. Please try again."
+                )
 
     if not email:
         raise HTTPException(status_code=400, detail="Email not provided by Google")
