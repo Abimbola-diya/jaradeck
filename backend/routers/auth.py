@@ -47,12 +47,59 @@ async def send_otp_email(email: str, code: str):
           <td align="center" style="padding: 40px 10px;">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); text-align: center;">
               
-              <!-- Header Brand Banner -->
+              <!-- Header Brand Banner & Floating Security Icons -->
               <tr>
-                <td style="padding: 32px 32px 16px 32px; text-align: center;">
-                  <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #0048B3; letter-spacing: -0.5px;">
-                    Jaradeck
-                  </h1>
+                <td style="padding: 36px 32px 16px 32px; text-align: center;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <!-- Floating Security Shield Icon (Left) -->
+                             <td valign="middle" style="padding-right: 12px;">
+                               <div style="background-color: #EFF6FF; border: 1px solid #DBEAFE; border-radius: 50%; width: 36px; height: 36px; display: inline-block; text-align: center; line-height: 36px;">
+                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0048B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                   <path d="M12 8v4"/>
+                                   <path d="M12 16h.01"/>
+                                 </svg>
+                               </div>
+                             </td>
+
+                            <!-- Jaradeck Logo & Title Block (Center) -->
+                            <td valign="middle" style="text-align: center;">
+                              <div style="display: inline-block; vertical-align: middle; margin-bottom: 4px;">
+                                <svg width="34" height="25" viewBox="0 0 34 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M3.23453 17.8236H34.0002V24.4431H3.23453V21.1334V17.8236Z" fill="#0048B3"/>
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0002 17.8236H3.23453L0 16.1194H30.674L34.0002 17.8236Z" fill="#487DCD"/>
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.23453 17.8236V21.1334V24.4431L0 22.4737V16.1194L3.23453 17.8236Z" fill="#2F6BC4"/>
+                                  <path d="M3.23453 9.87086H34.0002V16.4904H3.23453V9.87086Z" fill="#0048B3"/>
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0002 9.87086H3.23453L0 8.16666H30.674L34.0002 9.87086Z" fill="#487DCD"/>
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.23453 9.87086V16.4904L0 14.5209V8.16666L3.23453 9.87086Z" fill="#2F6BC4"/>
+                                  <path d="M3.23453 1.7042H34.0002V8.3237H3.23453V1.7042Z" fill="#0048B3"/>
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0002 1.7042H3.23453L0 0H30.674L34.0002 1.7042Z" fill="#487DCD"/>
+                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.23453 1.7042V8.3237L0 6.35427V0L3.23453 1.7042Z" fill="#2F6BC4"/>
+                                </svg>
+                              </div>
+                              <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #0048B3; letter-spacing: -0.5px; line-height: 1;">
+                                Jaradeck
+                              </h1>
+                            </td>
+
+                            <!-- Floating Lock/OTP Key Icon (Right) -->
+                             <td valign="middle" style="padding-left: 12px;">
+                               <div style="background-color: #EFF6FF; border: 1px solid #DBEAFE; border-radius: 50%; width: 36px; height: 36px; display: inline-block; text-align: center; line-height: 36px;">
+                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0048B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                   <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                 </svg>
+                               </div>
+                             </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
 
@@ -104,7 +151,6 @@ async def send_otp_email(email: str, code: str):
     </body>
     </html>
     """
-
     try:
         resend.Emails.send({
             "from": "Jaradeck <onboarding@resend.dev>",

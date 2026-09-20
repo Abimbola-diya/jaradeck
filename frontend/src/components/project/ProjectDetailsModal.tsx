@@ -9,11 +9,25 @@ import {
   Loading03Icon,
   Clock01Icon,
   Download02Icon,
-  Pdf01Icon,
   Upload02Icon,
   SentIcon,
   Folder01Icon,
 } from "hugeicons-react";
+import { getFileTypeConfig } from "../../utils/fileTypeUtils";
+import portfolioWork1 from "../../assets/portfolio_work_1.png";
+import portfolioWork2 from "../../assets/portfolio_work_2.png";
+
+export interface DeliverableFile {
+  id: string;
+  name: string;
+  size: number;
+  type?: string;
+  uploadedAt: string;
+  url?: string;
+  downloadUrl?: string;
+  previewUrl?: string;
+  hash: string;
+}
 
 interface ProjectDetailsModalProps {
   isOpen: boolean;
@@ -25,21 +39,82 @@ interface ProjectDetailsModalProps {
     duration?: string;
     budget?: string;
     description?: string;
+    deliverables?: DeliverableFile[];
   };
 }
+
+const DEFAULT_DELIVERABLES: DeliverableFile[] = [
+  {
+    id: "1",
+    name: "IG_Campaign_Wireframes_v1.pdf",
+    size: 2516582,
+    uploadedAt: "Oct 19, 2026",
+    type: "pdf",
+    hash: "sha256-8f4b23a1c90e451b6d77e43922110cfa8201bcf559e1029348ba982341ac9012",
+  },
+  {
+    id: "del-2",
+    name: "Social_Banner_Visuals.jpg",
+    size: 1887436,
+    type: "image/jpeg",
+    uploadedAt: "Oct 19, 2026",
+    hash: "sha256-8f4b23a1c90e451b6d77e43922110cfa8201bcf559e1029348ba982341ac9012",
+  },
+  {
+    id: "del-3",
+    name: "Brand_Identity_Assets.fig",
+    size: 4404019,
+    type: "application/octet-stream",
+    uploadedAt: "Oct 19, 2026",
+    hash: "sha256-d41d8cd98f00b204e9800998ecf8427e9981240188b43f9a76d1e43849102cba",
+  },
+];
 
 export default function ProjectDetailsModal({
   isOpen,
   onClose,
   project,
 }: ProjectDetailsModalProps) {
-  const [step, setStep] = useState<"details" | "upload">("details");
+  // Converted step system to support details, upload, and internal preview transitions
+  const [step, setStep] = useState<"details" | "upload" | "preview">("details");
+  const [selectedDeliverable, setSelectedDeliverable] =
+    useState<DeliverableFile | null>(null);
 
   if (!isOpen) return null;
 
   const handleClose = () => {
     setStep("details");
+    setSelectedDeliverable(null);
     onClose();
+  };
+
+  const handleDeliverableClick = (file: DeliverableFile) => {
+    setSelectedDeliverable(file);
+    setStep("preview");
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const handleDownload = (file: DeliverableFile) => {
+    if (file.downloadUrl) {
+      const a = document.createElement("a");
+      a.href = file.downloadUrl;
+      a.download = file.name;
+      a.click();
+    } else {
+      const blob = new Blob(["Mock deliverable payload: " + file.name], {
+        type: "text/plain",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   };
 
   const slideVariants = {
@@ -56,6 +131,8 @@ export default function ProjectDetailsModal({
       opacity: 0,
     }),
   };
+
+  const deliverablesList = project?.deliverables || DEFAULT_DELIVERABLES;
 
   return (
     <AnimatePresence>
@@ -83,9 +160,9 @@ export default function ProjectDetailsModal({
           <AnimatePresence
             initial={false}
             mode="wait"
-            custom={step === "upload" ? 1 : -1}
+            custom={step === "details" ? -1 : 1}
           >
-            {step === "details" ? (
+            {step === "details" && (
               /* STEP 1: PROJECT DETAILS */
               <motion.div
                 key="details"
@@ -313,42 +390,60 @@ export default function ProjectDetailsModal({
                     </button>
                   </div>
 
-                  <div className="w-full h-[66px] bg-white border border-[#FCFCFC] rounded-[8px] p-[13px] flex items-center justify-between select-none shadow-sm">
-                    <div className="flex items-center gap-[12px]">
-                      <div className="w-[40px] h-[40px] rounded-[8px] bg-[#FFE4E6] flex items-center justify-center shrink-0">
-                        <Pdf01Icon
-                          size={22}
-                          color="#E11D48"
-                          className="w-[22px] h-[22px] shrink-0"
-                        />
-                      </div>
-                      <div className="flex flex-col items-start text-left gap-[2px]">
-                        <span className="text-[13px] font-medium leading-none text-[#000000]">
-                          IG_Campaign_Wireframes_v1.pdf
-                        </span>
-                        <span className="text-[13px] font-normal leading-none text-[#6B7280]">
-                          2.4 MB • PDF Document
-                        </span>
-                      </div>
-                    </div>
+                  <div className="w-full flex flex-col gap-[8px]">
+                    {deliverablesList.map((file) => {
+                      const config = getFileTypeConfig(file.name, file.type);
+                      const IconComponent = config.icon;
+                      return (
+                        <div
+                          key={file.id}
+                          onClick={() => handleDeliverableClick(file)}
+                          className="w-full h-[66px] bg-[#FCFCFC] hover:bg-[#F5F6F8] transition-colors rounded-[8px] p-[13px] flex items-center justify-between select-none cursor-pointer border border-[#E5E7EB]/50"
+                        >
+                          <div className="flex items-center gap-[12px] truncate">
+                            <div
+                              className="w-[40px] h-[40px] rounded-[8px] flex items-center justify-center shrink-0"
+                              style={{ backgroundColor: config.bgColor }}
+                            >
+                              <IconComponent
+                                size={22}
+                                color={config.color}
+                                className="w-[22px] h-[22px] shrink-0"
+                              />
+                            </div>
+                            <div className="flex flex-col items-start text-left gap-[2px] truncate">
+                              <span className="text-[13px] font-medium leading-none text-[#000000] truncate max-w-[190px]">
+                                {file.name}
+                              </span>
+                              <span className="text-[13px] font-normal leading-none text-[#6B7280]">
+                                {formatFileSize(file.size)} • {config.label}
+                              </span>
+                            </div>
+                          </div>
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        console.log("Download deliverable file clicked")
-                      }
-                      className="p-1 text-black hover:text-[#0048B3] transition-colors outline-none cursor-pointer flex items-center justify-center"
-                      aria-label="Download document"
-                    >
-                      <Download02Icon
-                        size={24}
-                        className="w-[24px] h-[24px] shrink-0"
-                      />
-                    </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(file);
+                            }}
+                            className="p-1 text-black hover:text-[#0048B3] transition-colors outline-none cursor-pointer flex items-center justify-center shrink-0"
+                            aria-label="Download document"
+                          >
+                            <Download02Icon
+                              size={24}
+                              className="w-[24px] h-[24px] shrink-0"
+                            />
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </motion.div>
-            ) : (
+            )}
+
+            {step === "upload" && (
               /* STEP 2: UPLOAD DELIVERABLES */
               <motion.div
                 key="upload"
@@ -452,6 +547,141 @@ export default function ProjectDetailsModal({
                 </div>
               </motion.div>
             )}
+
+            {step === "preview" &&
+              selectedDeliverable &&
+              (() => {
+                const config = getFileTypeConfig(
+                  selectedDeliverable.name,
+                  selectedDeliverable.type,
+                );
+                const IconComponent = config.icon;
+                const previewImage =
+                  selectedDeliverable.previewUrl ||
+                  (config.category === "image"
+                    ? portfolioWork2
+                    : portfolioWork1);
+
+                return (
+                  /* STEP 3: PREVIEW DELIVERABLE */
+                  <motion.div
+                    key="preview"
+                    custom={1}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="w-full max-w-[358px] mx-auto flex flex-col gap-[20px]"
+                  >
+                    {/* Header Navigation */}
+                    <div className="w-full flex items-center gap-[12px]">
+                      <button
+                        type="button"
+                        onClick={() => setStep("details")}
+                        className="w-[40px] h-[40px] rounded-full bg-[#F3F4F5] flex items-center justify-center cursor-pointer hover:bg-[#E5E7EB] active:scale-95 transition-all shrink-0 outline-none"
+                        aria-label="Back to details"
+                      >
+                        <ArrowLeft02Icon
+                          size={20}
+                          color="#272931"
+                          className="w-[20px] h-[20px] shrink-0"
+                        />
+                      </button>
+                      <div className="flex items-center gap-[10px] min-w-0 flex-1 text-left">
+                        <div
+                          className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0"
+                          style={{ backgroundColor: config.bgColor }}
+                        >
+                          <IconComponent
+                            size={20}
+                            color={config.color}
+                            className="shrink-0"
+                          />
+                        </div>
+                        <div className="flex flex-col min-w-0 flex-1">
+                          <h3 className="text-[16px] font-medium leading-[22px] text-[#0D0D0D] tracking-[-0.01em] truncate">
+                            {selectedDeliverable.name}
+                          </h3>
+                          <p className="text-[12px] font-normal leading-[16px] text-[#9E9E9E] truncate">
+                            {formatFileSize(selectedDeliverable.size)} •{" "}
+                            {config.label}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Deliverable Visual Content Card */}
+                    <div className="w-full bg-[#FDFDFD] rounded-[20px] p-[14px] flex flex-col items-center gap-[12px] border border-[#E5E7EB]/60">
+                      <div className="w-full max-h-[300px] overflow-hidden rounded-[16px] bg-[#F5F6F8] flex items-center justify-center relative select-none">
+                        {config.category === "image" ||
+                        config.category === "pdf" ? (
+                          <img
+                            src={previewImage}
+                            alt={selectedDeliverable.name}
+                            className="w-full h-[220px] object-cover rounded-[16px]"
+                          />
+                        ) : (
+                          <div className="w-full h-[220px] bg-gradient-to-br from-[#F3F4F6] to-[#E5E7EB] rounded-[16px] flex flex-col items-center justify-center gap-[12px] p-[20px]">
+                            <div className="w-[56px] h-[56px] rounded-[18px] bg-white shadow-sm flex items-center justify-center">
+                              <IconComponent size={30} color={config.color} />
+                            </div>
+                            <div className="text-center">
+                              <span className="text-[14px] font-medium text-[#0D0D0D] block">
+                                {config.label}
+                              </span>
+                              <span className="text-[12px] text-[#6B7280]">
+                                {selectedDeliverable.name}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="absolute bottom-[10px] right-[10px]">
+                          <span className="text-[11px] font-medium text-white/95 bg-black/60 backdrop-blur-md px-[10px] py-[4px] rounded-full">
+                            {config.label}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Checksum Verification */}
+                      <div className="w-full flex items-center justify-between text-left px-[4px] pt-[2px]">
+                        <div className="flex flex-col min-w-0 pr-[8px]">
+                          <span className="text-[12px] font-medium text-[#0D0D0D] truncate">
+                            Deliverable Checksum
+                          </span>
+                          <span className="text-[10px] font-mono text-[#6B7280] truncate">
+                            {selectedDeliverable.hash}
+                          </span>
+                        </div>
+                        <span className="text-[11px] font-medium text-[#10B981] bg-[#10B981]/10 px-[8px] py-[3px] rounded-full flex items-center gap-[4px] shrink-0">
+                          <CheckmarkCircle02Icon size={12} />
+                          <span>Verified</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex flex-col gap-[10px]">
+                      <button
+                        type="button"
+                        onClick={() => handleDownload(selectedDeliverable)}
+                        className="w-full h-[44px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.99] rounded-[22px] flex items-center justify-center gap-[8px] text-white text-[14px] font-medium leading-[15px] cursor-pointer transition-all outline-none"
+                      >
+                        <Download02Icon size={18} />
+                        <span>Download Deliverable</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStep("details")}
+                        className="w-full h-[36px] rounded-[18px] text-[#7A7A7A] hover:text-[#0D0D0D] text-[13px] font-medium transition-colors cursor-pointer outline-none flex items-center justify-center"
+                      >
+                        Back to details
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })()}
           </AnimatePresence>
         </motion.div>
       </div>

@@ -234,6 +234,7 @@ const [googleHint, setGoogleHint] = useState<GoogleHint | null>(() => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     if (!email.trim() || !email.includes("@")) {
       setError("Please enter a valid email address");
       return;
