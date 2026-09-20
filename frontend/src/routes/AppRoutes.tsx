@@ -43,96 +43,34 @@ export const AppRoutes = () => {
         {/* Onboarding */}
         <Route path="/onboarding" element={<OnboardingPage />} />
 
-        {/* Dashboard Routes */}
+        {/* Core Dashboard View */}
         <Route path="/dashboard" element={<WorkerDashboardPage />} />
-        <Route path="/dashboard/customer" element={<WorkerDashboardPage />} />
-        <Route path="/dashboard/freelancer" element={<WorkerDashboardPage />} />
 
         {/* Wallet Routes */}
         <Route path="/dashboard/wallet" element={<WorkerWalletScreen />} />
-        <Route
-          path="/dashboard/customer/wallet"
-          element={<WorkerWalletScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/wallet"
-          element={<WorkerWalletScreen />}
-        />
-
-        {/* Withdraw Routes */}
         <Route
           path="/dashboard/wallet/withdraw"
           element={<WithdrawOptionsScreen />}
         />
         <Route
-          path="/dashboard/customer/withdraw"
-          element={<WithdrawOptionsScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/withdraw"
-          element={<WithdrawOptionsScreen />}
-        />
-
-        <Route
           path="/dashboard/wallet/withdraw-bank"
           element={<LocalBankWithdrawScreen />}
         />
-        <Route
-          path="/dashboard/customer/withdraw-bank"
-          element={<LocalBankWithdrawScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/withdraw-bank"
-          element={<LocalBankWithdrawScreen />}
-        />
-
         <Route
           path="/dashboard/wallet/confirm-withdraw"
           element={<ConfirmWithdrawScreen />}
         />
         <Route
-          path="/dashboard/customer/confirm-withdraw"
-          element={<ConfirmWithdrawScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/confirm-withdraw"
-          element={<ConfirmWithdrawScreen />}
-        />
-
-        <Route
           path="/dashboard/wallet/enter-pin"
           element={<EnterPinScreen />}
         />
         <Route
-          path="/dashboard/customer/enter-pin"
-          element={<EnterPinScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/enter-pin"
-          element={<EnterPinScreen />}
-        />
-
-        <Route
           path="/dashboard/wallet/withdraw-success"
-          element={<WithdrawSuccessScreen />}
-        />
-        <Route
-          path="/dashboard/customer/withdraw-success"
-          element={<WithdrawSuccessScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/withdraw-success"
           element={<WithdrawSuccessScreen />}
         />
 
         {/* Chat Routes */}
         <Route path="/dashboard/chat" element={<WorkerChatScreen />} />
-        <Route path="/dashboard/customer/chat" element={<WorkerChatScreen />} />
-        <Route
-          path="/dashboard/freelancer/chat"
-          element={<WorkerChatScreen />}
-        />
-
         <Route
           path="/dashboard/chat-thread"
           element={<ActiveChatThreadScreen />}
@@ -141,53 +79,14 @@ export const AppRoutes = () => {
           path="/dashboard/chat-thread/:id"
           element={<ActiveChatThreadScreen />}
         />
-        <Route
-          path="/dashboard/freelancer/chat-thread"
-          element={<ActiveChatThreadScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/chat-thread/:id"
-          element={<ActiveChatThreadScreen />}
-        />
-        <Route
-          path="/dashboard/customer/chat-thread"
-          element={<ActiveChatThreadScreen />}
-        />
-        <Route
-          path="/dashboard/customer/chat-thread/:id"
-          element={<ActiveChatThreadScreen />}
-        />
-
         <Route path="/dashboard/fresh-chat" element={<FreshChatScreen />} />
         <Route
-          path="/dashboard/freelancer/fresh-chat"
-          element={<FreshChatScreen />}
-        />
-        <Route
-          path="/dashboard/customer/fresh-chat"
-          element={<FreshChatScreen />}
-        />
-
-        <Route
           path="/dashboard/active-chat"
-          element={<ActiveChatThreadScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/active-chat"
-          element={<ActiveChatThreadScreen />}
-        />
-        <Route
-          path="/dashboard/customer/active-chat"
           element={<ActiveChatThreadScreen />}
         />
 
         {/* Settings & Profile Routes */}
         <Route path="/dashboard/settings" element={<SettingsPage />} />
-        <Route path="/dashboard/customer/settings" element={<SettingsPage />} />
-        <Route
-          path="/dashboard/freelancer/settings"
-          element={<SettingsPage />}
-        />
         <Route
           path="/dashboard/settings/profile-portfolio"
           element={<ProfilePortfolioPage />}
@@ -196,44 +95,7 @@ export const AppRoutes = () => {
           path="/dashboard/settings/availability"
           element={<AvailabilityScreen />}
         />
-        <Route
-          path="/dashboard/freelancer/settings/availability"
-          element={<AvailabilityScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/settings/payout"
-          element={<PayoutsScreen />}
-        />
-        
-      
-        <Route
-          path="/dashboard/freelancer/settings/profile-portfolio"
-          element={<ProfilePortfolioPage />}
-        />
-        <Route
-          path="/dashboard/freelancer/settings/availability"
-          element={<AvailabilityScreen />}
-        />
-        <Route
-          path="/dashboard/freelancer/settings/payout"
-          element={<PayoutsScreen />}
-        />
-
-        {/* Worker-Specific Nested Sub-routes (Role Guarded) */}
-        <Route
-          element={<ProtectedRoute allowedRoles={["worker", "freelancer"]} />}
-        >
-          <Route path="/dashboard/worker" element={<WorkerDashboardPage />} />
-          <Route path="/dashboard/worker/chat" element={<WorkerChatScreen />} />
-          <Route
-            path="/dashboard/worker/fresh-chat"
-            element={<FreshChatScreen />}
-          />
-          <Route
-            path="/dashboard/worker/chat-thread/:id"
-            element={<ActiveChatThreadScreen />}
-          />
-        </Route>
+        <Route path="/dashboard/settings/payout" element={<PayoutsScreen />} />
       </Route>
 
       {/* Admin */}

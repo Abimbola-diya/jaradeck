@@ -20,7 +20,7 @@ export default function AdminViewPage() {
       }
       const result = await response.json();
       setSubmissions(result.data || []);
-    } catch (err) {
+    } catch (err : any) {
       console.error('Error fetching admin waitlist:', err);
       setError(err.message);
     } finally {
@@ -32,7 +32,7 @@ export default function AdminViewPage() {
     fetchWaitlist();
   }, []);
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString : string) => {
     if (!dateString) return 'Recent';
     try {
       const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -53,7 +53,7 @@ export default function AdminViewPage() {
         {/* Top Header Glassmorphic Pill */}
         <header style={{ 
           display: 'flex', 
-          justify: 'space-between', 
+          justifyContent: 'space-between', 
           alignItems: 'center', 
           padding: '0.75rem 1.5rem', 
           marginBottom: '3rem',
