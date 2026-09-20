@@ -13,8 +13,89 @@ import {
   CheckmarkBadge01Icon,
 } from 'hugeicons-react';
 import { useApp } from '../context/AppContext';
+import confetti from 'canvas-confetti';
+import blueTickAsset from '../assets/blue_tick.png';
 
 const DEFAULT_SARAH_AVATAR = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80';
+
+// Live Animated Blue Confetti Milestone Card Component
+const MilestoneCompletedCard = ({ msg }) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    // Initialize confetti instance bound to card canvas
+    const myConfetti = confetti.create(canvasRef.current, {
+      resize: true,
+      useWorker: true,
+    });
+
+    const end = Date.now() + 2000;
+    const colors = ['#0048B3', '#2563EB', '#60A5FA', '#93C5FD', '#3B82F6', '#FBBF24'];
+
+    const frame = () => {
+      myConfetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.65 },
+        colors: colors,
+      });
+      myConfetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.65 },
+        colors: colors,
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="w-full bg-[#FFF0ED] rounded-[24px] p-[24px_20px] flex flex-col items-center text-center relative overflow-hidden my-[12px] shadow-xs"
+    >
+      {/* Canvas for Live Animated Blue Confetti Shower */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      />
+
+      {/* 3D Blue Tick Badge Asset */}
+      <div className="relative z-10 mb-[10px]">
+        <img
+          src={blueTickAsset}
+          alt="Completed"
+          className="w-[48px] h-[48px] object-contain drop-shadow-sm"
+        />
+      </div>
+
+      <h3 className="text-[16px] font-medium text-[#111827] mb-[6px] relative z-10 tracking-normal">
+        {msg.milestoneData.title}
+      </h3>
+      <p className="text-[12px] font-normal text-[#6B7280] leading-[17px] max-w-[260px] mb-[18px] relative z-10">
+        {msg.milestoneData.description}
+      </p>
+
+      <button
+        type="button"
+        onClick={() => alert('Milestone 1 details & payment breakdown')}
+        className="bg-[#0048B3] text-white text-[13px] font-medium px-[26px] py-[10px] rounded-full hover:bg-[#003EA3] active:scale-95 transition-all shadow-md cursor-pointer outline-none border-none relative z-10"
+      >
+        {msg.milestoneData.buttonText}
+      </button>
+    </motion.div>
+  );
+};
 
 const FRESH_SARAH_REPLIES = [
   "Hi Emmanuel! Thanks for reaching out. Excited to collaborate on this Instagram Management project with you.",
@@ -205,37 +286,9 @@ export const FreshChatScreen = () => {
               const isUser = msg.sender === 'You';
               const isSystem = msg.sender === 'System' || msg.isMilestone;
 
-              // Render Milestone Card Event
+              // Render Milestone Card Event with live animated blue confetti shower
               if (isSystem && msg.milestoneData) {
-                return (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-full bg-gradient-to-b from-[#FFF5F5] to-[#FEF2F2] border border-[#FEE2E2] rounded-[24px] p-[20px] flex flex-col items-center text-center relative overflow-hidden my-[8px] shadow-xs"
-                  >
-                    {/* Confetti Background Decor & Verified Badge */}
-                    <div className="w-[48px] h-[48px] rounded-full bg-[#0048B3] text-white flex items-center justify-center shadow-md mb-[10px] relative z-10">
-                      <CheckmarkBadge01Icon size={26} color="#FFFFFF" />
-                    </div>
-
-                    <h3 className="text-[15px] font-medium text-[#111827] mb-[4px] relative z-10">
-                      {msg.milestoneData.title}
-                    </h3>
-                    <p className="text-[12px] text-[#6B7280] leading-[16px] max-w-[250px] mb-[14px] relative z-10">
-                      {msg.milestoneData.description}
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() => alert('Milestone 1 details & payment breakdown')}
-                      className="bg-[#0048B3] text-white text-[12px] font-medium px-[22px] py-[9px] rounded-full hover:bg-[#003EA3] active:scale-95 transition-all shadow-sm cursor-pointer outline-none border-none relative z-10"
-                    >
-                      {msg.milestoneData.buttonText}
-                    </button>
-                  </motion.div>
-                );
+                return <MilestoneCompletedCard key={msg.id} msg={msg} />;
               }
 
               return (
