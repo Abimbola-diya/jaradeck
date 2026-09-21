@@ -9150,30 +9150,66 @@ a:active .hugeicons-animated-arrow-left {
   gap: 12px;
   width: 100%;
 }
+
 /* ── Jaradeck 3D Animated Logo Keyframe Animations ──────────────────────── */
 @keyframes deckFloatTop {
-  0%, 100% { transform: translate(0px, 0px); }
-  50% { transform: translate(1.5px, -6px); }
+
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+
+  50% {
+    transform: translate(1.5px, -6px);
+  }
 }
 
 @keyframes deckFloatMiddle {
-  0%, 100% { transform: translate(0px, 0px); }
-  50% { transform: translate(0.8px, -3px); }
+
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+
+  50% {
+    transform: translate(0.8px, -3px);
+  }
 }
 
 @keyframes deckEntranceBottom {
-  0% { transform: translate(0px, 12px); opacity: 0; }
-  100% { transform: translate(0px, 0px); opacity: 1; }
+  0% {
+    transform: translate(0px, 12px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
 }
 
 @keyframes deckEntranceMiddle {
-  0% { transform: translate(0px, 18px); opacity: 0; }
-  100% { transform: translate(0px, 0px); opacity: 1; }
+  0% {
+    transform: translate(0px, 18px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
 }
 
 @keyframes deckEntranceTop {
-  0% { transform: translate(0px, 24px); opacity: 0; }
-  100% { transform: translate(0px, 0px); opacity: 1; }
+  0% {
+    transform: translate(0px, 24px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
 }
 
 .animate-deck-float-top {
@@ -9200,19 +9236,44 @@ a:active .hugeicons-animated-arrow-left {
 
 /* Middle deck: slides RIGHT in first half, stays still in second half */
 @keyframes deckShuffleMiddle {
-  0%   { transform: translateX(0); }
-  15%  { transform: translateX(22px); }
-  35%  { transform: translateX(0); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+
+  15% {
+    transform: translateX(22px);
+  }
+
+  35% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* Top & Bottom decks: stay still in first half, slide LEFT in second half */
 @keyframes deckShuffleOuter {
-  0%   { transform: translateX(0); }
-  50%  { transform: translateX(0); }
-  65%  { transform: translateX(-22px); }
-  85%  { transform: translateX(0); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+
+  65% {
+    transform: translateX(-22px);
+  }
+
+  85% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .animate-deck-shuffle-top {

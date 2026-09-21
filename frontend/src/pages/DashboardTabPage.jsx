@@ -6,13 +6,36 @@ import { EnterPinScreen } from '../components/EnterPinScreen';
 import { WithdrawSuccessScreen } from '../components/WithdrawSuccessScreen';
 import { WorkerChatScreen } from '../components/WorkerChatScreen';
 import { FreshChatScreen } from '../components/FreshChatScreen';
+import { WorkerSettingsScreen } from '../components/WorkerSettingsScreen';
+import { WorkerAvailabilityScreen } from '../components/WorkerAvailabilityScreen';
+import { PayoutsScreen } from '../components/PayoutsScreen';
+import { ProfilePortfolioScreen } from '../components/ProfilePortfolioScreen';
 
 const tabCopy = {
   settings: ['Settings', 'Manage your worker profile and availability.'],
 };
 
 export default function DashboardTabPage({ tab }) {
-  if (tab === 'chat' || tab === 'fresh-chat' || tab === 'chat-thread') {
+  if (tab === 'settings') {
+    return <WorkerSettingsScreen />;
+  }
+
+  if (tab === 'profile-portfolio' || tab === 'profile') {
+    return <ProfilePortfolioScreen />;
+  }
+
+  if (tab === 'availability') {
+    return <WorkerAvailabilityScreen />;
+  }
+
+  if (tab === 'payouts') {
+    return <PayoutsScreen />;
+  }
+  if (tab === 'chat') {
+    return <WorkerChatScreen />;
+  }
+
+  if (tab === 'fresh-chat' || tab === 'chat-thread') {
     return <FreshChatScreen />;
   }
 

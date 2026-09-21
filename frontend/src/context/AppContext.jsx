@@ -107,7 +107,7 @@ export const AppProvider = ({ children }) => {
     if (!path) return;
     const routeMap = {
       'shared/otp-verification': '/onboarding',
-      'shared/profile-portfolio': '/onboarding',
+      'shared/profile-portfolio': '/dashboard/profile-portfolio',
       'shared/payouts': '/dashboard/wallet',
       'shared/availability': '/dashboard/settings',
       'freelancer/project-details': '/dashboard/projects',
@@ -117,6 +117,9 @@ export const AppProvider = ({ children }) => {
       'freelancer/enter-pin': '/dashboard/enter-pin',
       'freelancer/withdraw-success': '/dashboard/withdraw-success',
       'freelancer/wallet': '/dashboard/wallet',
+      'freelancer/chat': '/dashboard/chat',
+      'freelancer/chat-thread': '/dashboard/chat-thread',
+      'freelancer/fresh-chat': '/dashboard/fresh-chat',
     };
     const targetPath = routeMap[path] || (path.startsWith('/') ? path : `/${path}`);
     const safeState = extraState && (extraState.nativeEvent || extraState.preventDefault || extraState._reactName)

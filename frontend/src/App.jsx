@@ -304,6 +304,9 @@ export default function App() {
           <Route path="fresh-chat" element={<DashboardTabPage tab="fresh-chat" />} />
           <Route path="chat-thread" element={<DashboardTabPage tab="chat-thread" />} />
           <Route path="settings" element={<DashboardTabPage tab="settings" />} />
+          <Route path="profile-portfolio" element={<DashboardTabPage tab="profile-portfolio" />} />
+          <Route path="availability" element={<DashboardTabPage tab="availability" />} />
+          <Route path="payouts" element={<DashboardTabPage tab="payouts" />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

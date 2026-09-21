@@ -282,7 +282,13 @@ export function WorkerChatScreen() {
               return (
                 <div
                   key={item.id}
-                  onClick={() => setSelectedThread(item)}
+                  onClick={() => {
+                    if (item.id === '1' || item.name.toLowerCase().includes('sarah')) {
+                      navigate('/dashboard/chat-thread');
+                    } else {
+                      setSelectedThread(item);
+                    }
+                  }}
                   className="w-full flex items-center cursor-pointer hover:bg-gray-50/70 active:bg-gray-100/50 transition-colors"
                 >
                   {/* Left: Avatar (Outside the bottom divider line) */}
