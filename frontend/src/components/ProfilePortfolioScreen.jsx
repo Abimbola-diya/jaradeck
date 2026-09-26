@@ -13,23 +13,13 @@ import { SelectField } from './ui/SelectField';
 
 // Figma Vector & Raster Assets
 import sarahAdulojuAvatar from '../assets/sarah_aduloju_avatar.png';
-import emptyFrameSvg from '../assets/portfolio_empty_frame.svg';
+import noActiveProjectsSvg from '../assets/no_active_projects.svg';
 import portfolioRiseAppPreviewImg from '../assets/portfolio_rise_app_preview.png';
+import emptyProfileIconSvg from '../assets/empty_profile_icon.svg';
+import multipleStarsSvg from '../assets/multiple_stars.svg';
 
 // Default initial work item matching Figma node 1802:3067
-const DEFAULT_INITIAL_WORKS = [
-  {
-    id: 'work-rise-mobile-app',
-    projectId: 'profile_portfolio_default',
-    type: 'image',
-    positionIndex: 0,
-    title: 'Rise Mobile App',
-    bodyText: 'Product Design • 2024',
-    storagePath: portfolioRiseAppPreviewImg,
-    synced: true,
-    updatedAt: Date.now(),
-  },
-];
+const DEFAULT_INITIAL_WORKS = [];
 
 export const ProfilePortfolioScreen = ({ forceToast = false }) => {
   const { user = {}, updateUser, navigateTo, goBack } = useApp?.() || {};
@@ -178,35 +168,29 @@ export const ProfilePortfolioScreen = ({ forceToast = false }) => {
       <div className="w-full max-w-[358px] flex flex-col gap-[24px]">
         {/* Identity Section (Frame 990: 350px x 80px) */}
         <div className="w-full h-[80px] flex items-center gap-[11px] relative">
-          {/* Avatar Container with Camera Upload Button (Figma Node 1716:2708 & 1798:2893) */}
+          {/* Avatar Container with Centered Camera Upload Icon */}
           <div className="relative w-[80px] h-[80px] shrink-0">
             {/* Avatar Circle */}
             <button
               type="button"
               onClick={triggerUpload}
-              className="w-[80px] h-[80px] rounded-full overflow-hidden border border-[#F3F4F6] block cursor-pointer group outline-none focus-visible:ring-2 focus-visible:ring-[#0048B3]/50 transition-transform active:scale-[0.97]"
+              className="w-[80px] h-[80px] rounded-full overflow-hidden border border-[#F3F4F6] relative block cursor-pointer group outline-none focus-visible:ring-2 focus-visible:ring-[#0048B3]/50 transition-transform active:scale-[0.97]"
               title="Click to upload profile picture"
               aria-label="Upload profile picture"
             >
               <img
                 src={avatarImage}
                 alt={name}
-                className="w-full h-full object-cover group-hover:brightness-95 transition-[filter]"
+                className="w-full h-full object-cover group-hover:brightness-90 transition-[filter]"
               />
-            </button>
-
-            {/* Camera Upload Badge / Button (Figma Node 1798:2893 at left: 56px, top: 60px) */}
-            <button
-              type="button"
-              onClick={triggerUpload}
-              className="absolute left-[56px] top-[60px] w-[20px] h-[20px] flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform z-10 outline-none"
-              title="Upload profile picture"
-              aria-label="Upload profile picture"
-            >
-              <CameraAdd01Icon
-                size={20}
-                color="#0D0D0D"
-              />
+              {/* Centered Camera Icon Overlay (empty_profile_icon.svg) */}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/15 group-hover:bg-black/25 transition-colors">
+                <img
+                  src={emptyProfileIconSvg}
+                  alt="Upload profile icon"
+                  className="w-[30px] h-[30px] object-contain drop-shadow-sm"
+                />
+              </div>
             </button>
 
             {/* Hidden File Input */}
@@ -253,13 +237,13 @@ export const ProfilePortfolioScreen = ({ forceToast = false }) => {
             </span>
           </div>
 
-          {/* Metric 3: Ratings (Frame 995 with 4 Stars) */}
+          {/* Metric 3: Ratings (Frame 995 with multiple_stars.svg) */}
           <div className="w-[51px] flex flex-col items-center justify-between h-[37px]">
-            <div className="flex items-center gap-[1px] my-auto">
-              {[...Array(4)].map((_, i) => (
-                <StarIcon key={i} size={11} className="text-[#F6C811] fill-[#F6C811]" />
-              ))}
-            </div>
+            <img
+              src={multipleStarsSvg}
+              alt="Ratings stars"
+              className="w-[51px] h-[12px] object-contain my-auto"
+            />
             <span className="text-[14px] text-[#6B7280] leading-[17px]">
               Ratings
             </span>
@@ -343,26 +327,30 @@ export const ProfilePortfolioScreen = ({ forceToast = false }) => {
               Portfolio Works
             </span>
 
-            {/* Add Work CTA Button in Section Header (Figma Node 1802:3062) */}
-            <button
-              type="button"
-              id="add-work-header-btn"
-              onClick={() => setIsAddWorkModalOpen(true)}
-              className="w-[96px] h-[30px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.96] text-white rounded-[20px] px-[12px] py-[8px] flex items-center justify-between cursor-pointer"
-            >
-              <Add01Icon size={14} color="#FFFFFF" className="shrink-0" />
-              <span className="text-[12px] font-medium leading-[14px]">Add Work</span>
-            </button>
+            {/* Add Work CTA Button in Section Header (Only shown when works exist) */}
+            {isPopulated && (
+              <button
+                type="button"
+                id="add-work-header-btn"
+                onClick={() => navigateTo('shared/add-portfolio-work')}
+                className="w-[96px] h-[30px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.96] text-white rounded-[20px] px-[12px] py-[8px] flex items-center justify-between cursor-pointer"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                  <path d="M6 1.5V10.5M1.5 6H10.5" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className="text-[12px] font-medium leading-[14px]">Add Work</span>
+              </button>
+            )}
           </div>
 
           {/* Populated Cards vs Empty State */}
           {!isPopulated ? (
-            <div className="w-full min-h-[160px] flex flex-col items-center justify-center gap-[16px] py-[8px]">
-              <div className="flex flex-col items-center gap-[8px]">
+            <div className="w-full min-h-[180px] flex flex-col items-center justify-center gap-[16px] py-[12px]">
+              <div className="flex flex-col items-center gap-[12px]">
                 <img
-                  src={emptyFrameSvg}
-                  alt="Empty portfolio"
-                  className="w-[93px] h-[88px] object-contain"
+                  src={noActiveProjectsSvg}
+                  alt="No portfolio works yet"
+                  className="w-[100px] h-[90px] object-contain"
                 />
                 <p className="text-[16px] font-medium text-[#272931] leading-[19px] text-center">
                   Upload your best works
@@ -373,10 +361,12 @@ export const ProfilePortfolioScreen = ({ forceToast = false }) => {
               <button
                 type="button"
                 id="add-work-cta-btn"
-                onClick={() => setIsAddWorkModalOpen(true)}
-                className="w-[96px] h-[30px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.96] text-white rounded-[20px] px-[12px] py-[8px] flex items-center justify-between cursor-pointer"
+                onClick={() => navigateTo('shared/add-portfolio-work')}
+                className="w-[96px] h-[30px] bg-[#0048B3] hover:bg-[#003A91] active:scale-[0.96] text-white rounded-[20px] px-[12px] py-[8px] flex items-center justify-between cursor-pointer shadow-xs"
               >
-                <Add01Icon size={14} color="#FFFFFF" className="shrink-0" />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                  <path d="M6 1.5V10.5M1.5 6H10.5" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
                 <span className="text-[12px] font-medium leading-[14px]">Add Work</span>
               </button>
             </div>
@@ -385,7 +375,7 @@ export const ProfilePortfolioScreen = ({ forceToast = false }) => {
               {works.map((work) => (
                 <div
                   key={work.id}
-                  className="w-full h-[226px] bg-[#FDFDFD] rounded-[20px] p-[12px] flex flex-col justify-between"
+                  className="w-full h-[226px] bg-[#FDFDFD] rounded-[20px] p-[12px] flex flex-col justify-between border border-[#F3F4F6]"
                 >
                   {/* Card Header (Node 1721:2205: Project Info + Status Pill) */}
                   <div className="w-full h-[33px] flex items-center justify-between">
@@ -435,11 +425,11 @@ export const ProfilePortfolioScreen = ({ forceToast = false }) => {
 
         {/* Empty State Only: Reviews section */}
         {!isPopulated && (
-          <div className="w-full flex flex-col gap-[16px] mb-[20px]">
-            <span className="text-[14px] font-medium leading-[30px] text-[#7B7B7B]">
+          <div className="w-full flex flex-col gap-[16px] mb-[20px] pt-[8px]">
+            <span className="text-[14px] font-medium leading-[20px] text-[#7B7B7B]">
               Reviews
             </span>
-            <div className="w-full h-[60px] bg-[#FDFDFD] rounded-[20px] flex items-center justify-center">
+            <div className="w-full py-[24px] flex items-center justify-center">
               <p className="text-[16px] font-medium text-[#272931] leading-[19px] text-center">
                 No reviews yet.
               </p>

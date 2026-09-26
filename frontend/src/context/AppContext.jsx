@@ -108,6 +108,7 @@ export const AppProvider = ({ children }) => {
     const routeMap = {
       'shared/otp-verification': '/onboarding',
       'shared/profile-portfolio': '/dashboard/profile-portfolio',
+      'shared/add-portfolio-work': '/dashboard/add-portfolio-work',
       'shared/payouts': '/dashboard/wallet',
       'shared/availability': '/dashboard/settings',
       'freelancer/project-details': '/dashboard/projects',

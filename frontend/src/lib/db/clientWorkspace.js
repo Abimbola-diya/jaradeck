@@ -26,7 +26,12 @@ export async function saveProjectBlock(projectId = 'profile_portfolio_default', 
   }
 }
 
+export async function stageLocalBlock(block) {
+  return saveProjectBlock(block.projectId || 'profile_portfolio_default', block);
+}
+
 export default {
   getProjectBlocks,
   saveProjectBlock,
+  stageLocalBlock,
 };

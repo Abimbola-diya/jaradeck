@@ -10,6 +10,7 @@ import { WorkerSettingsScreen } from '../components/WorkerSettingsScreen';
 import { WorkerAvailabilityScreen } from '../components/WorkerAvailabilityScreen';
 import { PayoutsScreen } from '../components/PayoutsScreen';
 import { ProfilePortfolioScreen } from '../components/ProfilePortfolioScreen';
+import { AddPortfolioWorkScreen } from '../components/AddPortfolioWorkScreen';
 
 const tabCopy = {
   settings: ['Settings', 'Manage your worker profile and availability.'],
@@ -22,6 +23,10 @@ export default function DashboardTabPage({ tab }) {
 
   if (tab === 'profile-portfolio' || tab === 'profile') {
     return <ProfilePortfolioScreen />;
+  }
+
+  if (tab === 'add-portfolio-work' || tab === 'add-work') {
+    return <AddPortfolioWorkScreen />;
   }
 
   if (tab === 'availability') {
