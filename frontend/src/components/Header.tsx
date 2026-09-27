@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BrandLogo from "./BrandLogo";
 
+type NavTab = "hire" | "how" | "why" | "join";
+
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(
+  const [activeTab, setActiveTab] = useState<NavTab>(
     location.pathname === "/waitlist" ? "join" : "why",
   );
 
@@ -19,7 +21,11 @@ export default function Header() {
     }
   }, [location.pathname]);
 
-  const navigateTo = (path, e, extraState) => {
+  const navigateTo = (
+    path: string,
+    e?: React.MouseEvent<HTMLElement>,
+    extraState?: Record<string, unknown>,
+  ) => {
     if (e && (e.clientX || e.currentTarget)) {
       const rect = e.currentTarget?.getBoundingClientRect();
       const originX = rect ? rect.left + rect.width / 2 : e.clientX;
@@ -33,11 +39,11 @@ export default function Header() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const mainPillRef = useRef(null);
-  const hireRef = useRef(null);
-  const howRef = useRef(null);
-  const whyRef = useRef(null);
-  const joinRef = useRef(null);
+  const mainPillRef = useRef<HTMLElement>(null);
+  const hireRef = useRef<HTMLButtonElement>(null);
+  const howRef = useRef<HTMLButtonElement>(null);
+  const whyRef = useRef<HTMLButtonElement>(null);
+  const joinRef = useRef<HTMLButtonElement>(null);
 
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,

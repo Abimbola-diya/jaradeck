@@ -1,6 +1,20 @@
-import React from 'react';
+interface CrownIconProps {
+  size?: number;
+  width?: number;
+  height?: number;
+  color?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
 
-export default function CrownIcon({ size = 46, width, height, color = '#082A45', className = '', style = {} }) {
+export default function CrownIcon({
+  size = 46,
+  width,
+  height,
+  color = '#082A45',
+  className = '',
+  style = {},
+}: CrownIconProps) {
   const w = width ?? size;
   const h = height ?? size * (58 / 56);
 

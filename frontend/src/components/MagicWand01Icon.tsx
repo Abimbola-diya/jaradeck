@@ -1,65 +1,16 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation, useReducedMotion } from 'motion/react';
+import { forwardRef, useEffect } from 'react';
+import { motion, useAnimation } from 'motion/react';
+import type { Variants } from 'motion/react';
+import { useIconAnimation } from '../lib/use-icon-animation';
 
 // Exact component from @hugeicons-animated/magic-wand-01 registry
 // Source: https://hugeicons-animated.com/r/magic-wand-01.json
-
-function useIconAnimation({ controls, loops = false, onMouseEnter, onMouseLeave, ref }) {
-  const shouldReduceMotion = useReducedMotion();
-  const isControlledRef = useRef(false);
-  const isPlayingRef = useRef(false);
-  const runRef = useRef(0);
-
-  const startAnimation = useCallback(() => {
-    if (shouldReduceMotion || isPlayingRef.current) return;
-    isPlayingRef.current = true;
-    const run = ++runRef.current;
-    controls.set('normal');
-    void controls.start('animate').then(() => {
-      if (runRef.current === run) isPlayingRef.current = false;
-    });
-  }, [controls, shouldReduceMotion]);
-
-  const stopAnimation = useCallback(() => {
-    if (!loops) return;
-    runRef.current++;
-    isPlayingRef.current = false;
-    void controls.start('normal');
-  }, [controls, loops]);
-
-  useImperativeHandle(
-    ref,
-    () => {
-      isControlledRef.current = true;
-      return { startAnimation, stopAnimation };
-    },
-    [startAnimation, stopAnimation]
-  );
-
-  const handleMouseEnter = useCallback(
-    (event) => {
-      onMouseEnter?.(event);
-      if (!isControlledRef.current) startAnimation();
-    },
-    [onMouseEnter, startAnimation]
-  );
-
-  const handleMouseLeave = useCallback(
-    (event) => {
-      onMouseLeave?.(event);
-      if (!isControlledRef.current) stopAnimation();
-    },
-    [onMouseLeave, stopAnimation]
-  );
-
-  return { handleMouseEnter, handleMouseLeave };
-}
 
 // a flick of the wrist, and the magic keeps happening — the built-in stars
 // twinkle in turn while drawn mini-sparkles pop in the empty corners
 
 // Loop variant: wand also repeats
-const wandVariantsLoop = {
+const wandVariantsLoop: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
     rotate: [0, -14, 8, 0],
@@ -74,7 +25,7 @@ const wandVariantsLoop = {
 };
 
 // One-shot variant (on hover)
-const wandVariants = {
+const wandVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
     rotate: [0, -14, 8, 0],
@@ -82,9 +33,9 @@ const wandVariants = {
   },
 };
 
-const starVariants = {
+const starVariants: Variants = {
   normal: { scale: 1, rotate: 0, transition: { duration: 0.3 } },
-  animate: (i) => ({
+  animate: (i: number) => ({
     scale: [1, 0.3, 1.3, 1],
     rotate: [0, 45, 90, 90],
     transition: {
@@ -96,9 +47,9 @@ const starVariants = {
   }),
 };
 
-const sparkleVariants = {
+const sparkleVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.15 } },
-  animate: (i) => ({
+  animate: (i: number) => ({
     visibility: ['hidden', 'visible', 'hidden'],
     scale: [0.4, 1, 0.6],
     transition: {
@@ -110,13 +61,24 @@ const sparkleVariants = {
   }),
 };
 
-const generatedGeometryVariants = {
+const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.08 } },
   animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
-const MagicWand01Icon = forwardRef(
-  ({ onMouseEnter, onMouseLeave, className, size = 28, loop = false, ...props }, ref) => {
+interface MagicWand01IconProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onMouseEnter' | 'onMouseLeave'> {
+  onMouseEnter?: (event: React.MouseEvent<Element>) => void;
+  onMouseLeave?: (event: React.MouseEvent<Element>) => void;
+  size?: number;
+  loop?: boolean;
+}
+
+const MagicWand01Icon = forwardRef<HTMLDivElement, MagicWand01IconProps>(
+  (
+    { onMouseEnter, onMouseLeave, className, size = 28, loop = false, ...props },
+    ref,
+  ) => {
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,

@@ -1,19 +1,19 @@
-import WorkerBottomNav from '../components/WorkerBottomNav';
+import BottomNav from "../components/BottomNav";
 
-export type DashboardTabKey = 'wallet' | 'chat' | 'settings';
+export type DashboardTabKey = "wallet" | "chat" | "settings";
 
 interface DashboardTabPageProps {
   tab: DashboardTabKey;
 }
 
 const tabCopy: Record<DashboardTabKey, [string, string]> = {
-  wallet: ['Wallet', 'Your balance and payouts will appear here.'],
-  chat: ['Chat', 'Your project conversations will appear here.'],
-  settings: ['Settings', 'Manage your worker profile and availability.'],
+  wallet: ["Wallet", "Your balance and payouts will appear here."],
+  chat: ["Chat", "Your project conversations will appear here."],
+  settings: ["Settings", "Manage your worker profile and availability."],
 };
 
 export default function DashboardTabPage({ tab }: DashboardTabPageProps) {
-  const [title, description] = tabCopy[tab] || ['Dashboard', ''];
+  const [title, description] = tabCopy[tab] || ["Dashboard", ""];
 
   return (
     <main className="worker-dashboard dashboard-tab-page">
@@ -21,7 +21,7 @@ export default function DashboardTabPage({ tab }: DashboardTabPageProps) {
         <h1>{title}</h1>
         <p>{description}</p>
       </section>
-      <WorkerBottomNav />
+      <BottomNav />
     </main>
   );
 }

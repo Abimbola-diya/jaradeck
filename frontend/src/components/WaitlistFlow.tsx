@@ -5,7 +5,22 @@ import { useNavigate } from 'react-router-dom';
 
 const TOTAL_STEPS = 5;
 
-const CHANNELS = [
+type ChannelId = 'whatsapp' | 'email' | 'x' | 'instagram';
+
+type Contacts = Partial<Record<ChannelId, string>>;
+
+interface WaitlistData {
+  name: string;
+  contactSelected: ChannelId[];
+  contacts: Contacts;
+  role: string;
+  roleOther: string;
+  tasksSelected: string[];
+  tasksOther: string;
+  frequency: string;
+}
+
+const CHANNELS: { id: ChannelId; label: string; placeholder: string; type: string }[] = [
   { id: 'whatsapp', label: 'WhatsApp', placeholder: '080... or +234...', type: 'tel' },
   { id: 'email', label: 'Email', placeholder: 'you@example.com', type: 'email' },
   { id: 'x', label: 'X', placeholder: '@lagabaja', type: 'text' },
@@ -13,23 +28,23 @@ const CHANNELS = [
 ];
 
 // Helper to calculate channel error
-function getChannelError(id, val) {
+function getChannelError(id: string, val: string): string {
   if (!val || !val.trim()) return '';
   if (id === 'whatsapp') {
     const res = validatePhone(val);
-    return res.isValid ? '' : res.error;
+    return res.isValid ? '' : (res.error ?? '');
   }
   if (id === 'email') {
     const res = validateEmail(val);
-    return res.isValid ? '' : res.error;
+    return res.isValid ? '' : (res.error ?? '');
   }
   return '';
 }
 
 // ─── Step 1: Name ─────────────────────────────────────────────────────────────
 
-function StepName({ value, onChange, onNext }) {
-  const inputRef = useRef(null);
+function StepName({ value, onChange, onNext }: { value: string; onChange: (v: string) => void; onNext: () => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => { inputRef.current?.focus(); }, []);
 
   return (
@@ -55,11 +70,17 @@ function StepName({ value, onChange, onNext }) {
 
 // ─── Step 2: Contact channels ─────────────────────────────────────────────────
 
-function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
+function StepContact({ selected, contacts, onToggle, onContact, onNext }: {
+  selected: ChannelId[];
+  contacts: Contacts;
+  onToggle: (id: ChannelId) => void;
+  onContact: (id: ChannelId, value: string) => void;
+  onNext: () => void;
+}) {
   // Check validity for every selected channel
   const isEverySelectedValid = selected.length > 0 && selected.every((id) => {
-    const val = contacts[id];
-    if (!val || !val.trim()) return false;
+    const val = contacts[id] ?? '';
+    if (!val.trim()) return false;
     return getChannelError(id, val) === '';
   });
 
@@ -74,7 +95,7 @@ function StepContact({ selected, contacts, onToggle, onContact, onNext }) {
       <div className="wf-channels">
         {CHANNELS.map((ch) => {
           const checked = selected.includes(ch.id);
-          const val = contacts[ch.id] || '';
+          const val = contacts[ch.id] ?? '';
           const errorMsg = checked ? getChannelError(ch.id, val) : '';
 
           return (
@@ -139,8 +160,14 @@ const ROLES = [
   { id: 'other', label: 'Something else' },
 ];
 
-function StepRole({ value, otherText, onChange, onOtherText, onNext }) {
-  const otherRef = useRef(null);
+function StepRole({ value, otherText, onChange, onOtherText, onNext }: {
+  value: string;
+  otherText: string;
+  onChange: (v: string) => void;
+  onOtherText: (v: string) => void;
+  onNext: () => void;
+}) {
+  const otherRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (value === 'other') otherRef.current?.focus();
@@ -203,7 +230,13 @@ const TASK_OPTIONS = [
   { id: 'other', label: 'Something else' },
 ];
 
-function StepTasks({ selected, otherText, onToggle, onOtherText, onNext }) {
+function StepTasks({ selected, otherText, onToggle, onOtherText, onNext }: {
+  selected: string[];
+  otherText: string;
+  onToggle: (id: string) => void;
+  onOtherText: (v: string) => void;
+  onNext: () => void;
+}) {
   const isOther = selected.includes('other');
   const isValid = selected.length > 0 && (!isOther || otherText.trim().length > 0);
 
@@ -263,7 +296,12 @@ const FREQUENCIES = [
   { id: 'just_one', label: 'Just this one project' },
 ];
 
-function StepFrequency({ value, onChange, onSubmit, isSubmitting }) {
+function StepFrequency({ value, onChange, onSubmit, isSubmitting }: {
+  value: string;
+  onChange: (v: string) => void;
+  onSubmit: () => void;
+  isSubmitting: boolean;
+}) {
   return (
     <div className="wf-step">
       <p className="wf-one-more-thing">One more thing...</p>
@@ -331,7 +369,7 @@ function StepLoading() {
 
 // ─── Success Screen ──────────────────────────────────────────────────────────
 
-function StepSuccess({ name, onClose }) {
+function StepSuccess({ name, onClose }: { name: string; onClose: () => void }) {
   const firstName = name ? name.trim().split(' ')[0] : '';
   const navigate = useNavigate();
 
@@ -374,7 +412,7 @@ function StepSuccess({ name, onClose }) {
 
 // ─── Progress Dots ────────────────────────────────────────────────────────────
 
-function ProgressDots({ current, total }) {
+function ProgressDots({ current, total }: { current: number; total: number }) {
   return (
     <div className="wf-progress">
       {Array.from({ length: total }).map((_, i) => (
@@ -386,12 +424,12 @@ function ProgressDots({ current, total }) {
 
 // ─── Main Flow Overlay ────────────────────────────────────────────────────────
 
-export default function WaitlistFlow({ onClose }) {
+export default function WaitlistFlow({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);
-  const [animDir, setAnimDir] = useState('in');
+  const [animDir, setAnimDir] = useState<'in' | 'out'>('in');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [data, setData] = useState({
+  const [data, setData] = useState<WaitlistData>({
     name: '',
     contactSelected: [],
     contacts: {},
@@ -415,7 +453,7 @@ export default function WaitlistFlow({ onClose }) {
   }, [onClose]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => { if (e.key === 'Escape') onCloseRef.current(); };
+    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') onCloseRef.current(); };
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
@@ -440,7 +478,7 @@ export default function WaitlistFlow({ onClose }) {
     }, 280);
   };
 
-  const toggleChannel = (id) => {
+  const toggleChannel = (id: ChannelId) => {
     setData((d) => {
       const already = d.contactSelected.includes(id);
       return {
@@ -452,11 +490,11 @@ export default function WaitlistFlow({ onClose }) {
     });
   };
 
-  const setContact = (id, value) => {
+  const setContact = (id: ChannelId, value: string) => {
     setData((d) => ({ ...d, contacts: { ...d.contacts, [id]: value } }));
   };
 
-  const toggleTask = (id) => {
+  const toggleTask = (id: string) => {
     setData((d) => {
       const already = d.tasksSelected.includes(id);
       return {

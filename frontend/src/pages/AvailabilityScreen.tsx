@@ -6,7 +6,7 @@ import ellipse8Svg from "../assets/ellipse_8.svg";
 import ellipseLimitedSvg from "../assets/ellipse_limited.svg";
 import ellipseBookedSvg from "../assets/ellipse_booked.svg";
 import calendarIconSvg from "../assets/calendar_icon.svg";
-import WorkerBottomNav from "../components/WorkerBottomNav";
+import BottomNav from "../components/BottomNav";
 import { useAuthStore } from "../context/AuthContext"; // Import Auth Context hook
 
 export interface StatusOption {
@@ -71,79 +71,84 @@ export const AvailabilityScreen: React.FC = () => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   // 1. Fetch user availability state on component mount
- useEffect(() => {
-   const fetchUserProfile = async () => {
-     try {
-       if (!token) return; // Guard clause if token isn't ready yet
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        if (!token) return; // Guard clause if token isn't ready yet
 
-       const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       });
+        const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-       if (res.ok) {
-         const data = await res.json();
-         if (data.availability_status) {
-           const matched = STATUS_OPTIONS.find(
-             (opt) => opt.id === data.availability_status,
-           );
-           if (matched) setSelectedStatus(matched);
-         }
-         if (data.earliest_start_date) setStartDate(data.earliest_start_date);
-         if (data.specific_start_date)
-           setSpecificDate(data.specific_start_date);
-         if (data.response_expectation)
-           setResponseExpectation(data.response_expectation);
-       }
-     } catch (err) {
-       console.error("Failed to load availability preferences", err);
-     } finally {
-       setIsLoading(false);
-     }
-   };
+        if (res.ok) {
+          const data = await res.json();
+          if (data.availability_status) {
+            const matched = STATUS_OPTIONS.find(
+              (opt) => opt.id === data.availability_status,
+            );
+            if (matched) setSelectedStatus(matched);
+          }
+          if (data.earliest_start_date) setStartDate(data.earliest_start_date);
+          if (data.specific_start_date)
+            setSpecificDate(data.specific_start_date);
+          if (data.response_expectation)
+            setResponseExpectation(data.response_expectation);
+        }
+      } catch (err) {
+        console.error("Failed to load availability preferences", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-   fetchUserProfile();
- }, [token]);
+    fetchUserProfile();
+  }, [token]);
 
   // 2. Save availability update via PATCH /api/users/profile
-const handleSave = async () => {
-  if (!token) {
-    console.error("No authentication token available.");
-    return;
-  }
-  setIsSaving(true);
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        availability_status: selectedStatus.id,
-        earliest_start_date: startDate,
-        specific_start_date: startDate === "Specific date" ? specificDate : "",
-        response_expectation: responseExpectation,
-      }),
-    });
+  const handleSave = async () => {
+    if (!token) {
+      console.error("No authentication token available.");
+      return;
+    }
+    setIsSaving(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          availability_status: selectedStatus.id,
+          earliest_start_date: startDate,
+          specific_start_date:
+            startDate === "Specific date" ? specificDate : "",
+          response_expectation: responseExpectation,
+        }),
+      });
 
-if (!res.ok) {
-  const errorData = await res.json().catch(() => ({}));
-  console.error("PATCH /api/users/profile failed:", res.status, errorData);
-  throw new Error(errorData.detail || "Failed to save preferences");
-}
-    setShowSavedToast(true);
-    setTimeout(() => {
-      setShowSavedToast(false);
-      navigate("/dashboard/settings");
-    }, 800);
-  } catch (err) {
-    console.error("Save error:", err);
-  } finally {
-    setIsSaving(false);
-  }
-};
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.error(
+          "PATCH /api/users/profile failed:",
+          res.status,
+          errorData,
+        );
+        throw new Error(errorData.detail || "Failed to save preferences");
+      }
+      setShowSavedToast(true);
+      setTimeout(() => {
+        setShowSavedToast(false);
+        navigate("/dashboard/settings");
+      }, 800);
+    } catch (err) {
+      console.error("Save error:", err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -382,7 +387,7 @@ if (!res.ok) {
           <span>{isSaving ? "Saving..." : "Save"}</span>
         </button>
       </div>
-      <WorkerBottomNav />
+      <BottomNav />
     </div>
   );
 };

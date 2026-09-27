@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import confetti from 'canvas-confetti';
 import BrandLogo from './BrandLogo';
 import { validateEmail } from '../utils/validation';
@@ -8,11 +8,11 @@ export default function NewsletterSection() {
   const [emailError, setEmailError] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = validateEmail(email);
     if (!res.isValid) {
-      setEmailError(res.error);
+      setEmailError(res.error ?? "Please enter a valid email address.");
       return;
     }
     try {

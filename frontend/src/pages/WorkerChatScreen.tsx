@@ -7,7 +7,8 @@ import {
 } from "hugeicons-react";
 import sarahAvatar from "../assets/client_avatar.png";
 import marcusAvatar from "../assets/marcus_avatar.svg";
-import WorkerBottomNav from "../components/WorkerBottomNav";
+import emptyMessagesIllustration from "../assets/empty_messages_illustration.svg";
+import BottomNav from "../components/BottomNav";
 
 interface ChatConversation {
   id: string;
@@ -54,6 +55,9 @@ export const WorkerChatScreen: React.FC = () => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  // Change initial state or fetch response to empty array when user has no messages
+  const [conversations] = useState<ChatConversation[]>(CHAT_CONVERSATIONS);
+
   const searchParams = new URLSearchParams(location.search);
   const roleParam = searchParams.get("role");
   const roleQuery = roleParam ? `?role=${roleParam}` : "";
@@ -68,7 +72,7 @@ export const WorkerChatScreen: React.FC = () => {
     navigate(`${targetPath}${roleQuery}`);
   };
 
-  const filteredConversations = CHAT_CONVERSATIONS.filter(
+  const filteredConversations: ChatConversation[] = conversations.filter(
     (c) =>
       c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.lastMessage.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -133,77 +137,104 @@ export const WorkerChatScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Chat Items List */}
-        <div className="w-full flex flex-col mt-[8px]">
-          {filteredConversations.map((item) => {
-            const hasUnread = (item.unreadCount ?? 0) > 0;
-            return (
-              <div
-                key={item.id}
-                onClick={() => {
-                  let prefix = "/dashboard";
-                  if (location.pathname.includes("/freelancer")) {
-                    prefix = "/dashboard/freelancer";
-                  } else if (location.pathname.includes("/customer")) {
-                    prefix = "/dashboard/customer";
-                  }
+        {/* Chat List / Empty State conditional rendering */}
+        {filteredConversations.length === 0 ? (
+          <div className="w-full flex-1 flex flex-col items-center justify-center py-12">
+            <div className="w-[211px] flex flex-col items-center text-center">
+              <div className="w-[169px] h-[160px] flex items-center justify-center shrink-0 mb-[16px]">
+                <img
+                  src={emptyMessagesIllustration}
+                  alt="No messages illustration"
+                  width="169"
+                  height="160"
+                  className="w-[169px] h-[160px] object-contain shrink-0 select-none"
+                />
+              </div>
 
-                  // System matches go to fresh-chat, user chats go to chat-thread/:id
-                  const targetPath = item.isSystem
-                    ? `${prefix}/fresh-chat`
-                    : `${prefix}/chat-thread/${item.id}`;
+              <div className="w-full flex flex-col items-center gap-[4px]">
+                <h2 className="text-[16px] font-medium leading-[24px] text-[#0D0D0D] tracking-[-0.01em]">
+                  Quiet for now
+                </h2>
+                <p className="text-[12px] font-normal leading-[16px] text-[#6B7280]">
+                  {searchQuery
+                    ? "No conversations match your search query"
+                    : "Pitch a project or accept an offer to get things moving"}
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="w-full flex flex-col mt-[8px]">
+            {filteredConversations.map((item) => {
+              const hasUnread = (item.unreadCount ?? 0) > 0;
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => {
+                    let prefix = "/dashboard";
+                    if (location.pathname.includes("/freelancer")) {
+                      prefix = "/dashboard/freelancer";
+                    } else if (location.pathname.includes("/customer")) {
+                      prefix = "/dashboard/customer";
+                    }
 
-                  navigate(`${targetPath}${roleQuery}`);
-                }}
-                className="w-full py-[14px] flex items-center justify-between border-b border-[#F3F4F6] cursor-pointer hover:bg-gray-50/60 rounded-[8px] px-[4px] transition-colors"
-              >
-                {/* Left: Avatar + Text */}
-                <div className="flex items-center gap-[12px] min-w-0 pr-[8px]">
-                  <div className="relative w-[48px] h-[48px] shrink-0">
-                    <img
-                      src={item.avatar}
-                      alt={item.name}
-                      width="48"
-                      height="48"
-                      className="w-[48px] h-[48px] rounded-[12px] object-cover bg-gray-100"
-                    />
-                    {item.isOnline && (
-                      <span className="absolute bottom-0 right-0 w-[10px] h-[10px] bg-[#10B981] rounded-full border-2 border-white" />
+                    const targetPath = item.isSystem
+                      ? `${prefix}/fresh-chat`
+                      : `${prefix}/chat-thread/${item.id}`;
+
+                    navigate(`${targetPath}${roleQuery}`);
+                  }}
+                  className="w-full py-[14px] flex items-center justify-between border-b border-[#F3F4F6] cursor-pointer hover:bg-gray-50/60 rounded-[8px] px-[4px] transition-colors"
+                >
+                  {/* Left: Avatar + Text */}
+                  <div className="flex items-center gap-[12px] min-w-0 pr-[8px]">
+                    <div className="relative w-[48px] h-[48px] shrink-0">
+                      <img
+                        src={item.avatar}
+                        alt={item.name}
+                        width="48"
+                        height="48"
+                        className="w-[48px] h-[48px] rounded-[12px] object-cover bg-gray-100"
+                      />
+                      {item.isOnline && (
+                        <span className="absolute bottom-0 right-0 w-[10px] h-[10px] bg-[#10B981] rounded-full border-2 border-white" />
+                      )}
+                    </div>
+
+                    <div className="flex flex-col items-start min-w-0 flex-1">
+                      <span className="text-[14px] font-medium leading-[18px] text-[#111827] truncate w-full">
+                        {item.name}
+                      </span>
+                      <span
+                        className={`text-[13px] font-normal leading-[16px] truncate w-full mt-[2px] ${
+                          hasUnread ? "text-[#4B5563]" : "text-[#9CA3AF]"
+                        }`}
+                      >
+                        {item.lastMessage}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Right: Timestamp + Unread Indicator */}
+                  <div className="flex flex-col items-end gap-[6px] shrink-0">
+                    <span className="text-[11px] font-normal leading-[14px] text-[#9CA3AF]">
+                      {item.timestamp}
+                    </span>
+                    {hasUnread ? (
+                      <span className="w-[8px] h-[8px] rounded-full bg-[#0048B3]" />
+                    ) : (
+                      <div className="w-[8px] h-[8px]" />
                     )}
                   </div>
-
-                  <div className="flex flex-col items-start min-w-0 flex-1">
-                    <span className="text-[14px] font-medium leading-[18px] text-[#111827] truncate w-full">
-                      {item.name}
-                    </span>
-                    <span
-                      className={`text-[13px] font-normal leading-[16px] truncate w-full mt-[2px] ${
-                        hasUnread ? "text-[#4B5563]" : "text-[#9CA3AF]"
-                      }`}
-                    >
-                      {item.lastMessage}
-                    </span>
-                  </div>
                 </div>
-
-                {/* Right: Timestamp + Unread Indicator */}
-                <div className="flex flex-col items-end gap-[6px] shrink-0">
-                  <span className="text-[11px] font-normal leading-[14px] text-[#9CA3AF]">
-                    {item.timestamp}
-                  </span>
-                  {hasUnread ? (
-                    <span className="w-[8px] h-[8px] rounded-full bg-[#0048B3]" />
-                  ) : (
-                    <div className="w-[8px] h-[8px]" />
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
+
       {/* Worker Bottom Navigation */}
-      <WorkerBottomNav />
+      <BottomNav />
     </div>
   );
 };

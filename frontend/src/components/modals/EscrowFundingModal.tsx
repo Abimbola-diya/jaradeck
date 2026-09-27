@@ -21,7 +21,7 @@ export const EscrowFundingModal: React.FC<EscrowFundingModalProps> = ({ isOpen, 
   if (!isOpen || typeof document === 'undefined') return null;
 
   const handleFund = async () => {
-    const success = await fundEscrow(selectedMethod);
+    const { success } = await fundEscrow(selectedMethod);
     if (success) {
       onClose();
     }

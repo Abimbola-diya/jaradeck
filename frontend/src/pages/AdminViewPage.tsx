@@ -3,10 +3,22 @@ import BackgroundGrid from '../components/BackgroundGrid';
 import BrandLogo from '../components/BrandLogo';
 import { useNavigate } from 'react-router-dom';
 
+interface WaitlistSubmission {
+  id?: string;
+  name?: string;
+  role?: string;
+  role_other?: string;
+  frequency?: string;
+  contacts?: Record<string, string> | null;
+  tasks_selected?: string[];
+  tasks_other?: string;
+  created_at?: string;
+}
+
 export default function AdminViewPage() {
-  const [submissions, setSubmissions] = useState([]);
+  const [submissions, setSubmissions] = useState<WaitlistSubmission[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const fetchWaitlist = async () => {
@@ -18,11 +30,11 @@ export default function AdminViewPage() {
       if (!response.ok) {
         throw new Error(`Server status ${response.status}`);
       }
-      const result = await response.json();
+      const result = (await response.json()) as { data?: WaitlistSubmission[] };
       setSubmissions(result.data || []);
     } catch (err) {
       console.error('Error fetching admin waitlist:', err);
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Failed to load submissions');
     } finally {
       setLoading(false);
     }
@@ -32,10 +44,10 @@ export default function AdminViewPage() {
     fetchWaitlist();
   }, []);
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | undefined) => {
     if (!dateString) return 'Recent';
     try {
-      const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' } as const;
       return new Date(dateString).toLocaleDateString('en-US', options);
     } catch {
       return dateString;
@@ -53,7 +65,7 @@ export default function AdminViewPage() {
         {/* Top Header Glassmorphic Pill */}
         <header style={{ 
           display: 'flex', 
-          justify: 'space-between', 
+          justifyContent: 'space-between', 
           alignItems: 'center', 
           padding: '0.75rem 1.5rem', 
           marginBottom: '3rem',

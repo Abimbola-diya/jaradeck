@@ -7,7 +7,7 @@ import {
   SentIcon,
 } from "hugeicons-react";
 import logoImg from "../assets/logo_i.svg";
-import WorkerBottomNav from "../components/WorkerBottomNav";
+import BottomNav from "../components/BottomNav";
 
 export const WorkerWalletScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -161,7 +161,7 @@ export const WorkerWalletScreen: React.FC = () => {
         </div>
       </div>
 
-      <WorkerBottomNav />
+      <BottomNav />
     </div>
   );
 };

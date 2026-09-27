@@ -35,7 +35,7 @@ export const RequestRevisionModal: React.FC<RequestRevisionModalProps> = ({ isOp
       return;
     }
     setFormError(null);
-    const success = await requestRevision(feedback);
+    const { success } = await requestRevision(feedback);
     if (success) {
       setFeedback('');
       onClose();

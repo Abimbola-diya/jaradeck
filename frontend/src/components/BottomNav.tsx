@@ -1,7 +1,13 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-function NavIcon({ type, isActive } : { type: "projects" | "wallet" | "chat" | "settings" ; isActive: boolean }) {
+function NavIcon({
+  type,
+  isActive,
+}: {
+  type: "projects" | "wallet" | "chat" | "settings";
+  isActive: boolean;
+}) {
   const icons = {
     projects: (
       <>
@@ -48,49 +54,32 @@ function NavIcon({ type, isActive } : { type: "projects" | "wallet" | "chat" | "
   );
 }
 
-export default function WorkerBottomNav() {
+export default function BottomNav() {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const currentRole = searchParams.get("role");
 
-  // Determine current role subpath if using /dashboard/customer or /dashboard/freelancer
-  const isCustomerPath = location.pathname.includes("/dashboard/customer");
-  const isFreelancerPath = location.pathname.includes("/dashboard/freelancer");
-
-  let basePath = "/dashboard";
-  if (isCustomerPath) basePath = "/dashboard/customer";
-  else if (isFreelancerPath) basePath = "/dashboard/freelancer";
-
-  const getTargetUrl = (path : string) => {
-    const fullPath = path === "/dashboard" ? basePath : `/dashboard${path}`;
-    return currentRole ? `${fullPath}?role=${currentRole}` : fullPath;
-  };
-
-  const TABS : { label: string; to: string; icon: "projects" | "wallet" | "chat" | "settings"; end?: boolean }[] = [
+  const TABS: {
+    label: string;
+    to: string;
+    icon: "projects" | "wallet" | "chat" | "settings";
+    end?: boolean;
+  }[] = [
     {
       label: "Projects",
-      to: getTargetUrl("/dashboard"),
+      to: "/dashboard",
       icon: "projects",
       end: true,
     },
-    { label: "Wallet", to: getTargetUrl("/wallet"), icon: "wallet" },
-    { label: "Chat", to: getTargetUrl("/chat"), icon: "chat" },
-    { label: "Settings", to: getTargetUrl("/settings"), icon: "settings" },
+    { label: "Wallet", to: "/dashboard/wallet", icon: "wallet" },
+    { label: "Chat", to: "/dashboard/chat", icon: "chat" },
+    { label: "Settings", to: "/dashboard/settings", icon: "settings" },
   ];
 
   const getActiveIndex = () => {
     const foundIndex = TABS.findIndex((tab) => {
-      const cleanTabPath = tab.to.split("?")[0];
-      const cleanCurrentPath = location.pathname;
-
       if (tab.end) {
-        return (
-          cleanCurrentPath === "/dashboard" ||
-          cleanCurrentPath === "/dashboard/customer" ||
-          cleanCurrentPath === "/dashboard/freelancer"
-        );
+        return location.pathname === "/dashboard";
       }
-      return cleanCurrentPath.startsWith(cleanTabPath);
+      return location.pathname.startsWith(tab.to);
     });
     return foundIndex !== -1 ? foundIndex : 0;
   };

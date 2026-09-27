@@ -7,7 +7,7 @@ import { API_BASE_URL } from "../../lib/api";
 const RESEND_COOLDOWN_SECONDS = 60;
 
 function formatErrorMessage(
-  detail,
+  detail: unknown,
   fallback = "An unexpected error occurred. Please try again.",
 ) {
   if (!detail) return fallback;
@@ -22,9 +22,13 @@ function formatErrorMessage(
     }
     return detail;
   }
-  if (typeof detail === "object") {
-    if (typeof detail.message === "string") return detail.message;
-    if (Array.isArray(detail) && detail[0]?.msg) return detail[0].msg;
+  if (typeof detail === "object" && detail !== null) {
+    const message = (detail as { message?: unknown }).message;
+    if (typeof message === "string") return message;
+    if (Array.isArray(detail)) {
+      const first = (detail as unknown[])[0] as { msg?: unknown } | undefined;
+      if (typeof first?.msg === "string") return first.msg;
+    }
   }
   return fallback;
 }
@@ -39,6 +43,7 @@ function maskEmail(email : string) {
 
 export default function OTPStep({ email, onVerified, onSignIn, onBack } : {
   email: string;
+  role?: string;
   onVerified: (data: any) => void;
   onSignIn: () => void;
   onBack: () => void;
@@ -48,7 +53,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack } : {
   const [isLoading, setIsLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(RESEND_COOLDOWN_SECONDS);
   const [resendStatus, setResendStatus] = useState(""); // '' | 'sending' | 'sent' | 'error'
-  const inputRefs = useRef([]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Auto-focus first input & lock body scroll on mount
   useEffect(() => {
@@ -126,7 +131,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack } : {
     }
   };
 
-  const handlePaste = (e) => {
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     const pasted = e.clipboardData
       .getData("text")
@@ -142,7 +147,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack } : {
     setError("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (digits.some((d) => !d)) {
       setError("Please enter the full 6-digit code.");
@@ -323,6 +328,7 @@ export default function OTPStep({ email, onVerified, onSignIn, onBack } : {
 
 OTPStep.propTypes = {
   email: PropTypes.string.isRequired,
+  role: PropTypes.string,
   onVerified: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
   onBack: PropTypes.func,

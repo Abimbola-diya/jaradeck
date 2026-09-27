@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import StadiumIllustration from './StadiumIllustration';
 
 export default function WaitlistPage() {
@@ -6,7 +6,7 @@ export default function WaitlistPage() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email) {
       setIsSubmitted(true);
