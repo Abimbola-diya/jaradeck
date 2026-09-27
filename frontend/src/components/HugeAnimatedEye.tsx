@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'motion/react';
+import type { Variants } from 'motion/react';
 
 const EYE_DURATION = 0.88;
 const EYE_TIMES = [0, 0.18, 0.38, 0.58, 0.68, 0.74, 0.78, 0.88, 1];
@@ -14,7 +15,7 @@ const BOTTOM_EYELID_OPEN =
 const BOTTOM_EYELID_HALF =
   'M2 14C2 14.15 2.15201 14.3 2.45604 14.45C5.2 16.8 8.5 18 12 18C15.5 18 18.8 16.8 21.544 14.45C21.848 14.3 22 14.15 22 14';
 
-const pupilVariants = {
+const pupilVariants: Variants = {
   normal: { translateX: 0, scaleX: 1, scaleY: 1 },
   animate: {
     translateX: [0, -1.6, 1.5, 0, 0, 0, 0, 0, 0],
@@ -30,7 +31,7 @@ const pupilVariants = {
   },
 };
 
-const eyeOutlineVariants = {
+const eyeOutlineVariants: Variants = {
   normal: { scaleX: 1, scaleY: 1 },
   animate: {
     scaleX: [1, 1, 1, 1, 1.015, 1.03, 1.025, 0.99, 1],
@@ -45,7 +46,7 @@ const eyeOutlineVariants = {
   },
 };
 
-const browVariants = {
+const browVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
     translateY: [0, 0, 0, 0, 0.25, 0.65, 0.55, -0.12, 0],
@@ -59,7 +60,7 @@ const browVariants = {
   },
 };
 
-const topEyelidVariants = {
+const topEyelidVariants: Variants = {
   normal: { d: TOP_EYELID_OPEN, pathLength: 1 },
   animate: {
     d: [
@@ -83,7 +84,7 @@ const topEyelidVariants = {
   },
 };
 
-const bottomEyelidVariants = {
+const bottomEyelidVariants: Variants = {
   normal: { d: BOTTOM_EYELID_OPEN, pathLength: 1 },
   animate: {
     d: [
@@ -107,7 +108,7 @@ const bottomEyelidVariants = {
   },
 };
 
-const pupilClipVariants = {
+const pupilClipVariants: Variants = {
   normal: { height: 14, y: 7 },
   animate: {
     height: [14, 14, 14, 14, 8, 0, 0, 8, 14],
@@ -122,7 +123,7 @@ const pupilClipVariants = {
   },
 };
 
-const generatedGeometryVariants = {
+const generatedGeometryVariants: Variants = {
   normal: {
     visibility: 'hidden',
     transform: 'scaleX(1) scaleY(1)',

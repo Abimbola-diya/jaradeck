@@ -9,7 +9,7 @@ import {
   Chat01Icon,
 } from "hugeicons-react";
 import sarahAvatar from "../assets/client_avatar.png";
-import WorkerBottomNav from "../components/WorkerBottomNav";
+import BottomNav from "../components/BottomNav";
 
 interface Message {
   id: string;
@@ -318,7 +318,7 @@ export const FreshChatScreen: React.FC = () => {
         </div>
       </div>
       {/* Worker Bottom Navigation */}
-    <WorkerBottomNav />
+      <BottomNav />
     </div>
   );
 };

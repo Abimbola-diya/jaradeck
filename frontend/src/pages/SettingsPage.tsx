@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ChevronRight, Trash2 } from "lucide-react";
-import WorkerBottomNav from "../components/WorkerBottomNav";
+import BottomNav from "../components/BottomNav";
 import { useAuthStore } from "../context/AuthContext";
 
 interface SettingsItem {
@@ -86,8 +86,8 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      <WorkerBottomNav />
+      <BottomNav />
     </main>
   );
 }
-2
+2;

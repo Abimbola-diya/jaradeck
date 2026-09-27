@@ -4,7 +4,7 @@ import BrandLogo from '../components/BrandLogo';
 import ArrowRight02Icon from '../components/ArrowRight02Icon';
 import ArrowLeft02Icon from '../components/ArrowLeft02Icon';
 import Tick02Icon from '../components/Tick02Icon';
-import { useState, useEffect, useRef, FormEvent } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface SubSkillsCategoryProps {
   data: {

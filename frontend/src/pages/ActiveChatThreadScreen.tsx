@@ -11,7 +11,7 @@ import {
 import sarahAvatar from "../assets/client_avatar.png";
 import pdfIcon from "../assets/pdf_icon.png";
 import verifiedBadge from "../assets/verified_badge.png";
-import WorkerBottomNav from "../components/WorkerBottomNav";
+import BottomNav from "../components/BottomNav";
 import ProjectDetailsModal from "../components/project/ProjectDetailsModal";
 import UploadDeliverablesModal from "../components/project/UploadDeliverablesModal";
 
@@ -37,7 +37,7 @@ export const ActiveChatThreadScreen: React.FC = () => {
   const [extraMessages, setExtraMessages] = useState<Message[]>([]);
 
   // Modal controls
-  const [isDetailsModalOpen,setIsDetailsModalOpen] = useState<boolean>(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   const activeProject = {
@@ -429,7 +429,7 @@ export const ActiveChatThreadScreen: React.FC = () => {
         </div>
       </div>
 
-      <WorkerBottomNav />
+      <BottomNav />
 
       {/* Shared Dashboard Modals */}
       <ProjectDetailsModal

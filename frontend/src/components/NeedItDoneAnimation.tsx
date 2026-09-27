@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 const BULLETS = [
   {
@@ -20,12 +20,12 @@ const BULLETS = [
 ];
 
 export default function NeedItDoneAnimation() {
-  const containerRef = useRef(null);
-  const rowRefs = useRef([]);
-  const circleRefs = useRef([]);
-  const checkRefs = useRef([]);
-  const lineRefs = useRef([]);
-  const rafRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const checkRefs = useRef<(SVGSVGElement | null)[]>([]);
+  const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const rafRef = useRef<number | null>(null);
 
   const updateAnimation = useCallback(() => {
     if (!containerRef.current) return;
@@ -45,7 +45,7 @@ export default function NeedItDoneAnimation() {
       const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
 
       // Direct DOM style updates for 0 lag and maximum scroll fluidity
-      rowEl.style.opacity = 0.18 + progress * 0.82;
+      rowEl.style.opacity = String(0.18 + progress * 0.82);
       rowEl.style.transform = `translate3d(0, ${(1 - progress) * 20}px, 0)`;
 
       const circleEl = circleRefs.current[index];

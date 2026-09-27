@@ -278,10 +278,9 @@ export default function SignupModalCard({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          first_name: firstName.trim(),
-          last_name: lastName.trim(),
           full_name: combinedFullName,
           email: email.trim().toLowerCase(),
+          role: "pending",
         }),
       });
       const data = await res.json();

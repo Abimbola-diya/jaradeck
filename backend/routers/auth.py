@@ -152,6 +152,10 @@ async def send_otp_email(email: str, code: str):
     </html>
     """
     try:
+        # Inside send_otp or send_otp_email
+        print(f"==========================================")
+        print(f"[DEV DEBUG] OTP for {email}: {code}")
+        print(f"==========================================")
         resend.Emails.send({
             "from": "Jaradeck <onboarding@resend.dev>",
             "to": email,
@@ -289,14 +293,18 @@ async def register(user: UserRegister):
 
     password_hash = get_password_hash(user.password) if user.password else None
 
+# Preserve 'pending' or whatever valid role was passed
+    allowed_roles = ["pending", "customer", "worker"]
+    assigned_role = user.role if user.role in allowed_roles else "pending"
+
     new_user_data = {
         "id": str(uuid.uuid4()),
         "email": user.email.lower().strip(),
         "password_hash": password_hash,
         "full_name": user.full_name,
-        "role": user.role if user.role in ["customer", "worker"] else "customer",
+        "role": assigned_role,        
         "is_onboarded": False,
-        "is_verified": False,
+        # "is_verified": False,
         "country": user.country,
         "phone": user.phone,
         "auth_provider": "local"
@@ -306,6 +314,7 @@ async def register(user: UserRegister):
         result = supabase.table("users").insert(new_user_data).execute()
         new_user = result.data[0]
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
     # Automatically dispatch registration OTP

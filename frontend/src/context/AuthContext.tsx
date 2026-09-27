@@ -18,6 +18,7 @@ export interface User {
   one_liner?: string;
   phone?: string;
   onboarding_completed?: boolean;
+  payouts_configured?: boolean;
 }
 
 interface AuthContextType {

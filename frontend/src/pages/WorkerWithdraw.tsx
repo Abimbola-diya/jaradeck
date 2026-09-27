@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowLeft02Icon } from "hugeicons-react";
 import withdrawBankImg from "../assets/withdraw_bank_icon.png";
 import withdrawStablecoinsImg from "../assets/withdraw_stablecoins_icon.png";
-// import { useApp } from "../../context/AppContext";
+import { useApp } from "../context/AppContext";
 
 export const WithdrawOptionsScreen: React.FC = () => {
   const { navigateTo } = useApp();

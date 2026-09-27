@@ -1,6 +1,7 @@
 'use client';;
 import PropTypes from 'prop-types';
 import { motion, useAnimation } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { forwardRef } from 'react';
 import { useIconAnimation } from '../../lib/use-icon-animation';
 import { cn } from '../../lib/utils';
@@ -9,7 +10,7 @@ const FIRST_PATH = 'M18 6L6.00081 17.9992';
 const SECOND_PATH = 'M6 6.00085L17.9992 18';
 
 // Use the same single landing as Tick after the second strike is complete.
-const impactVariants = {
+const impactVariants: Variants = {
   normal: { transform: 'translateY(0px) rotate(0deg) scale(1)' },
   animate: {
     transform: [
@@ -27,7 +28,7 @@ const impactVariants = {
 };
 
 // Each stroke continues briefly as the pen lifts from the page.
-const firstEndFlourishVariants = {
+const firstEndFlourishVariants: Variants = {
   normal: {
     pathLength: 0,
     opacity: 0,
@@ -49,7 +50,7 @@ const firstEndFlourishVariants = {
   },
 };
 
-const secondEndFlourishVariants = {
+const secondEndFlourishVariants: Variants = {
   normal: {
     pathLength: 0,
     opacity: 0,
@@ -71,7 +72,7 @@ const secondEndFlourishVariants = {
   },
 };
 
-const generatedGeometryVariants = {
+const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.08 } },
   animate: { visibility: 'visible', transition: { duration: 0 } },
 };
@@ -79,7 +80,7 @@ const generatedGeometryVariants = {
 // rest-parity: split-source-path
 // The first strike starts at the top-right. The second starts at the top-left.
 // Erase and redraw use those same starts, with the offset reset while hidden.
-const firstStrikeVariants = {
+const firstStrikeVariants: Variants = {
   normal: { pathLength: 1, pathOffset: 0, visibility: 'visible' },
   animate: {
     pathLength: [1, 1, 0.12, 0, 0, 0.12, 1, 1],
@@ -110,7 +111,7 @@ const firstStrikeVariants = {
   },
 };
 
-const secondStrikeVariants = {
+const secondStrikeVariants: Variants = {
   normal: { pathLength: 1, pathOffset: 0, visibility: 'visible' },
   animate: {
     pathLength: [1, 1, 0.12, 0, 0, 0.12, 1, 1],

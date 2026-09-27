@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
-import WorkerBottomNav from "../components/WorkerBottomNav";
-import ProjectDetailsModal from "../components/project/ProjectDetailsModal";
-import UploadDeliverablesModal from "../components/project/UploadDeliverablesModal";
-import jakeTaiwo from "../assets/Jake Taiwo.png";
-import { useAuthStore } from "../context/AuthContext";
+import BottomNav from "../../components/BottomNav";
+import ProjectDetailsModal from "../../components/project/ProjectDetailsModal";
+import UploadDeliverablesModal from "../../components/project/UploadDeliverablesModal";
+import { SwipeableChecklistCard } from "../../components/ui/SwipeableChecklistCard";
+import jakeTaiwo from "../../assets/Jake Taiwo.png";
+import { useAuthStore } from "../../context/AuthContext";
 
 function BellIcon() {
   return (
@@ -59,11 +60,22 @@ function ProjectPerson() {
   );
 }
 
-export default function WorkerDashboardPage() {
+export const FreelancerHomeScreen = () => {
   const { user } = useAuthStore();
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [hasProjects, setHasProjects] = useState(false);
+
+  // Local checklist state management
+  const [dismissedChecklistIds, setDismissedChecklistIds] = useState<string[]>(
+    [],
+  );
+  const [checklistStatus, setChecklistStatus] = useState({
+    emailVerified: false,
+    profileCompleted: false,
+    payoutsConfigured: false,
+    availabilitySet: false,
+  });
 
   const { greeting, subtext } = useMemo(() => {
     const hour = new Date().getHours();
@@ -97,26 +109,81 @@ export default function WorkerDashboardPage() {
     budget: "$1,200 Total",
   };
 
+  const checklistItems = [
+    {
+      id: "verify-email",
+      title: "Verify your email address",
+      subtitle: "Confirm your account via the link sent",
+      bgColor: "bg-[#FF3D00]/[0.06]",
+      isDone: checklistStatus.emailVerified,
+      onClick: () =>
+        setChecklistStatus((prev) => ({
+          ...prev,
+          emailVerified: !prev.emailVerified,
+        })),
+    },
+    {
+      id: "setup-profile",
+      title: "Set up your profile",
+      subtitle: "Finish setting up your profile",
+      bgColor: "bg-[#F0F4FA]",
+      isDone: checklistStatus.profileCompleted,
+      onClick: () =>
+        setChecklistStatus((prev) => ({
+          ...prev,
+          profileCompleted: !prev.profileCompleted,
+        })),
+    },
+    {
+      id: "payout-details",
+      title: "Add payout details",
+      subtitle: "Provide your payment info to receive funds",
+      bgColor: "bg-[#FFFBF4]",
+      isDone: checklistStatus.payoutsConfigured,
+      onClick: () =>
+        setChecklistStatus((prev) => ({
+          ...prev,
+          payoutsConfigured: !prev.payoutsConfigured,
+        })),
+    },
+    {
+      id: "availability",
+      title: "Set your availability status",
+      subtitle: "Update your availability status",
+      bgColor: "bg-[#FFF2F5]",
+      isDone: checklistStatus.availabilitySet,
+      onClick: () =>
+        setChecklistStatus((prev) => ({
+          ...prev,
+          availabilitySet: !prev.availabilitySet,
+        })),
+    },
+  ];
+
+  const handleDismissCard = (itemId: string) => {
+    if (!dismissedChecklistIds.includes(itemId)) {
+      setDismissedChecklistIds((prev) => [...prev, itemId]);
+    }
+  };
+
+  const visibleChecklistItems = checklistItems.filter(
+    (item) => !dismissedChecklistIds.includes(item.id),
+  );
+
+  const sortedChecklistItems = [...visibleChecklistItems].sort((a, b) => {
+    if (a.isDone === b.isDone) return 0;
+    return a.isDone ? 1 : -1;
+  });
+
   return (
-    <div className="w-full max-w-[390px] min-h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[110px] mx-auto relative overflow-x-hidden">
-      {/* Inline Keyframe Animation for Floating Motion across the Page */}
+    <div className="w-full max-w-[390px] min-h-screen bg-white flex flex-col items-center px-[16px] pt-[40px] pb-[110px] mx-auto relative overflow-x-hidden font-sans">
       <style>{`
         @keyframes floatAround {
-          0% {
-            transform: translate(0px, 0px) rotate(0deg);
-          }
-          25% {
-            transform: translate(25px, -35px) rotate(8deg);
-          }
-          50% {
-            transform: translate(-20px, -60px) rotate(-6deg);
-          }
-          75% {
-            transform: translate(-30px, -20px) rotate(5deg);
-          }
-          100% {
-            transform: translate(0px, 0px) rotate(0deg);
-          }
+          0% { transform: translate(0px, 0px) rotate(0deg); }
+          25% { transform: translate(25px, -35px) rotate(8deg); }
+          50% { transform: translate(-20px, -60px) rotate(-6deg); }
+          75% { transform: translate(-30px, -20px) rotate(5deg); }
+          100% { transform: translate(0px, 0px) rotate(0deg); }
         }
         .animate-float-around {
           animation: floatAround 8s ease-in-out infinite;
@@ -169,20 +236,39 @@ export default function WorkerDashboardPage() {
       {/* Main Content */}
       <div className="w-full max-w-[358px] flex flex-col items-center justify-center flex-1 gap-[24px] mt-[16px]">
         {!hasProjects ? (
-          <section className="w-full flex flex-col items-center justify-center text-center my-auto py-12">
-            {/* Unconstrained Floating Vector Icon */}
-            <div className="animate-float-around mb-6 p-4 rounded-full bg-[#F0F5FF]">
-              <EmptyFolderIcon />
-            </div>
+          <>
+            <section className="w-full flex flex-col items-center justify-center text-center my-auto py-8">
+              <div className="animate-float-around mb-6 p-4 rounded-full bg-[#F0F5FF]">
+                <EmptyFolderIcon />
+              </div>
 
-            <h2 className="text-[17px] font-medium leading-[20px] text-[#272931] mb-2">
-              No Active Projects Yet
-            </h2>
-            <p className="text-[13px] font-normal leading-[18px] text-[#272931]/50 max-w-[260px] text-center">
-              You haven't been assigned any projects yet. Once you start
-              working, your active tasks will appear here.
-            </p>
-          </section>
+              <h2 className="text-[17px] font-medium leading-[20px] text-[#272931] mb-2">
+                No Active Projects Yet
+              </h2>
+              <p className="text-[13px] font-normal leading-[18px] text-[#272931]/50 max-w-[260px] text-center">
+                You haven't been assigned any projects yet. Once you start
+                working, your active tasks will appear here.
+              </p>
+            </section>
+
+            {/* Checklist Section added immediately after no active projects */}
+            {sortedChecklistItems.length > 0 && (
+              <div className="w-full flex flex-col gap-[8px]">
+                {sortedChecklistItems.map((item) => (
+                  <SwipeableChecklistCard
+                    key={item.id}
+                    id={item.id}
+                    isDone={item.isDone}
+                    bgColor={item.bgColor}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    onClick={item.onClick}
+                    onDismiss={handleDismissCard}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <>
             <div className="w-full flex flex-col gap-[8px]">
@@ -229,7 +315,6 @@ export default function WorkerDashboardPage() {
                 <h2 className="text-[16px] font-medium leading-[19px] text-[#0D0D0D]">
                   Completed Project
                 </h2>
-        
               </div>
 
               <div className="w-full flex flex-col gap-[16px]">
@@ -242,7 +327,7 @@ export default function WorkerDashboardPage() {
         )}
       </div>
 
-      <WorkerBottomNav />
+      <BottomNav />
 
       <ProjectDetailsModal
         isOpen={isDetailsModalOpen}
@@ -264,4 +349,6 @@ export default function WorkerDashboardPage() {
       />
     </div>
   );
-}
+};
+
+export default FreelancerHomeScreen;

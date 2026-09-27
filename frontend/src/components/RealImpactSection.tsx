@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
 export default function RealImpactSection() {
-  const sectionRef = useRef(null);
-  const orangeCardRef = useRef(null);
-  const pinkCardRef = useRef(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const orangeCardRef = useRef<HTMLDivElement>(null);
+  const pinkCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +68,7 @@ export default function RealImpactSection() {
     };
   }, []);
 
-  const handleNextCard = (e) => {
+  const handleNextCard = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!sectionRef.current) return;
     const sectionEl = sectionRef.current;
@@ -91,7 +91,7 @@ export default function RealImpactSection() {
     });
   };
 
-  const handlePrevCard = (e) => {
+  const handlePrevCard = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!sectionRef.current) return;
     const sectionEl = sectionRef.current;

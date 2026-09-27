@@ -1,64 +1,15 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
-import { motion, useAnimation, useReducedMotion } from 'motion/react';
+import { forwardRef, useEffect } from 'react';
+import { motion, useAnimation } from 'motion/react';
+import { useIconAnimation } from '../lib/use-icon-animation';
+import type { Variants } from 'motion/react';
 
 // Exact component from @hugeicons-animated/tick-02 registry
 // Source: https://hugeicons-animated.com/r/tick-02.json
 
-function useIconAnimation({ controls, loops = false, onMouseEnter, onMouseLeave, ref }) {
-  const shouldReduceMotion = useReducedMotion();
-  const isControlledRef = useRef(false);
-  const isPlayingRef = useRef(false);
-  const runRef = useRef(0);
-
-  const startAnimation = useCallback(() => {
-    if (shouldReduceMotion || isPlayingRef.current) return;
-    isPlayingRef.current = true;
-    const run = ++runRef.current;
-    controls.set('normal');
-    void controls.start('animate').then(() => {
-      if (runRef.current === run) isPlayingRef.current = false;
-    });
-  }, [controls, shouldReduceMotion]);
-
-  const stopAnimation = useCallback(() => {
-    if (!loops) return;
-    runRef.current++;
-    isPlayingRef.current = false;
-    void controls.start('normal');
-  }, [controls, loops]);
-
-  useImperativeHandle(
-    ref,
-    () => {
-      isControlledRef.current = true;
-      return { startAnimation, stopAnimation };
-    },
-    [startAnimation, stopAnimation]
-  );
-
-  const handleMouseEnter = useCallback(
-    (event) => {
-      onMouseEnter?.(event);
-      if (!isControlledRef.current) startAnimation();
-    },
-    [onMouseEnter, startAnimation]
-  );
-
-  const handleMouseLeave = useCallback(
-    (event) => {
-      onMouseLeave?.(event);
-      if (!isControlledRef.current) stopAnimation();
-    },
-    [onMouseLeave, stopAnimation]
-  );
-
-  return { handleMouseEnter, handleMouseLeave };
-}
-
 const CHECK_PATH = 'M5 14L8.5 17.5L19 6.5';
 const PEN_LIFT_PATH = 'M19 6.5L19.48 6';
 
-const penLiftVariants = {
+const penLiftVariants: Variants = {
   normal: { pathLength: 0, opacity: 0, visibility: 'hidden' },
   animate: {
     pathLength: [0, 0, 1, 1],
@@ -76,14 +27,14 @@ const penLiftVariants = {
   },
 };
 
-const generatedGeometryVariants = {
+const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.08 } },
   animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 // The completed stroke compresses once as it lands, then releases without a
 // trailing bounce.
-const impactVariants = {
+const impactVariants: Variants = {
   normal: { transform: 'translateY(0px) rotate(0deg) scale(1)' },
   animate: {
     transform: [
@@ -102,7 +53,7 @@ const impactVariants = {
 
 // Erase and redraw both start at the tail. The offset resets while the path is
 // hidden, so the direction change cannot show a cap or jump.
-const checkVariants = {
+const checkVariants: Variants = {
   normal: { pathLength: 1, pathOffset: 0, visibility: 'visible' },
   animate: {
     pathLength: [1, 1, 0.12, 0, 0, 0.12, 0.25, 0.25, 1, 1],
@@ -137,8 +88,32 @@ const checkVariants = {
   },
 };
 
-const Tick02Icon = forwardRef(
-  ({ onMouseEnter, onMouseLeave, className, size = 28, color, strokeWidth = 1.5, autoPlay = false, style, ...props }, ref) => {
+interface Tick02IconProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onMouseEnter' | 'onMouseLeave'> {
+  onMouseEnter?: (event: React.MouseEvent<Element>) => void;
+  onMouseLeave?: (event: React.MouseEvent<Element>) => void;
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+  autoPlay?: boolean;
+  style?: React.CSSProperties;
+}
+
+const Tick02Icon = forwardRef<HTMLDivElement, Tick02IconProps>(
+  (
+    {
+      onMouseEnter,
+      onMouseLeave,
+      className,
+      size = 28,
+      color,
+      strokeWidth = 1.5,
+      autoPlay = false,
+      style,
+      ...props
+    }: Tick02IconProps,
+    ref: React.Ref<HTMLDivElement>,
+  ) => {
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,

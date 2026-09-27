@@ -21,7 +21,7 @@ export const ProjectReviewModal: React.FC<ProjectReviewModalProps> = ({ isOpen, 
   if (!isOpen || typeof document === 'undefined') return null;
 
   const handleSubmit = async () => {
-    const success = await submitReview(rating, comment);
+    const { success } = await submitReview(rating, comment);
     if (success) {
       onClose();
     }

@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 function CameraIcon() {
   return (
@@ -255,3 +256,10 @@ export default function ImageCropModal({ imageSrc, isOpen, onClose, onSave }) {
     </div>
   );
 }
+
+ImageCropModal.propTypes = {
+  imageSrc: PropTypes.string,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  onSave: PropTypes.func,
+};

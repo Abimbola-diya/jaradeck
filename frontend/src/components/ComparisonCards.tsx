@@ -4,7 +4,7 @@ export default function ComparisonCards() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const rafRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const updateCard = useCallback(() => {
     if (!sectionRef.current || !cardRef.current) return;
@@ -29,7 +29,7 @@ export default function ComparisonCards() {
     const opacity = Math.min(progress * 1.8, 1);
 
     cardRef.current.style.transform = `translate3d(calc(-50% + ${slideOffset}px), -50%, 0) rotate(${rotateDeg}deg)`;
-    cardRef.current.style.opacity = opacity;
+    cardRef.current.style.opacity = String(opacity);
   }, []);
 
   const updateSectionHeight = useCallback(() => {

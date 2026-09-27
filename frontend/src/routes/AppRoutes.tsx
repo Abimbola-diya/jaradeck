@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 // Pages
 import HomePage from "../pages/HomePage";
-import WorkerDashboardPage from "../pages/WorkerDashboardPage";
+import HomeScreen from "../pages/HomeScreen";
 import SettingsPage from "../pages/SettingsPage";
 import OnboardingPage from "../pages/OnboardingPage";
 import SignupPage from "../pages/SignupPage";
@@ -44,7 +44,7 @@ export const AppRoutes = () => {
         <Route path="/onboarding" element={<OnboardingPage />} />
 
         {/* Core Dashboard View */}
-        <Route path="/dashboard" element={<WorkerDashboardPage />} />
+        <Route path="/dashboard" element={<HomeScreen />} />
 
         {/* Wallet Routes */}
         <Route path="/dashboard/wallet" element={<WorkerWalletScreen />} />

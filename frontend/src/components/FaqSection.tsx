@@ -36,10 +36,10 @@ const faqData = [
 ];
 
 export default function FaqSection() {
-  const [openId, setOpenId] = useState(null);
+  const [openId, setOpenId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const toggleFaq = (id) => {
+  const toggleFaq = (id: number) => {
     setOpenId(openId === id ? null : id);
   };
 

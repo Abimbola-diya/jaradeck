@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const TODO_ITEMS = [
   {
@@ -19,7 +19,12 @@ const TODO_ITEMS = [
 ];
 
 // Wobbly scribble SVG strikethrough — always rendered, stroke offset animated via CSS
-function ScribbleStrike({ width, active }) {
+interface ScribbleStrikeProps {
+  width: number;
+  active: boolean;
+}
+
+function ScribbleStrike({ width, active }: ScribbleStrikeProps) {
   const h = 16;
   const mid = h / 2;
   const pathD = `M 0 ${mid + 1}
@@ -57,12 +62,16 @@ function ScribbleStrike({ width, active }) {
   );
 }
 
-export default function TodoAnimation({ onCtaClick }) {
+interface TodoAnimationProps {
+  onCtaClick?: () => void;
+}
+
+export default function TodoAnimation({ onCtaClick }: TodoAnimationProps) {
   const [step, setStep] = useState(0);
-  const containerRef = useRef(null);
-  const ref0 = useRef(null);
-  const ref1 = useRef(null);
-  const ref2 = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const ref0 = useRef<HTMLSpanElement>(null);
+  const ref1 = useRef<HTMLSpanElement>(null);
+  const ref2 = useRef<HTMLSpanElement>(null);
   const [titleWidths, setTitleWidths] = useState([180, 220, 190]);
 
   // Measure title widths on mount and window resize ONLY
@@ -81,7 +90,7 @@ export default function TodoAnimation({ onCtaClick }) {
 
   // Pure scroll handler: advances steps cleanly without mounting/unmounting DOM nodes
   useEffect(() => {
-    let rafId = null;
+    let rafId: number | null = null;
     const handleScroll = () => {
       if (rafId) return;
       rafId = requestAnimationFrame(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import rightRegularIcon from '../../assets/right_regular.svg';
+import { ArrowRight02Icon } from 'hugeicons-react';
+// import ArrowRight02Icon from '../../assets/right_regular.svg';
 
 export interface SwipeableChecklistCardProps {
   id: string;
@@ -49,11 +50,7 @@ export const SwipeableChecklistCard: React.FC<SwipeableChecklistCardProps> = ({
           </span>
         </div>
         <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0">
-          <img
-            src={rightRegularIcon}
-            alt="Go to step"
-            className="w-[24px] h-[24px] object-contain"
-          />
+          <ArrowRight02Icon size={24} className="w-[24px] h-[24px]" />
         </div>
       </button>
     );

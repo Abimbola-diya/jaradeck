@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useAuthStore } from "../context/AuthContext"; // Import your auth store
 
 function NavIcon({
   type,
@@ -55,11 +54,8 @@ function NavIcon({
   );
 }
 
-export default function WorkerBottomNav() {
+export default function BottomNav() {
   const location = useLocation();
-
-  // Access user or role state from useAuthStore if needed for component rendering
-  const { user } = useAuthStore();
 
   const TABS: {
     label: string;
